@@ -1,0 +1,21 @@
+# Runtime data
+data/
+backups/
+
+# Environment
+.env
+.env.*
+
+# Node.js
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# VS Code
+.vscode/
+
+# Windows/macOS
+Thumbs.db
+.DS_Store
