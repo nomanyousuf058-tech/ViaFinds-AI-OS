@@ -1,0 +1,83 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    screens: {
+      xs: "375px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
+    extend: {
+      colors: {
+        primary: "#00113a",
+        "on-primary": "#ffffff",
+        "primary-container": "#002366",
+        "on-primary-container": "#758dd5",
+        secondary: "#5f5e5e",
+        "on-secondary": "#ffffff",
+        "secondary-container": "#e2dfde",
+        "on-secondary-container": "#636262",
+        tertiary: "#735c00",
+        "on-tertiary": "#ffffff",
+        "tertiary-container": "#cca830",
+        "on-tertiary-container": "#4f3e00",
+        background: "#f9f9f9",
+        "on-background": "#1a1c1c",
+        surface: "#f9f9f9",
+        "on-surface": "#1a1c1c",
+        "surface-container-low": "#f3f3f3",
+        "surface-container-lowest": "#ffffff",
+        "surface-container": "#eeeeee",
+        "surface-container-high": "#e8e8e8",
+        "surface-container-highest": "#e2e2e2",
+        "surface-variant": "#e2e2e2",
+        "on-surface-variant": "#444650",
+        "gold-accent": "#D4AF37",
+        outline: "#757682",
+        "outline-variant": "#c5c6d2",
+        error: "#ba1a1a",
+        "on-error": "#ffffff",
+        "error-container": "#ffdad6",
+        "on-error-container": "#93000a",
+      },
+      borderRadius: {
+        DEFAULT: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+        "2xl": "0px",
+        "3xl": "0px",
+        full: "9999px",
+      },
+      spacing: {
+        "margin-mobile": "20px",
+        "margin-desktop": "64px",
+        "container-max": "1280px",
+        unit: "8px",
+        gutter: "24px",
+        "section-gap": "80px", // Reduced default from 120px; will override in CSS
+      },
+      fontFamily: {
+        display: ["Playfair Display", "serif"],
+        body: ["Inter", "sans-serif"],
+      },
+      animation: {
+        shimmer: "shimmer 1.5s infinite",
+      },
+      keyframes: {
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+      },
+    },
+  },
+  plugins: [],
+}

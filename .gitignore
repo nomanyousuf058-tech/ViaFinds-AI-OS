@@ -1,21 +1,27 @@
-# Runtime data
-data/
-backups/
-
-# Environment
-.env
-.env.*
-
-# Node.js
+# Dependencies
 node_modules/
+studio/node_modules/
+
+# Next.js
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Vercel
+.vercel/
 
 # Logs
-logs/
 *.log
 
-# VS Code
-.vscode/
+# TypeScript
+*.tsbuildinfo
 
-# Windows/macOS
-Thumbs.db
+# OS files
 .DS_Store
+
+# Large files
+*.zip

@@ -1,0 +1,3455 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Overrides the default title. Keep under 60 characters.",
+        "name": "metaTitle",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Summary shown in search results. Keep under 160 characters.",
+        "name": "metaDescription",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Set only if this page should point to a different canonical URL.",
+        "name": "canonicalUrl",
+        "type": "url",
+        "title": "Canonical URL"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Recommended: 1200x630px. Used for social sharing previews.",
+        "name": "ogImage",
+        "type": "image",
+        "title": "Open Graph Image"
+      },
+      {
+        "initialValue": false,
+        "description": "Prevent search engines from indexing this page.",
+        "name": "noIndex",
+        "type": "boolean"
+      },
+      {
+        "initialValue": false,
+        "description": "Prevent search engines from following links on this page.",
+        "name": "noFollow",
+        "type": "boolean"
+      }
+    ],
+    "name": "seo",
+    "type": "object",
+    "title": "SEO"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "ViaFinds",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "siteName",
+        "type": "string"
+      },
+      {
+        "description": "Short tagline displayed in the hero and meta tags.",
+        "name": "tagline",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "logo",
+        "type": "image"
+      },
+      {
+        "name": "favicon",
+        "type": "image"
+      },
+      {
+        "fields": [
+          {
+            "initialValue": true,
+            "name": "enabled",
+            "type": "boolean",
+            "title": "Show Announcement Bar"
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "title": "Message Text"
+          },
+          {
+            "name": "linkLabel",
+            "type": "string"
+          },
+          {
+            "name": "linkHref",
+            "type": "string",
+            "title": "Link URL"
+          },
+          {
+            "initialValue": "#00113a",
+            "description": "CSS color value (e.g. #00113a or hsl(225,100%,11%))",
+            "name": "bgColor",
+            "type": "string",
+            "title": "Background Color"
+          }
+        ],
+        "name": "announcementBar",
+        "type": "object"
+      },
+      {
+        "description": "Main headline shown on the homepage hero.",
+        "name": "heroHeadline",
+        "type": "string"
+      },
+      {
+        "rows": 2,
+        "name": "heroSubheadline",
+        "type": "text",
+        "title": "Hero Sub-headline"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "heroImage",
+        "type": "image"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "name": "href",
+                "type": "string",
+                "title": "URL / Query"
+              }
+            ],
+            "type": "object",
+            "name": "quickLink"
+          }
+        ],
+        "name": "heroQuickLinks",
+        "type": "array",
+        "title": "Hero Quick Access Links"
+      },
+      {
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "twitter",
+            "type": "url",
+            "title": "Twitter / X URL"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "instagram",
+            "type": "url",
+            "title": "Instagram URL"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "youtube",
+            "type": "url",
+            "title": "YouTube URL"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "tiktok",
+            "type": "url",
+            "title": "TikTok URL"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "pinterest",
+            "type": "url",
+            "title": "Pinterest URL"
+          }
+        ],
+        "name": "socialLinks",
+        "type": "object"
+      },
+      {
+        "name": "contactEmail",
+        "type": "string"
+      },
+      {
+        "description": "Fallback SEO metadata for pages that don't set their own.",
+        "name": "defaultSeo",
+        "type": "seo",
+        "title": "Default SEO"
+      },
+      {
+        "description": "Shown in the search bar suggestions.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "popularSearches",
+        "type": "array"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Main Navigation",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Navigation Name"
+      },
+      {
+        "description": "Top-level menu items. Add children to create mega menu columns.",
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "description": "e.g. /categories/collectibles or https://...",
+                "name": "href",
+                "type": "string",
+                "title": "URL / Path"
+              },
+              {
+                "initialValue": false,
+                "name": "openInNewTab",
+                "type": "boolean",
+                "title": "Open in New Tab"
+              },
+              {
+                "description": "Optional icon name, e.g. \"star\", \"local_fire_department\"",
+                "name": "icon",
+                "type": "string",
+                "title": "Icon (Material Symbol)"
+              },
+              {
+                "description": "Optional badge, e.g. \"New\", \"Hot\"",
+                "name": "badge",
+                "type": "string",
+                "title": "Badge Text"
+              },
+              {
+                "description": "Add columns to create a mega menu dropdown for this item.",
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "columnTitle",
+                        "type": "string",
+                        "title": "Column Heading"
+                      },
+                      {
+                        "of": [
+                          {
+                            "fields": [
+                              {
+                                "validation": [
+                                  {
+                                    "rules": [
+                                      {
+                                        "flag": "presence",
+                                        "constraint": "required"
+                                      }
+                                    ],
+                                    "level": "error"
+                                  }
+                                ],
+                                "name": "label",
+                                "type": "string"
+                              },
+                              {
+                                "description": "e.g. /categories/collectibles or https://...",
+                                "name": "href",
+                                "type": "string",
+                                "title": "URL / Path"
+                              },
+                              {
+                                "initialValue": false,
+                                "name": "openInNewTab",
+                                "type": "boolean",
+                                "title": "Open in New Tab"
+                              },
+                              {
+                                "description": "Optional icon name, e.g. \"star\", \"local_fire_department\"",
+                                "name": "icon",
+                                "type": "string",
+                                "title": "Icon (Material Symbol)"
+                              },
+                              {
+                                "description": "Optional badge, e.g. \"New\", \"Hot\"",
+                                "name": "badge",
+                                "type": "string",
+                                "title": "Badge Text"
+                              }
+                            ],
+                            "type": "object",
+                            "name": "megaMenuLink"
+                          }
+                        ],
+                        "name": "links",
+                        "type": "array"
+                      }
+                    ],
+                    "type": "object",
+                    "name": "megaMenuColumn",
+                    "title": "Column"
+                  }
+                ],
+                "name": "megaMenu",
+                "type": "array",
+                "title": "Mega Menu Columns"
+              }
+            ],
+            "type": "object",
+            "name": "topLevelItem",
+            "title": "Menu Item"
+          }
+        ],
+        "name": "mainMenu",
+        "type": "array",
+        "title": "Desktop Main Menu"
+      },
+      {
+        "description": "Mobile menu items. If left empty, mirrors the main menu.",
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "description": "e.g. /categories/collectibles or https://...",
+                "name": "href",
+                "type": "string",
+                "title": "URL / Path"
+              },
+              {
+                "initialValue": false,
+                "name": "openInNewTab",
+                "type": "boolean",
+                "title": "Open in New Tab"
+              },
+              {
+                "description": "Optional icon name, e.g. \"star\", \"local_fire_department\"",
+                "name": "icon",
+                "type": "string",
+                "title": "Icon (Material Symbol)"
+              },
+              {
+                "description": "Optional badge, e.g. \"New\", \"Hot\"",
+                "name": "badge",
+                "type": "string",
+                "title": "Badge Text"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "validation": [
+                          {
+                            "rules": [
+                              {
+                                "flag": "presence",
+                                "constraint": "required"
+                              }
+                            ],
+                            "level": "error"
+                          }
+                        ],
+                        "name": "label",
+                        "type": "string"
+                      },
+                      {
+                        "description": "e.g. /categories/collectibles or https://...",
+                        "name": "href",
+                        "type": "string",
+                        "title": "URL / Path"
+                      },
+                      {
+                        "initialValue": false,
+                        "name": "openInNewTab",
+                        "type": "boolean",
+                        "title": "Open in New Tab"
+                      },
+                      {
+                        "description": "Optional icon name, e.g. \"star\", \"local_fire_department\"",
+                        "name": "icon",
+                        "type": "string",
+                        "title": "Icon (Material Symbol)"
+                      },
+                      {
+                        "description": "Optional badge, e.g. \"New\", \"Hot\"",
+                        "name": "badge",
+                        "type": "string",
+                        "title": "Badge Text"
+                      }
+                    ],
+                    "type": "object",
+                    "name": "mobileSubItem"
+                  }
+                ],
+                "name": "children",
+                "type": "array",
+                "title": "Sub-links"
+              }
+            ],
+            "type": "object",
+            "name": "mobileItem"
+          }
+        ],
+        "name": "mobileMenu",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "heading",
+                "type": "string",
+                "title": "Column Heading"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "validation": [
+                          {
+                            "rules": [
+                              {
+                                "flag": "presence",
+                                "constraint": "required"
+                              }
+                            ],
+                            "level": "error"
+                          }
+                        ],
+                        "name": "label",
+                        "type": "string"
+                      },
+                      {
+                        "description": "e.g. /categories/collectibles or https://...",
+                        "name": "href",
+                        "type": "string",
+                        "title": "URL / Path"
+                      },
+                      {
+                        "initialValue": false,
+                        "name": "openInNewTab",
+                        "type": "boolean",
+                        "title": "Open in New Tab"
+                      },
+                      {
+                        "description": "Optional icon name, e.g. \"star\", \"local_fire_department\"",
+                        "name": "icon",
+                        "type": "string",
+                        "title": "Icon (Material Symbol)"
+                      },
+                      {
+                        "description": "Optional badge, e.g. \"New\", \"Hot\"",
+                        "name": "badge",
+                        "type": "string",
+                        "title": "Badge Text"
+                      }
+                    ],
+                    "type": "object",
+                    "name": "footerLink"
+                  }
+                ],
+                "name": "links",
+                "type": "array"
+              }
+            ],
+            "type": "object",
+            "name": "footerColumn"
+          }
+        ],
+        "name": "footerColumns",
+        "type": "array",
+        "title": "Footer Menu Columns"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "description": "e.g. /categories/collectibles or https://...",
+                "name": "href",
+                "type": "string",
+                "title": "URL / Path"
+              },
+              {
+                "initialValue": false,
+                "name": "openInNewTab",
+                "type": "boolean",
+                "title": "Open in New Tab"
+              },
+              {
+                "description": "Optional icon name, e.g. \"star\", \"local_fire_department\"",
+                "name": "icon",
+                "type": "string",
+                "title": "Icon (Material Symbol)"
+              },
+              {
+                "description": "Optional badge, e.g. \"New\", \"Hot\"",
+                "name": "badge",
+                "type": "string",
+                "title": "Badge Text"
+              }
+            ],
+            "type": "object",
+            "name": "legalLink"
+          }
+        ],
+        "name": "legalLinks",
+        "type": "array",
+        "title": "Legal Links (Bottom Bar)"
+      }
+    ],
+    "name": "navigation",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string",
+        "title": "Full Name"
+      },
+      {
+        "options": {
+          "source": "name",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "avatar",
+        "type": "image",
+        "title": "Profile Photo"
+      },
+      {
+        "description": "e.g. Senior Editor, Contributing Writer, Founder",
+        "name": "role",
+        "type": "string",
+        "title": "Role / Title"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "bio",
+        "type": "array"
+      },
+      {
+        "fields": [
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "twitter",
+            "type": "url",
+            "title": "Twitter / X"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "instagram",
+            "type": "url"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "linkedin",
+            "type": "url",
+            "title": "LinkedIn"
+          },
+          {
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "website",
+            "type": "url",
+            "title": "Personal Website"
+          }
+        ],
+        "name": "socialLinks",
+        "type": "object"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "author",
+    "type": "document",
+    "title": "Authors"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string",
+        "title": "Manufacturer Name"
+      },
+      {
+        "options": {
+          "source": "name",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "description": "Country of manufacture / headquarters.",
+        "name": "country",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "logo",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "website",
+        "type": "url",
+        "title": "Website URL"
+      }
+    ],
+    "name": "manufacturer",
+    "type": "document",
+    "title": "Manufacturers"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The old URL path, e.g. /old-category/old-product",
+        "name": "from",
+        "type": "string",
+        "title": "From Path"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The destination path or full URL.",
+        "name": "to",
+        "type": "string",
+        "title": "To Path / URL"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "301 — Permanent",
+              "value": "301"
+            },
+            {
+              "title": "302 — Temporary",
+              "value": "302"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "301",
+        "name": "statusCode",
+        "type": "string",
+        "title": "Redirect Type"
+      },
+      {
+        "description": "Optional reason for this redirect (not shown on site).",
+        "name": "note",
+        "type": "string",
+        "title": "Internal Note"
+      }
+    ],
+    "name": "redirect",
+    "type": "document",
+    "title": "Redirects"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The display name of this category.",
+        "name": "name",
+        "type": "string",
+        "title": "Category Name"
+      },
+      {
+        "options": {
+          "source": "name",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "coverImage",
+        "type": "image"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "bannerImage",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "affiliateLink",
+        "type": "url"
+      },
+      {
+        "to": [
+          {
+            "type": "category"
+          }
+        ],
+        "name": "parentCategory",
+        "type": "reference"
+      },
+      {
+        "initialValue": false,
+        "description": "Promote this category on the homepage and featured sections.",
+        "name": "featured",
+        "type": "boolean",
+        "title": "Featured Category"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Active",
+              "value": "active"
+            },
+            {
+              "title": "Draft",
+              "value": "draft"
+            },
+            {
+              "title": "Archived",
+              "value": "archived"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "draft",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "active",
+                  "draft",
+                  "archived"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Publishing status of this category.",
+        "name": "status",
+        "type": "string"
+      },
+      {
+        "initialValue": 100,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Lower numbers appear first. Use multiples of 10 to leave room for future inserts.",
+        "name": "displayOrder",
+        "type": "number",
+        "title": "Sort Order"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Public",
+              "value": "public"
+            },
+            {
+              "title": "Hidden",
+              "value": "hidden"
+            },
+            {
+              "title": "Members Only",
+              "value": "members-only"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "public",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "public",
+                  "hidden",
+                  "members-only"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Controls who can see this category on the storefront.",
+        "name": "visibility",
+        "type": "string"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "category",
+    "type": "document",
+    "title": "Categories"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Product Title"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 2,
+        "description": "One or two sentences for cards and meta descriptions.",
+        "name": "shortDescription",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "name": "caption",
+                "type": "string"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "description",
+        "type": "array",
+        "title": "Long Description (Body)"
+      },
+      {
+        "description": "The product image set. The first image will be used as the primary thumbnail.",
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "gallery",
+        "type": "array",
+        "title": "Gallery Images"
+      },
+      {
+        "name": "price",
+        "type": "number"
+      },
+      {
+        "name": "salePrice",
+        "type": "number"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 0
+              },
+              {
+                "flag": "max",
+                "constraint": 100
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "discount",
+        "type": "number",
+        "title": "Discount (%)"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "USD ($)",
+              "value": "USD"
+            },
+            {
+              "title": "EUR (€)",
+              "value": "EUR"
+            },
+            {
+              "title": "GBP (£)",
+              "value": "GBP"
+            },
+            {
+              "title": "CAD ($)",
+              "value": "CAD"
+            },
+            {
+              "title": "AUD ($)",
+              "value": "AUD"
+            }
+          ]
+        },
+        "initialValue": "USD",
+        "name": "currency",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "In Stock",
+              "value": "in_stock"
+            },
+            {
+              "title": "Limited Stock",
+              "value": "limited_stock"
+            },
+            {
+              "title": "Out of Stock",
+              "value": "out_of_stock"
+            },
+            {
+              "title": "Pre-Order",
+              "value": "pre_order"
+            },
+            {
+              "title": "Discontinued",
+              "value": "discontinued"
+            }
+          ]
+        },
+        "initialValue": "in_stock",
+        "name": "availability",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "rating",
+        "type": "number",
+        "title": "Rating (1–5)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "to": [
+          {
+            "type": "brand"
+          }
+        ],
+        "name": "brand",
+        "type": "reference"
+      },
+      {
+        "to": [
+          {
+            "type": "manufacturer"
+          }
+        ],
+        "name": "manufacturer",
+        "type": "reference"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Select the most specific category. Breadcrumbs are auto-generated.",
+        "to": [
+          {
+            "type": "category"
+          }
+        ],
+        "name": "category",
+        "type": "reference"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "collection"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to collections"
+          }
+        ],
+        "name": "collections",
+        "type": "array"
+      },
+      {
+        "description": "Manually curated related products.",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "product"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to products"
+          }
+        ],
+        "name": "relatedProducts",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "key",
+                "type": "string",
+                "title": "Spec Name"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "value",
+                "type": "string"
+              }
+            ],
+            "type": "object",
+            "name": "specRow",
+            "title": "Specification"
+          }
+        ],
+        "name": "specifications",
+        "type": "array",
+        "title": "Technical Specifications"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Amazon",
+              "value": "Amazon"
+            },
+            {
+              "title": "eBay",
+              "value": "eBay"
+            },
+            {
+              "title": "Etsy",
+              "value": "Etsy"
+            },
+            {
+              "title": "Walmart",
+              "value": "Walmart"
+            },
+            {
+              "title": "AliExpress",
+              "value": "AliExpress"
+            },
+            {
+              "title": "CJ Affiliate",
+              "value": "CJ Affiliate"
+            },
+            {
+              "title": "Impact",
+              "value": "Impact"
+            },
+            {
+              "title": "Awin",
+              "value": "Awin"
+            },
+            {
+              "title": "ShareASale",
+              "value": "ShareASale"
+            },
+            {
+              "title": "Other",
+              "value": "Other"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "Amazon",
+                  "eBay",
+                  "Etsy",
+                  "Walmart",
+                  "AliExpress",
+                  "CJ Affiliate",
+                  "Impact",
+                  "Awin",
+                  "ShareASale",
+                  "Other"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "affiliateNetwork",
+        "type": "string",
+        "title": "Primary Affiliate Network"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "affiliateUrl",
+        "type": "url",
+        "title": "Primary Affiliate URL"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "affiliateLink"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to affiliate links"
+          }
+        ],
+        "name": "affiliateLinks",
+        "type": "array",
+        "title": "Additional Affiliate Links"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Draft",
+              "value": "draft"
+            },
+            {
+              "title": "Published",
+              "value": "published"
+            },
+            {
+              "title": "Archived",
+              "value": "archived"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "draft",
+        "name": "status",
+        "type": "string"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean"
+      },
+      {
+        "initialValue": false,
+        "name": "editorChoice",
+        "type": "boolean",
+        "title": "Editor's Choice"
+      },
+      {
+        "initialValue": false,
+        "name": "trending",
+        "type": "boolean"
+      },
+      {
+        "initialValue": false,
+        "name": "bestSeller",
+        "type": "boolean"
+      },
+      {
+        "initialValue": false,
+        "name": "newest",
+        "type": "boolean"
+      },
+      {
+        "initialValue": false,
+        "name": "limitedEdition",
+        "type": "boolean"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime",
+        "title": "Published Date"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      },
+      {
+        "hidden": true,
+        "name": "seoTitle",
+        "type": "string",
+        "title": "SEO Title (Legacy)"
+      },
+      {
+        "hidden": true,
+        "name": "seoDescription",
+        "type": "text",
+        "title": "SEO Description (Legacy)"
+      }
+    ],
+    "name": "product",
+    "type": "document",
+    "title": "Products"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string",
+        "title": "Brand Name"
+      },
+      {
+        "options": {
+          "source": "name",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "logo",
+        "type": "image"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "coverImage",
+        "type": "image",
+        "title": "Cover / Banner Image"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "description",
+        "type": "array"
+      },
+      {
+        "description": "Country where the brand originates.",
+        "name": "country",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "websiteUrl",
+        "type": "url",
+        "title": "Website URL"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean",
+        "title": "Featured Brand"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      },
+      {
+        "hidden": true,
+        "name": "seoTitle",
+        "type": "string",
+        "title": "SEO Title (Legacy)"
+      },
+      {
+        "hidden": true,
+        "name": "seoDescription",
+        "type": "text",
+        "title": "SEO Description (Legacy)"
+      }
+    ],
+    "name": "brand",
+    "type": "document",
+    "title": "Brands"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "description": "Short summary shown in article cards and meta description.",
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "name": "caption",
+                "type": "string"
+              },
+              {
+                "name": "alt",
+                "type": "string",
+                "title": "Alt Text"
+              }
+            ],
+            "type": "image"
+          },
+          {
+            "fields": [
+              {
+                "to": [
+                  {
+                    "type": "product"
+                  }
+                ],
+                "name": "product",
+                "type": "reference"
+              }
+            ],
+            "type": "object",
+            "name": "productEmbed"
+          }
+        ],
+        "name": "content",
+        "type": "array",
+        "title": "Body Content"
+      },
+      {
+        "to": [
+          {
+            "type": "author"
+          }
+        ],
+        "name": "author",
+        "type": "reference"
+      },
+      {
+        "description": "Auto-calculated or manually override.",
+        "name": "readingTime",
+        "type": "number",
+        "title": "Reading Time (minutes)"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "coverImage",
+        "type": "image",
+        "title": "Featured / Cover Image"
+      },
+      {
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "gallery",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "to": [
+          {
+            "type": "category"
+          }
+        ],
+        "name": "category",
+        "type": "reference",
+        "title": "Primary Category"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean",
+        "title": "Featured Article"
+      },
+      {
+        "initialValue": false,
+        "name": "trending",
+        "type": "boolean"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "product"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to products"
+          }
+        ],
+        "name": "relatedProducts",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "article"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to articles"
+          }
+        ],
+        "name": "relatedArticles",
+        "type": "array"
+      },
+      {
+        "description": "Tags for organizing articles.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "tags",
+        "type": "array"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      },
+      {
+        "hidden": true,
+        "name": "seoTitle",
+        "type": "string",
+        "title": "SEO Title (Legacy)"
+      },
+      {
+        "hidden": true,
+        "name": "seoDescription",
+        "type": "text",
+        "title": "SEO Description (Legacy)"
+      }
+    ],
+    "name": "article",
+    "type": "document",
+    "title": "Articles"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Review Title"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Expert Review",
+              "value": "expert"
+            },
+            {
+              "title": "Editorial Review",
+              "value": "editorial"
+            },
+            {
+              "title": "User Review",
+              "value": "user"
+            },
+            {
+              "title": "Comparison",
+              "value": "comparison"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "expert",
+        "name": "reviewType",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "to": [
+          {
+            "type": "product"
+          }
+        ],
+        "name": "product",
+        "type": "reference"
+      },
+      {
+        "to": [
+          {
+            "type": "author"
+          }
+        ],
+        "name": "author",
+        "type": "reference"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "rating",
+        "type": "number",
+        "title": "Overall Rating (1–5)"
+      },
+      {
+        "rows": 2,
+        "description": "One-line editorial verdict shown in the review card.",
+        "name": "verdict",
+        "type": "text",
+        "title": "Verdict / Summary"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "content",
+        "type": "array",
+        "title": "Review Content"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "pros",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "cons",
+        "type": "array"
+      },
+      {
+        "description": "For comparison-type reviews — add products being compared.",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "product"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to products"
+          }
+        ],
+        "name": "comparisonProducts",
+        "type": "array"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "review",
+    "type": "document",
+    "title": "Reviews"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Tool Title"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Discount Calculator",
+              "value": "discount"
+            },
+            {
+              "title": "Scale Converter",
+              "value": "scale"
+            },
+            {
+              "title": "Currency Converter",
+              "value": "currency"
+            },
+            {
+              "title": "Reading Time",
+              "value": "reading-time"
+            },
+            {
+              "title": "Percentage Calculator",
+              "value": "percentage"
+            },
+            {
+              "title": "BMI Calculator",
+              "value": "bmi"
+            },
+            {
+              "title": "Age Calculator",
+              "value": "age"
+            },
+            {
+              "title": "QR Code Generator",
+              "value": "qr"
+            },
+            {
+              "title": "Password Generator",
+              "value": "password"
+            },
+            {
+              "title": "Unit Converter",
+              "value": "unit"
+            },
+            {
+              "title": "Color Converter",
+              "value": "color"
+            },
+            {
+              "title": "Tax Calculator",
+              "value": "tax"
+            },
+            {
+              "title": "Tip Calculator",
+              "value": "tip"
+            },
+            {
+              "title": "Storage Converter",
+              "value": "storage"
+            },
+            {
+              "title": "Speed Converter",
+              "value": "speed"
+            },
+            {
+              "title": "Custom / External",
+              "value": "custom"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "discount",
+                  "scale",
+                  "currency",
+                  "reading-time",
+                  "percentage",
+                  "bmi",
+                  "age",
+                  "qr",
+                  "password",
+                  "unit",
+                  "color",
+                  "tax",
+                  "tip",
+                  "storage",
+                  "speed",
+                  "custom"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Used to render the correct calculator component.",
+        "name": "toolType",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "description",
+        "type": "array"
+      },
+      {
+        "rows": 2,
+        "description": "Shown on the toolkit grid card.",
+        "name": "shortDescription",
+        "type": "text"
+      },
+      {
+        "description": "e.g. payments, palette, speed, qr_code_2",
+        "name": "icon",
+        "type": "string",
+        "title": "Icon (Material Symbol)"
+      },
+      {
+        "description": "Legacy hash route. Use Slug instead for new tools.",
+        "hidden": true,
+        "name": "route",
+        "type": "string",
+        "title": "Route / Hash (Legacy)"
+      },
+      {
+        "initialValue": "Launch Tool",
+        "name": "buttonLabel",
+        "type": "string"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean"
+      },
+      {
+        "initialValue": 0,
+        "description": "Lower numbers appear first.",
+        "name": "order",
+        "type": "number",
+        "title": "Display Order"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "article"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to articles"
+          }
+        ],
+        "name": "relatedArticles",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "to": [
+              {
+                "type": "product"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to products"
+          }
+        ],
+        "name": "relatedProducts",
+        "type": "array"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Link to affiliate landing page if the tool redirects externally.",
+        "name": "affiliateUrl",
+        "type": "url",
+        "title": "Affiliate URL"
+      },
+      {
+        "description": "Tags for organizing tools.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "tags",
+        "type": "array"
+      }
+    ],
+    "name": "tool",
+    "type": "document",
+    "title": "Tools"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Collection Title"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "coverImage",
+        "type": "image"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "collection",
+    "type": "document",
+    "title": "Collections"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "e.g. Amazon - 1:18 Model, eBay - Pre-owned vintage",
+        "name": "title",
+        "type": "string",
+        "title": "Link Title / Descriptor"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Amazon",
+              "value": "Amazon"
+            },
+            {
+              "title": "eBay",
+              "value": "eBay"
+            },
+            {
+              "title": "Etsy",
+              "value": "Etsy"
+            },
+            {
+              "title": "CJ Affiliate",
+              "value": "CJ"
+            },
+            {
+              "title": "Impact",
+              "value": "Impact"
+            },
+            {
+              "title": "Awin",
+              "value": "Awin"
+            },
+            {
+              "title": "PartnerStack",
+              "value": "PartnerStack"
+            },
+            {
+              "title": "ShareASale",
+              "value": "ShareASale"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "Amazon",
+                  "eBay",
+                  "Etsy",
+                  "CJ",
+                  "Impact",
+                  "Awin",
+                  "PartnerStack",
+                  "ShareASale"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "merchant",
+        "type": "string",
+        "title": "Affiliate Merchant"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "url",
+        "type": "url",
+        "title": "Affiliate URL"
+      },
+      {
+        "description": "Optional price displayed next to this specific merchant link.",
+        "name": "price",
+        "type": "number",
+        "title": "Display Price ($)"
+      }
+    ],
+    "name": "affiliateLink",
+    "type": "document",
+    "title": "Affiliate Links"
+  }
+]

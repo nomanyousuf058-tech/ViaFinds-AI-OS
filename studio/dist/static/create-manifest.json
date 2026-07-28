@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "createdAt": "2026-07-19T17:55:15.484Z",
+  "workspaces": [
+    {
+      "name": "viafinds-studio",
+      "title": "ViaFinds Studio",
+      "basePath": "/",
+      "projectId": "e44z7hta",
+      "dataset": "production",
+      "icon": "<style data-styled=\"true\" data-styled-version=\"6.4.3\">.bhzHlJ{font-family:Inter,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",\"Liberation Sans\",Helvetica,Arial,system-ui,sans-serif;font-weight:500;font-size:13px;transform:translateY(1px);}/*!sc*/\ndata-styled.g108[id=\"sc-iqshrI\"]{content:\"bhzHlJ,\"}/*!sc*/\n</style><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"><rect width=\"32\" height=\"32\" rx=\"2\" fill=\"#f7d455\"></rect><text x=\"50%\" y=\"50%\" text-anchor=\"middle\" alignment-baseline=\"middle\" fill=\"hsla(47, 91%, 25%, 1)\" class=\"sc-iqshrI bhzHlJ\">VS</text></svg>",
+      "mediaLibrary": {
+        "enabled": false
+      },
+      "schema": "3f9a6fae.create-schema.json",
+      "tools": "b3240262.create-tools.json"
+    }
+  ]
+}
