@@ -447,7 +447,7 @@ interface MobileMenuItemProps {
     label: string
     href?: string
     icon?: string
-    children?: any[]
+    children?: { label: string; href?: string }[]
   }
   onClose: () => void
   depth?: number

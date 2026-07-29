@@ -293,7 +293,7 @@ export const SEARCH_QUERY = `
 export const AUTOCOMPLETE_QUERY = `
   {
     "products": *[_type == "product" && status == "published" && title match $keyword] | order(title asc) [0...5] {
-      _id, title, "slug": slug.current, "image": images[0]
+      _id, title, "slug": slug.current, "image": gallery[0]
     },
     "articles": *[_type == "article" && publishedAt <= now() && title match $keyword] | order(title asc) [0...3] {
       _id, title, "slug": slug.current

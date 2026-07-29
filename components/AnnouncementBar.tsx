@@ -20,10 +20,7 @@ export default function AnnouncementBar({ data }: AnnouncementBarProps) {
     }
   }, [])
 
-  const handleDismiss = () => {
-    setIsVisible(false)
-    sessionStorage.setItem('announcement-dismissed', 'true')
-  }
+
 
   // Default fallback when CMS hasn't been configured yet
   const enabled = data?.enabled !== false

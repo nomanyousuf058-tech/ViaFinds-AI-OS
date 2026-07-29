@@ -37,6 +37,15 @@
   ],
   "exclude": [
     "node_modules",
-    "studio"
+    "studio",
+    "backups",
+    "data",
+    "docker",
+    "docs",
+    "images",
+    "logs",
+    "prompts",
+    "scripts",
+    "workflows"
   ]
 }

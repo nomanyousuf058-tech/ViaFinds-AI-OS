@@ -44,6 +44,12 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: metaDesc,
     metadataBase: new URL('https://viafinds.com'),
+    icons: {
+      icon: [
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+        { url: '/favicon.ico', sizes: 'any' },
+      ],
+    },
     openGraph: {
       type: 'website',
       locale: 'en_US',
@@ -57,6 +63,11 @@ export async function generateMetadata(): Promise<Metadata> {
       site: '@viafinds',
       title: metaTitle,
       description: metaDesc,
+    },
+    verification: {
+      other: {
+        'impact-site-verification': '7f780fab-0fa5-4db3-9421-8b9e6ab719ea',
+      },
     },
   }
 }

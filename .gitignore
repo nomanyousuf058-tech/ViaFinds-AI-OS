@@ -16,12 +16,27 @@ out/
 
 # Logs
 *.log
+logs/
 
 # TypeScript
 *.tsbuildinfo
 
 # OS files
 .DS_Store
+Thumbs.db
 
 # Large files
 *.zip
+
+# Studio build output (generated — do not commit)
+studio/dist/
+studio/files.txt
+
+# Non-source directories
+backups/
+images/
+prompts/
+workflows/
+
+# Stale verification script (checks for index.html / app.js — not applicable to Next.js)
+verify.js
