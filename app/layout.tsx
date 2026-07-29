@@ -128,6 +128,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
+        {/* @ts-expect-error Impact requires the invalid 'value' attribute instead of 'content' */}
         <meta name="impact-site-verification" value="01f81daa-2982-441b-a510-97500aa10c86" />
         {/* Google Tag Manager — must be first in <head> */}
         <script
