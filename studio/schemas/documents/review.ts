@@ -58,7 +58,6 @@ export default defineType({
       title: 'Verdict / Summary',
       type: 'text',
       rows: 2,
-      description: 'One-line editorial verdict shown in the review card.',
     }),
     defineField({
       name: 'content',
@@ -83,7 +82,6 @@ export default defineType({
       title: 'Comparison Products',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'product' }] }],
-      description: 'For comparison-type reviews — add products being compared.',
     }),
     defineField({
       name: 'publishedAt',
@@ -91,23 +89,17 @@ export default defineType({
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
     }),
-    defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'seo',
-    }),
   ],
   preview: {
     select: {
       title: 'title',
       product: 'product.title',
       rating: 'rating',
-      media: 'product.images.0',
     },
     prepare({ title, product, rating }) {
       return {
         title,
-        subtitle: `${product || 'No product'} · ${rating ? `${rating}/5` : 'Unrated'}`,
+        subtitle: `${(product as string) || 'No product'} · ${rating ? `${rating}/5` : 'Unrated'}`,
       }
     },
   },

@@ -98,6 +98,12 @@ Sanity Studio
 
 Only CMS functionality.
 
+Sub-directories
+
+- schemas/core/ — Shared UCO field definitions (universalFields.ts)
+- schemas/objects/ — Reusable object schemas (seoMetadata, aiMetadata, affiliateMetadata, publishingMetadata, qualityMetadata, relationshipMetadata, validationMetadata, imageMetadata, searchMetadata)
+- schemas/documents/ — Document type schemas (product, article, category, brand, merchant, manufacturer, collection, affiliateOffer, tool, aiKnowledge, review, author, siteSettings, navigation, redirect)
+
 ---
 
 # public/

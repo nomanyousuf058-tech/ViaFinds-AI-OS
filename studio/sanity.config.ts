@@ -1,7 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
-import { schemaTypes } from './schemas/index.js'
+import { schemaTypes } from './schemas'
 
 // ── Singleton document IDs ────────────────────────────────────────────────────
 const SINGLETONS = ['siteSettings', 'navigation']
@@ -44,13 +44,19 @@ export default defineConfig({
             S.listItem()
               .title('⭐  Reviews')
               .child(S.documentTypeList('review').title('Reviews')),
+            S.listItem()
+              .title('🧠  AI Knowledge')
+              .child(S.documentTypeList('aiKnowledge').title('AI Knowledge')),
 
             S.divider(),
 
-            // ── Brands & Manufacturers ─────────────────
+            // ── Brands & Merchants ─────────────────────
             S.listItem()
               .title('🏷️  Brands')
               .child(S.documentTypeList('brand').title('Brands')),
+            S.listItem()
+              .title('🏬  Merchants')
+              .child(S.documentTypeList('merchant').title('Merchants')),
             S.listItem()
               .title('🏭  Manufacturers')
               .child(S.documentTypeList('manufacturer').title('Manufacturers')),
@@ -68,8 +74,8 @@ export default defineConfig({
               .title('🗂️  Collections')
               .child(S.documentTypeList('collection').title('Collections')),
             S.listItem()
-              .title('🔗  Affiliate Links')
-              .child(S.documentTypeList('affiliateLink').title('Affiliate Links')),
+              .title('🔗  Affiliate Offers')
+              .child(S.documentTypeList('affiliateOffer').title('Affiliate Offers')),
 
             S.divider(),
 

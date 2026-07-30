@@ -1,0 +1,53 @@
+import { defineType, defineField } from 'sanity'
+
+export default defineType({
+  name: 'aiMetadata',
+  title: 'AI Metadata',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'confidence',
+      title: 'Confidence Score',
+      type: 'number',
+      validation: (Rule) => Rule.min(0).max(100),
+    }),
+    defineField({
+      name: 'qualityScore',
+      title: 'Quality Score',
+      type: 'number',
+      validation: (Rule) => Rule.min(0).max(100),
+    }),
+    defineField({
+      name: 'model',
+      title: 'AI Model',
+      type: 'string',
+    }),
+    defineField({
+      name: 'promptVersion',
+      title: 'Prompt Version',
+      type: 'string',
+    }),
+    defineField({
+      name: 'generationTime',
+      title: 'Generation Time',
+      type: 'datetime',
+    }),
+    defineField({
+      name: 'validationStatus',
+      title: 'Validation Status',
+      type: 'string',
+    }),
+    defineField({
+      name: 'humanApprovalRequired',
+      title: 'Human Approval Required',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'aiDecisionLogs',
+      title: 'AI Decision Logs',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
+  ],
+})

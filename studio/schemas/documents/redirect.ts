@@ -10,14 +10,12 @@ export default defineType({
       name: 'from',
       title: 'From Path',
       type: 'string',
-      description: 'The old URL path, e.g. /old-category/old-product',
       validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'to',
       title: 'To Path / URL',
       type: 'string',
-      description: 'The destination path or full URL.',
       validation: Rule => Rule.required(),
     }),
     defineField({
@@ -32,12 +30,6 @@ export default defineType({
         layout: 'radio',
       },
       initialValue: '301',
-    }),
-    defineField({
-      name: 'note',
-      title: 'Internal Note',
-      type: 'string',
-      description: 'Optional reason for this redirect (not shown on site).',
     }),
   ],
   preview: {

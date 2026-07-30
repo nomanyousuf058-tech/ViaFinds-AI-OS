@@ -13,7 +13,7 @@ export interface Metadata {
   ai?: AiMetadata;
   affiliate?: AffiliateMetadata;
   publishing?: PublishingMetadata;
-  relationship?: Relationship;
+  relationships?: Relationship;
   validation?: Validation;
   quality?: Quality;
   lifecycle?: Lifecycle;

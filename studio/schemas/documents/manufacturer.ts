@@ -1,5 +1,9 @@
 import { defineField, defineType } from 'sanity'
 
+/**
+ * Legacy manufacturer schema — kept for backward compatibility with existing
+ * Sanity data. New content should use the 'merchant' document type.
+ */
 export default defineType({
   name: 'manufacturer',
   title: 'Manufacturers',
@@ -23,7 +27,6 @@ export default defineType({
       name: 'country',
       title: 'Country',
       type: 'string',
-      description: 'Country of manufacture / headquarters.',
     }),
     defineField({
       name: 'description',

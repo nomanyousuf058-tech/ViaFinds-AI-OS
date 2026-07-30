@@ -42,16 +42,11 @@ export default defineType({
       title: 'Social Links',
       type: 'object',
       fields: [
-        { name: 'twitter', title: 'Twitter / X', type: 'url' },
-        { name: 'instagram', title: 'Instagram', type: 'url' },
-        { name: 'linkedin', title: 'LinkedIn', type: 'url' },
-        { name: 'website', title: 'Personal Website', type: 'url' },
+        defineField({ name: 'twitter', title: 'Twitter / X', type: 'url' }),
+        defineField({ name: 'instagram', title: 'Instagram', type: 'url' }),
+        defineField({ name: 'linkedin', title: 'LinkedIn', type: 'url' }),
+        defineField({ name: 'website', title: 'Personal Website', type: 'url' }),
       ],
-    }),
-    defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'seo',
     }),
   ],
   preview: {
