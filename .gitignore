@@ -1,42 +1,77 @@
+# =========================
 # Dependencies
+# =========================
 node_modules/
 studio/node_modules/
 
+# =========================
 # Next.js
+# =========================
 .next/
 out/
 
-# Environment variables
+# =========================
+# Vercel
+# =========================
+.vercel/
+
+# =========================
+# Environment Variables
+# =========================
 .env
 .env.local
 .env.production
+.env.development
 
-# Vercel
-.vercel/
-
+# =========================
 # Logs
+# =========================
 *.log
 logs/
 
+# =========================
 # TypeScript
+# =========================
 *.tsbuildinfo
 
-# OS files
+# =========================
+# OS Files
+# =========================
 .DS_Store
 Thumbs.db
 
-# Large files
-*.zip
-
-# Studio build output (generated — do not commit)
+# =========================
+# Build Output
+# =========================
 studio/dist/
 studio/files.txt
 
-# Non-source directories
-backups/
-images/
-prompts/
-workflows/
+# =========================
+# Temporary Files
+# =========================
+page_output.html
+page_output_follow.html
 
-# Stale verification script (checks for index.html / app.js — not applicable to Next.js)
+# =========================
+# Archives
+# =========================
+*.zip
+*.rar
+*.7z
+
+# =========================
+# Local Database & Runtime Data
+# =========================
+data/postgres/
+data/n8n/
+data/pgadmin/
+
+# =========================
+# Ignore Docker Override Files
+# =========================
+docker-compose.override.yml
+
+# =========================
+# Old Verification Script
+# =========================
 verify.js
