@@ -13,6 +13,6 @@ export interface UniversalContent {
   createdDate: string;
   updatedDate: string;
   version: number;
-  
-  metadata?: Metadata;
+
+  metadata: Metadata;
 }
