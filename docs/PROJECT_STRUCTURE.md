@@ -224,6 +224,11 @@ Examples
 - Universal Content Object (UCO)
 - Domain Enums
 - Core Types
+- AI Engine Infrastructure (core/ai)
+  - Prompts (core/ai/prompts)
+  - Caching (core/ai/cache)
+  - Telemetry (core/ai/telemetry)
+  - Resilience (core/ai/resilience)
 
 No business logic. Only domain models.
 

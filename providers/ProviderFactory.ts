@@ -1,23 +1,23 @@
-import { BaseProvider, AIProviderConfig } from './BaseProvider';
+import { BaseProvider } from './BaseProvider';
 import { providerRegistry } from './ProviderRegistry';
 import { logger } from '../lib/logger';
+import { AIProviderConfig, AIProviderType } from '../core/ai/types';
 
 export class ProviderFactory {
   /**
-   * For Phase 1, we only have the abstraction.
-   * This factory will be responsible for instantiating the concrete classes in the future.
+   * Instantiates a provider class and registers it in the registry.
    */
   public static createProvider(
-    name: string, 
-    ProviderClass: new (name: string, config: AIProviderConfig) => BaseProvider, 
+    type: AIProviderType, 
+    ProviderClass: new (type: AIProviderType, config: AIProviderConfig) => BaseProvider, 
     config: AIProviderConfig
   ): BaseProvider {
     try {
-      const provider = new ProviderClass(name, config);
+      const provider = new ProviderClass(type, config);
       providerRegistry.register(provider);
       return provider;
     } catch (error) {
-      logger.error(`Failed to create provider ${name}`, error as Error);
+      logger.error(`Failed to create provider ${type}`, error as Error);
       throw error;
     }
   }

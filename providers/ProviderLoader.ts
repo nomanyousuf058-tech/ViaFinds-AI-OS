@@ -16,9 +16,9 @@ export class ProviderLoader {
     for (const provider of providers) {
       try {
         await provider.initialize();
-        logger.info(`Provider initialized successfully: ${provider.name}`);
+        logger.info(`Provider initialized successfully: ${provider.type}`);
       } catch (error) {
-        logger.error(`Failed to initialize provider: ${provider.name}`, error as Error);
+        logger.error(`Failed to initialize provider: ${provider.type}`, error as Error);
       }
     }
   }

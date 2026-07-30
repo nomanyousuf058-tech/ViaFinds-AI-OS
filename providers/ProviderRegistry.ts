@@ -1,9 +1,10 @@
 import { BaseProvider } from './BaseProvider';
 import { logger } from '../lib/logger';
+import { AIProviderType } from '../core/ai/types';
 
 export class ProviderRegistry {
   private static instance: ProviderRegistry;
-  private providers: Map<string, BaseProvider> = new Map();
+  private providers: Map<AIProviderType, BaseProvider> = new Map();
 
   private constructor() {}
 
@@ -15,24 +16,24 @@ export class ProviderRegistry {
   }
 
   public register(provider: BaseProvider): void {
-    if (this.providers.has(provider.name)) {
-      logger.warn(`Provider ${provider.name} is already registered. Overwriting.`);
+    if (this.providers.has(provider.type)) {
+      logger.warn(`Provider ${provider.type} is already registered. Overwriting.`);
     }
-    this.providers.set(provider.name, provider);
-    logger.info(`Registered AI Provider: ${provider.name}`);
+    this.providers.set(provider.type, provider);
+    logger.info(`Registered AI Provider: ${provider.type}`);
   }
 
-  public getProvider(name: string): BaseProvider | undefined {
-    return this.providers.get(name);
+  public getProvider(type: AIProviderType): BaseProvider | undefined {
+    return this.providers.get(type);
   }
 
   public getAllProviders(): BaseProvider[] {
     return Array.from(this.providers.values());
   }
 
-  public unregister(name: string): void {
-    this.providers.delete(name);
-    logger.info(`Unregistered AI Provider: ${name}`);
+  public unregister(type: AIProviderType): void {
+    this.providers.delete(type);
+    logger.info(`Unregistered AI Provider: ${type}`);
   }
 }
 

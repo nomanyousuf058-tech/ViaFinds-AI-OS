@@ -1,37 +1,31 @@
-export interface AIProviderConfig {
-  apiKey?: string;
-  baseUrl?: string;
-  defaultModel: string;
-  timeoutMs?: number;
-  maxRetries?: number;
-}
-
-export interface PromptPayload {
-  systemPrompt?: string;
-  userPrompt: string;
-  temperature?: number;
-  maxTokens?: number;
-}
-
-export interface ProviderResponse {
-  content: string;
-  promptTokens?: number;
-  completionTokens?: number;
-  model: string;
-}
+import { 
+  AIProviderType, 
+  AIProviderConfig, 
+  AIPromptPayload, 
+  AIProviderResponse 
+} from '../core/ai/types';
 
 export abstract class BaseProvider {
   protected config: AIProviderConfig;
-  public readonly name: string;
+  public readonly type: AIProviderType;
 
-  constructor(name: string, config: AIProviderConfig) {
-    this.name = name;
+  constructor(type: AIProviderType, config: AIProviderConfig) {
+    this.type = type;
     this.config = config;
   }
 
+  /**
+   * Initializes the provider (e.g. validates API keys, tests connection)
+   */
   public abstract initialize(): Promise<void>;
   
-  public abstract generateCompletion(payload: PromptPayload): Promise<ProviderResponse>;
+  /**
+   * Generates a completion from the LLM
+   */
+  public abstract generateCompletion(payload: AIPromptPayload): Promise<AIProviderResponse>;
   
+  /**
+   * Validates if the provider is currently healthy and reachable
+   */
   public abstract validateHealth(): Promise<boolean>;
 }
