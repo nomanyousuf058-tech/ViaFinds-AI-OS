@@ -331,7 +331,7 @@ Build only these agents
 
 4 Article Intelligence Agent
 
-5 SEO Agent
+5 Search Intelligence Agent
 
 6 Image Prompt Agent
 

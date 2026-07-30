@@ -290,7 +290,7 @@ Examples
 
 - Product Intelligence Agent
 - Category Intelligence Agent
-- SEO Agent
+- Search Intelligence Agent
 - Publisher Agent
 
 One folder per agent.

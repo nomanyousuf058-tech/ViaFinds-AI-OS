@@ -120,7 +120,7 @@ ViaFinds-AI-OS/
 │   ├── product-agent/
 │   ├── category-agent/
 │   ├── taxonomy-agent/
-│   ├── seo-agent/
+│   ├── search-intelligence-agent/
 │   ├── article-agent/
 │   ├── publisher-agent/
 │   ├── quality-agent/
@@ -273,7 +273,7 @@ Category Structure
 
 ---
 
-# Agent 3 — SEO Intelligence Agent
+# Agent 3 — Search Intelligence Agent
 
 Purpose
 
@@ -281,14 +281,21 @@ Optimize discoverability.
 
 Responsibilities
 
-Generate
+The Search Intelligence Agent will become the single optimization layer responsible for:
 
-- SEO Title
-- Meta Description
-- URL Slug
-- Schema
-- Open Graph Data
-- Image Alt Text
+- Keywords
+- Search Intent
+- Meta Data
+- Structured Data
+- Internal Linking
+- Schema Markup
+- FAQ Generation
+- AI Answer Optimization
+- AI Citation Optimization
+- Content Freshness
+- Search Console Insights
+- GEO Readiness
+- AI Discoverability
 
 Cannot
 
@@ -437,7 +444,7 @@ Category Intelligence Agent
 
 ↓
 
-SEO Intelligence Agent
+Search Intelligence Agent
 
 ↓
 
@@ -1815,9 +1822,9 @@ All generated articles are saved as Draft.
 
 Manual approval is required before publishing.
 
-# SEO Intelligence Engine
+# Search Intelligence Engine
 
-The SEO Intelligence Engine is responsible for optimizing every product, article, category, and landing page for search engines while maintaining an excellent user experience.
+The Search Intelligence Engine is responsible for optimizing every product, article, category, and landing page for search engines while maintaining an excellent user experience.
 
 SEO must always support users first and search engines second.
 
@@ -1838,16 +1845,19 @@ SEO must always support users first and search engines second.
 
 Generate
 
-- SEO Title
-- Meta Description
-- URL Slug
-- Canonical URL
-- Open Graph Title
-- Open Graph Description
-- Open Graph Image
-- Twitter Card Metadata
-- Image Alt Text
+- Keywords
+- Search Intent
+- Meta Data
 - Structured Data
+- Internal Linking
+- Schema Markup
+- FAQ Generation
+- AI Answer Optimization
+- AI Citation Optimization
+- Content Freshness
+- Search Console Insights
+- GEO Readiness
+- AI Discoverability
 
 ---
 
@@ -3195,7 +3205,7 @@ Objectives
 - Product Intelligence Agent
 - Category Intelligence Agent
 - Product Content Agent
-- SEO Intelligence Agent
+- Search Intelligence Agent
 - Publisher Agent
 - Save Product as Draft
 
@@ -6990,7 +7000,7 @@ Article Intelligence Agent
 
 ↓
 
-SEO Intelligence Agent
+Search Intelligence Agent
 
 ↓
 
