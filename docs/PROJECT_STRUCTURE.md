@@ -289,18 +289,19 @@ Only types.
 
 Contains
 
-AI Agents.
+AI Agents and the Core Agent Framework.
 
 Examples
 
-- Product Intelligence Agent
-- Category Intelligence Agent
-- Search Intelligence Agent
-- Publisher Agent
+- core/ (AgentRegistry, AgentFactory, BaseAgent)
+- product-intelligence/ (Product Intelligence Agent)
+- category-intelligence/ (Category Intelligence Agent)
+- search-intelligence/ (Search Intelligence Agent)
+- publisher/ (Publisher Agent)
 
 One folder per agent.
 
-Each agent should remain independent.
+Each agent should remain independent and inherit from core/BaseAgent.
 
 ---
 
