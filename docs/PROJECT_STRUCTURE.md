@@ -45,6 +45,8 @@ ViaFinds-AI-OS
 │
 ├── config/
 │
+├── core/
+│
 ├── scripts/
 │
 ├── lib/
@@ -202,6 +204,22 @@ Examples
 - Import
 - Export
 - Utilities
+
+---
+
+# core/
+
+Contains
+
+Core data models and domain entities.
+
+Examples
+
+- Universal Content Object (UCO)
+- Domain Enums
+- Core Types
+
+No business logic. Only domain models.
 
 ---
 

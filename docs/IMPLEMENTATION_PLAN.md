@@ -63,37 +63,235 @@ Status
 Pending
 
 ---
-
 # Phase 2
-## Database Layer
+## Universal Content Object (Core Data Model)
 
 Objective
 
-Prepare Sanity CMS.
+Design the Universal Content Object (UCO), the core data model used across the entire ViaFinds AI OS.
+
+Every product, article, category, merchant, brand, tool, collection and future content type must inherit from this model.
 
 Tasks
 
-- Create schemas
-- Product schema
-- Article schema
-- Category schema
-- Merchant schema
-- Brand schema
-- Prompt schema
-- Configuration schema
-- Validation rules
+- Design Universal Content Object
+- Create base interfaces
+- Define common metadata
+- Define AI metadata
+- Define SEO metadata
+- Define publishing metadata
+- Define affiliate metadata
+- Define relationship model
+- Define validation rules
+- Create reusable TypeScript models
 
 Deliverable
 
-Complete CMS structure.
+A single reusable content model shared across every AI agent, workflow, plugin and CMS schema.
+
+Status
+
+Pending
+---
+# Phase 3
+## Database Layer (Sanity CMS)
+
+Objective
+
+Build the complete content database for ViaFinds AI OS using Sanity CMS.
+
+The database must implement the Universal Content Object (UCO) designed in Phase 2.
+
+The database should never duplicate data structures.
+
+Every schema must inherit common fields from the Universal Content Object wherever possible.
+
+---
+
+Tasks
+
+### Core Schemas
+
+Create
+
+- Universal Content Schema
+- Product Schema
+- Article Schema
+- Category Schema
+- Brand Schema
+- Merchant Schema
+- Collection Schema
+- Affiliate Offer Schema
+- Tool Schema
+- AI Knowledge Schema
+
+---
+
+### SEO Schemas
+
+Create
+
+- SEO Metadata
+- Search Metadata
+- Search Console Metadata
+- Keyword Metadata
+- Internal Linking Metadata
+
+---
+
+### AI Schemas
+
+Create
+
+- AI Metadata
+- AI Quality Metadata
+- AI Confidence Metadata
+- AI History Metadata
+- AI Decision Metadata
+
+---
+
+### Publishing Schemas
+
+Create
+
+- Publishing Status
+- Approval Status
+- Draft Status
+- Archive Status
+- Scheduling Metadata
+
+---
+
+### Affiliate Schemas
+
+Create
+
+- Merchant Information
+- Affiliate Network
+- Affiliate Links
+- Commission Information
+- Price History
+- Availability
+- Currency
+- Offer Priority
+
+---
+
+### Image Schemas
+
+Create
+
+- Featured Image
+- Gallery
+- AI Image Prompt
+- Image Metadata
+- Alt Text
+- Open Graph Image
+
+---
+
+### Relationship Schemas
+
+Support relationships between
+
+- Products
+- Categories
+- Articles
+- Brands
+- Merchants
+- Collections
+- Tools
+
+Every object must support
+
+Parent
+
+Children
+
+Related Objects
+
+Similar Objects
+
+Cross References
+
+---
+
+### Validation
+
+Implement
+
+Required Fields
+
+Slug Validation
+
+Duplicate Detection
+
+Reference Validation
+
+Relationship Validation
+
+SEO Validation
+
+Publishing Validation
+
+---
+
+### Indexing
+
+Prepare indexes for
+
+Slug
+
+Category
+
+Merchant
+
+Brand
+
+Content Type
+
+Publishing Status
+
+Search Priority
+
+AI Quality Score
+
+---
+
+### Reusable Components
+
+Build reusable schema components for
+
+SEO
+
+Affiliate
+
+AI Metadata
+
+Publishing
+
+Media
+
+Relationships
+
+Validation
+
+---
+
+Deliverable
+
+A production-ready Sanity CMS database implementing the Universal Content Object.
+
+Every future AI Agent, Workflow, Plugin and Automation must use these schemas.
+
+No duplicate schema definitions should exist.
 
 Status
 
 Pending
 
----
-
-# Phase 3
+# Phase 4
 ## AI Infrastructure
 
 Objective
@@ -120,7 +318,7 @@ Pending
 
 ---
 
-# Phase 4
+# Phase 5
 ## Core AI Agents
 
 Build only these agents
@@ -153,7 +351,7 @@ Pending
 
 ---
 
-# Phase 5
+# Phase 6
 ## n8n Infrastructure
 
 Objective
@@ -182,7 +380,7 @@ Pending
 
 ---
 
-# Phase 6
+# Phase 7
 ## Manual Product Processing
 
 Version 1
@@ -200,8 +398,7 @@ Workflow
 Import Product
 
 ↓
-
-Generate Universal Product Object
+Generate Universal Content Object
 
 ↓
 
@@ -243,7 +440,7 @@ Pending
 
 ---
 
-# Phase 7
+# Phase 8
 ## Human Review Dashboard
 
 Tasks
@@ -278,7 +475,7 @@ Pending
 
 ---
 
-# Phase 8
+# Phase 9
 ## Search Intelligence
 
 Integrate
@@ -309,7 +506,7 @@ Pending
 
 ---
 
-# Phase 9
+# Phase 10
 ## Category Intelligence
 
 The AI must
@@ -350,7 +547,7 @@ Pending
 
 ---
 
-# Phase 10
+# Phase 11
 ## Website Intelligence
 
 AI monitors
@@ -385,7 +582,7 @@ Pending
 
 ---
 
-# Phase 11
+# Phase 12
 ## Analytics
 
 Build
@@ -414,7 +611,7 @@ Pending
 
 ---
 
-# Phase 12
+# Phase 13
 ## Affiliate Expansion
 
 Add plugins
@@ -433,7 +630,7 @@ PartnerStack
 
 Future APIs
 
-Every network must convert products into the Universal Product Object.
+Every network must convert all imported data into the Universal Content Object.
 
 Deliverable
 
@@ -445,7 +642,7 @@ Pending
 
 ---
 
-# Phase 13
+# Phase 14
 ## Automation Expansion
 
 Future
@@ -474,7 +671,7 @@ Pending
 
 ---
 
-# Phase 14
+# Phase 15
 ## AI Learning
 
 Build
@@ -503,7 +700,7 @@ Pending
 
 ---
 
-# Phase 15
+# Phase 16
 ## Production Readiness
 
 Complete
