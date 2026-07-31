@@ -150,14 +150,21 @@ Examples
 
 Contains
 
-n8n workflow JSON files.
+n8n workflow infrastructure and modular workflow modules.
 
-Examples
+Structure
 
-- Product Workflow
-- SEO Workflow
-- Publisher Workflow
-- Category Workflow
+- core/ (BaseWorkflow, WorkflowRegistry, WorkflowValidator, WorkflowLoader, types)
+- master/ (Master Workflow — request dispatch)
+- product/ (Product Workflow — URL/link validation)
+- category/ (Category Workflow — category assignment pipeline)
+- content/ (Content Workflow — content generation pipeline)
+- search-intelligence/ (Search Intelligence Workflow — SEO/AEO/GEO pipeline)
+- quality/ (Quality Workflow — quality validation pipeline)
+- publisher/ (Publisher Workflow — draft saving, never auto-publish)
+- logging/ (Logging Workflow — execution telemetry)
+
+One folder per workflow module.
 
 Only workflows belong here.
 

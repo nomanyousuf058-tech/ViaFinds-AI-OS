@@ -18,4 +18,5 @@ export interface Metadata {
   quality?: Quality;
   lifecycle?: Lifecycle;
   source?: Source;
+  media?: any;
 }
