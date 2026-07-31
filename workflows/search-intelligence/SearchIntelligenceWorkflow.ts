@@ -37,11 +37,10 @@ export class SearchIntelligenceWorkflow extends BaseWorkflow {
 
     // Update UCO SEO metadata
     uco.metadata.seo = {
-      title: `${uco.title} | Best Reviews & Features`,
-      description: `Discover everything about ${uco.title}, including in-depth features, specifications, and honest reviews.`,
-      keywords: ['review', uco.title.toLowerCase(), 'features', 'specifications'],
-      slug: uco.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
-    };
+      metaTitle: uco.title,
+      metaDescription: uco.description || uco.summary,
+      primaryKeyword: 'placeholder keyword'
+    } as any;
 
     result.data = {
       uco,

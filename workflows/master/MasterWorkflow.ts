@@ -136,19 +136,29 @@ export class MasterWorkflow extends BaseWorkflow {
       const affiliateAgent = agentRegistry.getAgent('affiliate-intelligence-agent');
       if (affiliateAgent) {
         await affiliateAgent.execute(
-          { productUrl: uco.metadata.source?.url || '' },
+          { productUrl: (uco.metadata as any).source?.url || '' },
           { workflowId: input.workflowId }
         );
         uco.metadata.affiliate = {
-          merchantName: input.payload.merchant || 'Amazon',
+          merchant: input.payload.merchant || 'Amazon',
           network: input.payload.network || 'Amazon Associates',
-          link: uco.metadata.source?.url || '',
-          commissionRate: 4,
-          availability: 'in_stock',
-          priceHistory: [],
+          affiliateUrl: (uco.metadata as any).source?.url || '',
+          commission: 4,
+          availability: true,
+          priceHistoryPlaceholder: [],
         };
       } else {
         result.warnings.push('Affiliate Intelligence Agent not found. Skipping.');
+      }
+
+      if (!(uco.metadata as any).source?.url) {
+        result.warnings.push(`UCO ${uco.uuid} is missing a source URL.`);
+      }
+
+      // 4. Quality Threshold Check
+      const qualityScore = (uco.metadata as any).quality?.overallScore || (uco.metadata as any).quality?.contentScore || 0;
+      if (qualityScore < 0.7) {
+        result.warnings.push(`UCO ${uco.uuid} quality score is low: ${qualityScore}`);
       }
 
       // Step 7: Quality Control Workflow

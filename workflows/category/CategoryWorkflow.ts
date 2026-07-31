@@ -37,11 +37,13 @@ export class CategoryWorkflow extends BaseWorkflow {
 
     // Update UCO metadata with category relationship details
     if (!uco.metadata.relationships) {
-      uco.metadata.relationships = {};
+      uco.metadata.relationships = {
+        category: [input.payload.categoryId],
+      } as any;
     }
     
     // Assign a placeholder category reference as a result of agent suggestions
-    uco.metadata.relationships.category = {
+    (uco.metadata.relationships as any).category = {
       _type: 'reference',
       _ref: 'category-electronics-accessories',
     };

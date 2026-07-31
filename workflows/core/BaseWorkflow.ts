@@ -22,6 +22,7 @@ export abstract class BaseWorkflow {
       workflowId: input.workflowId,
       type: this.config.type,
       status: WorkflowStatus.PENDING,
+      data: {},
       errors: [],
       warnings: [],
       startedAt,
@@ -74,7 +75,9 @@ export abstract class BaseWorkflow {
       }
 
       // 3. Complete
-      if (result.status !== WorkflowStatus.FAILED) {
+      if (result.errors.length > 0) {
+        result.status = WorkflowStatus.FAILED;
+      } else {
         result.status = WorkflowStatus.COMPLETED;
       }
     } catch (error) {
@@ -91,6 +94,11 @@ export abstract class BaseWorkflow {
   private async finalize(result: WorkflowResult, startMs: number): Promise<WorkflowResult> {
     result.completedAt = new Date().toISOString();
     result.durationMs = Date.now() - startMs;
+    
+    // Defensive initialization to ensure arrays and objects exist
+    if (!result.errors) result.errors = [];
+    if (!result.warnings) result.warnings = [];
+    if (!result.data) result.data = {};
 
     logger.workflow({
       workflowId: result.workflowId,

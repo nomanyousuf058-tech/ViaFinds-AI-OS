@@ -159,10 +159,18 @@ const DEFAULT_FOOTER_COLUMNS: FooterColumn[] = [
       { label: 'Currency Converter', href: '/toolkit#currency' },
     ],
   },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'About Us', href: '/about' },
+      { label: 'Contact Us', href: '/contact' },
+    ],
+  },
 ]
 
 const DEFAULT_LEGAL_LINKS: NavLink[] = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms of Use', href: '/terms' },
-  { label: 'Affiliate Disclosure', href: '/disclosure' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms of Service', href: '/terms-of-service' },
+  { label: 'Cookie Policy', href: '/cookie-policy' },
+  { label: 'Affiliate Disclosure', href: '/affiliate-disclosure' },
 ]

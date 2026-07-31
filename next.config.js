@@ -9,23 +9,25 @@ const nextConfig = {
   // Enable gzip compression for self-hosted / custom server scenarios
   compress: true,
 
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.sanity.io",
-        pathname: "/images/**",
-      },
-      {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "api.qrserver.com",
-      },
-    ],
-  },
+ images: {
+  unoptimized: true,
+
+  remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "cdn.sanity.io",
+      pathname: "/images/**",
+    },
+    {
+      protocol: "https",
+      hostname: "lh3.googleusercontent.com",
+    },
+    {
+      protocol: "https",
+      hostname: "api.qrserver.com",
+    },
+  ],
+},
 
   async redirects() {
     try {

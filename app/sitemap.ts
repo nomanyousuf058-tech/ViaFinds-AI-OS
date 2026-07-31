@@ -14,6 +14,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: baseUrl, lastModified: new Date() },
     { url: `${baseUrl}/toolkit`, lastModified: new Date() },
     { url: `${baseUrl}/search`, lastModified: new Date() },
+    { url: `${baseUrl}/privacy-policy`, lastModified: new Date() },
+    { url: `${baseUrl}/terms-of-service`, lastModified: new Date() },
+    { url: `${baseUrl}/affiliate-disclosure`, lastModified: new Date() },
+    { url: `${baseUrl}/cookie-policy`, lastModified: new Date() },
+    { url: `${baseUrl}/about`, lastModified: new Date() },
+    { url: `${baseUrl}/contact`, lastModified: new Date() },
   ]
 
   try {

@@ -1,6 +1,15 @@
 import { providerRegistry } from '../../providers/ProviderRegistry';
+import { defaultProviderConfigs } from '../../providers/ProviderConfig';
 import { ProviderHealth, AIProviderType } from './types';
 import { logger } from '../../lib/logger';
+
+/** Providers that require an API key — Ollama is local. */
+const REQUIRES_API_KEY: Set<AIProviderType> = new Set([
+  AIProviderType.GEMINI,
+  AIProviderType.OPENAI,
+  AIProviderType.CLAUDE,
+  AIProviderType.OPENROUTER,
+]);
 
 export class HealthChecker {
   private static instance: HealthChecker;
@@ -22,6 +31,13 @@ export class HealthChecker {
     }
   }
 
+  /**
+   * Checks a single provider's health.
+   * For cloud providers (Gemini, OpenAI, Claude, OpenRouter):
+   *   - Marked unhealthy immediately if the API key is missing.
+   * For all providers:
+   *   - Calls validateHealth() only if the provider is registered and configured.
+   */
   public async checkProvider(type: AIProviderType): Promise<ProviderHealth> {
     const provider = providerRegistry.getProvider(type);
     const health: ProviderHealth = {
@@ -29,6 +45,16 @@ export class HealthChecker {
       isAvailable: false,
       lastChecked: new Date(),
     };
+
+    // Gate: API key required but missing
+    if (REQUIRES_API_KEY.has(type)) {
+      const config = defaultProviderConfigs[type];
+      if (!config?.apiKey) {
+        health.error = 'Missing API key';
+        this.healthStatuses.set(type, health);
+        return health;
+      }
+    }
 
     if (!provider) {
       health.error = 'Provider not registered';
@@ -41,6 +67,9 @@ export class HealthChecker {
       const isHealthy = await provider.validateHealth();
       health.latencyMs = Date.now() - start;
       health.isAvailable = isHealthy;
+      if (!isHealthy) {
+        health.error = 'validateHealth() returned false';
+      }
     } catch (error) {
       health.error = (error as Error).message;
       logger.error(`Health check failed for ${type}`, error as Error);

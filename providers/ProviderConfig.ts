@@ -9,7 +9,7 @@ export const defaultProviderConfigs: Record<AIProviderType, AIProviderConfig> = 
   },
   [AIProviderType.GEMINI]: {
     apiKey: process.env.GEMINI_API_KEY,
-    defaultModel: 'gemini-1.5-pro',
+    defaultModel: 'gemini-2.5-flash',
     timeoutMs: 30000,
     maxRetries: 2,
   },

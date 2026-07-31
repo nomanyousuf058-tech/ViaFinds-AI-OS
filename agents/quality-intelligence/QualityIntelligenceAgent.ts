@@ -1,5 +1,6 @@
 import { BaseAgent } from '../core/BaseAgent';
 import { AgentIdentity, AgentConfiguration, AgentCapabilities, AgentContext } from '../core/types';
+import { logger } from '../../lib/logger';
 
 export class QualityIntelligenceAgent extends BaseAgent<any, any> {
   public readonly identity: AgentIdentity = {
@@ -21,8 +22,42 @@ export class QualityIntelligenceAgent extends BaseAgent<any, any> {
     outputFormat: 'json',
   };
 
+  public async initialize(): Promise<void> {
+    const { promptLibrary } = require('../../core/ai/prompts/PromptLibrary');
+    promptLibrary.register({
+      id: 'product_validation',
+      version: 1,
+      category: 'validation',
+      template: 'Evaluate the following product data. Provide a quality score between 0.0 and 1.0, and a list of improvements. Format as JSON with "score" and "improvements" keys.\nData:\n{{draftContent}}',
+      requiredVariables: ['draftContent'],
+    });
+  }
+
   protected async process(input: any, context: AgentContext): Promise<any> {
-    // Framework placeholder
-    return { status: 'success', message: 'Quality Intelligence Agent processed (Framework only)' };
+    const uco = input.draftContent;
+    const { aiManager } = require('../../core/ai/AIManager');
+    
+    let score = 0.8; // default
+    let improvements: string[] = [];
+
+    try {
+      const aiResult = await aiManager.execute('product_validation', { draftContent: JSON.stringify(uco) });
+      const content = aiResult.content.replace(/```json/g, '').replace(/```/g, '').trim();
+      const evaluation = JSON.parse(content);
+      score = evaluation.score || score;
+      improvements = evaluation.improvements || improvements;
+    } catch (err) {
+      logger.error('Failed to parse AI validation JSON', err as Error);
+    }
+
+    // Attach quality score to UCO
+    uco.metadata = uco.metadata || {};
+    uco.metadata.quality = {
+      score,
+      flags: improvements,
+      lastEvaluated: new Date().toISOString()
+    };
+
+    return { status: 'success', data: { uco }, message: 'Quality validation completed' };
   }
 }

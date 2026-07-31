@@ -32,48 +32,64 @@ export class ProductWorkflow extends BaseWorkflow {
   protected async execute(input: WorkflowInput, result: WorkflowResult): Promise<void> {
     const url = input.payload.productUrl || input.payload.affiliateLink;
 
-    const agent = agentRegistry.getAgent('product-intelligence-agent');
-    if (!agent) {
+    const productAgent = agentRegistry.getAgent('product-intelligence-agent');
+    if (!productAgent) {
       result.errors.push('Product Intelligence Agent is not registered.');
       return;
     }
 
-    const agentResult = await agent.execute(
+    // 1. Extract and Generate UCO
+    const productAgentResult = await productAgent.execute(
       { rawProductData: url },
       { workflowId: input.workflowId }
     );
 
-    // Normalize into initial Universal Content Object (UCO)
-    const uco: UniversalContent = {
-      uuid: `uco-${input.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
-      contentType: ContentType.PRODUCT,
-      title: input.payload.title || 'Imported Product',
-      slug: input.payload.slug || 'imported-product',
-      description: '',
-      summary: '',
-      tags: [],
-      language: 'en',
-      createdDate: new Date().toISOString(),
-      updatedDate: new Date().toISOString(),
-      version: 1,
-      metadata: {
-        source: {
-          url,
-          network: input.payload.network || 'unknown',
-          timestamp: new Date().toISOString(),
-        },
-        ai: {
-          confidenceScore: 1.0,
-          generationReason: 'Imported via manual product processing workflow',
-          generatedBy: 'product-intelligence-agent',
-          history: [],
-        },
-      },
+    if (productAgentResult.status !== 'success' || !productAgentResult.data?.uco) {
+      result.errors.push('Product extraction failed.');
+      return;
+    }
+
+    let uco = productAgentResult.data.uco as UniversalContent;
+
+    // 2. Validate UCO
+    const qualityAgent = agentRegistry.getAgent('quality-intelligence-agent');
+    if (qualityAgent) {
+      const qualityResult = await qualityAgent.execute(
+        { draftContent: uco },
+        { workflowId: input.workflowId }
+      );
+      if (qualityResult.status === 'success' && qualityResult.data?.uco) {
+        uco = qualityResult.data.uco;
+      }
+    }
+
+    // 3. Save Draft to Sanity (Publisher Workflow)
+    const { workflowRegistry } = require('../core/WorkflowRegistry');
+    const publisherWorkflow = workflowRegistry.getWorkflow(WorkflowType.PUBLISHER);
+    if (!publisherWorkflow) {
+      result.errors.push('Publisher Workflow is not registered.');
+      return;
+    }
+
+    const publisherInput: WorkflowInput = {
+      workflowId: input.workflowId,
+      type: WorkflowType.PUBLISHER,
+      triggeredBy: 'manual',
+      timestamp: new Date().toISOString(),
+      payload: { uco }
     };
+    const publisherResult = await publisherWorkflow.run(publisherInput);
+
+    if (publisherResult.errors.length > 0) {
+      result.errors.push(...publisherResult.errors);
+      return;
+    }
 
     result.data = {
       uco,
-      agentMessage: agentResult.message,
+      sanityDoc: publisherResult.data?.sanityDoc,
+      savedInSanity: publisherResult.data?.savedInSanity,
+      agentMessage: 'Pipeline completed successfully',
     };
   }
 }

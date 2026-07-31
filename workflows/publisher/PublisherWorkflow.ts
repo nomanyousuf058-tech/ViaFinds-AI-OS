@@ -4,6 +4,7 @@ import { agentRegistry } from '../../agents/core/AgentRegistry';
 import { UniversalContent } from '../../core/uco/UniversalContent';
 import { createClient } from '@sanity/client';
 import { logger } from '../../lib/logger';
+import { Status } from '../../core/uco/Status';
 
 export class PublisherWorkflow extends BaseWorkflow {
   public readonly config: WorkflowConfiguration = {
@@ -40,11 +41,11 @@ export class PublisherWorkflow extends BaseWorkflow {
     // Save as draft in Sanity CMS
     // Set publishing status metadata
     uco.metadata.publishing = {
-      status: 'draft',
+      status: Status.DRAFT,
       approvalStatus: 'pending',
       published: false,
       scheduledTime: undefined,
-    };
+    } as any; // Typecast because approvalStatus and published might not be in PublishingMetadata
 
     // Sanity Document mapping (ensure it fits the schema format)
     const sanityDoc = {
@@ -53,7 +54,7 @@ export class PublisherWorkflow extends BaseWorkflow {
       title: uco.title,
       slug: {
         _type: 'slug',
-        current: uco.metadata.seo?.slug || uco.slug,
+        current: (uco.metadata.seo as any)?.slug || uco.slug,
       },
       description: uco.description,
       summary: uco.summary,
@@ -61,12 +62,12 @@ export class PublisherWorkflow extends BaseWorkflow {
       createdDate: uco.createdDate,
       updatedDate: uco.updatedDate,
       // Metadata fields mapped to schema structure
-      seoTitle: uco.metadata.seo?.title,
-      seoDescription: uco.metadata.seo?.description,
-      seoKeywords: uco.metadata.seo?.keywords,
-      affiliateUrl: uco.metadata.source?.url,
-      affiliateNetwork: uco.metadata.source?.network,
-      qualityScore: uco.metadata.quality?.score,
+      seoTitle: uco.metadata.seo?.metaTitle,
+      seoDescription: uco.metadata.seo?.metaDescription,
+      seoKeywords: uco.metadata.seo?.primaryKeyword,
+      affiliateUrl: (uco.metadata as any).source?.url,
+      affiliateNetwork: (uco.metadata as any).source?.network,
+      qualityScore: uco.metadata.quality?.overallScore || uco.metadata.quality?.contentScore,
     };
 
     let savedInSanity = false;
