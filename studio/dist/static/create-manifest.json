@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "createdAt": "2026-07-19T17:55:15.484Z",
+  "createdAt": "2026-08-03T17:42:32.835Z",
   "workspaces": [
     {
       "name": "viafinds-studio",
@@ -12,7 +12,7 @@
       "mediaLibrary": {
         "enabled": false
       },
-      "schema": "3f9a6fae.create-schema.json",
+      "schema": "1d67472a.create-schema.json",
       "tools": "b3240262.create-tools.json"
     }
   ]
