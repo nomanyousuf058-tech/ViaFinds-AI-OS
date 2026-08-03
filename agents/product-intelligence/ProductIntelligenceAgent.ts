@@ -27,83 +27,127 @@ export class ProductIntelligenceAgent extends BaseAgent<any, any> {
     // Prompts are now loaded centrally via PromptLibrary startup
   }
 
-  protected async process(input: any, context: AgentContext): Promise<any> {
-    const url = input.rawProductData;
-    let rawText = '';
-    
-    try {
-      const html = await browserExtractor(url);
+ protected async process(input: any, context: AgentContext): Promise<any> {
+ const url = input.rawProductData;
+let rawText = "";
 
-console.log("===== RAW HTML =====");
-console.log(html.substring(0, 1500));
-console.log("====================");
+let finalUrl = url;
+let images: string[] = [];
+let price: string = "";
 
-rawText = html
-  .replace(/<[^>]*>?/gm, ' ')
-  .replace(/\s+/g, ' ')
-  .substring(0, 15000);
+let title = "";
+let brand = "";
+let description = "";
+let bullets: string[] = [];
 
-console.log("===== RAW TEXT =====");
-console.log(rawText.substring(0, 2000));
-console.log("====================");
-      console.log("===== RAW HTML =====");
-console.log(html.substring(0,1500));
-console.log("====================");
-      // Simple HTML tag stripping for text content
-      rawText = html.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').substring(0, 15000);
-      console.log("===== RAW TEXT =====");
-console.log(rawText.substring(0, 2000));
-console.log("====================");
-    } catch (err) {
-      logger.warn(`Failed to fetch URL ${url}, proceeding with empty text`);
-      rawText = url;
-    }
-    
+  try {
+    const result = await browserExtractor(url);
 
-    const { aiManager } = require('../../core/ai/AIManager');
-    
-    const aiResult = await aiManager.execute('product_extraction', { rawProductData: rawText });
-    console.log("===== AI RESULT =====");
-console.log(aiResult.content);
-console.log("=====================");
-    
-    let extracted: any = {};
-    try {
-      const content = aiResult.content.replace(/```json/g, '').replace(/```/g, '').trim();
-      extracted = JSON.parse(content);
-    } catch (err) {
-      logger.error('Failed to parse AI extraction JSON', err as Error);
-    }
+    const { html } = result;
 
-    const { ContentType } = require('../../core/uco/ContentType');
-    
-    const uco = {
-      uuid: `uco-${context.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
-      contentType: ContentType.PRODUCT,
-      title: extracted.title || 'Imported Product',
-      slug: (extracted.title || 'imported-product').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-      description: extracted.description || '',
-      summary: extracted.summary || '',
-      tags: extracted.tags || [],
-      language: 'en',
-      createdDate: new Date().toISOString(),
-      updatedDate: new Date().toISOString(),
-      version: 1,
-      metadata: {
-        source: {
-          url,
-          network: 'unknown',
-          timestamp: new Date().toISOString(),
-        },
-        ai: {
-          confidenceScore: 1.0,
-          generationReason: 'Imported via ProductIntelligenceAgent',
-          generatedBy: 'product-intelligence-agent',
-          history: [],
-        },
-      },
-    };
+finalUrl = result.finalUrl;
+images = result.images;
+price = result.price;
 
-    return { status: 'success', data: { uco }, message: 'Product successfully extracted' };
+title = result.title;
+brand = result.brand;
+description = result.description;
+bullets = result.bullets;
+    console.log("===== FINAL URL =====");
+    console.log(finalUrl);
+
+    console.log("===== PRICE =====");
+    console.log(price);
+
+    console.log("===== IMAGES =====");
+    console.log(images);
+
+    console.log("===== RAW HTML =====");
+    console.log(html.substring(0, 1500));
+    console.log("====================");
+
+    rawText = html
+      .replace(/<[^>]*>?/gm, " ")
+      .replace(/\s+/g, " ")
+      .substring(0, 15000);
+
+    console.log("===== RAW TEXT =====");
+    console.log(rawText.substring(0, 2000));
+    console.log("====================");
+
+  } catch (err) {
+    logger.warn(`Failed to fetch URL ${url}, proceeding with empty text`);
+    rawText = url;
   }
-}
+
+  const { aiManager } = require('../../core/ai/AIManager');
+
+ const aiResult = await aiManager.execute("product_extraction", {
+  title,
+  brand,
+  price,
+  description,
+  bullets,
+  images,
+  url: finalUrl,
+  rawProductData: rawText,
+});
+
+  console.log("===== AI RESULT =====");
+  console.log(aiResult.content);
+  console.log("=====================");
+
+  let extracted: any = {};
+
+  try {
+    const content = aiResult.content
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+
+    extracted = JSON.parse(content);
+  } catch (err) {
+    logger.error('Failed to parse AI extraction JSON', err as Error);
+  }
+
+  const { ContentType } = require('../../core/uco/ContentType');
+
+  const uco = {
+    uuid: `uco-${context.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
+    contentType: ContentType.PRODUCT,
+    title: extracted.title || 'Imported Product',
+    slug: (extracted.title || 'imported-product')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-'),
+    description: extracted.description || '',
+    summary: extracted.summary || '',
+    tags: extracted.tags || [],
+    language: 'en',
+    createdDate: new Date().toISOString(),
+    updatedDate: new Date().toISOString(),
+    version: 1,
+    metadata: {
+      source: {
+        url: finalUrl || url,
+        network: 'unknown',
+        timestamp: new Date().toISOString(),
+      },
+      ai: {
+        confidenceScore: 1,
+        generationReason: 'Imported via ProductIntelligenceAgent',
+        generatedBy: 'product-intelligence-agent',
+        history: [],
+      },
+      images,
+      price,
+    },
+  };
+
+ return {
+  status: "success",
+  data: { uco },
+  message: "Product successfully extracted",
+};
+} // process()
+
+} // ProductIntelligenceAgent
