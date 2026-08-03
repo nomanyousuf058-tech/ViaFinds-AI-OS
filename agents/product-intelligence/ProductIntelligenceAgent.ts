@@ -112,37 +112,61 @@ bullets = result.bullets;
 
   const { ContentType } = require('../../core/uco/ContentType');
 
-  const uco = {
-    uuid: `uco-${context.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
-    contentType: ContentType.PRODUCT,
-    title: extracted.title || 'Imported Product',
-    slug: (extracted.title || 'imported-product')
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-'),
-    description: extracted.description || '',
-    summary: extracted.summary || '',
-    tags: extracted.tags || [],
-    language: 'en',
-    createdDate: new Date().toISOString(),
-    updatedDate: new Date().toISOString(),
-    version: 1,
-    metadata: {
-      source: {
-        url: finalUrl || url,
-        network: 'unknown',
-        timestamp: new Date().toISOString(),
-      },
-      ai: {
-        confidenceScore: 1,
-        generationReason: 'Imported via ProductIntelligenceAgent',
-        generatedBy: 'product-intelligence-agent',
-        history: [],
-      },
-      images,
-      price,
-    },
-  };
+ const uco = {
+  uuid: `uco-${context.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
 
+  contentType: ContentType.PRODUCT,
+
+ title: extracted.title || title,
+
+  slug:
+    extracted.slug ||
+    extracted.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+
+ description: extracted.description || description,
+
+  summary: extracted.summary,
+
+  tags: extracted.tags,
+
+  brand: extracted.brand,
+
+  keyFeatures: extracted.keyFeatures,
+
+  specifications: extracted.specifications,
+
+  pros: extracted.pros,
+
+  cons: extracted.cons,
+
+  faq: extracted.faq,
+
+  buyingAdvice: extracted.buyingGuide,
+
+  price: extracted.price,
+
+  gallery: images,
+
+  productUrl: finalUrl,
+
+  affiliateUrl: finalUrl,
+
+  affiliateNetwork: "Amazon",
+metadata: {
+  source: {
+    url: finalUrl,
+    network: "Amazon",
+    timestamp: new Date().toISOString(),
+  },
+
+  ai: {
+    confidenceScore: extracted.confidence || 1,
+    generationReason: "AI Product Extraction",
+    generatedBy: "product-intelligence-agent",
+    history: [],
+  },
+},
+}
  return {
   status: "success",
   data: { uco },
