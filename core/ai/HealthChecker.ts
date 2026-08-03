@@ -9,6 +9,26 @@ const REQUIRES_API_KEY: Set<AIProviderType> = new Set([
   AIProviderType.OPENAI,
   AIProviderType.CLAUDE,
   AIProviderType.OPENROUTER,
+  AIProviderType.GROQ,
+  AIProviderType.DEEPSEEK,
+  AIProviderType.MISTRAL,
+  
+  AIProviderType.GOOGLE_IMAGEN,
+  AIProviderType.BFL,
+  AIProviderType.IDEOGRAM,
+  AIProviderType.LEONARDO,
+  AIProviderType.FAL,
+  AIProviderType.REPLICATE,
+  AIProviderType.STABILITY_AI,
+  
+  AIProviderType.GOOGLE_VEO,
+  AIProviderType.RUNWAY,
+  AIProviderType.KLING,
+  AIProviderType.PIKA,
+  AIProviderType.LUMA,
+  AIProviderType.HAIPER,
+  AIProviderType.FAL_VIDEO,
+  AIProviderType.REPLICATE_VIDEO,
 ]);
 
 export class HealthChecker {

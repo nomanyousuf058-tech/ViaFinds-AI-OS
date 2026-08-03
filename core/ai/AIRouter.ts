@@ -10,20 +10,27 @@ const REQUIRES_API_KEY: Set<AIProviderType> = new Set([
   AIProviderType.OPENAI,
   AIProviderType.CLAUDE,
   AIProviderType.OPENROUTER,
+  AIProviderType.GROQ,
+  AIProviderType.DEEPSEEK,
+  AIProviderType.MISTRAL,
 ]);
 
 export class AIRouter {
   /**
    * Priority order — Gemini is the primary development provider.
-   * Ollama is the local fallback. Cloud providers follow.
    */
   private providerPriority: AIProviderType[] = [
     AIProviderType.GEMINI,
-    AIProviderType.OLLAMA,
+    AIProviderType.GROQ,
+    AIProviderType.OPENROUTER,
+    AIProviderType.DEEPSEEK,
+    AIProviderType.MISTRAL,
     AIProviderType.OPENAI,
     AIProviderType.CLAUDE,
-    AIProviderType.OPENROUTER,
+    AIProviderType.OLLAMA,
   ];
+
+  private providersLoaded = false;
 
   /**
    * Routes the prompt to the best available provider based on priority and health.
@@ -31,6 +38,12 @@ export class AIRouter {
    * Stops immediately after the first successful response.
    */
   public async route(payload: AIPromptPayload, preferredProvider?: AIProviderType): Promise<AIProviderResponse> {
+    if (!this.providersLoaded) {
+      const { ProviderLoader } = require('../../providers/ProviderLoader');
+      await ProviderLoader.loadProviders();
+      this.providersLoaded = true;
+    }
+
     const sequence = this.getRoutingSequence(preferredProvider);
     const report: string[] = [];
 
@@ -43,7 +56,14 @@ export class AIRouter {
       const config = defaultProviderConfigs[providerType];
       const provider = providerRegistry.getProvider(providerType);
       const isRegistered = !!provider;
-      const isHealthy = healthChecker.isAvailable(providerType);
+      let isHealthy = healthChecker.isAvailable(providerType);
+
+      // --- Lazy Health Check ---
+      if (isRegistered && !healthChecker.getStatus(providerType)) {
+        const status = await healthChecker.checkProvider(providerType);
+        isHealthy = status.isAvailable;
+      }
+
       const model = config?.defaultModel ?? 'N/A';
       const isConfigured = this.isProviderConfigured(providerType);
 
@@ -59,7 +79,7 @@ export class AIRouter {
         const reason = 'missing API key';
         logger.warn(`  Provider error: ${reason} — skipping`);
         logger.info('--------------------------------');
-        report.push(`${providerType}: ${reason}`);
+        report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
         continue;
       }
 
@@ -68,7 +88,7 @@ export class AIRouter {
         const reason = 'not registered in ProviderRegistry';
         logger.warn(`  Provider error: ${reason} — skipping`);
         logger.info('--------------------------------');
-        report.push(`${providerType}: ${reason}`);
+        report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
         continue;
       }
 
@@ -78,7 +98,7 @@ export class AIRouter {
         const reason = healthStatus?.error ?? 'health check failed or not run';
         logger.warn(`  Provider error: ${reason} — skipping`);
         logger.info('--------------------------------');
-        report.push(`${providerType}: ${reason}`);
+        report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
         continue;
       }
 
@@ -87,14 +107,22 @@ export class AIRouter {
         const response = await provider!.generateCompletion(payload);
         logger.info(`  Provider response: Success (model=${response.model}, tokens=${response.totalTokens ?? 'N/A'})`);
         logger.info('--------------------------------');
+        report.push(`${this.formatProviderName(providerType)}:\nSUCCESS`);
         // Stop immediately after a successful response — no further fallback.
         return response;
       } catch (error) {
         const errMessage = error instanceof Error ? error.message : String(error);
         logger.error(`  Provider error: ${errMessage}`);
         logger.info('--------------------------------');
-        report.push(`${providerType}: ${errMessage}`);
-        // Continue to the next provider in the sequence
+        report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${errMessage}`);
+        
+        if (this.isFallbackError(errMessage)) {
+          // Non-fatal routing error. Continue to the next provider.
+          continue;
+        } else {
+          // Fatal error (e.g. 400 Bad Request, syntax error). Stop routing immediately.
+          throw error;
+        }
       }
     }
 
@@ -102,15 +130,44 @@ export class AIRouter {
     logger.error('================================');
     logger.error('AIRouter: All providers failed.');
     logger.error('Detailed provider report:');
-    report.forEach((line) => logger.error(`  • ${line}`));
+    report.forEach((line) => logger.error(`\n${line}`));
     logger.error('================================');
 
     const finalError = new Error(
-      `Pipeline failed: All providers failed to generate a response.\n\n` +
-      `Provider report:\n${JSON.stringify(report, null, 2)}`
+      `Pipeline failed:\nAll providers failed to generate a response.\n\n` +
+      `Provider report:\n\n${report.join('\n\n')}`
     );
     (finalError as any).providerReport = report;
     throw finalError;
+  }
+
+  private formatProviderName(type: string): string {
+    const map: Record<string, string> = {
+      gemini: 'Gemini',
+      groq: 'Groq',
+      openrouter: 'OpenRouter',
+      deepseek: 'DeepSeek',
+      mistral: 'Mistral',
+      openai: 'OpenAI',
+      claude: 'Claude',
+      ollama: 'Ollama',
+    };
+    return map[type] || (type.charAt(0).toUpperCase() + type.slice(1));
+  }
+
+  private isFallbackError(errorText: string): boolean {
+    const text = errorText.toLowerCase();
+    const fallbackTriggers = [
+      '429', 'too many requests', 'rate limited', 'rate_limit_exceeded',
+      '401', 'billing required', 'billing_required', 'unauthorized',
+      '402', 'payment required', 'payment_required',
+      '403', 'quota exhausted', 'insufficient_quota', 'free tier exhausted', 'quota exceeded',
+      '404', 'model unavailable', 'invalid model', 'not found',
+      '408', 'timeout',
+      '500', '502', '503', '504',
+      'network error', 'network failure', 'fetch failed', 'econnrefused'
+    ];
+    return fallbackTriggers.some(trigger => text.includes(trigger));
   }
 
   /**

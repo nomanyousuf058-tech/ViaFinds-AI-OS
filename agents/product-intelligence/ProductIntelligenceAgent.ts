@@ -1,3 +1,4 @@
+import { browserExtractor } from '../../lib/browser/browserExtractor';
 import { BaseAgent } from '../core/BaseAgent';
 import { AgentIdentity, AgentConfiguration, AgentCapabilities, AgentContext } from '../core/types';
 import { logger } from '../../lib/logger';
@@ -23,14 +24,7 @@ export class ProductIntelligenceAgent extends BaseAgent<any, any> {
   };
 
   public async initialize(): Promise<void> {
-    const { promptLibrary } = require('../../core/ai/prompts/PromptLibrary');
-    promptLibrary.register({
-      id: 'product_extraction',
-      version: 1,
-      category: 'extraction',
-      template: 'Extract the following fields from the given text: title, description, summary, tags (array), and brand. Format as valid JSON.\nText:\n{{rawProductData}}',
-      requiredVariables: ['rawProductData'],
-    });
+    // Prompts are now loaded centrally via PromptLibrary startup
   }
 
   protected async process(input: any, context: AgentContext): Promise<any> {
@@ -38,18 +32,40 @@ export class ProductIntelligenceAgent extends BaseAgent<any, any> {
     let rawText = '';
     
     try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const html = await res.text();
+      const html = await browserExtractor(url);
+
+console.log("===== RAW HTML =====");
+console.log(html.substring(0, 1500));
+console.log("====================");
+
+rawText = html
+  .replace(/<[^>]*>?/gm, ' ')
+  .replace(/\s+/g, ' ')
+  .substring(0, 15000);
+
+console.log("===== RAW TEXT =====");
+console.log(rawText.substring(0, 2000));
+console.log("====================");
+      console.log("===== RAW HTML =====");
+console.log(html.substring(0,1500));
+console.log("====================");
       // Simple HTML tag stripping for text content
       rawText = html.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').substring(0, 15000);
+      console.log("===== RAW TEXT =====");
+console.log(rawText.substring(0, 2000));
+console.log("====================");
     } catch (err) {
       logger.warn(`Failed to fetch URL ${url}, proceeding with empty text`);
       rawText = url;
     }
+    
 
     const { aiManager } = require('../../core/ai/AIManager');
+    
     const aiResult = await aiManager.execute('product_extraction', { rawProductData: rawText });
+    console.log("===== AI RESULT =====");
+console.log(aiResult.content);
+console.log("=====================");
     
     let extracted: any = {};
     try {

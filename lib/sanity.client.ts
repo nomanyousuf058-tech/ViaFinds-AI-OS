@@ -2,8 +2,8 @@ import { createClient } from '@sanity/client'
 import { createImageUrlBuilder } from '@sanity/image-url'
 import type { SanityImageSource } from '@sanity/image-url'
 
-export const PROJECT_ID = 'e44z7hta'
-export const DATASET = 'production'
+export const PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'e44z7hta'
+export const DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 export const API_VERSION = '2024-01-01'
 
 // ── Primary client (CDN, for pages) ──────────────────────────────────────────
@@ -17,13 +17,21 @@ export const client = createClient({
 
 // ── No-CDN client (for revalidation, fresh data) ─────────────────────────────
 export const clientNoCdn = createClient({
+    projectId: PROJECT_ID,
+    dataset: DATASET,
+    apiVersion: API_VERSION,
+    useCdn: false,
+    token: process.env.SANITY_TOKEN,
+   perspective: "published",
+})
+export const clientDrafts = createClient({
   projectId: PROJECT_ID,
   dataset: DATASET,
   apiVersion: API_VERSION,
   useCdn: false,
-  perspective: 'published',
+  token: process.env.SANITY_TOKEN,
+  perspective: 'raw',
 })
-
 // ── Image URL Builder ─────────────────────────────────────────────────────────
 const builder = createImageUrlBuilder(client)
 

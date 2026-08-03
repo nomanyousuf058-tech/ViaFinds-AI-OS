@@ -5,8 +5,8 @@ import { client } from '../../../lib/sanity.client';
 import { createClient } from '@sanity/client';
 
 const writeClient = createClient({
-  projectId: 'e44z7hta',
-  dataset: 'production',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'e44z7hta',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
   token: process.env.SANITY_TOKEN,
   useCdn: false,
@@ -28,7 +28,7 @@ export async function publishDraft(draftId: string) {
   const publishedDoc = {
     ...draft,
     _id: publishedId,
-    status: 'published',
+    status: 'published', // Depending on your schema, this field might be required
   };
 
   // Remove system fields that shouldn't be written directly
@@ -46,6 +46,21 @@ export async function publishDraft(draftId: string) {
   } catch (error) {
     console.error('Failed to publish draft in Sanity:', error);
     throw new Error('Failed to publish draft.');
+  }
+
+  revalidatePath('/dashboard/draft-queue');
+}
+
+export async function rejectDraft(draftId: string) {
+  if (!process.env.SANITY_TOKEN) {
+    throw new Error('SANITY_TOKEN environment variable not set.');
+  }
+
+  try {
+    await writeClient.delete(draftId);
+  } catch (error) {
+    console.error('Failed to reject draft in Sanity:', error);
+    throw new Error('Failed to reject draft.');
   }
 
   revalidatePath('/dashboard/draft-queue');

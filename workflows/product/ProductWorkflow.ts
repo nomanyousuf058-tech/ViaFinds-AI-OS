@@ -30,6 +30,7 @@ export class ProductWorkflow extends BaseWorkflow {
   }
 
   protected async execute(input: WorkflowInput, result: WorkflowResult): Promise<void> {
+    console.log('STEP 1\nProductWorkflow started');
     const url = input.payload.productUrl || input.payload.affiliateLink;
 
     const productAgent = agentRegistry.getAgent('product-intelligence-agent');
@@ -50,6 +51,8 @@ export class ProductWorkflow extends BaseWorkflow {
     }
 
     let uco = productAgentResult.data.uco as UniversalContent;
+    console.log('STEP 2\nProductIntelligenceAgent finished');
+    console.log('Generated UCO:', JSON.stringify(uco, null, 2));
 
     // 2. Validate UCO
     const qualityAgent = agentRegistry.getAgent('quality-intelligence-agent');
@@ -62,8 +65,11 @@ export class ProductWorkflow extends BaseWorkflow {
         uco = qualityResult.data.uco;
       }
     }
+    
+    console.log('STEP 3\nQualityWorkflow finished');
 
     // 3. Save Draft to Sanity (Publisher Workflow)
+    console.log('STEP 4\nPublisherWorkflow started');
     const { workflowRegistry } = require('../core/WorkflowRegistry');
     const publisherWorkflow = workflowRegistry.getWorkflow(WorkflowType.PUBLISHER);
     if (!publisherWorkflow) {

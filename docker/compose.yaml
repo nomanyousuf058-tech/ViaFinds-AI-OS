@@ -17,7 +17,7 @@ services:
     container_name: viafinds-pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@viafinds.local
+      PGADMIN_DEFAULT_EMAIL: admin@viafinds.com
       PGADMIN_DEFAULT_PASSWORD: Stranger.boy058
     ports:
       - "5050:80"

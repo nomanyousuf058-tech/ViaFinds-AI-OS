@@ -23,14 +23,7 @@ export class QualityIntelligenceAgent extends BaseAgent<any, any> {
   };
 
   public async initialize(): Promise<void> {
-    const { promptLibrary } = require('../../core/ai/prompts/PromptLibrary');
-    promptLibrary.register({
-      id: 'product_validation',
-      version: 1,
-      category: 'validation',
-      template: 'Evaluate the following product data. Provide a quality score between 0.0 and 1.0, and a list of improvements. Format as JSON with "score" and "improvements" keys.\nData:\n{{draftContent}}',
-      requiredVariables: ['draftContent'],
-    });
+    // Prompts are now loaded centrally via PromptLibrary startup
   }
 
   protected async process(input: any, context: AgentContext): Promise<any> {

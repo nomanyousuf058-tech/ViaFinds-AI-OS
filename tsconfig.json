@@ -45,7 +45,6 @@
     "images",
     "logs",
     "prompts",
-    "scripts",
-    "workflows"
+    "scripts"
   ]
 }

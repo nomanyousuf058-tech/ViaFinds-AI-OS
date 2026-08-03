@@ -4,6 +4,24 @@ export enum AIProviderType {
   OPENAI = 'openai',
   CLAUDE = 'claude',
   OPENROUTER = 'openrouter',
+  GROQ = 'groq',
+  DEEPSEEK = 'deepseek',
+  MISTRAL = 'mistral',
+  GOOGLE_IMAGEN = 'google_imagen',
+  BFL = 'bfl',
+  IDEOGRAM = 'ideogram',
+  LEONARDO = 'leonardo',
+  FAL = 'fal',
+  REPLICATE = 'replicate',
+  STABILITY_AI = 'stability_ai',
+  GOOGLE_VEO = 'google_veo',
+  RUNWAY = 'runway',
+  KLING = 'kling',
+  PIKA = 'pika',
+  LUMA = 'luma',
+  HAIPER = 'haiper',
+  FAL_VIDEO = 'fal_video',
+  REPLICATE_VIDEO = 'replicate_video',
 }
 
 export enum AIResponseType {
@@ -18,6 +36,7 @@ export interface AIProviderConfig {
   defaultModel: string;
   timeoutMs?: number;
   maxRetries?: number;
+  disabled?: boolean;
 }
 
 export interface AIOptions {

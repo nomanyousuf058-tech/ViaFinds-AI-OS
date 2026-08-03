@@ -31,6 +31,7 @@ export abstract class BaseWorkflow {
     try {
       // 1. Validation
       result.status = WorkflowStatus.VALIDATING;
+      console.log(`[START] Workflow ${this.config.name} (ID: ${input.workflowId})`);
       logger.workflow({
         workflowId: input.workflowId,
         message: `Validating input for ${this.config.name}`,
@@ -83,6 +84,7 @@ export abstract class BaseWorkflow {
     } catch (error) {
       result.status = WorkflowStatus.FAILED;
       result.errors.push((error as Error).message);
+      console.log(`[FAILED] Workflow ${this.config.name} | Duration: ${Date.now() - startMs}ms | (ID: ${input.workflowId})`);
       logger.error(`Workflow ${this.config.name} failed`, error as Error, {
         workflowId: input.workflowId,
       });
@@ -99,6 +101,12 @@ export abstract class BaseWorkflow {
     if (!result.errors) result.errors = [];
     if (!result.warnings) result.warnings = [];
     if (!result.data) result.data = {};
+
+    if (result.status === WorkflowStatus.COMPLETED) {
+      console.log(`[SUCCESS] Workflow ${this.config.name} | Duration: ${result.durationMs}ms | (ID: ${result.workflowId})`);
+    } else {
+      console.log(`[FAILED] Workflow ${this.config.name} | Duration: ${result.durationMs}ms | (ID: ${result.workflowId})`);
+    }
 
     logger.workflow({
       workflowId: result.workflowId,

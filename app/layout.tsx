@@ -9,6 +9,12 @@ import ClarityAnalytics from '@/components/Clarity'
 import { client } from '@/lib/sanity.client'
 import { ALL_CATEGORIES_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY } from '@/lib/sanity.queries'
 import type { SiteSettings, Navigation, Category } from '@/lib/types'
+import { ProviderLoader } from '@/providers/ProviderLoader'
+
+// Automatically load and initialize all AI, image, and video providers on startup
+ProviderLoader.loadProviders().catch((err) => {
+  console.error('Failed to initialize AI providers on startup:', err)
+})
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
