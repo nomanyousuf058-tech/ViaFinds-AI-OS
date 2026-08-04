@@ -112,38 +112,48 @@ bullets = result.bullets;
 
   const { ContentType } = require('../../core/uco/ContentType');
 
+  const slugTitle = extracted?.slug || extracted?.title || title || "untitled-product";
+  const slug = slugTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
  const uco = {
   uuid: `uco-${context.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
-
   contentType: ContentType.PRODUCT,
 
- title: extracted.title || title,
-
-  slug:
-    extracted.slug ||
-    extracted.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-
- description: extracted.description || description,
-
+  title: extracted.title || title,
+  slug,
+  description: extracted.description || description,
+  shortDescription: extracted.shortDescription,
   summary: extracted.summary,
-
   tags: extracted.tags,
+  keywords: extracted.keywords,
 
   brand: extracted.brand,
+  manufacturer: extracted.manufacturer,
+  model: extracted.model,
+  category: extracted.category,
+  subcategory: extracted.subcategory,
+  productType: extracted.productType,
+
+  bestCategory: extracted.bestCategory,
+  parentCategory: extracted.parentCategory,
+  level2Category: extracted.level2Category,
+  level3Category: extracted.level3Category,
+  level4Category: extracted.level4Category,
+  level5Category: extracted.level5Category,
+  suggestedNewCategory: extracted.suggestedNewCategory,
+  suggestedNewBrand: extracted.suggestedNewBrand,
+  suggestedMerchant: extracted.suggestedMerchant,
 
   keyFeatures: extracted.keyFeatures,
-
   specifications: extracted.specifications,
-
   pros: extracted.pros,
-
   cons: extracted.cons,
-
   faq: extracted.faq,
-
-  buyingAdvice: extracted.buyingGuide,
+  buyingAdvice: extracted.buyingAdvice || extracted.buyingGuide,
 
   price: extracted.price,
+  currency: extracted.currency || "USD",
+  availability: extracted.availability || "In Stock",
 
   gallery: images,
 

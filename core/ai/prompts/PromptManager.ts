@@ -18,7 +18,8 @@ export class PromptManager {
     // Simple string replacement for variables
     let userPrompt = template.template;
     for (const [key, value] of Object.entries(variables)) {
-      userPrompt = userPrompt.replace(new RegExp(`{{${key}}}`, 'g'), String(value));
+      const replacement = Array.isArray(value) ? JSON.stringify(value, null, 2) : String(value);
+      userPrompt = userPrompt.replace(new RegExp(`{{${key}}}`, 'g'), replacement);
     }
 
     return {

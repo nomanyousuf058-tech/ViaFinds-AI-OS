@@ -74,9 +74,38 @@ uco.metadata.publishing  = {
       seoTitle: uco.metadata.seo?.metaTitle,
       seoDescription: uco.metadata.seo?.metaDescription,
       seoKeywords: uco.metadata.seo?.primaryKeyword,
-      affiliateUrl: (uco.metadata as any).source?.url,
-      affiliateNetwork: (uco.metadata as any).source?.network,
+      affiliateUrl: (uco.metadata as any).source?.url || uco.affiliateUrl,
+      affiliateNetwork: (uco.metadata as any).source?.network || uco.affiliateNetwork,
       qualityScore: uco.metadata.quality?.overallScore || uco.metadata.quality?.contentScore,
+      
+      // Enriched Product Details
+      brand: uco.brand,
+      manufacturer: uco.manufacturer,
+      model: uco.model,
+      price: typeof uco.price === 'string' ? parseFloat(uco.price) || 0 : uco.price,
+      currency: uco.currency,
+      availability: uco.availability,
+      gallery: uco.gallery,
+      keyFeatures: uco.keyFeatures,
+      specifications: uco.specifications,
+      pros: uco.pros,
+      cons: uco.cons,
+      faq: uco.faq,
+      buyingAdvice: uco.buyingAdvice,
+      
+      // Category & Taxonomy Suggestions
+      suggestedCategory: uco.category,
+      subcategory: uco.subcategory,
+      productType: uco.productType,
+      bestCategory: uco.bestCategory,
+      parentCategory: uco.parentCategory,
+      level2Category: uco.level2Category,
+      level3Category: uco.level3Category,
+      level4Category: uco.level4Category,
+      level5Category: uco.level5Category,
+      suggestedNewCategory: uco.suggestedNewCategory,
+      suggestedNewBrand: uco.suggestedNewBrand,
+      suggestedMerchant: uco.suggestedMerchant,
     };
 
     let savedInSanity = false;

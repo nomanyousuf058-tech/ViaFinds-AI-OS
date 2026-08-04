@@ -17,12 +17,56 @@ export default defineType({
       return { ...field, group: field.group || 'content' }
     }),
     
-    // Product-specific details
+    // Core product details
+    defineField({
+      name: 'price',
+      title: 'Price',
+      type: 'number',
+      group: 'details',
+    }),
+    defineField({
+      name: 'currency',
+      title: 'Currency',
+      type: 'string',
+      initialValue: 'USD',
+      group: 'details',
+    }),
+    defineField({
+      name: 'availability',
+      title: 'Availability',
+      type: 'string',
+      group: 'details',
+    }),
+    defineField({
+      name: 'gallery',
+      title: 'Image Gallery',
+      type: 'array',
+      of: [{ type: 'url' }],
+      group: 'content',
+    }),
+    defineField({
+      name: 'shortDescription',
+      title: 'Short Description',
+      type: 'text',
+      rows: 2,
+      group: 'content',
+    }),
     defineField({
       name: 'brand',
       title: 'Brand',
-      type: 'reference',
-      to: [{ type: 'brand' }],
+      type: 'string', // Changed to string to safely ingest AI text without reference dependencies
+      group: 'details',
+    }),
+    defineField({
+      name: 'manufacturer',
+      title: 'Manufacturer',
+      type: 'string',
+      group: 'details',
+    }),
+    defineField({
+      name: 'model',
+      title: 'Model',
+      type: 'string',
       group: 'details',
     }),
     defineField({
@@ -82,6 +126,20 @@ export default defineType({
       type: 'text',
       group: 'details',
     }),
+
+    // Category & taxonomy suggestions (AI Generated)
+    defineField({ name: 'suggestedCategory', title: 'Suggested Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'subcategory', title: 'Subcategory', type: 'string', group: 'metadata' }),
+    defineField({ name: 'productType', title: 'Product Type', type: 'string', group: 'metadata' }),
+    defineField({ name: 'bestCategory', title: 'Best Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'parentCategory', title: 'Parent Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'level2Category', title: 'Level 2 Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'level3Category', title: 'Level 3 Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'level4Category', title: 'Level 4 Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'level5Category', title: 'Level 5 Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'suggestedNewCategory', title: 'Suggested New Category', type: 'string', group: 'metadata' }),
+    defineField({ name: 'suggestedNewBrand', title: 'Suggested New Brand', type: 'string', group: 'metadata' }),
+    defineField({ name: 'suggestedMerchant', title: 'Suggested Merchant', type: 'string', group: 'metadata' }),
     
     metadataField,
   ],
@@ -89,7 +147,7 @@ export default defineType({
     select: {
       title: 'title',
       subtitle: 'metadata.publishing.status',
-      media: 'metadata.image.featuredImage',
+      media: 'gallery.0', // Read from the new gallery array
     },
     prepare({ title, subtitle, media }) {
       return {

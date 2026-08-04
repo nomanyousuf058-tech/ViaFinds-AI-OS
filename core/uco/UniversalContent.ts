@@ -14,5 +14,23 @@ export interface UniversalContent {
   updatedDate: string;
   version: number;
 
+  brand?: string;
+  manufacturer?: string;
+  model?: string;
+  price?: number;
+  currency?: string;
+  availability?: string;
+  gallery?: string[];
+  keyFeatures?: string[];
+  specifications?: any[];
+  pros?: string[];
+  cons?: string[];
+  faq?: any[];
+  buyingAdvice?: string;
+  affiliateUrl?: string;
+  affiliateNetwork?: string;
+  productUrl?: string;
+
   metadata: Metadata;
+  [key: string]: any;
 }
