@@ -19,4 +19,19 @@ export interface Metadata {
   lifecycle?: Lifecycle;
   source?: Source;
   media?: any;
+
+  // AI taxonomy suggestions
+  category?: string;
+  subcategory?: string;
+  bestCategory?: string;
+  parentCategory?: string;
+  level2Category?: string;
+  level3Category?: string;
+  level4Category?: string;
+  level5Category?: string;
+
+  
+  // Merchant suggestions
+  merchant?: string;
+  suggestedMerchant?: string;
 }

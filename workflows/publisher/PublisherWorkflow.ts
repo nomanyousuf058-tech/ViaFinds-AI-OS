@@ -5,6 +5,7 @@ import { UniversalContent } from '../../core/uco/UniversalContent';
 import { createClient } from '@sanity/client';
 import { logger } from '../../lib/logger';
 import { Status } from '../../core/uco/Status';
+import crypto from 'node:crypto';
 
 export class PublisherWorkflow extends BaseWorkflow {
   public readonly config: WorkflowConfiguration = {
@@ -37,25 +38,114 @@ export class PublisherWorkflow extends BaseWorkflow {
       { finalContent: uco },
       { workflowId: input.workflowId }
     );
-    console.log("Publisher agent completed");
+    logger.info('Publisher agent completed', { workflowId: input.workflowId });
 
-    // Save as draft in Sanity CMS
     // Set publishing status metadata
     if (!uco.metadata) {
-    uco.metadata = {} as any;
-}
-
-uco.metadata.publishing  = {
+      uco.metadata = {} as any;
+    }
+    uco.metadata.publishing = {
       status: Status.DRAFT,
       approvalStatus: 'pending',
       published: false,
       scheduledTime: undefined,
-    } as any; // Typecast because approvalStatus and published might not be in PublishingMetadata
+    } as any;
 
-    // Sanity Document mapping (ensure it fits the schema format)
-    const sanityDoc = {
+    let savedInSanity = false;
+    const token = process.env.SANITY_TOKEN;
+    if (!token) {
+      logger.warn('SANITY_TOKEN not set — draft cannot be saved to Sanity CMS', {
+        workflowId: input.workflowId,
+      });
+      result.errors.push('SANITY_TOKEN is required to publish.');
+      return;
+    }
+
+    const writeClient = createClient({
+      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'e44z7hta',
+      dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+      apiVersion: '2024-01-01',
+      token,
+      useCdn: false,
+    });
+
+    // ── Taxonomy Resolver ────────────────────────────────────────────────────
+    // Resolves a human-readable string (e.g. "Electronics") to a Sanity
+    // Reference object ({ _type: 'reference', _ref: '<uuid>' }) by querying
+    // for documents of the given type whose title or name matches.
+    const resolveOrCreateRef = async (type: string, name: string | undefined | null): Promise<{ _type: 'reference'; _ref: string } | undefined> => {
+      if (!name) return undefined;
+      try {
+        const query = `*[_type == $type && (title == $name || name == $name)][0]{_id}`;
+        const match = await writeClient.fetch(query, { type, name });
+        if (match?._id) {
+          logger.info(`Resolved ${type} "${name}" → ${match._id}`);
+          return { _type: 'reference', _ref: match._id };
+        }
+        
+        // Auto-repair: create missing document
+        logger.info(`Auto-creating missing ${type} "${name}"`);
+        const slugStr = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        const docId = `${type}-${crypto.randomUUID()}`;
+        
+        const newDoc: any = {
+          _id: docId,
+          _type: type,
+          uuid: crypto.randomUUID(),
+          title: name,
+          contentType: type,
+          slug: { _type: 'slug', current: slugStr },
+        };
+        
+        if (type === 'category') {
+          newDoc.name = name;
+          newDoc.level = 1; // Default to top level if creating from scratch
+        }
+        
+        await writeClient.createIfNotExists(newDoc);
+        logger.info(`Successfully created missing ${type} → ${docId}`);
+        return { _type: 'reference', _ref: docId };
+      } catch (e) {
+        logger.warn(`Failed to resolve/create ${type} reference for "${name}"`);
+        console.error(e);
+      }
+      return undefined;
+    };
+
+    // Resolve taxonomy references in parallel for speed
+    const [
+      brandRef, mfgRef, merchantRef,
+      categoryRef, subcategoryRef, bestCategoryRef,
+      parentCategoryRef, level2Ref, level3Ref, level4Ref, level5Ref,
+    ] = await Promise.all([
+      resolveOrCreateRef('brand', uco.brand),
+      resolveOrCreateRef('manufacturer', uco.manufacturer),
+      resolveOrCreateRef(
+        "merchant",
+        uco.metadata?.merchant || uco.metadata?.suggestedMerchant
+      ),
+      resolveOrCreateRef('category', uco.metadata?.category),
+      resolveOrCreateRef('category', uco.metadata?.subcategory),
+      resolveOrCreateRef('category', uco.metadata?.bestCategory),
+      resolveOrCreateRef('category', uco.metadata?.parentCategory),
+      resolveOrCreateRef('category', uco.metadata?.level2Category),
+      resolveOrCreateRef('category', uco.metadata?.level3Category),
+      resolveOrCreateRef('category', uco.metadata?.level4Category),
+      resolveOrCreateRef('category', uco.metadata?.level5Category),
+    ]);
+
+    // ── Sanity Document Mapping ──────────────────────────────────────────────
+    const addKeys = (items: any[] = []) =>
+      items.map((item) => ({
+        _key: item._key ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        ...item,
+      }));
+
+    const sanityDoc: Record<string, unknown> = {
       _type: 'product',
-      _id: `drafts.${uco.uuid}`, // Enforce "drafts." prefix for manual approval
+      _id: `drafts.${uco.uuid}`,
+
+      // Universal Fields
       uuid: uco.uuid,
       contentType: 'product',
       language: uco.language || 'en',
@@ -63,125 +153,122 @@ uco.metadata.publishing  = {
       title: uco.title,
       slug: {
         _type: 'slug',
-        current: (uco.metadata.seo as any)?.slug || uco.slug,
+        current: uco.slug,
       },
       description: uco.description,
       summary: uco.summary,
-      tags: uco.tags,
-      createdDate: uco.createdDate,
-      updatedDate: uco.updatedDate,
-      // Metadata fields mapped to schema structure
-      seoTitle: uco.metadata.seo?.metaTitle,
-      seoDescription: uco.metadata.seo?.metaDescription,
-      seoKeywords: uco.metadata.seo?.primaryKeyword,
-      affiliateUrl: (uco.metadata as any).source?.url || uco.affiliateUrl,
-      affiliateNetwork: (uco.metadata as any).source?.network || uco.affiliateNetwork,
-      qualityScore: uco.metadata.quality?.overallScore || uco.metadata.quality?.contentScore,
-      
-      // Enriched Product Details
-      brand: uco.brand,
-      manufacturer: uco.manufacturer,
+      tags: uco.tags && uco.tags.length > 0 ? uco.tags : undefined,
+      createdDate: new Date().toISOString(),
+      updatedDate: new Date().toISOString(),
+
+      // SEO (top-level fields in schema)
+      seoTitle: uco.metadata?.seo?.metaTitle,
+      seoDescription: uco.metadata?.seo?.metaDescription,
+      seoKeywords: uco.metadata?.seo?.primaryKeyword,
+
+      // Quality
+      qualityScore: uco.metadata?.quality?.overallScore || uco.metadata?.quality?.contentScore,
+
+      // Product Details
+      brand: brandRef,
+      manufacturer: mfgRef,
       model: uco.model,
-      price: typeof uco.price === 'string' ? parseFloat(uco.price) || 0 : uco.price,
+      price: typeof uco.price === 'string' ? parseFloat(uco.price) || undefined : uco.price,
       currency: uco.currency,
       availability: uco.availability,
-      gallery: uco.gallery,
-      keyFeatures: uco.keyFeatures,
-      specifications: uco.specifications,
-      pros: uco.pros,
-      cons: uco.cons,
-      faq: uco.faq,
+
+      // Gallery — stored as plain URL strings (schema: array of url)
+      gallery: uco.gallery && uco.gallery.length > 0 ? uco.gallery : undefined,
+
+      // Product content
+      keyFeatures: uco.keyFeatures && uco.keyFeatures.length > 0 ? uco.keyFeatures : undefined,
+      specifications: uco.specifications && uco.specifications.length > 0 ? addKeys(uco.specifications) : undefined,
+      pros: uco.pros && uco.pros.length > 0 ? uco.pros : undefined,
+      cons: uco.cons && uco.cons.length > 0 ? uco.cons : undefined,
+      faq: uco.faq && uco.faq.length > 0 ? addKeys(uco.faq) : undefined,
       buyingAdvice: uco.buyingAdvice,
-      
-      // Category & Taxonomy Suggestions
-      suggestedCategory: uco.category,
-      subcategory: uco.subcategory,
+
+      // Category & Taxonomy References
+      suggestedCategory: categoryRef,
+      subcategory: subcategoryRef,
       productType: uco.productType,
-      bestCategory: uco.bestCategory,
-      parentCategory: uco.parentCategory,
-      level2Category: uco.level2Category,
-      level3Category: uco.level3Category,
-      level4Category: uco.level4Category,
-      level5Category: uco.level5Category,
-      suggestedNewCategory: uco.suggestedNewCategory,
-      suggestedNewBrand: uco.suggestedNewBrand,
-      suggestedMerchant: uco.suggestedMerchant,
+      bestCategory: bestCategoryRef,
+      parentCategory: parentCategoryRef,
+      level2Category: level2Ref,
+      level3Category: level3Ref,
+      level4Category: level4Ref,
+      level5Category: level5Ref,
+
+      // Fallback strings for review when refs couldn't be resolved
+      suggestedNewCategory: !categoryRef ? uco.metadata?.category : undefined,
+      suggestedNewBrand: !brandRef ? uco.brand : undefined,
+
+      // Metadata object — only write fields that exist in the schema
+      metadata: {
+        seo: uco.metadata?.seo,
+        ai: uco.metadata?.ai,
+        affiliate: {
+          ...(uco.metadata?.affiliate || {}),
+          merchant: uco.metadata?.merchant ?? uco.metadata?.suggestedMerchant,
+          merchantRef: merchantRef?._ref,
+          affiliateNetwork: (uco as any).affiliateNetwork ?? uco.metadata?.affiliate?.network,
+          affiliateUrl: (uco as any).affiliateUrl ?? uco.metadata?.affiliate?.affiliateUrl,
+        },
+        publishing: uco.metadata?.publishing,
+        source: uco.metadata?.source,
+        quality: uco.metadata?.quality,
+        // Category strings for reference / text search
+        category: uco.metadata?.category,
+        subcategory: uco.metadata?.subcategory,
+        bestCategory: uco.metadata?.bestCategory,
+        parentCategory: uco.metadata?.parentCategory,
+        level2Category: uco.metadata?.level2Category,
+        level3Category: uco.metadata?.level3Category,
+        level4Category: uco.metadata?.level4Category,
+        level5Category: uco.metadata?.level5Category,
+        merchant: uco.metadata?.merchant,
+        suggestedMerchant: uco.metadata?.suggestedMerchant,
+      },
     };
 
-    let savedInSanity = false;
-    const token = process.env.SANITY_TOKEN;
-    console.log("SANITY_TOKEN =", process.env.SANITY_TOKEN?.slice(0,20));
-    console.log("===== PUBLISHER DEBUG =====");
-console.log("Token length:", token?.length);
-console.log("Project:", process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
-console.log("Dataset:", process.env.NEXT_PUBLIC_SANITY_DATASET);
-console.log("===========================");
-
-    if (token) {
-      try {
-        const writeClient = createClient({
-          projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'e44z7hta',
-          dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-          apiVersion: '2024-01-01',
-          token,
-          useCdn: false,
-        });
-        console.log("Creating Sanity client...");
-        console.log("Sanity client created");
-
-        console.log('STEP 5\nDocument to send to Sanity:');
-        console.log(JSON.stringify(sanityDoc, null, 2));
-
-        console.log('STEP 6\nExecuting sanityClient.create()');
-        // We use createOrReplace but the user said execute create(). We'll use create() to match user's explicit instruction.
-        // Wait, if it exists, create() throws. Let's use create() if the user asked for it. 
-        // Actually, user said execute sanityClient.create().
-        console.log("About to call create()");
-        const createdDoc = await writeClient.createOrReplace(sanityDoc);
-        console.log("Create finished");
-        console.log("Publisher completed successfully");
-        console.log("UCO exists:", !!uco);
-console.log("Metadata:", uco.metadata);
-console.log("Metadata type:", typeof uco.metadata);
-        
-        console.log('Returned document id:', createdDoc._id);
-        console.log('Returned _type:', createdDoc._type);
-        console.log('Returned _id:', createdDoc._id);
-        savedInSanity = true;
-
-        console.log('STEP 8\nQuerying Sanity for created doc...');
-        const fetchResult = await writeClient.fetch(`*[_id == "${createdDoc._id}"]`);
-        console.log('Query result:', JSON.stringify(fetchResult, null, 2));
-
-        console.log('STEP 9\nChecking Draft Queue query...');
-        const draftQueueQuery = '*[_type == "product" && _id in path("drafts.**")]';
-        console.log('GROQ query:', draftQueueQuery);
-        const draftQueueResult = await writeClient.fetch(draftQueueQuery);
-        console.log('Number of returned documents:', draftQueueResult.length);
-
-        if (draftQueueResult.length === 0) {
-          console.log('Zero documents returned. Fetching all products...');
-          const allProducts = await writeClient.fetch('*[_type == "product"]');
-          console.log('All product documents:', JSON.stringify(allProducts, null, 2));
+    // Strip undefined/null keys — Sanity rejects explicit undefined values
+    const stripEmpty = (obj: Record<string, unknown>): Record<string, unknown> => {
+      const out: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(obj)) {
+        if (v === undefined || v === null) continue;
+        if (typeof v === 'object' && !Array.isArray(v)) {
+          const nested = stripEmpty(v as Record<string, unknown>);
+          if (Object.keys(nested).length > 0) out[k] = nested;
+        } else if (Array.isArray(v) && v.length === 0) {
+          // skip empty arrays
+        } else {
+          out[k] = v;
         }
-
-      } catch (err: any) {
-        console.log('STEP 7\nError during Sanity operation:');
-        console.error('Error message:', err.message);
-        console.error('Stack:', err.stack);
-       console.error("Full error:", err);
-console.error("Status:", err.statusCode);
-console.error("Details:", JSON.stringify(err.details, null, 2));
-console.error("Response:", JSON.stringify(err.response, null, 2));
-        result.errors.push(`Sanity Write Error: ${err.message}`);
-        return;
       }
-    } else {
-      console.warn('SANITY_TOKEN environment variable not set. Draft object logged but not saved to Sanity CMS.', {
-        workflowId: input.workflowId,
-        draft: sanityDoc,
+      return out;
+    };
+    const cleanDoc = stripEmpty(sanityDoc);
+
+
+    // ── Write to Sanity ──────────────────────────────────────────────────────
+    try {
+      logger.info('Writing draft to Sanity CMS', { _id: cleanDoc._id as string, title: cleanDoc.title as string });
+      const createdDoc = await writeClient.createOrReplace(cleanDoc as any);
+
+      savedInSanity = true;
+      logger.info('Draft saved successfully', {
+        _id: createdDoc._id,
+        _type: createdDoc._type,
       });
-    }
+    } catch (err: any) {
+ logger.error("Sanity write failed", err as Error);
+
+  result.errors.push(
+    `Sanity Write Error: ${err?.message || "Unknown error"}`
+  );
+
+  return;
+}
 
     result.data = {
       uco,

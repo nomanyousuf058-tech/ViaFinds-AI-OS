@@ -1,8 +1,8 @@
 import { AIProviderType, AIPromptPayload, AIProviderResponse } from './types';
 import { providerRegistry } from '../../providers/ProviderRegistry';
 import { defaultProviderConfigs } from '../../providers/ProviderConfig';
-import { healthChecker } from './HealthChecker';
 import { logger } from '../../lib/logger';
+
 
 /** Providers that require an API key to be configured. Ollama is local-only. */
 const REQUIRES_API_KEY: Set<AIProviderType> = new Set([
@@ -56,20 +56,11 @@ export class AIRouter {
       const config = defaultProviderConfigs[providerType];
       const provider = providerRegistry.getProvider(providerType);
       const isRegistered = !!provider;
-      let isHealthy = healthChecker.isAvailable(providerType);
-
-      // --- Lazy Health Check ---
-      if (isRegistered && !healthChecker.getStatus(providerType)) {
-        const status = await healthChecker.checkProvider(providerType);
-        isHealthy = status.isAvailable;
-      }
-
-      const model = config?.defaultModel ?? 'N/A';
       const isConfigured = this.isProviderConfigured(providerType);
+      const model = config?.defaultModel ?? 'N/A';
 
       logger.info('--------------------------------');
       logger.info(`Trying provider: ${providerType}`);
-      logger.info(`  Health:     ${isHealthy ? 'healthy' : 'unhealthy / not checked'}`);
       logger.info(`  Registered: ${isRegistered}`);
       logger.info(`  Configured: ${isConfigured}`);
       logger.info(`  Model:      ${model}`);
@@ -92,37 +83,27 @@ export class AIRouter {
         continue;
       }
 
-      // --- Gate 3: Health check failed ---
-      if (!isHealthy) {
-        const healthStatus = healthChecker.getStatus(providerType);
-        const reason = healthStatus?.error ?? 'health check failed or not run';
-        logger.warn(`  Provider error: ${reason} — skipping`);
-        logger.info('--------------------------------');
-        report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
-        continue;
-      }
+      // NOTE: Health check is ADVISORY only. We always attempt the actual request
+      // regardless of health status. Health checks can fail due to cold starts,
+      // network blips, or sandbox restrictions — they must not block real requests.
+      logger.info(`  Attempting request (health check is advisory, not a gate)...`);
 
       // --- Attempt the actual request ---
       try {
         const response = await provider!.generateCompletion(payload);
-        logger.info(`  Provider response: Success (model=${response.model}, tokens=${response.totalTokens ?? 'N/A'})`);
+        logger.info(`  ✓ Provider ${providerType} SUCCESS (model=${response.model}, tokens=${response.totalTokens ?? 'N/A'})`);
         logger.info('--------------------------------');
         report.push(`${this.formatProviderName(providerType)}:\nSUCCESS`);
         // Stop immediately after a successful response — no further fallback.
         return response;
       } catch (error) {
         const errMessage = error instanceof Error ? error.message : String(error);
-        logger.error(`  Provider error: ${errMessage}`);
+        logger.warn(`  ✗ Provider ${providerType} FAILED: ${errMessage}`);
         logger.info('--------------------------------');
-        report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${errMessage}`);
+        report.push(`${this.formatProviderName(providerType)}:\nFailed\nReason: ${errMessage}`);
         
-        if (this.isFallbackError(errMessage)) {
-          // Non-fatal routing error. Continue to the next provider.
-          continue;
-        } else {
-          // Fatal error (e.g. 400 Bad Request, syntax error). Stop routing immediately.
-          throw error;
-        }
+        // All provider errors are treated as non-fatal — always try the next provider
+        continue;
       }
     }
 

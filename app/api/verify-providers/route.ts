@@ -71,7 +71,7 @@ export async function GET() {
   // 1. Load providers (idempotent — only registers once)
   await ProviderLoader.loadProviders();
 
-  const results: Record<string, any> = {};
+  const results: Record<string, unknown> = {};
   const registeredProviders: string[] = [];
   const healthyProviders: string[] = [];
   const missingApiKeys: string[] = [];

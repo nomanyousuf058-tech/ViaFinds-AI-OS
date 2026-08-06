@@ -3,6 +3,7 @@ import { WorkflowInput, WorkflowResult, WorkflowConfiguration, WorkflowType } fr
 import { agentRegistry } from '../../agents/core/AgentRegistry';
 import { ContentType } from '../../core/uco/ContentType';
 import { UniversalContent } from '../../core/uco/UniversalContent';
+import { logger } from '../../lib/logger';
 
 export class ProductWorkflow extends BaseWorkflow {
   public readonly config: WorkflowConfiguration = {
@@ -30,7 +31,7 @@ export class ProductWorkflow extends BaseWorkflow {
   }
 
   protected async execute(input: WorkflowInput, result: WorkflowResult): Promise<void> {
-    console.log('STEP 1\nProductWorkflow started');
+    logger.info('ProductWorkflow started', { workflowId: input.workflowId });
     const url = input.payload.productUrl || input.payload.affiliateLink;
 
     const productAgent = agentRegistry.getAgent('product-intelligence-agent');
@@ -51,8 +52,7 @@ export class ProductWorkflow extends BaseWorkflow {
     }
 
     let uco = productAgentResult.data.uco as UniversalContent;
-    console.log('STEP 2\nProductIntelligenceAgent finished');
-    console.log('Generated UCO:', JSON.stringify(uco, null, 2));
+    logger.info('Product extraction complete', { uuid: uco.uuid, title: uco.title });
 
     // 2. Validate UCO
     const qualityAgent = agentRegistry.getAgent('quality-intelligence-agent');
@@ -66,10 +66,10 @@ export class ProductWorkflow extends BaseWorkflow {
       }
     }
     
-    console.log('STEP 3\nQualityWorkflow finished');
+    logger.info('Quality validation complete', { workflowId: input.workflowId });
 
     // 3. Save Draft to Sanity (Publisher Workflow)
-    console.log('STEP 4\nPublisherWorkflow started');
+    logger.info('Starting PublisherWorkflow', { workflowId: input.workflowId });
     const { workflowRegistry } = require('../core/WorkflowRegistry');
     const publisherWorkflow = workflowRegistry.getWorkflow(WorkflowType.PUBLISHER);
     if (!publisherWorkflow) {

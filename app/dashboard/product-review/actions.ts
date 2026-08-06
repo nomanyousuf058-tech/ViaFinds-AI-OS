@@ -6,6 +6,7 @@ import { workflowRegistry } from '../../../workflows/core/WorkflowRegistry';
 import { ProductWorkflow } from '../../../workflows/product/ProductWorkflow';
 import { WorkflowLoader } from '../../../workflows/core/WorkflowLoader';
 import { AgentLoader } from '../../../agents/core/AgentLoader';
+import { WorkflowType } from '../../../workflows/core/types';
 
 export async function startProductPipeline(formData: FormData) {
   const url = formData.get('url') as string;
@@ -15,7 +16,6 @@ export async function startProductPipeline(formData: FormData) {
   await AgentLoader.loadAgents();
   await WorkflowLoader.loadWorkflows();
 
-  const { WorkflowType } = require('../../../workflows/core/types');
   const workflow = workflowRegistry.getWorkflow(WorkflowType.PRODUCT) as ProductWorkflow;
   if (!workflow) {
     throw new Error('ProductWorkflow is not registered');

@@ -6,16 +6,22 @@ export default defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'merchant',
-      title: 'Merchant',
-      type: 'reference',
-      to: [{ type: 'merchant' }],
-    }),
-    defineField({
-      name: 'affiliateNetwork',
-      title: 'Affiliate Network',
-      type: 'string',
-    }),
+  name: 'merchant',
+  title: 'Merchant',
+  type: 'string',
+}),
+defineField({
+  name: 'merchantRef',
+  title: 'Merchant Reference',
+  type: 'reference',
+  to: [{ type: 'merchant' }],
+  readOnly: true,
+}),
+   defineField({
+  name: 'network',
+  title: 'Affiliate Network',
+  type: 'string',
+}),
     defineField({
       name: 'affiliateUrl',
       title: 'Affiliate URL',

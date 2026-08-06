@@ -20,6 +20,7 @@ export interface IRecommendationEngine {
   getRecommendations(): Promise<Recommendation[]>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ISearchRepository {
   // Placeholder for repository methods
 }

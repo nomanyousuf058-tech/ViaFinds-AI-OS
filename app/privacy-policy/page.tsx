@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import TableOfContents from '@/components/TableOfContents';
 import PrivacySection from '@/components/PrivacySection';
 
 export const metadata: Metadata = {

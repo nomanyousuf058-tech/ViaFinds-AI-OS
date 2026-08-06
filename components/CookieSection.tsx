@@ -60,7 +60,7 @@ export default function CookieSection({ id, title }: CookieSectionProps) {
         return (
           <>
             <p className="mb-4">
-              We use Google Analytics and Google AdSense. Google uses cookies to serve ads based on your prior visits to our Site or other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to our Site and/or other sites on the Internet.
+              We use Google Analytics and Google AdSense. Google uses cookies to serve ads based on your prior visits to our Site or other websites. Google&apos;s use of advertising cookies enables it and its partners to serve ads to you based on your visit to our Site and/or other sites on the Internet.
             </p>
           </>
         );
@@ -76,7 +76,7 @@ export default function CookieSection({ id, title }: CookieSectionProps) {
         return (
           <>
             <p className="mb-4">
-              As the means by which you can refuse cookies through your web browser controls vary from browser to browser, you should visit your browser's help menu for more information.
+              As the means by which you can refuse cookies through your web browser controls vary from browser to browser, you should visit your browser&apos;s help menu for more information.
             </p>
             <ul className="list-disc pl-6 mb-4">
               <li><strong>Chrome:</strong> Settings &gt; Privacy and security &gt; Cookies and other site data</li>

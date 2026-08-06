@@ -88,7 +88,7 @@ export default function AffiliateSection({ id, title }: AffiliateSectionProps) {
               <div>
                 <dt className="font-medium">Do affiliate links cost me money?</dt>
                 <dd className="ml-4 text-gray-700 dark:text-gray-300">
-                  No. You pay the exact same price whether you use our affiliate link or go directly to the merchant's website.
+                  No. You pay the exact same price whether you use our affiliate link or go directly to the merchant&apos;s website.
                 </dd>
               </div>
               <div>

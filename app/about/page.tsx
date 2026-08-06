@@ -59,7 +59,7 @@ export default function AboutPage() {
         <div>
           <h2 className="font-display text-3xl font-bold text-primary mb-6">Our Mission</h2>
           <p className="font-body text-secondary leading-relaxed mb-6">
-            To empower discerning buyers by providing deeply researched, uncompromisingly honest reviews and recommendations. We believe that finding the right product shouldn't feel like a chore; it should be an experience of discovery.
+            To empower discerning buyers by providing deeply researched, uncompromisingly honest reviews and recommendations. We believe that finding the right product shouldn&apos;t feel like a chore; it should be an experience of discovery.
           </p>
         </div>
         <div>
@@ -100,7 +100,7 @@ export default function AboutPage() {
             <span className="material-symbols-outlined text-gold-accent text-4xl mb-4">smart_toy</span>
             <h3 className="font-display text-xl font-bold text-primary mb-3">AI-Assisted Analysis</h3>
             <p className="font-body text-sm text-secondary leading-relaxed">
-              We leverage advanced AI to aggregate thousands of data points, ensuring we don't miss subtle patterns in product performance.
+              We leverage advanced AI to aggregate thousands of data points, ensuring we don&apos;t miss subtle patterns in product performance.
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
@@ -167,7 +167,7 @@ export default function AboutPage() {
       <section className="bg-surface-container-low py-20 px-4 text-center">
         <h2 className="font-display text-3xl font-bold text-primary mb-6">Ready to Discover?</h2>
         <p className="font-body text-secondary mb-8 max-w-xl mx-auto">
-          Explore our latest curated collections and find the precise tools, gear, and software you've been looking for.
+          Explore our latest curated collections and find the precise tools, gear, and software you&apos;ve been looking for.
         </p>
         <Link href="/search" className="inline-flex items-center gap-2 bg-primary text-white font-body font-bold uppercase tracking-widest px-8 py-4 hover:bg-gold-accent transition-colors">
           Start Exploring

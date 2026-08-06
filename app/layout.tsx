@@ -10,6 +10,7 @@ import { client } from '@/lib/sanity.client'
 import { ALL_CATEGORIES_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY } from '@/lib/sanity.queries'
 import type { SiteSettings, Navigation, Category } from '@/lib/types'
 import { ProviderLoader } from '@/providers/ProviderLoader'
+import { GoogleTagManager } from '@next/third-parties/google'
 
 // Automatically load and initialize all AI, image, and video providers on startup
 ProviderLoader.loadProviders().catch((err) => {
@@ -139,16 +140,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
-        {/* Google Tag Manager — must be first in <head> */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MX94PFMX');`,
-          }}
-        />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
@@ -163,15 +154,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
       </head>
       <body className="bg-background text-on-surface flex flex-col min-h-screen antialiased">
-        {/* Google Tag Manager (noscript) — must be first in <body> */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MX94PFMX"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
 
         <AnnouncementBar data={settings?.announcementBar} />
         
@@ -185,6 +167,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         
         <Footer navigation={navigation} settings={settings} />
       </body>
+      <GoogleTagManager gtmId="GTM-MX94PFMX" />
       <GoogleAnalytics gaId="G-0J8LV4ZRD6" />
       <ClarityAnalytics />
     </html>

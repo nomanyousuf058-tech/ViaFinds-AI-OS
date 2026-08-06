@@ -107,5 +107,54 @@ export const metadataField = defineField({
     defineField({ name: 'quality', type: 'qualityMetadata' }),
     defineField({ name: 'lifecycle', type: 'lifecycleMetadata' }),
     defineField({ name: 'source', type: 'sourceMetadata' }),
+    defineField({
+  name: 'category',
+  type: 'string',
+}),
+
+defineField({
+  name: 'subcategory',
+  type: 'string',
+}),
+
+defineField({
+  name: 'bestCategory',
+  type: 'string',
+}),
+
+defineField({
+  name: 'parentCategory',
+  type: 'string',
+}),
+
+defineField({
+  name: 'level2Category',
+  type: 'string',
+}),
+
+defineField({
+  name: 'level3Category',
+  type: 'string',
+}),
+
+defineField({
+  name: 'level4Category',
+  type: 'string',
+}),
+
+defineField({
+  name: 'level5Category',
+  type: 'string',
+}),
+
+defineField({
+  name: 'merchant',
+  type: 'string',
+}),
+
+defineField({
+  name: 'suggestedMerchant',
+  type: 'string',
+}),
   ],
 })

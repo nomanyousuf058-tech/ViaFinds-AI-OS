@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
 import { providerRegistry } from '@/providers/ProviderRegistry';
-import { healthChecker } from '@/core/ai/HealthChecker';
 import { ProviderLoader } from '@/providers/ProviderLoader';
 import { AIProviderType } from '@/core/ai/types';
 
 export async function GET() {
   await ProviderLoader.loadProviders();
   
-  const results: Record<string, any> = {};
+  const results: Record<string, unknown> = {};
   const providers = providerRegistry.getAllProviders();
   
   for (const provider of providers) {
@@ -19,8 +18,8 @@ export async function GET() {
     try {
       validateHealthCalled = true;
       validateHealthResult = await provider.validateHealth();
-    } catch (err: any) {
-      reason = err.message || String(err);
+    } catch (err: unknown) {
+      reason = (err as Error).message || String(err);
     }
     
     results[type] = {

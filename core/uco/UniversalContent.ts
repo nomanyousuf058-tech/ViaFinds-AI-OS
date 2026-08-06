@@ -30,7 +30,7 @@ export interface UniversalContent {
   affiliateUrl?: string;
   affiliateNetwork?: string;
   productUrl?: string;
-
+    // AI taxonomy and Merchant suggestions are stored in metadata
   metadata: Metadata;
   [key: string]: any;
 }

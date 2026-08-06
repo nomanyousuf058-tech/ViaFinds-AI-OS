@@ -46,6 +46,7 @@ export abstract class BaseAgent<TInput, TOutput> {
     const startTime = Date.now();
 
     try {
+      console.log(`[START] Agent ${this.identity.name}`);
       logger.info(`Agent ${this.identity.name} starting execution`, { workflowId: context.workflowId });
       
       // 1. Validation Hook
@@ -59,10 +60,13 @@ export abstract class BaseAgent<TInput, TOutput> {
       const latency = Date.now() - startTime;
       this.metrics.totalLatencyMs += latency;
       
+      console.log(`[SUCCESS] Agent ${this.identity.name} | Duration: ${latency}ms`);
       logger.info(`Agent ${this.identity.name} completed successfully in ${latency}ms`, { workflowId: context.workflowId });
       return result;
     } catch (error) {
       this.metrics.failureCount++;
+      const failDuration = Date.now() - startTime;
+      console.log(`[FAILED] Agent ${this.identity.name} | Duration: ${failDuration}ms`);
       logger.error(`Agent ${this.identity.name} failed execution`, error as Error, { workflowId: context.workflowId });
       throw error;
     } finally {

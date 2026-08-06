@@ -13,79 +13,92 @@ export class PromptLibrary {
     });
 this.register({
   id: 'product_extraction',
-  version: 3,
+  version: 5,
   category: 'extraction',
   template: `
 You are ViaFinds AI, an elite eCommerce product intelligence engine.
 
-Transform the product information below into a complete affiliate-ready JSON document.
+Your job is to extract complete affiliate-ready product information from the data below.
 
-Never invent information.
+CRITICAL RULES:
+1. "title" is REQUIRED. You MUST extract a real product title. Look in: page title, h1 headings, JSON-LD name/title, meta og:title, product description, or infer from URL/brand. NEVER return null for title.
+2. Never invent specifications, prices, or reviews. If genuinely unavailable, return null for optional fields.
+3. Your response MUST be ONLY valid JSON — no markdown, no backticks, no commentary.
+4. Remove trailing commas from all arrays and objects.
 
-If information is unavailable return null.
+MERCHANT & AFFILIATE NETWORK DETECTION:
+Use the PRODUCT URL to detect:
+- "merchant": the store name (e.g., "Amazon", "Walmart", "US Water Revolution")
+- "affiliateNetwork": the network (e.g., "Amazon Associates", "Impact", "ShareASale", "Direct")
+If unknown, set affiliateNetwork to "Direct".
 
-Return ONLY valid JSON.
+INPUT DATA:
 
-TITLE
+PAGE TITLE
 {{title}}
 
-BRAND
+BRAND (from browser)
 {{brand}}
 
-PRICE
+PRICE (from browser)
 {{price}}
 
-DESCRIPTION
+META DESCRIPTION
 {{description}}
 
-FEATURES
+BULLET POINTS / FEATURES
 {{bullets}}
 
-IMAGES
+PRODUCT IMAGES
 {{images}}
 
 PRODUCT URL
 {{url}}
 
-RAW PRODUCT DATA
+JSON-LD STRUCTURED DATA (highest priority for accurate data)
+{{jsonLd}}
+
+RAW PAGE TEXT (use this to fill any gaps — search for product name, specs, features)
 {{rawProductData}}
 
-Return ONLY this JSON structure:
+REQUIRED OUTPUT FORMAT (return ONLY this JSON, filled with real extracted data):
 
 {
-"title":"",
-"brand":"",
-"manufacturer":"",
-"model":"",
-"category":"",
-"subcategory":"",
-"productType":"",
-"price":0,
-"currency":"USD",
-"availability":"In Stock",
-"shortDescription":"",
-"description":"",
-"summary":"",
-"keyFeatures":[],
-"specifications":[{"key":"","value":""}],
-"pros":[],
-"cons":[],
-"faq":[{"question":"","answer":""}],
-"buyingAdvice":"",
-"tags":[],
-"keywords":[],
-"seoTitle":"",
-"seoDescription":"",
-"slug":"",
-"bestCategory":"",
-"parentCategory":"",
-"level2Category":"",
-"level3Category":"",
-"level4Category":"",
-"level5Category":"",
-"suggestedNewCategory":"",
-"suggestedNewBrand":"",
-"suggestedMerchant":""
+  "title": "REQUIRED — real product name extracted from any available source",
+  "brand": null,
+  "manufacturer": null,
+  "model": null,
+  "category": null,
+  "subcategory": null,
+  "productType": null,
+  "price": null,
+  "currency": "USD",
+  "availability": "In Stock",
+  "shortDescription": null,
+  "description": null,
+  "summary": null,
+  "keyFeatures": [],
+  "specifications": [{"key": "", "value": ""}],
+  "pros": [],
+  "cons": [],
+  "faq": [{"question": "", "answer": ""}],
+  "buyingAdvice": null,
+  "tags": [],
+  "keywords": [],
+  "seoTitle": null,
+  "seoDescription": null,
+  "slug": null,
+  "bestCategory": null,
+  "parentCategory": null,
+  "level2Category": null,
+  "level3Category": null,
+  "level4Category": null,
+  "level5Category": null,
+  "suggestedNewCategory": null,
+  "suggestedNewBrand": null,
+  "suggestedMerchant": null,
+  "merchant": null,
+  "affiliateNetwork": null
 }
 `,
   requiredVariables: [
@@ -99,6 +112,7 @@ Return ONLY this JSON structure:
     "rawProductData"
   ],
 });
+
 
     this.register({
       id: 'product_validation',

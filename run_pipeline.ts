@@ -50,7 +50,7 @@ async function run() {
   await WorkflowLoader.loadWorkflows();
 
   // ── 2. Run Product Pipeline ───────────────────────────────────────────────
-  const testUrl = 'https://www.amazon.com/dp/B0DJYC3WDN';
+  const testUrl = process.argv[2] || 'https://www.amazon.com/dp/B0DJYC3WDN';
   console.log(`\n--- 2. Starting ProductWorkflow with URL: ${testUrl} ---`);
 
   const workflow = workflowRegistry.getWorkflow(WorkflowType.PRODUCT);

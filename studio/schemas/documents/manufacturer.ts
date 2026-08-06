@@ -6,7 +6,7 @@ import { defineField, defineType } from 'sanity'
  */
 export default defineType({
   name: 'manufacturer',
-  title: 'Manufacturers',
+  title: 'Manufacturer',
   type: 'document',
   icon: () => '🏭',
   fields: [

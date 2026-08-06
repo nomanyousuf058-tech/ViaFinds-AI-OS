@@ -21,13 +21,13 @@ export default function PrivacySection({ id, title }: PrivacySectionProps) {
         return (
           <>
             <p className="mb-4">
-              At ViaFinds ("we", "us", or "our"), we respect your privacy and are
+              At ViaFinds (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;), we respect your privacy and are
               committed to protecting the personal information you share with us.
               This Privacy Policy explains what information we collect, how we use
               it, and your rights regarding that data.
             </p>
             <p className="mb-4">
-              By accessing or using https://viafinds.com (the "Site"), you agree to
+              By accessing or using https://viafinds.com (the &quot;Site&quot;), you agree to
               the practices described in this policy.
             </p>
           </>
@@ -282,7 +282,7 @@ export default function PrivacySection({ id, title }: PrivacySectionProps) {
           <>
             <p className="mb-4">
               We may update this Privacy Policy from time to time. Changes will
-              be posted on this page with an updated "Last Updated" date.
+              be posted on this page with an updated &quot;Last Updated&quot; date.
             </p>
           </>
         );

@@ -136,17 +136,22 @@ jsonLd = result.jsonLd || null;
 
   const { ContentType } = require('../../core/uco/ContentType');
 
-  const slugTitle = extracted?.slug || extracted?.title || title || "untitled-product";
+  if (!extracted.title || extracted.title.toLowerCase() === "untitled product") {
+    logger.error(`AI Extraction Failed: Missing title. Extracted: ${extracted.title}, Page: ${title}`, new Error("Missing title"));
+    throw new Error("AI Extraction Failed: Missing title. Do not fallback to 'Untitled Product'.");
+  }
+
+  const slugTitle = extracted.slug || extracted.title;
   const slug = slugTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
- const uco = {
-  uuid: `uco-${context.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
-  contentType: ContentType.PRODUCT,
+  const uco = {
+    uuid: `uco-${context.workflowId}-${Math.random().toString(36).substring(2, 9)}`,
+    contentType: ContentType.PRODUCT,
 
-  title: extracted.title || title,
-  slug,
-  description: extracted.description || description,
-  shortDescription: extracted.shortDescription,
+    title: extracted.title,
+    slug,
+    description: extracted.description || description,
+    shortDescription: extracted.shortDescription,
   summary: extracted.summary,
   tags: extracted.tags,
   keywords: extracted.keywords,
@@ -154,20 +159,6 @@ jsonLd = result.jsonLd || null;
   brand: extracted.brand,
   manufacturer: extracted.manufacturer,
   model: extracted.model,
-  category: extracted.category,
-  subcategory: extracted.subcategory,
-  productType: extracted.productType,
-
-  bestCategory: extracted.bestCategory,
-  parentCategory: extracted.parentCategory,
-  level2Category: extracted.level2Category,
-  level3Category: extracted.level3Category,
-  level4Category: extracted.level4Category,
-  level5Category: extracted.level5Category,
-  suggestedNewCategory: extracted.suggestedNewCategory,
-  suggestedNewBrand: extracted.suggestedNewBrand,
-  suggestedMerchant: extracted.suggestedMerchant,
-
   keyFeatures: extracted.keyFeatures,
  specifications: (extracted.specifications || []).map((item: any) => ({
   _key: crypto.randomUUID(),
@@ -198,6 +189,16 @@ faq: (extracted.faq || []).map((item: any) => ({
 
   affiliateNetwork: extracted.affiliateNetwork || "Direct",
 metadata: {
+  category: extracted.category,
+  subcategory: extracted.subcategory,
+  bestCategory: extracted.bestCategory,
+  parentCategory: extracted.parentCategory,
+  level2Category: extracted.level2Category,
+  level3Category: extracted.level3Category,
+  level4Category: extracted.level4Category,
+  level5Category: extracted.level5Category,
+  suggestedMerchant: extracted.suggestedMerchant || extracted.merchant,
+  merchant: extracted.merchant,
   source: {
     url: finalUrl,
     network: extracted.merchant || extracted.affiliateNetwork || "Direct",

@@ -12,7 +12,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
         return (
           <>
             <p className="mb-4">
-              By accessing and using ViaFinds (the "Site"), you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.
+              By accessing and using ViaFinds (the &quot;Site&quot;), you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.
             </p>
             <p className="mb-4">
               Any participation in this service will constitute acceptance of this agreement. If you do not agree to abide by the above, please do not use this service.
@@ -31,7 +31,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
         return (
           <>
             <p className="mb-4">
-              You agree to use the Site only for lawful purposes, and in a way that does not infringe the rights of, restrict or inhibit anyone else's use and enjoyment of the Site. Prohibited behavior includes harassing or causing distress or inconvenience to any other user, transmitting obscene or offensive content or disrupting the normal flow of dialogue within our Site.
+              You agree to use the Site only for lawful purposes, and in a way that does not infringe the rights of, restrict or inhibit anyone else&apos;s use and enjoyment of the Site. Prohibited behavior includes harassing or causing distress or inconvenience to any other user, transmitting obscene or offensive content or disrupting the normal flow of dialogue within our Site.
             </p>
           </>
         );
@@ -82,7 +82,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
               As a user of the Site, you agree not to use the Site to:
             </p>
             <ul className="list-disc pl-6 mb-4">
-              <li>Upload, post or otherwise transmit any content that is unlawful, harmful, threatening, abusive, harassing, tortious, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically or otherwise objectionable.</li>
+              <li>Upload, post or otherwise transmit any content that is unlawful, harmful, threatening, abusive, harassing, tortious, defamatory, vulgar, obscene, libelous, invasive of another&apos;s privacy, hateful, or racially, ethnically or otherwise objectionable.</li>
               <li>Impersonate any person or entity.</li>
               <li>Upload, post or otherwise transmit any material that contains software viruses or any other computer code, files or programs designed to interrupt, destroy or limit the functionality of any computer software or hardware.</li>
             </ul>
@@ -152,7 +152,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
               <div>
                 <dt className="font-medium">What happens if a product is out of stock?</dt>
                 <dd className="ml-4 text-gray-700 dark:text-gray-300">
-                  We link to third-party retailers. Availability is subject to the retailer's inventory and we do not guarantee product availability.
+                  We link to third-party retailers. Availability is subject to the retailer&apos;s inventory and we do not guarantee product availability.
                 </dd>
               </div>
               <div>
@@ -164,7 +164,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
               <div>
                 <dt className="font-medium">How often are the terms updated?</dt>
                 <dd className="ml-4 text-gray-700 dark:text-gray-300">
-                  We update these terms periodically to reflect legal or operational changes. The "Last Updated" date will reflect the most recent changes.
+                  We update these terms periodically to reflect legal or operational changes. The &quot;Last Updated&quot; date will reflect the most recent changes.
                 </dd>
               </div>
               <div>
