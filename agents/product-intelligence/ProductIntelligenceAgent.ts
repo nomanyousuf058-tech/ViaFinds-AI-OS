@@ -2,7 +2,7 @@ import { browserExtractor } from '../../lib/browser/browserExtractor';
 import { BaseAgent } from '../core/BaseAgent';
 import { AgentIdentity, AgentConfiguration, AgentCapabilities, AgentContext } from '../core/types';
 import { logger } from '../../lib/logger';
-
+import crypto from "node:crypto";
 export class ProductIntelligenceAgent extends BaseAgent<any, any> {
   public readonly identity: AgentIdentity = {
     id: 'product-intelligence-agent',
@@ -39,6 +39,7 @@ let title = "";
 let brand = "";
 let description = "";
 let bullets: string[] = [];
+let jsonLd: any = null;
 
   try {
     const result = await browserExtractor(url);
@@ -53,8 +54,10 @@ title = result.title;
 brand = result.brand;
 description = result.description;
 bullets = result.bullets;
-    console.log("===== FINAL URL =====");
-    console.log(finalUrl);
+jsonLd = result.jsonLd || null;
+    console.log("===== 1. browserExtractor result =====");
+    console.log(JSON.stringify({ finalUrl: result.finalUrl, images: result.images, price: result.price, title: result.title, brand: result.brand, bullets: result.bullets, jsonLd: !!jsonLd }, null, 2));
+    console.log("====================");
 
     console.log("===== PRICE =====");
     console.log(price);
@@ -82,32 +85,53 @@ bullets = result.bullets;
 
   const { aiManager } = require('../../core/ai/AIManager');
 
- const aiResult = await aiManager.execute("product_extraction", {
+ const aiParams = {
   title,
   brand,
   price,
   description,
   bullets,
-  images,
+  images: JSON.stringify(images),
   url: finalUrl,
+  jsonLd: jsonLd ? JSON.stringify(jsonLd) : "",
   rawProductData: rawText,
-});
+ };
+ logger.info('Sending prompt to AI', { url: finalUrl, hasJsonLd: !!jsonLd });
+ const aiResult = await aiManager.execute("product_extraction", aiParams);
 
-  console.log("===== AI RESULT =====");
-  console.log(aiResult.content);
-  console.log("=====================");
+  logger.debug('Raw AI response received', { length: aiResult.content?.length });
 
   let extracted: any = {};
 
   try {
-    const content = aiResult.content
-      .replace(/```json/g, '')
+    let content = aiResult.content
+      .replace(/```json/gi, '')
       .replace(/```/g, '')
       .trim();
 
+    // Repair trailing commas
+    content = content.replace(/,\s*([}\]])/g, '$1');
+
     extracted = JSON.parse(content);
+    logger.info('AI JSON parsed successfully', { title: extracted.title, category: extracted.category });
   } catch (err) {
-    logger.error('Failed to parse AI extraction JSON', err as Error);
+    logger.error('Failed to parse AI extraction JSON. Attempting fallback repair.', err as Error);
+    try {
+      // Extremely aggressive fallback: find the first { and last }
+      const firstBrace = aiResult.content.indexOf('{');
+      const lastBrace = aiResult.content.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace !== -1) {
+        let content = aiResult.content.substring(firstBrace, lastBrace + 1);
+        content = content.replace(/,\s*([}\]])/g, '$1');
+        extracted = JSON.parse(content);
+        logger.info('Fallback JSON repair successful.');
+      } else {
+        throw new Error("No JSON object bounds found.");
+      }
+    } catch (fallbackErr) {
+      logger.error('Fallback JSON repair failed completely.', fallbackErr as Error);
+      throw fallbackErr; // Bubble up to fail pipeline rather than save empty UCO
+    }
   }
 
   const { ContentType } = require('../../core/uco/ContentType');
@@ -145,10 +169,21 @@ bullets = result.bullets;
   suggestedMerchant: extracted.suggestedMerchant,
 
   keyFeatures: extracted.keyFeatures,
-  specifications: extracted.specifications,
-  pros: extracted.pros,
-  cons: extracted.cons,
-  faq: extracted.faq,
+ specifications: (extracted.specifications || []).map((item: any) => ({
+  _key: crypto.randomUUID(),
+  key: item.key,
+  value: item.value,
+})),
+
+pros: extracted.pros || [],
+
+cons: extracted.cons || [],
+
+faq: (extracted.faq || []).map((item: any) => ({
+  _key: crypto.randomUUID(),
+  question: item.question,
+  answer: item.answer,
+})),
   buyingAdvice: extracted.buyingAdvice || extracted.buyingGuide,
 
   price: extracted.price,
@@ -159,13 +194,13 @@ bullets = result.bullets;
 
   productUrl: finalUrl,
 
-  affiliateUrl: finalUrl,
+  affiliateUrl: extracted.affiliateUrl || finalUrl,
 
-  affiliateNetwork: "Amazon",
+  affiliateNetwork: extracted.affiliateNetwork || "Direct",
 metadata: {
   source: {
     url: finalUrl,
-    network: "Amazon",
+    network: extracted.merchant || extracted.affiliateNetwork || "Direct",
     timestamp: new Date().toISOString(),
   },
 
@@ -177,6 +212,9 @@ metadata: {
   },
 },
 }
+
+logger.info('UCO built successfully', { uuid: uco.uuid, title: uco.title });
+
  return {
   status: "success",
   data: { uco },
