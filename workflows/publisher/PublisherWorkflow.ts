@@ -180,6 +180,10 @@ export class PublisherWorkflow extends BaseWorkflow {
       // Gallery — stored as plain URL strings (schema: array of url)
       gallery: uco.gallery && uco.gallery.length > 0 ? uco.gallery : undefined,
 
+      // Affiliate Data (root level for frontend)
+      affiliateUrl: (uco as any).affiliateUrl || uco.metadata?.affiliate?.affiliateUrl || uco.url,
+      affiliateNetwork: (uco as any).affiliateNetwork || uco.metadata?.affiliate?.network,
+
       // Product content
       keyFeatures: uco.keyFeatures && uco.keyFeatures.length > 0 ? uco.keyFeatures : undefined,
       specifications: uco.specifications && uco.specifications.length > 0 ? addKeys(uco.specifications) : undefined,
@@ -210,8 +214,8 @@ export class PublisherWorkflow extends BaseWorkflow {
         affiliate: {
           ...(uco.metadata?.affiliate || {}),
           merchant: uco.metadata?.merchant ?? uco.metadata?.suggestedMerchant,
-          merchantRef: merchantRef?._ref,
-          affiliateNetwork: (uco as any).affiliateNetwork ?? uco.metadata?.affiliate?.network,
+          merchantRef: merchantRef ? { _type: 'reference', _ref: merchantRef._ref } : undefined,
+          network: (uco as any).affiliateNetwork ?? uco.metadata?.affiliate?.network,
           affiliateUrl: (uco as any).affiliateUrl ?? uco.metadata?.affiliate?.affiliateUrl,
         },
         publishing: uco.metadata?.publishing,
