@@ -221,6 +221,18 @@ defineField({
       type: 'string',
       group: 'details',
     }),
+    defineField({
+      name: 'affiliateUrl',
+      title: 'Affiliate URL',
+      type: 'url',
+      group: 'details',
+    }),
+    defineField({
+      name: 'affiliateNetwork',
+      title: 'Affiliate Network',
+      type: 'string',
+      group: 'details',
+    }),
     metadataField,
   ],
   preview: {

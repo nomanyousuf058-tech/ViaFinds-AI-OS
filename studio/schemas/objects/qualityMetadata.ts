@@ -27,5 +27,10 @@ export default defineType({
       title: 'Last Reviewed Date',
       type: 'datetime',
     }),
+    defineField({
+      name: 'lastEvaluated',
+      title: 'Last Evaluated Date',
+      type: 'datetime',
+    }),
   ],
 })

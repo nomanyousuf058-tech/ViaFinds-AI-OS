@@ -1,7 +1,6 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { client } from '../../../lib/sanity.client';
 import { createClient } from '@sanity/client';
 
 const writeClient = createClient({
@@ -18,7 +17,7 @@ export async function publishDraft(draftId: string) {
   }
 
   // 1. Fetch the draft document
-  const draft = await client.fetch(`*[_id == $id][0]`, { id: draftId });
+  const draft = await writeClient.fetch(`*[_id == $id][0]`, { id: draftId });
   if (!draft) {
     throw new Error('Draft not found.');
   }

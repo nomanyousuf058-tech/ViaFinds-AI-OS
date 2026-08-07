@@ -23,6 +23,16 @@ export default defineType({
       initialValue: 'draft',
     }),
     defineField({
+      name: 'approvalStatus',
+      title: 'Approval Status',
+      type: 'string',
+    }),
+    defineField({
+      name: 'published',
+      title: 'Published',
+      type: 'boolean',
+    }),
+    defineField({
       name: 'publishedDate',
       title: 'Published Date',
       type: 'datetime',

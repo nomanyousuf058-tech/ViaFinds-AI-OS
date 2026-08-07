@@ -36,7 +36,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       searchResults.products = await client.fetch(
         `*[_type == "product" && featured == true && status == "published"] | order(publishedAt desc) {
           _id, title, "slug": slug.current, price, salePrice, discount, currency, rating, availability,
-          brand->{name, "slug": slug.current},
+          brand->{"name": coalesce(title, name), "slug": slug.current},
           category->{name, "slug": slug.current},
           "image": gallery[0]
         }`
@@ -70,7 +70,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       searchResults.products = await client.fetch(
         `*[_type == "product" && status == "published"] | order(_createdAt desc)[0...16] {
           _id, title, "slug": slug.current, price, salePrice, discount, currency, rating, availability,
-          brand->{name, "slug": slug.current},
+          brand->{"name": coalesce(title, name), "slug": slug.current},
           category->{name, "slug": slug.current},
           "image": gallery[0]
         }`

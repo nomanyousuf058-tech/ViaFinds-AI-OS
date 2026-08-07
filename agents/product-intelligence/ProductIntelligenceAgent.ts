@@ -137,8 +137,8 @@ jsonLd = result.jsonLd || null;
   const { ContentType } = require('../../core/uco/ContentType');
 
   if (!extracted.title || extracted.title.toLowerCase() === "untitled product") {
-    logger.error(`AI Extraction Failed: Missing title. Extracted: ${extracted.title}, Page: ${title}`, new Error("Missing title"));
-    throw new Error("AI Extraction Failed: Missing title. Do not fallback to 'Untitled Product'.");
+    logger.warn(`AI Extraction missing title. Falling back to page title: ${title}`);
+    extracted.title = title || "Generic Product";
   }
 
   const slugTitle = extracted.slug || extracted.title;

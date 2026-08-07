@@ -32,7 +32,8 @@ export default async function BrandsPage() {
   // Group brands alphabetically
   const brandsByLetter: Record<string, Brand[]> = {}
   brands.forEach((brand) => {
-    const letter = brand.name[0]?.toUpperCase() || '#'
+    const title = brand.name || 'Unknown'
+    const letter = title[0]?.toUpperCase() || '#'
     if (!brandsByLetter[letter]) brandsByLetter[letter] = []
     brandsByLetter[letter].push(brand)
   })
@@ -161,7 +162,7 @@ export default async function BrandsPage() {
                               />
                             ) : (
                               <span className="font-display text-base font-bold text-secondary/40">
-                                {brand.name.slice(0, 2).toUpperCase()}
+                                {(brand.name || 'Unknown').slice(0, 2).toUpperCase()}
                               </span>
                             )}
                           </div>

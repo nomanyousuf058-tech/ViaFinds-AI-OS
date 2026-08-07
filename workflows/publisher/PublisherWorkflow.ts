@@ -93,12 +93,12 @@ export class PublisherWorkflow extends BaseWorkflow {
           _type: type,
           uuid: crypto.randomUUID(),
           title: name,
+          name: name, // supply both title and name to satisfy category/brand/manufacturer schemas
           contentType: type,
           slug: { _type: 'slug', current: slugStr },
         };
         
         if (type === 'category') {
-          newDoc.name = name;
           newDoc.level = 1; // Default to top level if creating from scratch
         }
         
@@ -178,18 +178,18 @@ export class PublisherWorkflow extends BaseWorkflow {
       availability: uco.availability,
 
       // Gallery — stored as plain URL strings (schema: array of url)
-      gallery: uco.gallery && uco.gallery.length > 0 ? uco.gallery : undefined,
+      gallery: uco.gallery && Array.isArray(uco.gallery) ? uco.gallery.filter(item => typeof item === 'string' && item.length > 0) : undefined,
 
       // Affiliate Data (root level for frontend)
       affiliateUrl: (uco as any).affiliateUrl || uco.metadata?.affiliate?.affiliateUrl || uco.url,
       affiliateNetwork: (uco as any).affiliateNetwork || uco.metadata?.affiliate?.network,
 
       // Product content
-      keyFeatures: uco.keyFeatures && uco.keyFeatures.length > 0 ? uco.keyFeatures : undefined,
-      specifications: uco.specifications && uco.specifications.length > 0 ? addKeys(uco.specifications) : undefined,
-      pros: uco.pros && uco.pros.length > 0 ? uco.pros : undefined,
-      cons: uco.cons && uco.cons.length > 0 ? uco.cons : undefined,
-      faq: uco.faq && uco.faq.length > 0 ? addKeys(uco.faq) : undefined,
+      keyFeatures: uco.keyFeatures && Array.isArray(uco.keyFeatures) ? uco.keyFeatures.filter(item => typeof item === 'string' && item.length > 0) : undefined,
+      specifications: uco.specifications && Array.isArray(uco.specifications) && uco.specifications.length > 0 ? addKeys(uco.specifications.filter(s => s && s.key && s.value)) : undefined,
+      pros: uco.pros && Array.isArray(uco.pros) ? uco.pros.filter(item => typeof item === 'string' && item.length > 0) : undefined,
+      cons: uco.cons && Array.isArray(uco.cons) ? uco.cons.filter(item => typeof item === 'string' && item.length > 0) : undefined,
+      faq: uco.faq && Array.isArray(uco.faq) && uco.faq.length > 0 ? addKeys(uco.faq.filter(f => f && f.question && f.answer)) : undefined,
       buyingAdvice: uco.buyingAdvice,
 
       // Category & Taxonomy References

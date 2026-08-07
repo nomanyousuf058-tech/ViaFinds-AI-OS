@@ -27,7 +27,7 @@ const PRODUCT_CARD_FRAGMENT = `
   price, salePrice, discount, currency, rating, availability,
   status, featured, editorChoice, trending, bestSeller, newest, limitedEdition,
   "image": gallery[0],
-  brand->{ _id, name, "slug": slug.current },
+  brand->{ _id, "name": coalesce(title, name), "slug": slug.current },
   category->{ _id, name, "slug": slug.current }
 `
 
@@ -122,7 +122,7 @@ export const PRODUCT_BY_SLUG_QUERY = `
     gallery,
     specifications,
     affiliateNetwork, affiliateUrl,
-    brand->{ _id, name, "slug": slug.current, logo, description, websiteUrl, country },
+    brand->{ _id, "name": coalesce(title, name), "slug": slug.current, logo, description, websiteUrl, country },
     manufacturer->{ _id, name, "slug": slug.current, country, logo, website },
     category->{ ${CATEGORY_BREADCRUMB_FRAGMENT} },
     collections[]->{ _id, title, "slug": slug.current },
@@ -242,14 +242,14 @@ export const HOME_PAGE_QUERY = `
 // ── Brands ────────────────────────────────────────────────────────────────────
 
 export const ALL_BRANDS_QUERY = `
-  *[_type == "brand"] | order(name asc) {
-    _id, name, "slug": slug.current, logo, country, featured
+  *[_type == "brand"] | order(coalesce(title, name) asc) {
+    _id, "name": coalesce(title, name), "slug": slug.current, logo, country, featured
   }
 `
 
 export const BRAND_BY_SLUG_QUERY = `
   *[_type == "brand" && slug.current == $slug][0] {
-    _id, name, "slug": slug.current, logo, coverImage, description, websiteUrl, country, featured,
+    _id, "name": coalesce(title, name), "slug": slug.current, logo, coverImage, description, websiteUrl, country, featured,
     ${SEO_FRAGMENT},
     "products": *[_type == "product" && brand._ref == ^._id && status == "published"] | order(publishedAt desc) [0...24] {
       ${PRODUCT_CARD_FRAGMENT}
@@ -276,7 +276,7 @@ export const SEARCH_QUERY = `
       ${ARTICLE_CARD_FRAGMENT}
     },
     "brands": *[_type == "brand" && name match $keyword] [0...6] {
-      _id, name, "slug": slug.current, logo, country
+      _id, "name": coalesce(title, name), "slug": slug.current, logo, country
     },
     "categories": *[_type == "category" && (active == true || status == "active" || !defined(status)) && (
       name match $keyword ||
@@ -329,6 +329,15 @@ export const REVIEWS_BY_PRODUCT_QUERY = `
     _id, title, "slug": slug.current, reviewType, rating, verdict, pros, cons,
     author->{ _id, name, "slug": slug.current, avatar, role },
     publishedAt
+  }
+`
+
+export const ALL_PRODUCTS_QUERY = `
+  *[_type == "product" && status == "published"] | order(publishedAt desc, _createdAt desc) {
+    _id, title, "slug": slug.current, 
+    "brand": brand->{_id, "name": coalesce(title, name), "slug": slug.current},
+    "category": category->{_id, name, "slug": slug.current},
+    price, salePrice, discount, image, badge
   }
 `
 

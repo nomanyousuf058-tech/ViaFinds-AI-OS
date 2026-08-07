@@ -62,7 +62,7 @@ export default function SearchClient({
           .fetch<Product[]>(
             `*[_type == "product" && slug.current in $slugs && status == "published"] {
               _id, title, "slug": slug.current, price, salePrice, discount, currency, rating, availability,
-              brand->{name, "slug": slug.current},
+              brand->{"name": coalesce(title, name), "slug": slug.current},
               category->{name, "slug": slug.current},
               "image": images[0]
             }`,
