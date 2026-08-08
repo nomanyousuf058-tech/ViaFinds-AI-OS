@@ -121,6 +121,115 @@ REQUIRED OUTPUT FORMAT (return ONLY this JSON, filled with real extracted data):
       template: 'Evaluate the following product data. Provide a quality score between 0.0 and 1.0, and a list of improvements. Format as JSON with "score" and "improvements" keys.\nData:\n{{draftContent}}',
       requiredVariables: ['draftContent'],
     });
+
+    this.register({
+      id: 'content_product',
+      version: 1,
+      category: 'content_generation',
+      template: `You are an expert product copywriter for ViaFinds.
+Generate structured JSON output for a product description.
+You MUST rely strictly on the provided Source Facts. Do NOT invent specifications, prices, warranties, or claims.
+If information is unknown, use null.
+Output ONLY valid JSON matching this schema:
+{
+  "title": "String",
+  "shortDescription": "String",
+  "fullDescription": "String (detailed product description, min 200 words)",
+  "features": ["String"],
+  "pros": ["String"],
+  "cons": ["String"],
+  "useCases": ["String"],
+  "buyingConsiderations": "String",
+  "faq": [{"question": "String", "answer": "String"}],
+  "cta": "String",
+  "seo": { "metaTitle": "String (max 60 chars)", "metaDescription": "String (max 160 chars)", "keywords": ["String"] }
+}
+
+Source Facts:
+{{sourceContext}}
+
+Additional Instructions:
+{{additionalInstructions}}`,
+      requiredVariables: ['sourceContext', 'additionalInstructions'],
+    });
+
+    this.register({
+      id: 'content_blog',
+      version: 1,
+      category: 'content_generation',
+      template: `You are an expert SEO blog writer for ViaFinds.
+Generate structured JSON output for a blog post.
+Include affiliate product recommendations naturally where appropriate. Do not force affiliate links into unrelated informational content.
+Output ONLY valid JSON matching this schema:
+{
+  "title": "String",
+  "introduction": "String (engaging intro paragraph)",
+  "sections": [{"heading": "String", "content": "String (min 100 words per section)"}],
+  "conclusion": "String",
+  "faqs": [{"question": "String", "answer": "String"}],
+  "relatedProducts": ["String (product names to link)"],
+  "seo": { "metaTitle": "String (max 60 chars)", "metaDescription": "String (max 160 chars)", "keywords": ["String"], "slug": "String" }
+}
+
+Topic Context:
+{{sourceContext}}
+
+Additional Instructions:
+{{additionalInstructions}}`,
+      requiredVariables: ['sourceContext', 'additionalInstructions'],
+    });
+
+    this.register({
+      id: 'content_tool',
+      version: 1,
+      category: 'content_generation',
+      template: `You are an expert technical writer. Generate structured JSON output for a software tool description.
+Focus on the problem it solves, its target audience, and instructions.
+Output schema:
+{
+  "toolName": "String",
+  "problemSolved": "String",
+  "targetAudience": "String",
+  "valueProposition": "String",
+  "features": ["String"],
+  "instructions": ["String"],
+  "examples": ["String"],
+  "seo": { "metaTitle": "String", "metaDescription": "String" }
+}
+
+Tool Context:
+{{sourceContext}}
+
+Additional Instructions:
+{{additionalInstructions}}`,
+      requiredVariables: ['sourceContext', 'additionalInstructions'],
+    });
+
+    this.register({
+      id: 'content_social',
+      version: 1,
+      category: 'content_generation',
+      template: `You are an expert social media manager. Generate structured JSON output for a {{platform}} post.
+Follow the character limits, tone, and conventions of {{platform}}. Include relevant hashtags.
+Output schema:
+{
+  "title": "String (optional, for platforms like Pinterest)",
+  "caption": "String (for platforms like Instagram or X)",
+  "description": "String",
+  "hashtags": ["String"],
+  "mediaPrompt": "String (AI prompt to generate an accompanying image)",
+  "cta": "String"
+}
+
+Source Context (Product, Blog, or Tool to promote):
+{{sourceContext}}
+
+Target Platform: {{platform}}
+
+Additional Instructions:
+{{additionalInstructions}}`,
+      requiredVariables: ['sourceContext', 'platform', 'additionalInstructions'],
+    });
   }
 
   public register(template: PromptTemplate): void {
