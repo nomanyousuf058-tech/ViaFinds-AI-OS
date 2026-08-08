@@ -1,0 +1,4 @@
+export enum PublishingMode {
+  AUTOMATIC_API = 'AUTOMATIC_API',
+  MANUAL_FALLBACK = 'MANUAL_FALLBACK'
+}
