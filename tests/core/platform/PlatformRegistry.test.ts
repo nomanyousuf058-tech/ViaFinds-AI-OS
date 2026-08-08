@@ -97,4 +97,66 @@ test.describe('Platform Capability & Fallback Architecture', () => {
     expect(pkg?.status).toBe(PublishingStatus.MANUAL_PUBLISHING_REQUIRED);
     expect(pkg?.copyFields.find(f => f.label === 'Caption')?.value).toBe('This is a test caption');
   });
+
+  test('should resolve AUTOMATIC_API for image-only platform when API is available', () => {
+    // This tests the bug fix: platforms with only IMAGE_PUBLISHING (like Pinterest)
+    // should still resolve to AUTOMATIC_API when their API is available
+    class MockImageOnlyPlatform extends PlatformAdapter {
+      platformId = 'mock_image_only';
+      capabilities = new Set([PlatformCapability.IMAGE_PUBLISHING, PlatformCapability.LINKS]);
+
+      isApiAvailable(): boolean {
+        return true;
+      }
+
+      async publish(content: PlatformContent): Promise<PublishingResult> {
+        return { success: true, postId: 'img123', publishedAt: new Date().toISOString() };
+      }
+
+      getManualPublishingPackage(content: PlatformContent): ManualPublishingPackage {
+        return {
+          platformId: this.platformId,
+          status: PublishingStatus.MANUAL_PUBLISHING_REQUIRED,
+          content,
+          generatedAt: new Date().toISOString(),
+          copyFields: []
+        };
+      }
+    }
+
+    const registry = PlatformRegistry.getInstance();
+    const imgPlatform = new MockImageOnlyPlatform();
+    registry.register(imgPlatform);
+
+    expect(imgPlatform.getPublishingMode()).toBe(PublishingMode.AUTOMATIC_API);
+  });
+
+  test('should fallback for platform with no publishing capabilities even if API is available', () => {
+    class MockAnalyticsOnlyPlatform extends PlatformAdapter {
+      platformId = 'mock_analytics';
+      capabilities = new Set([PlatformCapability.ANALYTICS, PlatformCapability.TREND_COLLECTION]);
+
+      isApiAvailable(): boolean {
+        return true;
+      }
+
+      async publish(content: PlatformContent): Promise<PublishingResult> {
+        throw new Error('Cannot publish — analytics only');
+      }
+
+      getManualPublishingPackage(content: PlatformContent): ManualPublishingPackage {
+        return {
+          platformId: this.platformId,
+          status: PublishingStatus.MANUAL_PUBLISHING_REQUIRED,
+          content,
+          generatedAt: new Date().toISOString(),
+          copyFields: []
+        };
+      }
+    }
+
+    const platform = new MockAnalyticsOnlyPlatform();
+    expect(platform.getPublishingMode()).toBe(PublishingMode.MANUAL_FALLBACK);
+  });
 });
+

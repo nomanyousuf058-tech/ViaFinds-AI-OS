@@ -35,7 +35,12 @@ export abstract class PlatformAdapter {
    * Determine the current active publishing mode based on capability and availability.
    */
   getPublishingMode(): PublishingMode {
-    if (this.isApiAvailable() && this.capabilities.has(PlatformCapability.TEXT_PUBLISHING)) {
+    const hasPublishingCapability =
+      this.capabilities.has(PlatformCapability.TEXT_PUBLISHING) ||
+      this.capabilities.has(PlatformCapability.IMAGE_PUBLISHING) ||
+      this.capabilities.has(PlatformCapability.VIDEO_PUBLISHING);
+
+    if (this.isApiAvailable() && hasPublishingCapability) {
       return PublishingMode.AUTOMATIC_API;
     }
     return PublishingMode.MANUAL_FALLBACK;
