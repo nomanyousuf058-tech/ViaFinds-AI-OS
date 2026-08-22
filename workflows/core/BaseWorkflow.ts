@@ -1,4 +1,6 @@
 import { logger } from '../../lib/logger';
+import fs from 'fs';
+import path from 'path';
 import {
   WorkflowInput,
   WorkflowResult,
@@ -10,10 +12,80 @@ import {
 export abstract class BaseWorkflow {
   public abstract readonly config: WorkflowConfiguration;
 
-  /**
-   * Standard execution pipeline:
-   * Input → Validation → Execution → Result → Logging
-   */
+  protected shouldStop(): boolean {
+    try {
+      const p = path.join(process.cwd(), 'data', 'stop-signal.json');
+      if (fs.existsSync(p)) {
+        const data = JSON.parse(fs.readFileSync(p, 'utf8'));
+        return data.stopRequested === true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  protected checkStop(): void {
+    if (this.shouldStop()) {
+      throw new Error('Graceful stop requested. Aborting operation.');
+    }
+  }
+
+  protected async checkpoint(label?: string): Promise<void> {
+    this.checkStop();
+    await new Promise(resolve => setTimeout(resolve, 10));
+    this.checkStop();
+  }
+
+  private isEnabled(input: WorkflowInput): boolean {
+    try {
+      const p = path.join(process.cwd(), 'data', 'automation-settings.json');
+      if (fs.existsSync(p)) {
+        const settings = JSON.parse(fs.readFileSync(p, 'utf8'));
+        const stages = settings.stages || {};
+        const mode = settings.mode;
+
+        if (this.shouldStop()) {
+          return false;
+        }
+
+        if (mode === 'MANUAL PROCESSING' && input.triggeredBy !== 'manual') {
+          return false;
+        }
+
+        if ((mode === 'LIST ONLY' || mode === 'DISCOVERY ONLY') &&
+            [WorkflowType.PRODUCT, WorkflowType.CONTENT, WorkflowType.PUBLISHER].includes(this.config.type)) {
+          return false;
+        }
+
+        if (mode === 'RESEARCH ONLY' &&
+            [WorkflowType.CONTENT, WorkflowType.PUBLISHER].includes(this.config.type)) {
+          return false;
+        }
+
+        switch (this.config.type) {
+          case WorkflowType.PUBLISHER:
+            if (stages.publish === false) return false;
+            break;
+          case WorkflowType.CONTENT:
+            if (stages.content === false) return false;
+            break;
+          case WorkflowType.QUALITY:
+            if (stages.prodInt === false) return false;
+            break;
+          case WorkflowType.SEARCH_INTELLIGENCE:
+            if (stages.seo === false) return false;
+            break;
+          case WorkflowType.CATEGORY:
+            if (stages.catInt === false) return false;
+            break;
+          case WorkflowType.TREND:
+            if (stages.trend === false && stages.prodDisc === false) return false;
+            break;
+        }
+      }
+    } catch (e) {}
+    return true;
+  }
+
   public async run(input: WorkflowInput): Promise<WorkflowResult> {
     const startedAt = new Date().toISOString();
     const startMs = Date.now();
@@ -29,7 +101,18 @@ export abstract class BaseWorkflow {
     };
 
     try {
-      // 1. Validation
+      if (this.shouldStop()) {
+        result.status = WorkflowStatus.FAILED;
+        result.errors.push('Graceful stop requested. Aborting before start.');
+        return this.finalize(result, startMs);
+      }
+
+      if (!this.isEnabled(input)) {
+        result.status = WorkflowStatus.FAILED;
+        result.errors.push(`Workflow ${this.config.type} disabled by automation settings.`);
+        return this.finalize(result, startMs);
+      }
+
       result.status = WorkflowStatus.VALIDATING;
       console.log(`[START] Workflow ${this.config.name} (ID: ${input.workflowId})`);
       logger.workflow({
@@ -37,6 +120,8 @@ export abstract class BaseWorkflow {
         message: `Validating input for ${this.config.name}`,
         status: 'started',
       });
+
+      this.checkStop();
       await this.validate(input, result);
 
       if (result.errors.length > 0) {
@@ -44,7 +129,7 @@ export abstract class BaseWorkflow {
         return this.finalize(result, startMs);
       }
 
-      // 2. Execution
+      this.checkStop();
       result.status = WorkflowStatus.EXECUTING;
       logger.workflow({
         workflowId: input.workflowId,
@@ -62,10 +147,21 @@ export abstract class BaseWorkflow {
             logger.info(`Retrying workflow ${this.config.name} (attempt ${attempts}/${maxAttempts})`, {
               workflowId: input.workflowId,
             });
+            result.errors = [];
+            result.warnings = [];
           }
+
+          this.checkStop();
           await this.execute(input, result);
+
+          if (result.errors.length > 0) {
+            throw new Error(result.errors.join(' | '));
+          }
           success = true;
         } catch (error) {
+          if ((error as Error).message?.includes('Graceful stop')) {
+            throw error;
+          }
           attempts++;
           if (attempts > maxAttempts) {
             throw error;
@@ -75,7 +171,6 @@ export abstract class BaseWorkflow {
         }
       }
 
-      // 3. Complete
       if (result.errors.length > 0) {
         result.status = WorkflowStatus.FAILED;
       } else {
@@ -83,11 +178,14 @@ export abstract class BaseWorkflow {
       }
     } catch (error) {
       result.status = WorkflowStatus.FAILED;
-      result.errors.push((error as Error).message);
-      console.log(`[FAILED] Workflow ${this.config.name} | Duration: ${Date.now() - startMs}ms | (ID: ${input.workflowId})`);
-      logger.error(`Workflow ${this.config.name} failed`, error as Error, {
-        workflowId: input.workflowId,
-      });
+      const errorMsg = (error as Error).message;
+      if (!errorMsg?.includes('stop requested')) {
+        console.log(`[FAILED] Workflow ${this.config.name} | Duration: ${Date.now() - startMs}ms | (ID: ${input.workflowId})`);
+        logger.error(`Workflow ${this.config.name} failed`, error as Error, {
+          workflowId: input.workflowId,
+        });
+      }
+      result.errors.push(errorMsg);
     }
 
     return this.finalize(result, startMs);
@@ -96,8 +194,7 @@ export abstract class BaseWorkflow {
   private async finalize(result: WorkflowResult, startMs: number): Promise<WorkflowResult> {
     result.completedAt = new Date().toISOString();
     result.durationMs = Date.now() - startMs;
-    
-    // Defensive initialization to ensure arrays and objects exist
+
     if (!result.errors) result.errors = [];
     if (!result.warnings) result.warnings = [];
     if (!result.data) result.data = {};
@@ -115,7 +212,6 @@ export abstract class BaseWorkflow {
       durationMs: result.durationMs,
     });
 
-    // Automatically invoke LoggingWorkflow to log telemetry
     if (this.config.type !== WorkflowType.LOGGING) {
       try {
         const { workflowRegistry } = await import('./WorkflowRegistry');
@@ -150,13 +246,7 @@ export abstract class BaseWorkflow {
     return result;
   }
 
-  /**
-   * Validates the input payload. Push errors into result.errors to fail.
-   */
   protected abstract validate(input: WorkflowInput, result: WorkflowResult): Promise<void>;
 
-  /**
-   * Core execution logic. Must be implemented by each workflow.
-   */
   protected abstract execute(input: WorkflowInput, result: WorkflowResult): Promise<void>;
 }

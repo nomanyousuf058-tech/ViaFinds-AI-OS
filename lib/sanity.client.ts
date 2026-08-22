@@ -21,15 +21,15 @@ export const clientNoCdn = createClient({
     dataset: DATASET,
     apiVersion: API_VERSION,
     useCdn: false,
-    token: process.env.SANITY_TOKEN,
+    token: process.env.SANITY_WRITE_TOKEN || process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN,
    perspective: "published",
-})
+  })
 export const clientDrafts = createClient({
   projectId: PROJECT_ID,
   dataset: DATASET,
   apiVersion: API_VERSION,
   useCdn: false,
-  token: process.env.SANITY_TOKEN,
+  token: process.env.SANITY_WRITE_TOKEN || process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN,
   perspective: 'raw',
 })
 // ── Image URL Builder ─────────────────────────────────────────────────────────

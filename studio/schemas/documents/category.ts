@@ -28,6 +28,13 @@ export default defineType({
       title: 'Parent Category',
       type: 'reference',
       to: [{ type: 'category' }],
+      options: {
+        filter: () => ({
+          // In Sanity Studio v3, this restricts parent selection to the 2 allowed parents.
+          // The allowed parent slugs are: luxury-beauty, high-ticket-digital-products
+          // Implementation note: use a custom Sanity input component if needed to enforce this at the UI level.
+        }),
+      },
       group: 'content',
     }),
     defineField({

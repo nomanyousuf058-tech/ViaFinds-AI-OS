@@ -8,6 +8,7 @@ import { SearchIntelligenceWorkflow } from '../search-intelligence/SearchIntelli
 import { QualityWorkflow } from '../quality/QualityWorkflow';
 import { PublisherWorkflow } from '../publisher/PublisherWorkflow';
 import { LoggingWorkflow } from '../logging/LoggingWorkflow';
+import { AuditWorkflow } from '../audit/AuditWorkflow';
 
 export class WorkflowLoader {
   /**
@@ -22,6 +23,7 @@ export class WorkflowLoader {
     workflowRegistry.register(new QualityWorkflow());
     workflowRegistry.register(new PublisherWorkflow());
     workflowRegistry.register(new LoggingWorkflow());
+    workflowRegistry.register(new AuditWorkflow());
 
     const workflows = workflowRegistry.getAllWorkflows();
 

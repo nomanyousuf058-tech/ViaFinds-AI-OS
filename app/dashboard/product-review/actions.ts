@@ -7,6 +7,7 @@ import { ProductWorkflow } from '../../../workflows/product/ProductWorkflow';
 import { WorkflowLoader } from '../../../workflows/core/WorkflowLoader';
 import { AgentLoader } from '../../../agents/core/AgentLoader';
 import { WorkflowType } from '../../../workflows/core/types';
+import { clientDrafts } from '@/lib/sanity.client';
 
 export async function startProductPipeline(formData: FormData) {
   const url = formData.get('url') as string;
@@ -35,6 +36,48 @@ export async function startProductPipeline(formData: FormData) {
     throw new Error('Pipeline failed: ' + result.errors.join(', '));
   }
 
-  revalidatePath('/dashboard/draft-queue');
-  redirect('/dashboard/draft-queue');
+  revalidatePath('/dashboard/product-review');
+  redirect('/dashboard/product-review');
+}
+
+export async function approveProduct(productId: string) {
+  try {
+    // 1. Fetch the product to see if it has a related article
+    const product = await clientDrafts.fetch(
+      `*[_type == "product" && _id == $id][0]{ 
+        _id, 
+        "articleId": metadata.relationships.articleId 
+      }`,
+      { id: productId }
+    );
+
+    if (!product) throw new Error('Product not found');
+
+    // 2. Patch the product to 'published' and 'approved'
+    await clientDrafts
+      .patch(productId)
+      .set({
+        'metadata.publishing.status': 'published',
+        'metadata.publishing.approvalStatus': 'approved'
+      })
+      .commit();
+
+    // 3. If there's an associated article, publish it too
+    if (product.articleId) {
+      await clientDrafts
+        .patch(product.articleId)
+        .set({
+          'metadata.publishing.status': 'published',
+          'metadata.publishing.approvalStatus': 'approved'
+        })
+        .commit();
+    }
+
+  } catch (err) {
+    console.error('Failed to approve product:', err);
+    throw err;
+  }
+
+  revalidatePath('/dashboard/product-review');
+  redirect('/dashboard/product-review');
 }

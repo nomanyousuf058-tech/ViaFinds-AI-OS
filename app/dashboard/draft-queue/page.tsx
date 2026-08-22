@@ -1,6 +1,6 @@
 import React from 'react';
 import { clientDrafts } from '@/lib/sanity.client';
-import { publishDraft, rejectDraft } from './actions';
+// import { publishDraft, rejectDraft } from './actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -171,16 +171,9 @@ export default async function DraftQueue() {
                     {/* Actions */}
                     <td style={{ padding: '0.75rem', textAlign: 'center' }}>
                       <div className="action-panel" style={{ margin: 0, justifyContent: 'center' }}>
-                        <form action={publishDraft.bind(null, draft._id)}>
-                          <button type="submit" className="action-button approve-btn" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>
-                            ✓ Approve
-                          </button>
-                        </form>
-                        <form action={rejectDraft.bind(null, draft._id)}>
-                          <button type="submit" className="action-button reject-btn" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>
-                            ✕ Reject
-                          </button>
-                        </form>
+                        <a href={`/dashboard/draft-review/${encodeURIComponent(draft._id)}`} className="action-button" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', textDecoration: 'none', background: '#e0e7ff', color: '#3730a3', borderRadius: '4px', display: 'inline-block' }}>
+                          🔍 Review
+                        </a>
                       </div>
                     </td>
                   </tr>

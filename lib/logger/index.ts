@@ -1,5 +1,7 @@
 import { LogLevel, ErrorLogPayload, WorkflowLogPayload, AILogPayload, BaseLogPayload } from './types';
 import { config } from '../../config';
+import fs from 'fs';
+import path from 'path';
 
 class Logger {
   private static instance: Logger;
@@ -30,24 +32,40 @@ class Logger {
     return JSON.stringify(payload);
   }
 
+  private appendLogToFile(formattedMsg: string) {
+    try {
+      const logFile = path.join(process.cwd(), 'data', 'latest-run.log');
+      if (!fs.existsSync(path.dirname(logFile))) {
+        fs.mkdirSync(path.dirname(logFile), { recursive: true });
+      }
+      fs.appendFileSync(logFile, formattedMsg + '\n');
+    } catch {}
+  }
+
   public info(message: string, context?: Record<string, unknown>): void {
     if (this.shouldLog('info')) {
       const payload: BaseLogPayload = { timestamp: new Date().toISOString(), level: 'info', message, context };
-      console.log(this.formatMessage(payload));
+      const formatted = this.formatMessage(payload);
+      console.log(formatted);
+      this.appendLogToFile(formatted);
     }
   }
 
   public warn(message: string, context?: Record<string, unknown>): void {
     if (this.shouldLog('warn')) {
       const payload: BaseLogPayload = { timestamp: new Date().toISOString(), level: 'warn', message, context };
-      console.warn(this.formatMessage(payload));
+      const formatted = this.formatMessage(payload);
+      console.warn(formatted);
+      this.appendLogToFile(formatted);
     }
   }
 
   public debug(message: string, context?: Record<string, unknown>): void {
     if (this.shouldLog('debug')) {
       const payload: BaseLogPayload = { timestamp: new Date().toISOString(), level: 'debug', message, context };
-      console.debug(this.formatMessage(payload));
+      const formatted = this.formatMessage(payload);
+      console.debug(formatted);
+      this.appendLogToFile(formatted);
     }
   }
 
@@ -61,7 +79,9 @@ class Logger {
         stackTrace: error?.stack,
         context,
       };
-      console.error(this.formatMessage(payload));
+      const formatted = this.formatMessage(payload);
+      console.error(formatted);
+      this.appendLogToFile(formatted);
     }
   }
 
@@ -72,7 +92,9 @@ class Logger {
         timestamp: new Date().toISOString(),
         level: 'info',
       };
-      console.log(this.formatMessage(fullPayload));
+      const formatted = this.formatMessage(fullPayload);
+      console.log(formatted);
+      this.appendLogToFile(formatted);
     }
   }
 
@@ -83,7 +105,9 @@ class Logger {
         timestamp: new Date().toISOString(),
         level: 'info',
       };
-      console.log(this.formatMessage(fullPayload));
+      const formatted = this.formatMessage(fullPayload);
+      console.log(formatted);
+      this.appendLogToFile(formatted);
     }
   }
 }

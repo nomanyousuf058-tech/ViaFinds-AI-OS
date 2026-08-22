@@ -30,9 +30,6 @@ export class QualityValidator {
       case ContentType.PRODUCT:
         this.validateProduct(result, errors, warnings);
         break;
-      case ContentType.TOOL:
-        this.validateTool(result, errors, warnings);
-        break;
       case ContentType.BLOG:
         this.validateBlog(result, errors, warnings);
         break;
@@ -55,13 +52,6 @@ export class QualityValidator {
     }
     if (!result.seo) {
       warnings.push('Missing SEO metadata for product');
-    }
-  }
-
-  private validateTool(result: Partial<ContentGenerationResult>, errors: string[], warnings: string[]) {
-    const bodyStr = result.body || '';
-    if (bodyStr.length < 50) {
-      errors.push('Tool description is too short (min 50 chars)');
     }
   }
 

@@ -35,19 +35,19 @@ export class QualityWorkflow extends BaseWorkflow {
       { workflowId: input.workflowId }
     );
 
-    // Perform quality validation and assign quality metadata
-    uco.metadata.quality = {
-      overallScore: 0.8, // Basic structural check
-      contentScore: 0.8,
-      passed: true,
-      checks: [
-        { name: 'Fact Check', passed: true },
-        { name: 'Grammar & Tone', passed: true },
-        { name: 'SEO Elements', passed: true },
-        { name: 'Affiliate URL Integrity', passed: true },
-      ],
-      lastChecked: new Date().toISOString(),
-    } as any;
+    // Perform quality validation and assign quality metadata based on agent result
+    if (agentResult.status === 'success' && agentResult.data) {
+      uco.metadata.quality = {
+        overallScore: agentResult.data.overallScore || 0,
+        contentScore: agentResult.data.contentScore || 0,
+        passed: agentResult.data.passed || false,
+        checks: agentResult.data.checks || [],
+        lastChecked: new Date().toISOString(),
+      } as any;
+    } else {
+      result.errors.push('Quality Intelligence Agent failed.');
+      return;
+    }
 
     result.data = {
       uco,

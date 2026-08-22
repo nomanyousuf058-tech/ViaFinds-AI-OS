@@ -3,7 +3,6 @@ import { PlatformContent } from '../platform/PlatformContent';
 
 export enum ContentType {
   PRODUCT = 'PRODUCT',
-  TOOL = 'TOOL',
   BLOG = 'BLOG',
   SEO = 'SEO',
   SOCIAL_POST = 'SOCIAL_POST',

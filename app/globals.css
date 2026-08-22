@@ -5,25 +5,25 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 84px; /* Fixed navbar height + a little breathing room */
+    scroll-padding-top: 84px;
   }
 
   body {
-    @apply bg-background text-on-surface font-body selection:bg-tertiary-container selection:text-on-tertiary-container;
+    @apply bg-background text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
 
-  /* Improve tap target sizes on mobile — buttons only */
   button {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
   }
 
-  /* Anchors used as buttons (e.g. pill links) get tap target too */
   a[role="button"] {
     min-height: 44px;
     display: inline-flex;
@@ -32,7 +32,6 @@
 }
 
 @layer utilities {
-  /* ── Scrollbar ───────────────────────────────────── */
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -46,31 +45,27 @@
     scrollbar-width: none;
   }
 
-  /* ── Shadows ─────────────────────────────────────── */
   .luxury-shadow {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04), 0 10px 40px rgba(0,0,0,0.02);
+    box-shadow: none;
   }
 
   .hover-luxury-shadow {
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .hover-luxury-shadow:hover {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08), 0 20px 60px rgba(0,0,0,0.04);
-    transform: translateY(-2px);
+    box-shadow: none;
+    transform: none;
   }
 
-  /* ── Gradients ───────────────────────────────────── */
   .scrim-gradient {
-    background: linear-gradient(to top, rgba(0, 17, 58, 0.9) 0%, rgba(0, 17, 58, 0.4) 60%, rgba(0, 17, 58, 0) 100%);
+    background: linear-gradient(to top, rgba(19, 19, 19, 0.95) 0%, rgba(19, 19, 19, 0.5) 60%, rgba(19, 19, 19, 0) 100%);
   }
 
   .hero-mobile-gradient {
-    background: linear-gradient(135deg, rgba(0,17,58,0.03) 0%, rgba(212,175,55,0.06) 100%);
+    background: linear-gradient(135deg, rgba(19,19,19,0.95) 0%, rgba(19,19,19,0.8) 100%);
   }
 
-  /* ── Responsive Section Gap ──────────────────────── */
-  /* Mobile: 64px, tablet: 96px, desktop: 120px */
   .section-gap {
     padding-top: 64px;
     padding-bottom: 64px;
@@ -90,7 +85,6 @@
     }
   }
 
-  /* ── Animations ──────────────────────────────────── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -124,20 +118,56 @@
   }
 
   .animate-shimmer {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #1e1e1e 25%, #252525 50%, #1e1e1e 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
 
-  /* ── Stagger helpers ─────────────────────────────── */
   .stagger-1 { animation-delay: 0.05s; }
   .stagger-2 { animation-delay: 0.10s; }
   .stagger-3 { animation-delay: 0.15s; }
   .stagger-4 { animation-delay: 0.20s; }
   .stagger-5 { animation-delay: 0.25s; }
 
-  /* ── Focus visible (accessibility) ──────────────── */
   .focus-ring {
-    @apply outline-none ring-2 ring-gold-accent ring-offset-2;
+    @apply outline-none ring-2 ring-gold-accent ring-offset-2 ring-offset-background;
+  }
+
+  .hairline-border {
+    border: 1px solid #2d2d2d;
+  }
+
+  .hairline-border-b {
+    border-bottom: 1px solid #2d2d2d;
+  }
+
+  .hairline-border-t {
+    border-top: 1px solid #2d2d2d;
+  }
+
+  .editorial-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .editorial-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .editorial-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .meta-mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.6875rem;
+    font-weight: 600;
   }
 }

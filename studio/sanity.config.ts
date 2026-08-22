@@ -63,12 +63,7 @@ export default defineConfig({
 
             S.divider(),
 
-            // ── Tools & Collections ────────────────────
-            S.listItem()
-              .title('🔧  Toolkit')
-              .child(S.documentTypeList('tool').title('Tools')),
-            S.listItem()
-              .title('✍️  Authors')
+            // ── Authors & Collections ────────────────────
               .child(S.documentTypeList('author').title('Authors')),
             S.listItem()
               .title('🗂️  Collections')

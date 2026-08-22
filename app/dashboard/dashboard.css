@@ -95,3 +95,8 @@
 .approve-btn:hover { background: #45a049; }
 .reject-btn { background: #f44336; color: #fff; }
 .reject-btn:hover { background: #d32f2f; }
+
+/* Stitch toggle styles */
+.toggle-checkbox:checked { right: 0; border-color: #0426be; }
+.toggle-checkbox:checked + .toggle-label { background-color: #0426be; }
+.toggle-checkbox:checked + .toggle-label-secondary { background-color: #006a61; }

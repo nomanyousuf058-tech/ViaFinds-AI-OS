@@ -35,12 +35,19 @@ export class SearchIntelligenceWorkflow extends BaseWorkflow {
       { workflowId: input.workflowId }
     );
 
-    // Update UCO SEO metadata
-    uco.metadata.seo = {
-      metaTitle: uco.title,
-      metaDescription: uco.description || uco.summary,
-      primaryKeyword: 'placeholder keyword'
-    } as any;
+    // Update UCO SEO metadata based on agent result
+    if (agentResult.status === 'success' && agentResult.data) {
+      uco.metadata.seo = {
+        metaTitle: agentResult.data.metaTitle || uco.title,
+        metaDescription: agentResult.data.metaDescription || uco.description || uco.summary,
+        primaryKeyword: agentResult.data.primaryKeyword || '',
+        secondaryKeywords: agentResult.data.secondaryKeywords || [],
+        focusKeyword: agentResult.data.focusKeyword || agentResult.data.primaryKeyword,
+      } as any;
+    } else {
+      result.errors.push('Search Intelligence Agent failed.');
+      return;
+    }
 
     result.data = {
       uco,

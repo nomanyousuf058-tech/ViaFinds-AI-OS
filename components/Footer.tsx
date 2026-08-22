@@ -152,14 +152,6 @@ const DEFAULT_FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    heading: 'Tools',
-    links: [
-      { label: 'Toolkit', href: '/toolkit' },
-      { label: 'Discount Calculator', href: '/toolkit#discount' },
-      { label: 'Currency Converter', href: '/toolkit#currency' },
-    ],
-  },
-  {
     heading: 'Company',
     links: [
       { label: 'About Us', href: '/about' },

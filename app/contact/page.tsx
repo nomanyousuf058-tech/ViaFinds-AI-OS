@@ -151,7 +151,7 @@ export default function ContactPage() {
       {/* CTA */}
       <section className="py-16 px-4 text-center">
         <h2 className="font-display text-2xl font-bold text-primary mb-4">Looking for something specific?</h2>
-        <p className="font-body text-secondary mb-6 max-w-lg mx-auto">Browse our curated collections to find the products and tools you need.</p>
+        <p className="font-body text-secondary mb-6 max-w-lg mx-auto">Browse our curated collections to find the products you need.</p>
         <Link href="/search" className="inline-flex items-center gap-2 bg-primary text-white font-body font-bold uppercase tracking-widest px-8 py-4 hover:bg-gold-accent transition-colors">
           Explore Products
           <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>

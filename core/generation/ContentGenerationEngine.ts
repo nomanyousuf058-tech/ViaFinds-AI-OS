@@ -2,7 +2,6 @@ import { ContentType, ContentGenerationRequest, ContentGenerationResult, IConten
 import { aiRouter, AIRouter } from '../ai/AIRouter';
 import { ProductContentStrategy } from './strategies/ProductContentStrategy';
 import { BlogContentStrategy } from './strategies/BlogContentStrategy';
-import { ToolContentStrategy } from './strategies/ToolContentStrategy';
 import { SocialContentStrategy } from './strategies/SocialContentStrategy';
 
 export class ContentGenerationEngine {
@@ -16,7 +15,6 @@ export class ContentGenerationEngine {
     // Register strategies
     this.strategies.set(ContentType.PRODUCT, new ProductContentStrategy());
     this.strategies.set(ContentType.BLOG, new BlogContentStrategy());
-    this.strategies.set(ContentType.TOOL, new ToolContentStrategy());
     this.strategies.set(ContentType.SOCIAL_POST, new SocialContentStrategy());
   }
 

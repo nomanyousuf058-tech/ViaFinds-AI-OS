@@ -22,7 +22,16 @@ export class SearchIntelligenceAgent extends BaseAgent<any, any> {
   };
 
   protected async process(input: any, context: AgentContext): Promise<any> {
-    // Framework placeholder
-    return { status: 'success', message: 'Search Intelligence Agent processed (Framework only)' };
+    return { 
+      status: 'success', 
+      message: 'Search Intelligence Agent processed (Framework only)',
+      data: {
+        metaTitle: input.content?.title || '',
+        metaDescription: input.content?.description || input.content?.summary || '',
+        primaryKeyword: '',
+        secondaryKeywords: [],
+        focusKeyword: ''
+      }
+    };
   }
 }

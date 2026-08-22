@@ -2,17 +2,19 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@sanity/client';
+import { adminOnly } from '@/lib/auth';
 
 const writeClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'e44z7hta',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
-  token: process.env.SANITY_TOKEN,
+  token: process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN,
   useCdn: false,
 });
 
 export async function publishDraft(draftId: string) {
-  if (!process.env.SANITY_TOKEN) {
+  await adminOnly();
+  if (!process.env.SANITY_TOKEN && !process.env.SANITY_API_TOKEN) {
     throw new Error('SANITY_TOKEN environment variable not set.');
   }
 
@@ -51,7 +53,8 @@ export async function publishDraft(draftId: string) {
 }
 
 export async function rejectDraft(draftId: string) {
-  if (!process.env.SANITY_TOKEN) {
+  await adminOnly();
+  if (!process.env.SANITY_TOKEN && !process.env.SANITY_API_TOKEN) {
     throw new Error('SANITY_TOKEN environment variable not set.');
   }
 

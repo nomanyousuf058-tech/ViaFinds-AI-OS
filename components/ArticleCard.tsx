@@ -38,12 +38,6 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             <span className="material-symbols-outlined text-4xl">feed</span>
           </div>
         )}
-
-        {article.featured && (
-          <span className="absolute top-4 left-4 bg-primary text-white text-[9px] font-bold uppercase tracking-wider px-2 py-1 shadow-sm font-sans z-10">
-            Featured
-          </span>
-        )}
       </Link>
 
       <div className="flex flex-col gap-3 flex-1">

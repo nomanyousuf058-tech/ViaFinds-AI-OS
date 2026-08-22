@@ -7,7 +7,6 @@ import { PortableText } from '@portabletext/react'
 import { client, urlFor } from '@/lib/sanity.client'
 import { ARTICLE_BY_SLUG_QUERY, SITEMAP_ARTICLES_QUERY } from '@/lib/sanity.queries'
 import Breadcrumbs from '@/components/Breadcrumbs'
-import ProductCard from '@/components/ProductCard'
 import type { Article } from '@/lib/types'
 
 interface ArticlePageProps {
@@ -262,17 +261,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </aside>
       </div>
 
-      {/* Related Products Section */}
-      {article.relatedProducts && article.relatedProducts.length > 0 && (
-        <section className="border-t border-surface-container pt-16 mt-16">
-          <h2 className="font-display text-2xl text-primary font-bold mb-10">Recommended Gear & Tools</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {article.relatedProducts.map((p) => (
-              <ProductCard key={p._id} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   )
 }

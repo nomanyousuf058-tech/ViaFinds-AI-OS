@@ -85,7 +85,7 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl font-bold text-primary mb-4">How We Select Products</h2>
           <p className="font-body text-secondary max-w-2xl mx-auto">
-            Our curation process is rigorous and multi-faceted, combining human expertise with cutting-edge tools.
+            Our curation process is rigorous and multi-faceted, combining human expertise with advanced research methods.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -157,7 +157,7 @@ export default function AboutPage() {
           <div className="border-b border-surface-container pb-6">
             <dt className="font-body font-bold text-lg text-primary mb-2">How do you use AI?</dt>
             <dd className="text-secondary font-body">
-              We use AI as a tool to aggregate data, analyze sentiment across thousands of user reviews, and structure our research. However, final editorial decisions and curation are always handled by our human experts.
+              We use AI to aggregate data, analyze sentiment across thousands of user reviews, and structure our research. However, final editorial decisions and curation are always handled by our human experts.
             </dd>
           </div>
         </dl>
@@ -167,7 +167,7 @@ export default function AboutPage() {
       <section className="bg-surface-container-low py-20 px-4 text-center">
         <h2 className="font-display text-3xl font-bold text-primary mb-6">Ready to Discover?</h2>
         <p className="font-body text-secondary mb-8 max-w-xl mx-auto">
-          Explore our latest curated collections and find the precise tools, gear, and software you&apos;ve been looking for.
+          Explore our latest curated collections and find the precise gear and software you&apos;ve been looking for.
         </p>
         <Link href="/search" className="inline-flex items-center gap-2 bg-primary text-white font-body font-bold uppercase tracking-widest px-8 py-4 hover:bg-gold-accent transition-colors">
           Start Exploring

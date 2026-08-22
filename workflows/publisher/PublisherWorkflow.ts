@@ -52,7 +52,7 @@ export class PublisherWorkflow extends BaseWorkflow {
     } as any;
 
     let savedInSanity = false;
-    const token = process.env.SANITY_TOKEN;
+    const token = process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN;
     if (!token) {
       logger.warn('SANITY_TOKEN not set — draft cannot be saved to Sanity CMS', {
         workflowId: input.workflowId,
@@ -73,10 +73,15 @@ export class PublisherWorkflow extends BaseWorkflow {
     // Resolves a human-readable string (e.g. "Electronics") to a Sanity
     // Reference object ({ _type: 'reference', _ref: '<uuid>' }) by querying
     // for documents of the given type whose title or name matches.
+    const ALLOWED_PARENT_CATEGORIES = [
+      { name: 'Luxury Beauty', slug: 'luxury-beauty' },
+      { name: 'High-Ticket Digital Products', slug: 'high-ticket-digital-products' },
+    ];
+
     const resolveOrCreateRef = async (type: string, name: string | undefined | null): Promise<{ _type: 'reference'; _ref: string } | undefined> => {
       if (!name) return undefined;
       try {
-        const query = `*[_type == $type && (title == $name || name == $name)][0]{_id}`;
+        const query = `*[_type == $type && (title == $name || name == $name)][0]{_id, level, parent}`;
         const match = await writeClient.fetch(query, { type, name });
         if (match?._id) {
           logger.info(`Resolved ${type} "${name}" → ${match._id}`);
@@ -84,7 +89,65 @@ export class PublisherWorkflow extends BaseWorkflow {
         }
         
         // Auto-repair: create missing document
-        logger.info(`Auto-creating missing ${type} "${name}"`);
+        if (type === 'category') {
+          logger.info(`Auto-creating missing category "${name}" under allowed parent taxonomy`);
+          
+          // Find the best parent category based on name similarity
+          const nameLower = name.toLowerCase();
+          let bestParent = ALLOWED_PARENT_CATEGORIES[2]; // Default to Tech
+          
+          const parentScores = ALLOWED_PARENT_CATEGORIES.map(parent => {
+            const parentLower = parent.name.toLowerCase();
+            let score = 0;
+            const parentWords = parentLower.split(' ');
+            const nameWords = nameLower.split(' ');
+            
+            for (const pw of parentWords) {
+              for (const nw of nameWords) {
+                if (nw.includes(pw) || pw.includes(nw)) score += 2;
+                if (nw === pw) score += 3;
+              }
+            }
+            return { parent, score };
+          });
+          
+          parentScores.sort((a, b) => b.score - a.score);
+          if (parentScores[0].score > 0) {
+            bestParent = parentScores[0].parent;
+          }
+          
+          // Get parent category ID
+          const parentDoc = await writeClient.fetch(
+            `*[_type == "category" && slug.current == $slug][0]{_id}`,
+            { slug: bestParent.slug }
+          );
+          
+          if (!parentDoc?._id) {
+            logger.warn(`Parent category "${bestParent.name}" not found, cannot create subcategory`);
+            return undefined;
+          }
+          
+          const slugStr = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+          const docId = `category-${crypto.randomUUID()}`;
+          
+          const newDoc: any = {
+            _id: docId,
+            _type: 'category',
+            uuid: crypto.randomUUID(),
+            title: name,
+            name: name,
+            contentType: 'category',
+            slug: { _type: 'slug', current: slugStr },
+            level: 2,
+            parent: { _type: 'reference', _ref: parentDoc._id },
+          };
+          
+          await writeClient.createIfNotExists(newDoc);
+          logger.info(`Created subcategory "${name}" under ${bestParent.name} → ${docId}`);
+          return { _type: 'reference', _ref: docId };
+        }
+        
+        // For non-category types, create as before
         const slugStr = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
         const docId = `${type}-${crypto.randomUUID()}`;
         
@@ -93,14 +156,10 @@ export class PublisherWorkflow extends BaseWorkflow {
           _type: type,
           uuid: crypto.randomUUID(),
           title: name,
-          name: name, // supply both title and name to satisfy category/brand/manufacturer schemas
+          name: name,
           contentType: type,
           slug: { _type: 'slug', current: slugStr },
         };
-        
-        if (type === 'category') {
-          newDoc.level = 1; // Default to top level if creating from scratch
-        }
         
         await writeClient.createIfNotExists(newDoc);
         logger.info(`Successfully created missing ${type} → ${docId}`);
@@ -133,6 +192,27 @@ export class PublisherWorkflow extends BaseWorkflow {
       resolveOrCreateRef('category', uco.metadata?.level4Category),
       resolveOrCreateRef('category', uco.metadata?.level5Category),
     ]);
+
+    // ── Strict Two-Niche Taxonomy Enforcement ──────────────────────────────────
+    const assignedCategoryName = uco.metadata?.category || uco.metadata?.bestCategory || uco.metadata?.parentCategory;
+    const parentMatch = ALLOWED_PARENT_CATEGORIES.find(p => 
+      assignedCategoryName?.toLowerCase().includes(p.name.toLowerCase()) ||
+      p.name.toLowerCase().includes(assignedCategoryName?.toLowerCase() || '')
+    );
+    
+    if (!parentMatch && !categoryRef && !bestCategoryRef) {
+      const titleLower = (uco.title || '').toLowerCase();
+      const luxuryKeywords = ['beauty', 'skincare', 'makeup', 'serum', 'cream', 'lipstick', 'perfume', 'fragrance', 'cosmetics', 'hair', 'grooming', 'supplement', 'biohacking', 'anti-aging', 'vitamin', 'collagen'];
+      const digitalKeywords = ['software', 'ai', 'workflow', 'course', 'courses', 'saas', 'automation', 'template', 'training', 'education', 'e-learning', 'plugin', 'script', 'app'];
+      
+      const luxuryScore = luxuryKeywords.reduce((score, kw) => score + (titleLower.includes(kw) ? kw.length : 0), 0);
+      const digitalScore = digitalKeywords.reduce((score, kw) => score + (titleLower.includes(kw) ? kw.length : 0), 0);
+      
+      if (luxuryScore === 0 && digitalScore === 0) {
+        result.errors.push(`Content rejected: "${uco.title}" does not fit our two niches (Luxury Beauty or High-Ticket Digital Products).`);
+        return;
+      }
+    }
 
     // ── Sanity Document Mapping ──────────────────────────────────────────────
     const addKeys = (items: any[] = []) =>

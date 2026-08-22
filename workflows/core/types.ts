@@ -7,6 +7,8 @@ export enum WorkflowType {
   QUALITY = 'quality',
   PUBLISHER = 'publisher',
   LOGGING = 'logging',
+  AUDIT = 'audit',
+  TREND = 'trend',
 }
 
 export enum WorkflowStatus {

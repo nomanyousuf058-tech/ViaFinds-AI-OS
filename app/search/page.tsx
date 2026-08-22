@@ -3,7 +3,7 @@ import { client } from '@/lib/sanity.client'
 import { SEARCH_QUERY } from '@/lib/sanity.queries'
 import SearchClient from './SearchClient'
 
-import type { Product, Brand, Article, Category, Tool } from '@/lib/types'
+import type { Product, Brand, Article, Category } from '@/lib/types'
 
 interface SearchPageProps {
   searchParams: Promise<{
@@ -26,7 +26,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     brands: [] as Brand[],
     articles: [] as Article[],
     categories: [] as Category[],
-    tools: [] as Tool[],
   }
 
   // Fetch results based on query options
@@ -56,14 +55,12 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         brands?: Brand[]
         articles?: Article[]
         categories?: Category[]
-        tools?: Tool[]
       }>(SEARCH_QUERY, { keyword })
       searchResults = {
         products: data.products || [],
         brands: data.brands || [],
         articles: data.articles || [],
         categories: data.categories || [],
-        tools: data.tools || [], // If tools match the search query
       }
     } else if (!favoritesMode) {
       // Browse mode: show recent items

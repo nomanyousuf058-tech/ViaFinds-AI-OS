@@ -180,32 +180,6 @@ Additional Instructions:
     });
 
     this.register({
-      id: 'content_tool',
-      version: 1,
-      category: 'content_generation',
-      template: `You are an expert technical writer. Generate structured JSON output for a software tool description.
-Focus on the problem it solves, its target audience, and instructions.
-Output schema:
-{
-  "toolName": "String",
-  "problemSolved": "String",
-  "targetAudience": "String",
-  "valueProposition": "String",
-  "features": ["String"],
-  "instructions": ["String"],
-  "examples": ["String"],
-  "seo": { "metaTitle": "String", "metaDescription": "String" }
-}
-
-Tool Context:
-{{sourceContext}}
-
-Additional Instructions:
-{{additionalInstructions}}`,
-      requiredVariables: ['sourceContext', 'additionalInstructions'],
-    });
-
-    this.register({
       id: 'content_social',
       version: 1,
       category: 'content_generation',

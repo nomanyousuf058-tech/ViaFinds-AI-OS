@@ -10,7 +10,7 @@
 
 import { createClient } from '@sanity/client';
 
-const token = process.env.SANITY_TOKEN;
+const token = process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN;
 
 if (!token) {
   console.error(

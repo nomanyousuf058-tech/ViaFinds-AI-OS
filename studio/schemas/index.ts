@@ -1,6 +1,8 @@
 // ── Objects ───────────────────────────────────────────────────────────────────
 import seoMetadata from './objects/seoMetadata'
 import aiMetadata from './objects/aiMetadata'
+import searchMetadata from './objects/searchMetadata'
+import imageMetadata from './objects/imageMetadata'
 import affiliateMetadata from './objects/affiliateMetadata'
 import publishingMetadata from './objects/publishingMetadata'
 import qualityMetadata from './objects/qualityMetadata'
@@ -27,8 +29,10 @@ import brand from './documents/brand'
 import merchant from './documents/merchant'
 import collection from './documents/collection'
 import affiliateOffer from './documents/affiliateOffer'
-import tool from './documents/tool'
 import aiKnowledge from './documents/aiKnowledge'
+import auditRun from './documents/auditRun'
+import adminUser from './documents/adminUser'
+import connection from './documents/connection'
 
 export const schemaTypes = [
   // Objects
@@ -60,6 +64,8 @@ export const schemaTypes = [
   merchant,
   collection,
   affiliateOffer,
-  tool,
   aiKnowledge,
+  auditRun,
+  adminUser,
+  connection,
 ]

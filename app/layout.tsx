@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
-import AnnouncementBar from '@/components/AnnouncementBar'
+import PublicFrame from '@/app/components/PublicFrame'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import ClarityAnalytics from '@/components/Clarity'
 import { client } from '@/lib/sanity.client'
@@ -156,21 +154,14 @@ export default async function RootLayout({
       </head>
       <body className="bg-background text-on-surface flex flex-col min-h-screen antialiased">
 
-        <AnnouncementBar data={settings?.announcementBar} />
-        
-        {/* Dynamic header / Navbar component */}
-        <Navbar categories={categories} navigation={navigation} />
-        
-        {/* pt-20 is for Navbar height since it is fixed */}
-        <main className="flex-1 flex flex-col pt-20">
+        <PublicFrame categories={categories} settings={settings} navigation={navigation}>
           {children}
-        </main>
-        
-        <Footer navigation={navigation} settings={settings} />
+        </PublicFrame>
+
+        <GoogleTagManager gtmId="GTM-MX94PFMX" />
+        <GoogleAnalytics gaId="G-0J8LV4ZRD6" />
+        <ClarityAnalytics />
       </body>
-      <GoogleTagManager gtmId="GTM-MX94PFMX" />
-      <GoogleAnalytics gaId="G-0J8LV4ZRD6" />
-      <ClarityAnalytics />
     </html>
   )
 }

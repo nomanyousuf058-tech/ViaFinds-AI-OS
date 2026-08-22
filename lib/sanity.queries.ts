@@ -213,6 +213,10 @@ export const ARTICLES_BY_CATEGORY_QUERY = `
   }
 `
 
+export const TODAYS_ARTICLES_COUNT_QUERY = `
+  count(*[_type == "article" && publishedAt >= $startOfDay && publishedAt <= $endOfDay])
+`
+
 // ── Homepage ──────────────────────────────────────────────────────────────────
 
 export const HOME_PAGE_QUERY = `
@@ -284,9 +288,6 @@ export const SEARCH_QUERY = `
     )] [0...6] {
       _id, name, "slug": slug.current, icon, thumbnail
     },
-    "tools": *[_type == "tool" && title match $keyword] | order(order asc) [0...4] {
-      _id, title, "slug": slug.current, toolType, shortDescription, icon
-    }
   }
 `
 
@@ -301,24 +302,6 @@ export const AUTOCOMPLETE_QUERY = `
     "categories": *[_type == "category" && (active == true || status == "active" || !defined(status)) && name match $keyword] [0...3] {
       _id, name, "slug": slug.current
     }
-  }
-`
-
-// ── Tools ─────────────────────────────────────────────────────────────────────
-
-export const TOOLS_QUERY = `
-  *[_type == "tool"] | order(order asc) {
-    _id, title, "slug": slug.current, toolType, shortDescription, icon, route, buttonLabel, featured, order
-  }
-`
-
-export const TOOL_BY_SLUG_QUERY = `
-  *[_type == "tool" && slug.current == $slug][0] {
-    _id, title, "slug": slug.current, toolType, description, shortDescription,
-    icon, route, buttonLabel, featured,
-    relatedArticles[]->{ ${ARTICLE_CARD_FRAGMENT} },
-    relatedProducts[]->{ ${PRODUCT_CARD_FRAGMENT} },
-    ${SEO_FRAGMENT}
   }
 `
 

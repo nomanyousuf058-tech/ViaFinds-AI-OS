@@ -33,7 +33,7 @@ const sections = [
   { id: 'affiliate', title: 'Affiliate Links and Affiliate Programs' },
   { id: 'pinterest', title: 'Pinterest Integration' },
   { id: 'third-party', title: 'Third‑Party Services' },
-  { id: 'ai-tools', title: 'AI Tools and Automation Services' },
+  { id: 'ai-services', title: 'AI Services' },
   { id: 'how-we-use', title: 'How We Use Information' },
   { id: 'legal-basis', title: 'Legal Basis for Processing (GDPR)' },
   { id: 'data-retention', title: 'Data Retention' },

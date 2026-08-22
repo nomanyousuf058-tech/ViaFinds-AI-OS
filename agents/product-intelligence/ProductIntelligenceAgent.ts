@@ -138,7 +138,11 @@ jsonLd = result.jsonLd || null;
 
   if (!extracted.title || extracted.title.toLowerCase() === "untitled product") {
     logger.warn(`AI Extraction missing title. Falling back to page title: ${title}`);
-    extracted.title = title || "Generic Product";
+    extracted.title = title || "";
+  }
+  
+  if (!extracted.title || extracted.title.trim() === "" || extracted.title.toLowerCase() === "generic product" || extracted.title.toLowerCase() === "untitled product") {
+    throw new Error('Extraction failed: Cannot proceed with empty or generic product title.');
   }
 
   const slugTitle = extracted.slug || extracted.title;
