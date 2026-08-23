@@ -26,7 +26,7 @@ test.describe('Content Generation Engine Workflow', () => {
     await expect(queuedJob).toBeVisible();
 
     // Since AI might fail without keys, we just verify the job gets logged
-    await expect(page.locator('text=ID:')).first().toBeVisible();
+    await expect(page.locator('text=ID:').first()).toBeVisible();
   });
 
 });

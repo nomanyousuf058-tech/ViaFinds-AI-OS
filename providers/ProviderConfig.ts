@@ -4,7 +4,7 @@ export const defaultProviderConfigs: Record<AIProviderType, AIProviderConfig> = 
   // Text AI
   [AIProviderType.OLLAMA]: {
     baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
-    defaultModel: process.env.OLLAMA_DEFAULT_MODEL || 'llama3',
+    defaultModel: process.env.OLLAMA_DEFAULT_MODEL || 'llama3:latest',
     timeoutMs: 60000,
     maxRetries: 3,
     disabled: process.env.OLLAMA_DISABLED === 'true',
@@ -89,7 +89,7 @@ export const defaultProviderConfigs: Record<AIProviderType, AIProviderConfig> = 
     disabled: process.env.LEONARDO_DISABLED === 'true',
   },
   [AIProviderType.FAL]: {
-    apiKey: process.env.FAL_API_KEY,
+    apiKey: process.env.FAL_KEY || process.env.FAL_API_KEY,
     defaultModel: 'fal-flux-schnell',
     timeoutMs: 30000,
     maxRetries: 2,

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Viafinds - Admin Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#e5e2e1",
+                        "outline-variant": "#434657",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#d4d9ff",
+                        "surface-tint": "#b9c3ff",
+                        "secondary-fixed": "#ffdea8",
+                        "on-primary": "#00228a",
+                        "surface-container-highest": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary": "#412d00",
+                        "paper-white": "#F9F9F9",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed-variant": "#5e4200",
+                        "primary-container": "#0047ff",
+                        "on-secondary-fixed": "#271900",
+                        "secondary-fixed-dim": "#ffba20",
+                        "tertiary": "#e9c349",
+                        "on-tertiary-container": "#4e3d00",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed": "#ffe088",
+                        "outline": "#8e8fa3",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#001257",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "surface-bright": "#3a3939",
+                        "deep-navy": "#00113A",
+                        "inverse-primary": "#0046fa",
+                        "primary": "#b9c3ff",
+                        "tertiary-container": "#cba72f",
+                        "slate-border": "#2E2E2E",
+                        "on-tertiary": "#3c2f00",
+                        "secondary-container": "#feb700",
+                        "background": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary-container": "#6b4b00",
+                        "obsidian-deep": "#0A0A0A",
+                        "surface-variant": "#353534",
+                        "on-error": "#690005",
+                        "secondary": "#ffdb9d",
+                        "primary-fixed": "#dde1ff",
+                        "charcoal-surface": "#131313",
+                        "surface": "#131313",
+                        "on-primary-fixed-variant": "#0033c0",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "surface-container": "#201f1f",
+                        "on-background": "#e5e2e1",
+                        "on-surface-variant": "#c4c5da",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "sidebar-width": "280px",
+                        "base": "8px",
+                        "max-content-width": "1280px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-caps": ["Geist"],
+                        "headline-lg": ["Playfair Display"],
+                        "mono-data": ["Geist"],
+                        "ui-body": ["Inter"],
+                        "editorial-body": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "ui-body": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "editorial-body": ["18px", { "lineHeight": "32px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.obsidian-deep');
+            color: theme('colors.on-background');
+        }
+        
+        .input-focus-ring:focus-within {
+            border-color: theme('colors.primary-container');
+            box-shadow: none;
+            outline: none;
+        }
+
+        .input-field {
+            background-color: theme('colors.obsidian-deep');
+            color: theme('colors.on-surface');
+            border-color: theme('colors.slate-border');
+        }
+
+        .input-field:focus {
+            border-color: theme('colors.primary-container');
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop font-ui-body text-ui-body">
+<!-- Main Container -->
+<main class="w-full max-w-[420px] bg-charcoal-surface border border-slate-border rounded-lg shadow-2xl relative overflow-hidden flex flex-col items-center p-8 md:p-12 z-10">
+<!-- Subtle Top Glow (Admin context) -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary-container to-transparent opacity-50"></div>
+<!-- Header / Brand -->
+<div class="mb-10 text-center flex flex-col items-center">
+<span class="material-symbols-outlined text-4xl text-on-surface mb-4" style="font-variation-settings: 'FILL' 1;">
+                lock
+            </span>
+<h1 class="font-headline-lg text-headline-lg md:font-headline-xl md:text-headline-xl text-on-surface tracking-tight">Viafinds</h1>
+<p class="font-mono-data text-mono-data text-on-surface-variant mt-2 tracking-widest uppercase opacity-80">Admin Access</p>
+</div>
+<!-- Form Section -->
+<form action="#" class="w-full flex flex-col gap-6" method="POST" onsubmit="event.preventDefault();">
+<!-- Email/Username Field -->
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="username">Identification</label>
+<div class="relative flex items-center group input-focus-ring border border-slate-border rounded-DEFAULT overflow-hidden transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant ml-3 text-lg opacity-70 group-focus-within:text-primary-container transition-colors">
+                        person
+                    </span>
+<input autocomplete="username" class="w-full bg-obsidian-deep text-on-surface font-mono-data text-mono-data px-3 py-3 border-none focus:ring-0 placeholder:text-outline-variant transition-colors" id="username" name="username" placeholder="Email or Username" required="" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-baseline">
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="password">Passphrase</label>
+<a class="font-mono-data text-mono-data text-primary hover:text-inverse-primary transition-colors duration-200" href="#">Reset?</a>
+</div>
+<div class="relative flex items-center group input-focus-ring border border-slate-border rounded-DEFAULT overflow-hidden transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant ml-3 text-lg opacity-70 group-focus-within:text-primary-container transition-colors">
+                        key
+                    </span>
+<input autocomplete="current-password" class="w-full bg-obsidian-deep text-on-surface font-mono-data text-mono-data px-3 py-3 border-none focus:ring-0 placeholder:text-outline-variant transition-colors" id="password" name="password" placeholder="••••••••••••" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity flex items-center" type="button">
+<span class="material-symbols-outlined text-sm">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-4 flex flex-col gap-4">
+<button class="w-full bg-primary-container hover:bg-inverse-primary text-white font-label-caps text-label-caps py-4 rounded-DEFAULT flex items-center justify-center gap-2 transition-colors duration-300 shadow-[0_0_15px_rgba(0,71,255,0.15)] hover:shadow-[0_0_20px_rgba(0,71,255,0.3)]" type="submit">
+                    Authenticate
+                    <span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+</button>
+<div class="text-center font-mono-data text-[11px] text-outline-variant mt-2">
+                    Secured by Viafinds Enterprise Gatekeeper. <br/> Unauthorized access is prohibited.
+                </div>
+</div>
+</form>
+</main>
+<!-- Ambient Background Elements (Subtle) -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] bg-primary-container rounded-full opacity-[0.02] blur-[100px] mix-blend-screen"></div>
+<div class="absolute bottom-[10%] right-[10%] w-[30vw] h-[30vw] bg-inverse-primary rounded-full opacity-[0.015] blur-[80px] mix-blend-screen"></div>
+<!-- Technical Grid Overlay -->
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDQwIEwgNDAgNDAgNDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjEyMTIxIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-[0.15]"></div>
+</div>
+</body></html>

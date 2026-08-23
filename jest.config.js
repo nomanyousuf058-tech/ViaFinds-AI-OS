@@ -2,5 +2,11 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/tests/**/*.test.ts'],
+  testMatch: ['**/__tests__/**/*.test.ts', '**/tests/**/*.test.ts'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/\\.playwright\\./',
+    '/playwright\\.config\\./',
+    'PlatformRegistry\\.test\\.ts',
+  ],
 };

@@ -4,7 +4,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('should display platform status table with correct fallback modes', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     // Verify platform status table renders
     const table = page.locator('[data-testid="platform-status-table"]');
@@ -26,7 +26,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('should display manual publishing packages for all platforms without API', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     // Verify publishing packages are rendered for each platform
     await expect(page.locator('text=pinterest Publishing Package')).toBeVisible();
@@ -40,7 +40,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('should display content fields inside a manual publishing package', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     // Verify copy fields are rendered with real content from the adapter
     await expect(page.locator('text=Content & Details').first()).toBeVisible();
@@ -48,7 +48,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('should show media section', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     // Verify media section header exists
     const mediaSections = page.locator('text=Media');
@@ -57,7 +57,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('Mark Published removes the package from the queue', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     // Count initial packages
     const initialPackages = page.locator('text=Publishing Package');
@@ -75,7 +75,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('Archive removes the package from the queue', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     const archiveBtns = page.locator('button:has-text("Archive")');
     const initialCount = await page.locator('text=Publishing Package').count();
@@ -88,7 +88,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('Remove removes the package from the queue', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     const removeBtns = page.locator('button:has-text("Remove")');
     const initialCount = await page.locator('text=Publishing Package').count();
@@ -101,7 +101,7 @@ test.describe('Manual Publishing Dashboard Workflow', () => {
 
   test('should show empty queue message after all packages are removed', async ({ page }) => {
     await page.goto('http://127.0.0.1:3000/dashboard/publish-queue');
-    await expect(page.locator('text=Publish Queue')).toBeVisible();
+    await expect(page.locator('text=Publish Queue').first()).toBeVisible();
 
     // Remove all packages one by one
     const removeBtns = page.locator('button:has-text("Remove")');

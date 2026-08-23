@@ -101,35 +101,78 @@ export class ProviderLoader {
 
     // Register all providers if registry is empty
     if (providerRegistry.getAllProviders().length === 0) {
-      try {
-        ProviderFactory.createProvider(AIProviderType.GEMINI, GeminiProvider, defaultProviderConfigs[AIProviderType.GEMINI]);
-        ProviderFactory.createProvider(AIProviderType.GROQ, GroqProvider, defaultProviderConfigs[AIProviderType.GROQ]);
-        ProviderFactory.createProvider(AIProviderType.OPENROUTER, OpenRouterProvider, defaultProviderConfigs[AIProviderType.OPENROUTER]);
-        ProviderFactory.createProvider(AIProviderType.DEEPSEEK, DeepSeekProvider, defaultProviderConfigs[AIProviderType.DEEPSEEK]);
-        ProviderFactory.createProvider(AIProviderType.MISTRAL, MistralProvider, defaultProviderConfigs[AIProviderType.MISTRAL]);
-        ProviderFactory.createProvider(AIProviderType.OPENAI, OpenAIProvider, defaultProviderConfigs[AIProviderType.OPENAI]);
-        ProviderFactory.createProvider(AIProviderType.CLAUDE, ClaudeProvider, defaultProviderConfigs[AIProviderType.CLAUDE]);
-        ProviderFactory.createProvider(AIProviderType.OLLAMA, OllamaProvider, defaultProviderConfigs[AIProviderType.OLLAMA]);
-        
-        ProviderFactory.createProvider(AIProviderType.GOOGLE_IMAGEN, GoogleImagenProvider, defaultProviderConfigs[AIProviderType.GOOGLE_IMAGEN]);
-        ProviderFactory.createProvider(AIProviderType.BFL, BflProvider, defaultProviderConfigs[AIProviderType.BFL]);
-        ProviderFactory.createProvider(AIProviderType.IDEOGRAM, IdeogramProvider, defaultProviderConfigs[AIProviderType.IDEOGRAM]);
-        ProviderFactory.createProvider(AIProviderType.LEONARDO, LeonardoProvider, defaultProviderConfigs[AIProviderType.LEONARDO]);
-        ProviderFactory.createProvider(AIProviderType.FAL, FalProvider, defaultProviderConfigs[AIProviderType.FAL]);
-        ProviderFactory.createProvider(AIProviderType.REPLICATE, ReplicateProvider, defaultProviderConfigs[AIProviderType.REPLICATE]);
-        ProviderFactory.createProvider(AIProviderType.STABILITY_AI, StabilityAiProvider, defaultProviderConfigs[AIProviderType.STABILITY_AI]);
-        
-        ProviderFactory.createProvider(AIProviderType.GOOGLE_VEO, GoogleVeoProvider, defaultProviderConfigs[AIProviderType.GOOGLE_VEO]);
-        ProviderFactory.createProvider(AIProviderType.RUNWAY, RunwayProvider, defaultProviderConfigs[AIProviderType.RUNWAY]);
-        ProviderFactory.createProvider(AIProviderType.KLING, KlingProvider, defaultProviderConfigs[AIProviderType.KLING]);
-        ProviderFactory.createProvider(AIProviderType.PIKA, PikaProvider, defaultProviderConfigs[AIProviderType.PIKA]);
-        ProviderFactory.createProvider(AIProviderType.LUMA, LumaProvider, defaultProviderConfigs[AIProviderType.LUMA]);
-        ProviderFactory.createProvider(AIProviderType.HAIPER, HaiperProvider, defaultProviderConfigs[AIProviderType.HAIPER]);
-        ProviderFactory.createProvider(AIProviderType.FAL_VIDEO, FalVideoProvider, defaultProviderConfigs[AIProviderType.FAL_VIDEO]);
-        ProviderFactory.createProvider(AIProviderType.REPLICATE_VIDEO, ReplicateVideoProvider, defaultProviderConfigs[AIProviderType.REPLICATE_VIDEO]);
-      } catch (error) {
-        logger.error('Failed to register providers inside ProviderLoader', error as Error);
-      }
+        let customConfigs: any = {};
+        try {
+          const fs = await import('fs');
+          const path = await import('path');
+          const crypto = await import('crypto');
+          const credPath = path.join(process.cwd(), 'data', 'credentials.json');
+          
+          const getEncryptionKey = () => {
+            const secret = process.env.ENCRYPTION_KEY || process.env.NEXTAUTH_SECRET || 'viafinds-fallback-local-key-32b';
+            return crypto.scryptSync(secret, 'salt', 32);
+          };
+
+          const decrypt = (encryptedText: string) => {
+            try {
+              const parts = encryptedText.split(':');
+              if (parts.length !== 3) return encryptedText;
+              const iv = Buffer.from(parts[0], 'hex');
+              const authTag = Buffer.from(parts[1], 'hex');
+              const encrypted = parts[2];
+              const decipher = crypto.createDecipheriv('aes-256-gcm', getEncryptionKey(), iv);
+              decipher.setAuthTag(authTag);
+              let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+              decrypted += decipher.final('utf8');
+              return decrypted;
+            } catch (e) {
+              return encryptedText;
+            }
+          };
+
+          if (fs.existsSync(credPath)) {
+            const fileContent = fs.readFileSync(credPath, 'utf8');
+            try {
+              customConfigs = JSON.parse(decrypt(fileContent));
+            } catch {
+              customConfigs = JSON.parse(fileContent); // fallback
+            }
+          }
+        } catch(e) {}
+
+        const getConf = (type: AIProviderType) => {
+          return { ...defaultProviderConfigs[type], ...customConfigs[type] };
+        };
+
+        try {
+          ProviderFactory.createProvider(AIProviderType.GEMINI, GeminiProvider, getConf(AIProviderType.GEMINI));
+          ProviderFactory.createProvider(AIProviderType.GROQ, GroqProvider, getConf(AIProviderType.GROQ));
+          ProviderFactory.createProvider(AIProviderType.OPENROUTER, OpenRouterProvider, getConf(AIProviderType.OPENROUTER));
+          ProviderFactory.createProvider(AIProviderType.DEEPSEEK, DeepSeekProvider, getConf(AIProviderType.DEEPSEEK));
+          ProviderFactory.createProvider(AIProviderType.MISTRAL, MistralProvider, getConf(AIProviderType.MISTRAL));
+          ProviderFactory.createProvider(AIProviderType.OPENAI, OpenAIProvider, getConf(AIProviderType.OPENAI));
+          ProviderFactory.createProvider(AIProviderType.CLAUDE, ClaudeProvider, getConf(AIProviderType.CLAUDE));
+          ProviderFactory.createProvider(AIProviderType.OLLAMA, OllamaProvider, getConf(AIProviderType.OLLAMA));
+          
+          ProviderFactory.createProvider(AIProviderType.GOOGLE_IMAGEN, GoogleImagenProvider, getConf(AIProviderType.GOOGLE_IMAGEN));
+          ProviderFactory.createProvider(AIProviderType.BFL, BflProvider, getConf(AIProviderType.BFL));
+          ProviderFactory.createProvider(AIProviderType.IDEOGRAM, IdeogramProvider, getConf(AIProviderType.IDEOGRAM));
+          ProviderFactory.createProvider(AIProviderType.LEONARDO, LeonardoProvider, getConf(AIProviderType.LEONARDO));
+          ProviderFactory.createProvider(AIProviderType.FAL, FalProvider, getConf(AIProviderType.FAL));
+          ProviderFactory.createProvider(AIProviderType.REPLICATE, ReplicateProvider, getConf(AIProviderType.REPLICATE));
+          ProviderFactory.createProvider(AIProviderType.STABILITY_AI, StabilityAiProvider, getConf(AIProviderType.STABILITY_AI));
+          
+          ProviderFactory.createProvider(AIProviderType.GOOGLE_VEO, GoogleVeoProvider, getConf(AIProviderType.GOOGLE_VEO));
+          ProviderFactory.createProvider(AIProviderType.RUNWAY, RunwayProvider, getConf(AIProviderType.RUNWAY));
+          ProviderFactory.createProvider(AIProviderType.KLING, KlingProvider, getConf(AIProviderType.KLING));
+          ProviderFactory.createProvider(AIProviderType.PIKA, PikaProvider, getConf(AIProviderType.PIKA));
+          ProviderFactory.createProvider(AIProviderType.LUMA, LumaProvider, getConf(AIProviderType.LUMA));
+          ProviderFactory.createProvider(AIProviderType.HAIPER, HaiperProvider, getConf(AIProviderType.HAIPER));
+          ProviderFactory.createProvider(AIProviderType.FAL_VIDEO, FalVideoProvider, getConf(AIProviderType.FAL_VIDEO));
+          ProviderFactory.createProvider(AIProviderType.REPLICATE_VIDEO, ReplicateVideoProvider, getConf(AIProviderType.REPLICATE_VIDEO));
+        } catch (error) {
+          logger.error('Failed to register providers inside ProviderLoader', error as Error);
+        }
     }
 
     const providers = providerRegistry.getAllProviders();

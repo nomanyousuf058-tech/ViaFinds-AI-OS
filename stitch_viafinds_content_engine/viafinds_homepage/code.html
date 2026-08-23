@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Viafinds - Curation Desk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#e5e2e1",
+                        "outline-variant": "#434657",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#d4d9ff",
+                        "surface-tint": "#b9c3ff",
+                        "secondary-fixed": "#ffdea8",
+                        "on-primary": "#00228a",
+                        "surface-container-highest": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary": "#412d00",
+                        "paper-white": "#F9F9F9",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed-variant": "#5e4200",
+                        "primary-container": "#0047ff",
+                        "on-secondary-fixed": "#271900",
+                        "secondary-fixed-dim": "#ffba20",
+                        "tertiary": "#e9c349",
+                        "on-tertiary-container": "#4e3d00",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed": "#ffe088",
+                        "outline": "#8e8fa3",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#001257",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "surface-bright": "#3a3939",
+                        "deep-navy": "#00113A",
+                        "inverse-primary": "#0046fa",
+                        "primary": "#b9c3ff",
+                        "tertiary-container": "#cba72f",
+                        "slate-border": "#2E2E2E",
+                        "on-tertiary": "#3c2f00",
+                        "secondary-container": "#feb700",
+                        "background": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary-container": "#6b4b00",
+                        "obsidian-deep": "#0A0A0A",
+                        "surface-variant": "#353534",
+                        "on-error": "#690005",
+                        "secondary": "#ffdb9d",
+                        "primary-fixed": "#dde1ff",
+                        "charcoal-surface": "#131313",
+                        "surface": "#131313",
+                        "on-primary-fixed-variant": "#0033c0",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "surface-container": "#201f1f",
+                        "on-background": "#e5e2e1",
+                        "on-surface-variant": "#c4c5da",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "sidebar-width": "280px",
+                        "base": "8px",
+                        "max-content-width": "1280px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-caps": ["Geist"],
+                        "headline-lg": ["Playfair Display"],
+                        "mono-data": ["Geist"],
+                        "ui-body": ["Inter"],
+                        "editorial-body": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "ui-body": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "editorial-body": ["18px", { "lineHeight": "32px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-ui-body antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-background dark:bg-background border-b border-slate-border dark:border-slate-border transition-all duration-200 ease-in-out fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop max-w-max-content-width mx-auto h-20">
+<div class="flex items-center gap-gutter">
+<a class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-background dark:text-on-background tracking-tight" href="#">Viafinds</a>
+<div class="hidden md:flex gap-6 ml-8">
+<a class="font-ui-body text-ui-body text-primary dark:text-primary font-bold border-b-2 border-primary pb-1" href="#">Reviews</a>
+<a class="font-ui-body text-ui-body text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Guides</a>
+<a class="font-ui-body text-ui-body text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Tools</a>
+<a class="font-ui-body text-ui-body text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Resources</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="bg-obsidian-deep border border-slate-border text-on-surface pl-10 pr-4 py-2 rounded focus:border-primary focus:ring-0 focus:outline-none transition-colors font-mono-data text-mono-data w-64 placeholder-on-surface-variant" placeholder="Search curated tools..." type="text"/>
+</div>
+<button class="md:hidden text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<a class="hidden md:inline-flex items-center justify-center bg-primary-container text-on-primary-container px-6 py-2 rounded hover:bg-inverse-primary hover:text-white transition-colors font-ui-body text-ui-body font-medium" href="#">Sign In</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-20 px-margin-mobile md:px-margin-desktop max-w-max-content-width mx-auto w-full">
+<!-- Hero Section -->
+<section class="mb-16 border-b border-slate-border pb-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<div class="lg:col-span-7 space-y-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">trending_up</span>
+<span class="font-label-caps text-label-caps text-tertiary uppercase tracking-wider">Editor's Choice · Q4 Curated</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-background">The definitive index of modern software primitives.</h1>
+<p class="font-editorial-body text-editorial-body text-on-surface-variant max-w-2xl">
+                        Expert technical analysis and structured curation of the tools defining the next generation of digital infrastructure, creative workflows, and artificial intelligence.
+                    </p>
+<div class="pt-4 flex flex-wrap gap-4">
+<button class="bg-primary text-deep-navy px-6 py-3 rounded hover:bg-inverse-primary hover:text-white transition-colors font-ui-body text-ui-body font-medium flex items-center gap-2">
+                            Explore Top Picks <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="border border-slate-border text-on-surface px-6 py-3 rounded hover:bg-surface-container-high transition-colors font-ui-body text-ui-body font-medium">
+                            Latest Reviews
+                        </button>
+</div>
+</div>
+<div class="lg:col-span-5 mt-8 lg:mt-0 relative aspect-[4/3] rounded overflow-hidden border border-slate-border bg-obsidian-deep">
+<img class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700" data-alt="A highly detailed, sleek, isometric 3D render of a futuristic server rack or data structure, floating in a minimal, dark environment. The lighting is dramatic, high-contrast, with sharp electric blue and warm gold rim lights emphasizing the technical precision of the hardware. The aesthetic is premium tech-journalism, evoking institutional authority and secure data management. Minimalist, clean composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwodbgn4tGORQh-WPoRC15LpXibI-tBD5pEPonGfdFCPTfTB7p6Apfi8PuwFwX9EtC8OIjoTJ5QFvz6CpakqLZFw_JycBRFU44qZGfk2vDGE8OARLmpo5jfydw2fzti9ysUajQ0utKJyQd8PyrpUL_q9ZsznYE7LFQ0X6yBNwMSY2UxvTBomrn4eQMVbWZWHognPZZjyxVQTcKk7Ef0DYn9fdA4mstyf35vN6jR6b95-iVAS-iOvjK"/>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-obsidian-deep to-transparent">
+<span class="font-mono-data text-mono-data text-primary mb-2 block">Featured Review</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background">Anthropic Claude 3.5 Sonnet</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Filters -->
+<section class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div class="flex overflow-x-auto pb-2 -mx-margin-mobile px-margin-mobile md:px-0 md:mx-0 w-full md:w-auto scrollbar-hide gap-2">
+<button class="flex-shrink-0 bg-surface-container-high text-on-surface border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-primary-container hover:text-on-primary-container hover:border-primary transition-colors active">All Categories</button>
+<button class="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">AI Tools</button>
+<button class="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">DevOps &amp; Infra</button>
+<button class="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">Design Assets</button>
+<button class="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">Productivity</button>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-mono-data text-mono-data border border-slate-border px-3 py-1.5 rounded bg-obsidian-deep cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[16px]">sort</span> Sort: Highest Rated
+            </div>
+</section>
+<!-- Curated Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<article class="bg-obsidian-deep border border-slate-border rounded flex flex-col hover:border-outline-variant transition-colors group">
+<div class="aspect-video relative overflow-hidden border-b border-slate-border">
+<img class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" data-alt="A clean, minimalist workspace setup showing a high-end monitor displaying lines of code or a complex UI graph, shot from a dynamic angle. The lighting is moody and dark, with subtle electric blue accents illuminating the keyboard and desk edge. The image conveys professional software development and technical sophistication in a command-center style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhRz6ZvIPqUkhdmnV8mtBcfMvl9W86MyS_v6XyrX_r4a71P5ltz8GtAZ43NJwC4BmK1JuMgXstQFdm6u1EzEcPPfZQxBNOOevOkB8FVtgnyvkCuxmto6NweSj9oxMJ5neIvt6ZRxIkWMyp-56uZXlu-u1FQI8hu4P2zZ2CXSm9xxkKwlw1fwcF3fy_O61LaH7be0gqzCcAHYzn5_MdKXR8b2F5pnGHUdGn-1kN9766ueml44Kaoqt_"/>
+<div class="absolute top-4 left-4 bg-background/90 backdrop-blur border border-slate-border px-2 py-1 rounded font-mono-data text-[11px] text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined icon-fill text-[12px]">star</span> 9.8/10
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-lg-mobile text-[22px] leading-tight text-on-background group-hover:text-primary transition-colors">Linear</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant tracking-wider uppercase mb-4 block">Project Management</span>
+<p class="font-ui-body text-ui-body text-on-surface-variant mb-6 line-clamp-3">
+                        A purpose-built tool for software teams that demands zero configuration. Linear’s opinionated workflow and keyboard-first design make issue tracking exceptionally fast.
+                    </p>
+<div class="mt-auto pt-4 border-t border-slate-border flex justify-between items-center font-mono-data text-[12px] text-on-surface-variant">
+<span>Reviewed: Oct 12</span>
+<span class="text-primary group-hover:underline">Read Full Analysis</span>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-obsidian-deep border border-slate-border rounded flex flex-col hover:border-outline-variant transition-colors group">
+<div class="aspect-video relative overflow-hidden border-b border-slate-border bg-charcoal-surface flex items-center justify-center">
+<img class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 mix-blend-screen" data-alt="Abstract macro photography of structured glass or fiber optics transmitting glowing blue light in a dark void. The imagery suggests high-speed data transfer, cloud infrastructure, and precise technical architecture. High-contrast, sharp focus, communicating institutional power and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBluI0l1MUTBs5h2Mv2Tp8z-Ppa5Rg03oLG6JSGye4RHZSDx3AvIpKy79CSvRwywk0FBtz0Zd7PtQO_IwMjusKX5vnJfCtnEGFLnx93VtyA7ZlVStdYQ2GIoTgfwyHk6F7k_7_sBqKP2t1dxhmSffRJNsXvH_9vNbx6yOOcVmRQaiecQX7UbXvh7xYBbjHk-_uE9U2zUN6nDjJd91JWEZjuU7NpoPnE9mqCC3yb9sdl_yw2q7lFjiU9"/>
+<div class="absolute top-4 left-4 bg-background/90 backdrop-blur border border-slate-border px-2 py-1 rounded font-mono-data text-[11px] text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined icon-fill text-[12px]">star</span> 9.5/10
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-lg-mobile text-[22px] leading-tight text-on-background group-hover:text-primary transition-colors">Vercel</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant tracking-wider uppercase mb-4 block">Deployment &amp; Infra</span>
+<p class="font-ui-body text-ui-body text-on-surface-variant mb-6 line-clamp-3">
+                        The frontend cloud platform that sets the standard for developer experience. Seamless Git integration, edge functions, and zero-config Next.js deployments.
+                    </p>
+<div class="mt-auto pt-4 border-t border-slate-border flex justify-between items-center font-mono-data text-[12px] text-on-surface-variant">
+<span>Reviewed: Sep 28</span>
+<span class="text-primary group-hover:underline">Read Full Analysis</span>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-obsidian-deep border border-slate-border rounded flex flex-col hover:border-outline-variant transition-colors group">
+<div class="aspect-video relative overflow-hidden border-b border-slate-border">
+<img class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" data-alt="A meticulously organized flat lay of professional design tools, perhaps a digital stylus, a metallic keyboard, and minimal stationery on a dark slate background. The scene is lit with clinical precision, creating sharp, deliberate shadows. The mood is creative yet highly disciplined and institutional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGdQrlNIX2tJWek5qnwD3Oy9Ij89iAydBvUtnQUyOFhCxd8Dq8wPZiEors3aV8Rwq8ELhFjmu7caucYoTyJvBLe-J7Ys2VctzBIYawopblQdFKppTWuzMEcRdflkAFKCHvUmWkZUlcq2-WAwD1xMqNsuANEfNwRNFpqwxZVCFWmURISppCrQ8fmuGtc1Mqumv2rP6vVM1JaV8U9P8cTA6Mt_6-oSEn824zF0e2xMw5x30u7Aj4WJnI"/>
+<div class="absolute top-4 left-4 bg-background/90 backdrop-blur border border-slate-border px-2 py-1 rounded font-mono-data text-[11px] text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined icon-fill text-[12px]">star</span> 9.4/10
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-lg-mobile text-[22px] leading-tight text-on-background group-hover:text-primary transition-colors">Figma</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant tracking-wider uppercase mb-4 block">Interface Design</span>
+<p class="font-ui-body text-ui-body text-on-surface-variant mb-6 line-clamp-3">
+                        The undisputed leader in collaborative interface design. Its powerful component systems and real-time multiplayer capabilities have redefined product design workflows.
+                    </p>
+<div class="mt-auto pt-4 border-t border-slate-border flex justify-between items-center font-mono-data text-[12px] text-on-surface-variant">
+<span>Reviewed: Sep 15</span>
+<span class="text-primary group-hover:underline">Read Full Analysis</span>
+</div>
+</div>
+</article>
+</section>
+<div class="mt-12 flex justify-center">
+<button class="border border-slate-border text-on-surface px-8 py-3 rounded hover:bg-surface-container-high transition-colors font-mono-data text-mono-data uppercase tracking-widest flex items-center gap-2">
+                Load More Entries <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-obsidian-deep dark:bg-obsidian-deep border-t border-slate-border dark:border-slate-border transition-opacity duration-200 w-full py-12 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base mt-auto">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface mb-4 md:mb-0">Viafinds</div>
+<div class="flex flex-wrap justify-center gap-6 font-ui-body text-ui-body">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">FTC Disclosure</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Editorial Guidelines</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Legal</a>
+</div>
+<div class="font-mono-data text-mono-data text-on-surface-variant mt-4 md:mt-0 text-center md:text-right">
+            © Viafinds Curation Desk. All rights reserved.
+        </div>
+</footer>
+</body></html>

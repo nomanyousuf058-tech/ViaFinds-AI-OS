@@ -2,9 +2,15 @@ import { NextResponse } from 'next/server';
 import { sanityClient } from '@/lib/sanity.client';
 
 export async function GET() {
-  const query = `*[_type == 'category'] { 'slug': slug.current, title }`;
-  const categories = await sanityClient.fetch(query);
-  // Enforce 2-niche rule: filter to only top-level categories with no parents
-  const topLevelCategories = categories.filter(cat => !cat.parent);
-  return NextResponse.json(topLevelCategories, { status: 200 });
+  try {
+    const categories = await sanityClient.fetch(
+      `*[_type == "category" && !defined(parentCategory)] {
+        'slug': slug.current,
+        'name': title
+      }`
+    );
+    return NextResponse.json(categories, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch categories' }, { status: 500 });
+  }
 }

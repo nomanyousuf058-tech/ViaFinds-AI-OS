@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Viafinds - Software Reviews</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400&amp;family=Geist:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#e5e2e1",
+                        "outline-variant": "#434657",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#d4d9ff",
+                        "surface-tint": "#b9c3ff",
+                        "secondary-fixed": "#ffdea8",
+                        "on-primary": "#00228a",
+                        "surface-container-highest": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary": "#412d00",
+                        "paper-white": "#F9F9F9",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed-variant": "#5e4200",
+                        "primary-container": "#0047ff",
+                        "on-secondary-fixed": "#271900",
+                        "secondary-fixed-dim": "#ffba20",
+                        "tertiary": "#e9c349",
+                        "on-tertiary-container": "#4e3d00",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed": "#ffe088",
+                        "outline": "#8e8fa3",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#001257",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "surface-bright": "#3a3939",
+                        "deep-navy": "#00113A",
+                        "inverse-primary": "#0046fa",
+                        "primary": "#b9c3ff",
+                        "tertiary-container": "#cba72f",
+                        "slate-border": "#2E2E2E",
+                        "on-tertiary": "#3c2f00",
+                        "secondary-container": "#feb700",
+                        "background": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary-container": "#6b4b00",
+                        "obsidian-deep": "#0A0A0A",
+                        "surface-variant": "#353534",
+                        "on-error": "#690005",
+                        "secondary": "#ffdb9d",
+                        "primary-fixed": "#dde1ff",
+                        "charcoal-surface": "#131313",
+                        "surface": "#131313",
+                        "on-primary-fixed-variant": "#0033c0",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "surface-container": "#201f1f",
+                        "on-background": "#e5e2e1",
+                        "on-surface-variant": "#c4c5da",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "sidebar-width": "280px",
+                        "base": "8px",
+                        "max-content-width": "1280px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-caps": ["Geist"],
+                        "headline-lg": ["Playfair Display"],
+                        "mono-data": ["Geist"],
+                        "ui-body": ["Inter"],
+                        "editorial-body": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "ui-body": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "editorial-body": ["18px", { "lineHeight": "32px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background dark:bg-background text-on-background dark:text-on-background font-ui-body text-ui-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-background dark:bg-background font-ui-body text-ui-body border-b border-slate-border dark:border-slate-border flat no shadows transition-all duration-200 ease-in-out fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop max-w-max-content-width mx-auto h-20">
+<div class="font-headline-lg text-headline-lg font-bold text-on-background dark:text-on-background">
+            Viafinds
+        </div>
+<nav class="hidden md:flex gap-8 items-center h-full">
+<a class="text-primary dark:text-primary font-bold border-b-2 border-primary pb-1 h-full flex items-center mt-1" href="#">Reviews</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors h-full flex items-center" href="#">Guides</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors h-full flex items-center" href="#">Tools</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors h-full flex items-center" href="#">Resources</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block text-on-surface-variant">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px]" data-icon="search">search</span>
+<input class="bg-surface-dim border border-slate-border text-on-surface pl-10 pr-4 py-2 rounded-DEFAULT focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors w-48 font-mono-data text-mono-data placeholder:text-on-surface-variant/50" placeholder="Search..." type="text"/>
+</div>
+<button class="bg-primary-container text-white px-4 py-2 rounded-lg font-mono-data text-mono-data hover:bg-inverse-primary transition-colors">
+                Sign In
+            </button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-[120px] pb-24 px-margin-mobile md:px-margin-desktop max-w-max-content-width mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Sidebar Filter / Sort -->
+<aside class="hidden lg:block lg:col-span-3">
+<div class="sticky top-[120px] bg-charcoal-surface border border-slate-border p-6 rounded-DEFAULT">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+                    Filter Criteria
+                </h2>
+<div class="space-y-6">
+<!-- Categories -->
+<div>
+<h3 class="font-mono-data text-mono-data text-on-surface mb-3">Category</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox bg-surface-dim border-slate-border text-primary-container rounded-sm focus:ring-primary-container focus:ring-offset-background" type="checkbox"/>
+<span class="font-ui-body text-ui-body text-on-surface group-hover:text-primary transition-colors">Data Engineering</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox bg-surface-dim border-slate-border text-primary-container rounded-sm focus:ring-primary-container focus:ring-offset-background" type="checkbox"/>
+<span class="font-ui-body text-ui-body text-on-surface-variant group-hover:text-primary transition-colors">CRM Platforms</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox bg-surface-dim border-slate-border text-primary-container rounded-sm focus:ring-primary-container focus:ring-offset-background" type="checkbox"/>
+<span class="font-ui-body text-ui-body text-on-surface-variant group-hover:text-primary transition-colors">DevOps Tools</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox bg-surface-dim border-slate-border text-primary-container rounded-sm focus:ring-primary-container focus:ring-offset-background" type="checkbox"/>
+<span class="font-ui-body text-ui-body text-on-surface-variant group-hover:text-primary transition-colors">Analytics</span>
+</label>
+</div>
+</div>
+<div class="h-px bg-slate-border w-full"></div>
+<!-- Score Range -->
+<div>
+<h3 class="font-mono-data text-mono-data text-on-surface mb-3">Minimum Score</h3>
+<input class="w-full h-1 bg-surface-variant rounded-full appearance-none cursor-pointer accent-primary-container" max="10" min="1" type="range" value="8"/>
+<div class="flex justify-between mt-2 font-mono-data text-[11px] text-on-surface-variant">
+<span>1.0</span>
+<span>8.0+</span>
+<span>10.0</span>
+</div>
+</div>
+<div class="h-px bg-slate-border w-full"></div>
+<!-- Sort -->
+<div>
+<h3 class="font-mono-data text-mono-data text-on-surface mb-3">Sort By</h3>
+<select class="w-full bg-surface-dim border border-slate-border text-on-surface rounded-DEFAULT py-2 px-3 font-ui-body text-ui-body focus:ring-1 focus:ring-primary-container focus:border-primary-container outline-none appearance-none cursor-pointer">
+<option value="recent">Most Recent</option>
+<option value="score_desc">Highest Score</option>
+<option value="score_asc">Lowest Score</option>
+<option value="name">Alphabetical</option>
+</select>
+</div>
+</div>
+</div>
+</aside>
+<!-- Archive Feed -->
+<section class="col-span-1 lg:col-span-9">
+<div class="mb-8">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">Software Archive</h1>
+<p class="font-editorial-body text-editorial-body text-on-surface-variant">Independent, institutional-grade evaluations of enterprise tooling.</p>
+</div>
+<!-- List Layout -->
+<div class="flex flex-col gap-4">
+<!-- Item 1 -->
+<article class="group bg-surface hover:bg-surface-dim border border-slate-border hover:border-outline-variant rounded-DEFAULT transition-all duration-200 p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center relative">
+<div class="flex-shrink-0 w-16 h-16 bg-surface-variant border border-slate-border rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-primary" data-icon="database">database</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-3 mb-1">
+<span class="font-label-caps text-label-caps text-secondary-fixed border border-secondary-fixed/30 px-2 py-0.5 rounded-DEFAULT uppercase">Data Eng</span>
+<span class="font-mono-data text-[12px] text-on-surface-variant">ID: REV-0924-A</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface group-hover:text-primary transition-colors mb-2 cursor-pointer">Snowflake Horizon</h2>
+<p class="font-ui-body text-ui-body text-on-surface-variant line-clamp-2">A comprehensive evaluation of Snowflake's latest governance and security layer. Testing performance impact and policy enforcement capabilities across multi-region deployments.</p>
+</div>
+<div class="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center min-w-[100px] gap-2 mt-4 sm:mt-0 w-full sm:w-auto border-t sm:border-t-0 border-slate-border pt-4 sm:pt-0">
+<div class="flex items-baseline gap-1 text-tertiary">
+<span class="font-mono-data text-[24px] font-bold">9.2</span>
+<span class="font-mono-data text-[12px]">/10</span>
+</div>
+<span class="font-mono-data text-[11px] text-on-surface-variant">Oct 12, 2023</span>
+</div>
+</article>
+<!-- Item 2 -->
+<article class="group bg-surface hover:bg-surface-dim border border-slate-border hover:border-outline-variant rounded-DEFAULT transition-all duration-200 p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center relative">
+<div class="flex-shrink-0 w-16 h-16 bg-surface-variant border border-slate-border rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-primary" data-icon="webhook">webhook</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-3 mb-1">
+<span class="font-label-caps text-label-caps text-secondary-fixed border border-secondary-fixed/30 px-2 py-0.5 rounded-DEFAULT uppercase">API Gateway</span>
+<span class="font-mono-data text-[12px] text-on-surface-variant">ID: REV-0921-B</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface group-hover:text-primary transition-colors mb-2 cursor-pointer">Kong Enterprise 3.4</h2>
+<p class="font-ui-body text-ui-body text-on-surface-variant line-clamp-2">Assessing the throughput and latency overhead of Kong's enterprise plugins under sustained load. Includes deep dive into the new AI Gateway features.</p>
+</div>
+<div class="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center min-w-[100px] gap-2 mt-4 sm:mt-0 w-full sm:w-auto border-t sm:border-t-0 border-slate-border pt-4 sm:pt-0">
+<div class="flex items-baseline gap-1 text-tertiary">
+<span class="font-mono-data text-[24px] font-bold">8.7</span>
+<span class="font-mono-data text-[12px]">/10</span>
+</div>
+<span class="font-mono-data text-[11px] text-on-surface-variant">Oct 05, 2023</span>
+</div>
+</article>
+<!-- Item 3 -->
+<article class="group bg-surface hover:bg-surface-dim border border-slate-border hover:border-outline-variant rounded-DEFAULT transition-all duration-200 p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center relative">
+<div class="flex-shrink-0 w-16 h-16 bg-surface-variant border border-slate-border rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-primary" data-icon="monitor_heart">monitor_heart</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-3 mb-1">
+<span class="font-label-caps text-label-caps text-secondary-fixed border border-secondary-fixed/30 px-2 py-0.5 rounded-DEFAULT uppercase">Observability</span>
+<span class="font-mono-data text-[12px] text-on-surface-variant">ID: REV-0830-C</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface group-hover:text-primary transition-colors mb-2 cursor-pointer">Datadog APM Suite</h2>
+<p class="font-ui-body text-ui-body text-on-surface-variant line-clamp-2">Evaluating the cost-to-value ratio of Datadog's extensive APM tracing. Focus on trace retention sampling strategies and custom metrics billing.</p>
+</div>
+<div class="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center min-w-[100px] gap-2 mt-4 sm:mt-0 w-full sm:w-auto border-t sm:border-t-0 border-slate-border pt-4 sm:pt-0">
+<div class="flex items-baseline gap-1 text-on-surface-variant">
+<span class="font-mono-data text-[24px] font-bold">7.9</span>
+<span class="font-mono-data text-[12px]">/10</span>
+</div>
+<span class="font-mono-data text-[11px] text-on-surface-variant">Sep 28, 2023</span>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center items-center gap-2 font-mono-data text-mono-data">
+<button class="w-8 h-8 flex items-center justify-center border border-slate-border rounded hover:border-primary text-on-surface-variant hover:text-primary transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center border border-primary bg-primary/10 text-primary rounded">1</button>
+<button class="w-8 h-8 flex items-center justify-center border border-slate-border rounded hover:border-primary text-on-surface-variant hover:text-primary transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center border border-slate-border rounded hover:border-primary text-on-surface-variant hover:text-primary transition-colors">3</button>
+<span class="text-on-surface-variant px-2">...</span>
+<button class="w-8 h-8 flex items-center justify-center border border-slate-border rounded hover:border-primary text-on-surface-variant hover:text-primary transition-colors">12</button>
+<button class="w-8 h-8 flex items-center justify-center border border-slate-border rounded hover:border-primary text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-obsidian-deep dark:bg-obsidian-deep font-ui-body text-ui-body border-t border-slate-border dark:border-slate-border flat no shadows transition-opacity duration-200 w-full py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base mt-auto">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface">
+            Viafinds
+        </div>
+<nav class="flex gap-6 items-center">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">FTC Disclosure</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Editorial Guidelines</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Legal</a>
+</nav>
+<div class="text-on-surface-variant dark:text-on-surface-variant font-mono-data text-[12px]">
+            © Viafinds Curation Desk. All rights reserved.
+        </div>
+</footer>
+</body></html>

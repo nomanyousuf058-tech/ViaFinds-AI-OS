@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Viafinds - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Geist:wght@500;600&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#e5e2e1",
+                      "outline-variant": "#434657",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-container": "#d4d9ff",
+                      "surface-tint": "#b9c3ff",
+                      "secondary-fixed": "#ffdea8",
+                      "on-primary": "#00228a",
+                      "surface-container-highest": "#353534",
+                      "surface-container-low": "#1c1b1b",
+                      "on-secondary": "#412d00",
+                      "paper-white": "#F9F9F9",
+                      "surface-dim": "#131313",
+                      "on-secondary-fixed-variant": "#5e4200",
+                      "primary-container": "#0047ff",
+                      "on-secondary-fixed": "#271900",
+                      "secondary-fixed-dim": "#ffba20",
+                      "tertiary": "#e9c349",
+                      "on-tertiary-container": "#4e3d00",
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed": "#241a00",
+                      "tertiary-fixed": "#ffe088",
+                      "outline": "#8e8fa3",
+                      "error-container": "#93000a",
+                      "on-primary-fixed": "#001257",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "surface-bright": "#3a3939",
+                      "deep-navy": "#00113A",
+                      "inverse-primary": "#0046fa",
+                      "primary": "#b9c3ff",
+                      "tertiary-container": "#cba72f",
+                      "slate-border": "#2E2E2E",
+                      "on-tertiary": "#3c2f00",
+                      "secondary-container": "#feb700",
+                      "background": "#131313",
+                      "on-surface": "#e5e2e1",
+                      "on-secondary-container": "#6b4b00",
+                      "obsidian-deep": "#0A0A0A",
+                      "surface-variant": "#353534",
+                      "on-error": "#690005",
+                      "secondary": "#ffdb9d",
+                      "primary-fixed": "#dde1ff",
+                      "charcoal-surface": "#131313",
+                      "surface": "#131313",
+                      "on-primary-fixed-variant": "#0033c0",
+                      "error": "#ffb4ab",
+                      "inverse-on-surface": "#313030",
+                      "primary-fixed-dim": "#b9c3ff",
+                      "surface-container": "#201f1f",
+                      "on-background": "#e5e2e1",
+                      "on-surface-variant": "#c4c5da",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "surface-container-lowest": "#0e0e0e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "sidebar-width": "280px",
+                      "base": "8px",
+                      "max-content-width": "1280px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "headline-xl": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-caps": [
+                              "Geist"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "mono-data": [
+                              "Geist"
+                      ],
+                      "ui-body": [
+                              "Inter"
+                      ],
+                      "editorial-body": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "mono-data": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "ui-body": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "editorial-body": [
+                              "18px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom scrollbar for high density data tables */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2E2E2E;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #434657;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-ui-body text-ui-body antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="bg-charcoal-surface border-r border-slate-border fixed left-0 top-0 h-full flex flex-col p-4 gap-4 docked h-screen w-sidebar-width z-50 hidden md:flex">
+<!-- Header -->
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border border-slate-border">
+<span class="material-symbols-outlined text-outline-variant">shield_person</span>
+</div>
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-primary">Viafinds Admin</h2>
+<p class="font-mono-data text-mono-data text-tertiary">Curation Desk Active</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container text-on-primary-container rounded-lg font-mono-data text-mono-data Active: scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined fill-icon group-hover:bg-surface-container-high transition-colors rounded">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-mono-data text-mono-data hover:bg-surface-container-high transition-colors rounded group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">description</span>
+                Content CRM
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-mono-data text-mono-data hover:bg-surface-container-high transition-colors rounded group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">payments</span>
+                Revenue Hub
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-mono-data text-mono-data hover:bg-surface-container-high transition-colors rounded group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">rebase_edit</span>
+                Automation Workflow
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-mono-data text-mono-data hover:bg-surface-container-high transition-colors rounded group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">api</span>
+                API Integrations
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-mono-data text-mono-data hover:bg-surface-container-high transition-colors rounded group mt-auto" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+                Settings
+            </a>
+</nav>
+<!-- CTA -->
+<button class="mt-4 w-full bg-primary text-on-primary py-2 rounded font-mono-data text-mono-data hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+            New Entry
+        </button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-sidebar-width w-full min-h-screen bg-obsidian-deep p-margin-mobile md:p-gutter flex flex-col gap-base">
+<!-- Header Bar -->
+<header class="flex justify-between items-end mb-6 pb-4 border-b border-slate-border">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Command Center</h1>
+<p class="font-mono-data text-mono-data text-on-surface-variant mt-1">System Status: <span class="text-tertiary">Nominal</span> | Last Sync: 2 mins ago</p>
+</div>
+<div class="flex gap-4">
+<button class="border border-slate-border text-on-surface px-4 py-2 rounded flex items-center gap-2 hover:border-outline-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+                    Refresh Data
+                </button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded flex items-center gap-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                    Run Workflow
+                </button>
+</div>
+</header>
+<!-- Top Metrics Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-base">
+<!-- Metric Card 1 -->
+<div class="bg-charcoal-surface border border-slate-border rounded p-4 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Active Entities</span>
+<span class="material-symbols-outlined text-outline-variant">database</span>
+</div>
+<div class="text-3xl font-mono-data text-on-surface">14,289</div>
+<div class="mt-2 text-xs font-mono-data text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                    +2.4% from last week
+                </div>
+</div>
+<!-- Metric Card 2 -->
+<div class="bg-charcoal-surface border border-slate-border rounded p-4 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Pending Curation</span>
+<span class="material-symbols-outlined text-outline-variant">pending_actions</span>
+</div>
+<div class="text-3xl font-mono-data text-on-surface">342</div>
+<div class="mt-2 text-xs font-mono-data text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                    Requires attention
+                </div>
+</div>
+<!-- Metric Card 3 -->
+<div class="bg-charcoal-surface border border-slate-border rounded p-4 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">API Requests (24h)</span>
+<span class="material-symbols-outlined text-outline-variant">network_check</span>
+</div>
+<div class="text-3xl font-mono-data text-on-surface">1.2M</div>
+<div class="mt-2 text-xs font-mono-data text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                    Healthy throughput
+                </div>
+</div>
+<!-- Metric Card 4 -->
+<div class="bg-charcoal-surface border border-slate-border rounded p-4 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">System Load</span>
+<span class="material-symbols-outlined text-outline-variant">memory</span>
+</div>
+<div class="text-3xl font-mono-data text-on-surface">42%</div>
+<div class="mt-4 w-full bg-surface-container rounded-full h-1">
+<div class="bg-primary h-1 rounded-full" style="width: 42%"></div>
+</div>
+</div>
+</div>
+<!-- Main Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-base mt-4 flex-1">
+<!-- Recent Activity Table (Spans 2 cols) -->
+<div class="lg:col-span-2 bg-charcoal-surface border border-slate-border rounded flex flex-col overflow-hidden">
+<div class="p-4 border-b border-slate-border flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase tracking-wider">Recent Content Activity</h3>
+<button class="text-primary hover:text-primary-fixed font-mono-data text-xs flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto p-4 flex-1">
+<table class="w-full text-left font-mono-data text-mono-data border-collapse">
+<thead>
+<tr class="text-on-surface-variant border-b border-slate-border">
+<th class="pb-2 font-medium w-1/4">ID</th>
+<th class="pb-2 font-medium w-1/4">Status</th>
+<th class="pb-2 font-medium w-1/4">Timestamp</th>
+<th class="pb-2 font-medium w-1/4 text-right">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-border/50 hover:bg-surface-dim transition-colors group">
+<td class="py-3 text-on-surface">ENT-9021A</td>
+<td class="py-3"><span class="px-2 py-1 border border-tertiary text-tertiary rounded text-[10px] uppercase tracking-wider">Published</span></td>
+<td class="py-3 text-on-surface-variant">2023-10-27 14:32Z</td>
+<td class="py-3 text-right">
+<button class="opacity-0 group-hover:opacity-100 text-outline-variant hover:text-primary transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+</td>
+</tr>
+<tr class="border-b border-slate-border/50 hover:bg-surface-dim transition-colors group">
+<td class="py-3 text-on-surface">ENT-9020B</td>
+<td class="py-3"><span class="px-2 py-1 border border-slate-border text-on-surface-variant rounded text-[10px] uppercase tracking-wider">Draft</span></td>
+<td class="py-3 text-on-surface-variant">2023-10-27 13:15Z</td>
+<td class="py-3 text-right">
+<button class="opacity-0 group-hover:opacity-100 text-outline-variant hover:text-primary transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+</td>
+</tr>
+<tr class="border-b border-slate-border/50 hover:bg-surface-dim transition-colors group">
+<td class="py-3 text-on-surface">WF-4412X</td>
+<td class="py-3"><span class="px-2 py-1 border border-primary text-primary rounded text-[10px] uppercase tracking-wider">Processing</span></td>
+<td class="py-3 text-on-surface-variant">2023-10-27 12:05Z</td>
+<td class="py-3 text-right">
+<button class="opacity-0 group-hover:opacity-100 text-outline-variant hover:text-primary transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-dim transition-colors group">
+<td class="py-3 text-on-surface">ENT-9019C</td>
+<td class="py-3"><span class="px-2 py-1 border border-error text-error rounded text-[10px] uppercase tracking-wider">Failed</span></td>
+<td class="py-3 text-on-surface-variant">2023-10-27 11:42Z</td>
+<td class="py-3 text-right">
+<button class="opacity-0 group-hover:opacity-100 text-outline-variant hover:text-primary transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Quick Actions & Automation Status (Col 3) -->
+<div class="flex flex-col gap-base">
+<!-- Quick Action Tile -->
+<div class="bg-primary/10 border border-primary/20 rounded p-6 flex flex-col justify-center items-center text-center cursor-pointer hover:bg-primary/20 transition-colors group h-1/2">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">bolt</span>
+<h4 class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Trigger Core Scrape</h4>
+<p class="font-mono-data text-xs text-on-surface-variant mt-2">Initiate global data aggregation</p>
+</div>
+<!-- Automation Log -->
+<div class="bg-charcoal-surface border border-slate-border rounded p-4 flex flex-col flex-1">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase tracking-wider mb-4 border-b border-slate-border pb-2">Live Automation Log</h3>
+<div class="flex-1 overflow-y-auto space-y-2 font-mono-data text-[11px]">
+<div class="flex gap-2">
+<span class="text-tertiary">[14:45:02]</span>
+<span class="text-on-surface-variant">CRON: Routine health check initiated.</span>
+</div>
+<div class="flex gap-2">
+<span class="text-tertiary">[14:45:05]</span>
+<span class="text-on-surface-variant">API_GW: Connection established (24ms ping).</span>
+</div>
+<div class="flex gap-2">
+<span class="text-primary">[14:46:12]</span>
+<span class="text-on-surface">DB_SYNC: 45 records updated successfully.</span>
+</div>
+<div class="flex gap-2">
+<span class="text-error">[14:48:33]</span>
+<span class="text-on-error-container">WARN: Rate limit approaching for Provider_A.</span>
+</div>
+<div class="flex gap-2">
+<span class="text-tertiary">[14:50:00]</span>
+<span class="text-on-surface-variant">SYS: Memory flush complete.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -171,7 +171,7 @@ if (expectedSecret) {
   }
 }
 
-    logger.info('Cron sync completed', results);
+    console.log('Cron sync completed', results);
                 return NextResponse.json({ ok: true, synced: results.synced, skipped: results.skipped, errors: results.errors });
   } catch (err) {
     logger.error('Cron sync failed', err as Error);

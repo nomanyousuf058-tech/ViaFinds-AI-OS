@@ -20,7 +20,7 @@ const sanity = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'e44z7hta',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
-  token: process.env.SANITY_TOKEN,
+  token: process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN,
   useCdn: false,
 });
 
@@ -31,14 +31,14 @@ async function run() {
   const envVars = {
     NEXT_PUBLIC_SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
     NEXT_PUBLIC_SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,
-    SANITY_TOKEN: process.env.SANITY_TOKEN ? '***set***' : undefined,
+    SANITY_TOKEN: (process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN) ? '***set***' : undefined,
   };
 
   for (const [k, v] of Object.entries(envVars)) {
     console.log(`${v ? '✓' : '✗'} ${k}: ${v || 'MISSING'}`);
   }
 
-  if (!process.env.SANITY_TOKEN) {
+  if (!process.env.SANITY_TOKEN && !process.env.SANITY_API_TOKEN) {
     console.error('SANITY_TOKEN is missing. Aborting.');
     process.exit(1);
   }
