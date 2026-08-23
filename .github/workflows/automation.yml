@@ -1,0 +1,33 @@
+name: Viafinds AI Content Automation
+
+on:
+  schedule:
+    # Run twice a day (e.g., at 00:00 and 12:00 UTC)
+    - cron: '0 0,12 * * *'
+  workflow_dispatch: # Allows manual trigger from the GitHub UI
+
+jobs:
+  run-automation:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger Automation Endpoint
+        run: |
+          echo "Triggering Viafinds content automation..."
+          
+          response=$(curl -s -w "\n%{http_code}" -X POST \
+            "${{ secrets.VIAFINDS_APP_URL }}/api/automation/run" \
+            -H "Authorization: Bearer ${{ secrets.AUTOMATION_SECRET_KEY }}")
+          
+          body=$(echo "$response" | sed -e '$ d')
+          status=$(echo "$response" | tail -n1)
+          
+          echo "Response Status: $status"
+          echo "Response Body: $body"
+          
+          if [ "$status" -ne 200 ] && [ "$status" -ne 201 ]; then
+            echo "Automation failed!"
+            exit 1
+          fi
+          
+          echo "Automation completed successfully!"

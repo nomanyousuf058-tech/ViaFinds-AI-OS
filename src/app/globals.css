@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/container-queries";
+
+@theme {
+  --color-inverse-on-surface: #313030;
+  --color-on-secondary: #3c2f00;
+  --color-secondary-fixed-dim: #e9c349;
+  --color-background: #131313;
+  --color-secondary-fixed: #ffe088;
+  --color-paper-white: #F9F9F9;
+  --color-on-surface: #e5e2e1;
+  --color-tertiary-container: #b82800;
+  --color-on-tertiary-fixed: #3d0700;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-high: #2a2a2a;
+  --color-outline-variant: #434657;
+  --color-on-tertiary-container: #ffd1c6;
+  --color-primary: #b9c3ff;
+  --color-on-secondary-container: #342800;
+  --color-secondary: #e9c349;
+  --color-electric-indigo: #0047FF;
+  --color-secondary-container: #af8d11;
+  --color-deep-navy: #00113A;
+  --color-surface-tint: #b9c3ff;
+  --color-on-tertiary: #621100;
+  --color-on-secondary-fixed-variant: #574500;
+  --color-tertiary-fixed-dim: #ffb4a2;
+  --color-primary-fixed-dim: #b9c3ff;
+  --color-primary-container: #0047ff;
+  --color-charcoal: #1A1A1A;
+  --color-surface: #131313;
+  --color-slate-border: #2E2E2E;
+  --color-on-error-container: #ffdad6;
+  --color-on-primary-container: #d4d9ff;
+  --color-primary-fixed: #dde1ff;
+  --color-on-background: #e5e2e1;
+  --color-on-primary-fixed: #001257;
+  --color-on-error: #690005;
+  --color-surface-bright: #3a3939;
+  --color-inverse-primary: #0046fa;
+  --color-tertiary: #ffb4a2;
+  --color-surface-dim: #131313;
+  --color-error-container: #93000a;
+  --color-on-primary-fixed-variant: #0033c0;
+  --color-surface-container: #201f1f;
+  --color-error: #ffb4ab;
+  --color-on-primary: #00228a;
+  --color-gold-leaf: #D4AF37;
+  --color-surface-container-low: #1c1b1b;
+  --color-outline: #8e8fa3;
+  --color-tertiary-fixed: #ffdad2;
+  --color-obsidian: #0A0A0A;
+  --color-on-secondary-fixed: #241a00;
+  --color-on-tertiary-fixed-variant: #8a1c00;
+  --color-surface-container-highest: #353534;
+  --color-inverse-surface: #e5e2e1;
+  --color-on-surface-variant: #c4c5da;
+  --color-surface-variant: #353534;
+
+  --radius: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
+
+  --spacing-margin-desktop: 64px;
+  --spacing-max-content-width: 1280px;
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-sidebar-width: 280px;
+  --spacing-base: 8px;
+
+  --font-mono-data: "Geist", sans-serif;
+  --font-headline-xl: "Playfair Display", serif;
+  --font-headline-lg: "Playfair Display", serif;
+  --font-label-caps: "Geist", sans-serif;
+  --font-headline-lg-mobile: "Playfair Display", serif;
+  --font-editorial-body: "Inter", sans-serif;
+  --font-ui-body: "Geist", sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 19 19 19;
+    --foreground: 229 226 225;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-slate-border;
+  }
+  body {
+    @apply bg-background text-on-surface antialiased;
+    font-family: var(--font-ui-body);
+  }
+}
+
+/* Scrollbar styling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.flat-input {
+  border: 1px solid #2E2E2E;
+  background: transparent;
+  color: #e5e2e1;
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+}
+.flat-input:focus {
+  outline: none;
+  border-color: #0047FF;
+}
+.toggle-checkbox:checked {
+  right: 0;
+  border-color: #0047FF;
+}
+.toggle-checkbox:checked + .toggle-label {
+  background-color: #0047FF;
+}
+.toggle-checkbox:checked + .toggle-label:after {
+  transform: translateX(100%);
+  border-color: white;
+}
+.mode-switch-active {
+  background-color: #353534;
+  color: #b9c3ff;
+  border-color: #434657;
+}
+.mode-switch-inactive {
+  background-color: transparent;
+  color: #8e8fa3;
+  border-color: transparent;
+}
