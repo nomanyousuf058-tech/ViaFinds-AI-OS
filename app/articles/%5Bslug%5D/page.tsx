@@ -6,7 +6,6 @@ import type { Metadata } from 'next'
 import { PortableText } from '@portabletext/react'
 import { client, urlFor } from '@/lib/sanity.client'
 import { ARTICLE_BY_SLUG_QUERY, SITEMAP_ARTICLES_QUERY } from '@/lib/sanity.queries'
-import Breadcrumbs from '@/components/Breadcrumbs'
 import type { Article } from '@/lib/types'
 
 interface ArticlePageProps {
@@ -41,7 +40,6 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params
 
-  // Guard: never query Sanity with an undefined or empty slug
   if (!slug) return notFound()
 
   const article = await client.fetch<Article | null>(ARTICLE_BY_SLUG_QUERY, { slug })
@@ -56,13 +54,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       })
     : ''
 
-  const breadcrumbs = [
-    { name: 'Journal', slug: 'articles' },
-    ...(article.category ? [{ name: article.category.name, slug: article.category.slug }] : []),
-    { name: article.title, slug: `articles/${article.slug}` },
-  ]
-
-  // Dynamic Table of Contents generation
   const toc: Array<{ text: string; id: string }> = []
   if (article.content) {
     article.content.forEach((block) => {
@@ -74,7 +65,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     })
   }
 
-  // Article Schema
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -90,177 +80,193 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   return (
-    <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 w-full">
+    <div className="w-full flex flex-col bg-background text-on-background font-ui-body antialiased">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <Breadcrumbs items={breadcrumbs} />
+      {/* ── Top Navigation ── */}
+      <nav className="bg-background border-b border-slate-border sticky top-0 z-50">
+        <div className="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-max-content-width mx-auto">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold tracking-tighter text-on-background">
+              Viafinds
+            </Link>
+            <div className="hidden md:flex gap-6 items-center">
+              <Link href="/reviews" className="text-primary font-bold border-b-2 border-primary pb-1">Reviews</Link>
+              <Link href="/guides" className="text-on-surface-variant hover:text-primary transition-colors">Guides</Link>
+              <Link href="/category/ai-tools" className="text-on-surface-variant hover:text-primary transition-colors">AI Tools</Link>
+              <Link href="/category/saas" className="text-on-surface-variant hover:text-primary transition-colors">Software</Link>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="text-on-surface-variant hover:text-primary transition-colors p-2 hidden md:block">
+              <span className="material-symbols-outlined text-[20px]">search</span>
+            </button>
+            <button className="bg-primary-container text-on-primary-container px-4 py-2 rounded font-label-caps text-label-caps hover:bg-inverse-primary hover:text-white transition-colors hidden md:block">
+              Subscribe
+            </button>
+            <button className="md:hidden text-on-surface-variant hover:text-primary transition-colors p-2">
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+          </div>
+        </div>
+      </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-6">
-        {/* Main Content Area */}
-        <article className="lg:col-span-8 flex flex-col">
-          {/* Header */}
-          <div className="flex flex-col gap-4 mb-8">
+      <main className="flex-grow w-full max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16 flex flex-col gap-12">
+        {/* Article Header */}
+        <header className="flex flex-col gap-6 max-w-3xl">
+          <div className="flex items-center gap-3">
             {article.category && (
-              <span className="text-xs font-bold text-gold-accent uppercase tracking-[0.25em]">
+              <span className="font-label-caps text-label-caps text-electric-indigo dark:text-primary tracking-widest uppercase">
                 {article.category.name}
               </span>
             )}
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-primary font-bold leading-tight">
-              {article.title}
-            </h1>
-            <div className="flex items-center gap-4 text-xs text-secondary/60 font-body">
-              {article.author && <span>By {article.author.name}</span>}
-              {publishedDate && (
-                <>
-                  <span>•</span>
-                  <span>{publishedDate}</span>
-                </>
-              )}
-              {article.readingTime && (
-                <>
-                  <span>•</span>
-                  <span>{article.readingTime} Min Read</span>
-                </>
-              )}
-            </div>
+            <span className="text-outline-variant">•</span>
+            <span className="font-ui-body text-ui-body text-on-surface-variant">{publishedDate}</span>
           </div>
+          <h1 className="font-headline-xl text-headline-xl text-on-surface font-bold">
+            {article.title}
+          </h1>
+          {article.excerpt && (
+            <p className="font-editorial-body text-editorial-body text-on-surface-variant">
+              {article.excerpt}
+            </p>
+          )}
+        </header>
 
-          {/* Featured Image */}
-          {article.coverImage && (
-            <div className="relative aspect-[16/9] w-full bg-surface-container overflow-hidden mb-12 border border-outline-variant/10">
-              <Image
-                src={urlFor(article.coverImage)}
-                alt={article.title}
-                fill
-                className="object-cover"
-                priority
+        {/* Article Body */}
+        <article className="flex flex-col lg:flex-row gap-12">
+          <div className="flex-1 flex flex-col gap-10 max-w-3xl">
+            {article.coverImage && (
+              <div className="relative aspect-video w-full bg-surface-container overflow-hidden border border-slate-border">
+                <Image
+                  src={urlFor(article.coverImage)}
+                  alt={article.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            )}
+
+            <div className="font-editorial-body text-editorial-body text-on-surface leading-relaxed">
+              <PortableText
+                value={article.content || []}
+                components={{
+                  block: {
+                    h2: ({ children }) => {
+                      const text = String(children);
+                      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                      return <h2 id={id} className="font-headline-lg text-headline-lg text-on-surface font-bold mt-10 mb-5">{children}</h2>
+                    },
+                    h3: ({ children }) => {
+                      const text = String(children);
+                      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                      return <h3 id={id} className="font-headline-lg text-headline-lg-mobile text-on-surface font-bold mt-8 mb-4">{children}</h3>
+                    },
+                  },
+                  types: {
+                    productEmbed: ({ value }) => {
+                      return (
+                        <div className="my-10 border border-slate-border p-6 bg-surface-container flex flex-col md:flex-row gap-6 items-center">
+                          <div className="flex-1">
+                            <span className="font-label-caps text-label-caps text-tertiary uppercase tracking-wider block mb-1">Recommended Option</span>
+                            <h4 className="font-headline-lg text-headline-lg-mobile text-on-surface font-bold mb-2">Vetted Product Recommendation</h4>
+                            <p className="font-ui-body text-ui-body text-on-surface-variant mb-4">Read our comprehensive details about this product in our database.</p>
+                            <Link href={`/${value.product?.slug}`} className="inline-block bg-primary text-deep-navy font-label-caps text-label-caps font-bold px-4 py-2.5 hover:bg-inverse-primary hover:text-white transition-colors uppercase tracking-wider">
+                              View Recommendation
+                            </Link>
+                          </div>
+                        </div>
+                      )
+                    }
+                  }
+                }}
               />
             </div>
-          )}
 
-          {/* Body Content */}
-          <div className="prose max-w-none prose-sm font-body leading-relaxed text-secondary space-y-6">
-            <PortableText
-              value={article.content || []}
-              components={{
-                block: {
-                  h2: ({ children }) => {
-                    const text = String(children);
-                    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                    return <h2 id={id} className="font-display text-2xl font-bold text-primary mt-12 mb-6">{children}</h2>
-                  },
-                  h3: ({ children }) => {
-                    const text = String(children);
-                    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                    return <h3 id={id} className="font-display text-xl font-bold text-primary mt-8 mb-4">{children}</h3>
-                  },
-                },
-                types: {
-                  productEmbed: ({ value }) => {
-                    // Let's render a mini inline product card or a link if embedded
-                    return (
-                      <div className="my-10 border border-outline-variant/20 p-5 bg-surface-container-low flex flex-col md:flex-row gap-5 items-center">
-                        <div className="flex-1">
-                          <span className="text-[10px] font-bold text-gold-accent uppercase tracking-widest block mb-1">Recommended Option</span>
-                          <h4 className="font-display text-base font-bold text-primary mb-2">Vetted Product Recommendation</h4>
-                          <p className="text-xs text-secondary mb-4">Read our comprehensive details about this product in our database.</p>
-                          <Link href={`/${value.product?.slug}`} className="inline-block bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2.5 hover:opacity-90 transition-opacity">
-                            View Recommendation
-                          </Link>
-                        </div>
-                      </div>
-                    )
-                  }
-                }
-              }}
-            />
+            {/* Author Card */}
+            {article.author && (
+              <div className="mt-16 border border-slate-border p-8 bg-surface-container flex flex-col md:flex-row gap-6 items-start">
+                {article.author.avatar && (
+                  <div className="relative h-16 w-16 rounded-full overflow-hidden shrink-0 border border-slate-border">
+                    <Image
+                      src={urlFor(article.author.avatar)}
+                      alt={article.author.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+                <div className="flex-1 flex flex-col gap-2">
+                  <span className="font-headline-lg text-headline-lg-mobile text-on-surface font-bold leading-tight">
+                    About {article.author.name}
+                  </span>
+                  {article.author.role && (
+                    <span className="font-label-caps text-label-caps text-tertiary uppercase tracking-wider">
+                      {article.author.role}
+                    </span>
+                  )}
+                  {article.author.bio && (
+                    <div className="font-ui-body text-ui-body text-on-surface-variant leading-relaxed mt-2">
+                      <PortableText value={article.author.bio} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Author Card Info */}
-          {article.author && (
-            <div className="mt-16 border border-outline-variant/20 p-8 bg-surface-container-low flex flex-col md:flex-row gap-6 items-start">
-              {article.author.avatar && (
-                <div className="relative h-16 w-16 rounded-full overflow-hidden shrink-0 border border-outline-variant/20">
-                  <Image
-                    src={urlFor(article.author.avatar)}
-                    alt={article.author.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              )}
-              <div className="flex-1 flex flex-col gap-2">
-                <span className="font-display text-lg font-bold text-primary leading-tight">
-                  About {article.author.name}
+          {/* Sidebar */}
+          <aside className="w-full lg:w-80 flex flex-col gap-10 flex-shrink-0">
+            {toc.length > 0 && (
+              <div className="flex flex-col gap-4">
+                <span className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-slate-border pb-2">
+                  Table of Contents
                 </span>
-                {article.author.role && (
-                  <span className="font-body text-[10px] text-gold-accent uppercase tracking-widest font-bold">
-                    {article.author.role}
-                  </span>
-                )}
-                {article.author.bio && (
-                  <div className="font-body text-xs text-secondary leading-relaxed mt-2">
-                    <PortableText value={article.author.bio} />
-                  </div>
-                )}
+                <ul className="flex flex-col gap-3 font-ui-body text-ui-body">
+                  {toc.map((item, idx) => (
+                    <li key={idx}>
+                      <a
+                        href={`#${item.id}`}
+                        className="text-primary hover:underline block leading-snug"
+                      >
+                        {item.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-          )}
-        </article>
+            )}
 
-        {/* Sidebar / Table of Contents & Related items */}
-        <aside className="lg:col-span-4 flex flex-col gap-10 border-l border-surface-container pl-0 lg:pl-8">
-          {/* Table of Contents */}
-          {toc.length > 0 && (
-            <div className="flex flex-col gap-4">
-              <span className="font-body text-[10px] font-bold text-primary uppercase tracking-widest border-b border-surface-container pb-2">
-                Table of Contents
-              </span>
-              <ul className="flex flex-col gap-2.5">
-                {toc.map((item, idx) => (
-                  <li key={idx}>
-                    <a
-                      href={`#${item.id}`}
-                      className="font-body text-xs text-secondary hover:text-gold-accent transition-colors block leading-snug"
-                    >
-                      {item.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Related Articles */}
-          {article.relatedArticles && article.relatedArticles.length > 0 && (
-            <div className="flex flex-col gap-6">
-              <span className="font-body text-[10px] font-bold text-primary uppercase tracking-widest border-b border-surface-container pb-2">
-                Related Reading
-              </span>
+            {article.relatedArticles && article.relatedArticles.length > 0 && (
               <div className="flex flex-col gap-6">
-                {article.relatedArticles.map((rel) => (
-                  <div key={rel._id} className="flex flex-col gap-2">
-                    <Link href={`/articles/${rel.slug}`} className="hover:text-gold-accent transition-colors">
-                      <h4 className="font-display text-sm font-bold text-primary leading-snug line-clamp-2">
-                        {rel.title}
-                      </h4>
-                    </Link>
-                    {rel.publishedAt && (
-                      <span className="font-body text-[9px] text-secondary/50 uppercase tracking-wider">
-                        {new Date(rel.publishedAt).toLocaleDateString()}
-                      </span>
-                    )}
-                  </div>
-                ))}
+                <span className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-slate-border pb-2">
+                  Related Reading
+                </span>
+                <div className="flex flex-col gap-6">
+                  {article.relatedArticles.map((rel) => (
+                    <div key={rel._id} className="flex flex-col gap-2">
+                      <Link href={`/articles/${rel.slug}`} className="hover:text-primary transition-colors">
+                        <h4 className="font-headline-lg text-headline-lg-mobile text-on-surface font-bold leading-snug line-clamp-2">
+                          {rel.title}
+                        </h4>
+                      </Link>
+                      {rel.publishedAt && (
+                        <span className="font-mono-data text-mono-data text-on-surface-variant text-[11px] uppercase tracking-wider">
+                          {new Date(rel.publishedAt).toLocaleDateString()}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </aside>
-      </div>
-
+            )}
+          </aside>
+        </article>
+      </main>
     </div>
   )
 }

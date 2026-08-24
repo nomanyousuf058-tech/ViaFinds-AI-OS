@@ -15,7 +15,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   const publishedDate = article.publishedAt
     ? new Date(article.publishedAt).toLocaleDateString('en-US', {
         year: 'numeric',
-        month: 'long',
+        month: 'short',
         day: 'numeric',
       })
     : ''
@@ -23,79 +23,56 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   const articleHref = `/articles/${article.slug}`
 
   return (
-    <div className="group flex flex-col gap-6 hover-luxury-shadow p-4 bg-white border border-outline-variant/10 transition-all duration-300">
-      <Link href={articleHref} className="relative aspect-[16/9] bg-surface-container overflow-hidden block w-full">
+    <article className="group bg-obsidian-deep border border-slate-border rounded flex flex-col hover:border-outline-variant transition-colors">
+      <div className="aspect-video relative overflow-hidden border-b border-slate-border">
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={article.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-103"
+            className="object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-surface-container-high text-secondary/30">
+          <div className="w-full h-full flex items-center justify-center bg-surface-container-high text-on-surface-variant">
             <span className="material-symbols-outlined text-4xl">feed</span>
           </div>
         )}
-      </Link>
+        {article.featured && (
+          <div className="absolute top-4 left-4 bg-background/90 backdrop-blur border border-slate-border px-2 py-1 rounded font-mono-data text-[11px] text-tertiary flex items-center gap-1">
+            <span className="material-symbols-outlined icon-fill text-[12px]">star</span> Featured
+          </div>
+        )}
+      </div>
 
-      <div className="flex flex-col gap-3 flex-1">
-        <div className="flex flex-wrap items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-secondary/60">
+      <div className="p-6 flex flex-col flex-grow">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="font-headline-lg-mobile text-[22px] leading-tight text-on-background group-hover:text-primary transition-colors">
+            {article.title}
+          </h3>
+        </div>
+
+        <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">
           {article.category && (
-            <Link href={`/${article.category.slug}`} className="text-gold-accent hover:underline">
-              {article.category.name}
-            </Link>
+            <span className="text-primary">{article.category.name}</span>
           )}
           {article.category && publishedDate && <span>•</span>}
           {publishedDate && <span>{publishedDate}</span>}
-          {article.readingTime && (
-            <>
-              <span>•</span>
-              <span>{article.readingTime} Min Read</span>
-            </>
-          )}
         </div>
 
-        <Link href={articleHref} className="hover:text-gold-accent transition-colors block">
-          <h3 className="font-display text-xl font-bold text-primary leading-snug line-clamp-2">
-            {article.title}
-          </h3>
-        </Link>
-
         {article.excerpt && (
-          <p className="font-body text-xs text-secondary leading-relaxed line-clamp-3">
+          <p className="font-ui-body text-ui-body text-on-surface-variant mb-6 line-clamp-3">
             {article.excerpt}
           </p>
         )}
 
-        {article.author && (
-          <div className="flex items-center gap-3 mt-auto pt-4 border-t border-surface-container">
-            {article.author.avatar ? (
-              <div className="relative h-6 w-6 rounded-full overflow-hidden">
-                <Image
-                  src={urlFor(article.author.avatar)}
-                  alt={article.author.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <span className="material-symbols-outlined text-secondary text-lg">account_circle</span>
-            )}
-            <div className="flex flex-col">
-              <span className="font-body text-[10px] font-bold text-primary uppercase tracking-wider">
-                By {article.author.name}
-              </span>
-              {article.author.role && (
-                <span className="font-body text-[8px] text-secondary uppercase tracking-widest">
-                  {article.author.role}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
+        <div className="mt-auto pt-4 border-t border-slate-border flex justify-between items-center font-mono-data text-[12px] text-on-surface-variant">
+          {publishedDate && <span>Published: {publishedDate}</span>}
+          <Link href={articleHref} className="text-primary group-hover:underline">
+            Read Analysis
+          </Link>
+        </div>
       </div>
-    </div>
+    </article>
   )
 }
