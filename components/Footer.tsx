@@ -19,44 +19,41 @@ export default function Footer({ navigation, settings }: FooterProps) {
   const legalLinks = (navigation?.legalLinks || DEFAULT_LEGAL_LINKS) as NavLink[]
 
   return (
-    <footer className="bg-primary text-on-primary border-t border-white/5 mt-auto">
-      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+    <footer className="bg-obsidian-deep border-t border-slate-border mt-auto">
+      <div className="max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop">
         {/* Main footer content */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 lg:gap-8">
+        <div className="py-12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-8">
           {/* Brand column */}
-          <div className="md:col-span-3 lg:col-span-2 flex flex-col gap-6">
+          <div className="md:col-span-3 lg:col-span-2 flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-3" aria-label={`${siteName} Home`}>
-              <span className="material-symbols-outlined text-gold-accent text-3xl font-light" aria-hidden="true">
-                auto_awesome
-              </span>
-              <span className="font-display text-2xl font-bold uppercase tracking-tighter text-white">
+              <span className="font-headline-lg text-headline-lg-mobile text-on-surface font-bold tracking-tighter">
                 {siteName}
               </span>
             </Link>
-            <p className="font-body text-xs text-white/60 leading-relaxed max-w-xs">
-              {tagline} Expertly curated products, software, collectibles, and luxury essentials for those who value precision over noise.
+            <p className="font-ui-body text-ui-body text-on-surface-variant leading-relaxed max-w-xs text-sm">
+              {tagline} Expertly curated digital products, software, and technical tools for precision-driven professionals.
             </p>
 
             {/* Social Links */}
             {socialLinks && (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 mt-2">
                 {socialLinks.twitter && (
-                  <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-gold-accent transition-colors" aria-label="Twitter / X">
+                  <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="Twitter / X">
                     <span className="material-symbols-outlined text-[18px]" aria-hidden="true">flutter_dash</span>
                   </a>
                 )}
                 {socialLinks.instagram && (
-                  <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-gold-accent transition-colors" aria-label="Instagram">
+                  <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="Instagram">
                     <span className="material-symbols-outlined text-[18px]" aria-hidden="true">photo_camera</span>
                   </a>
                 )}
                 {socialLinks.youtube && (
-                  <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-gold-accent transition-colors" aria-label="YouTube">
+                  <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="YouTube">
                     <span className="material-symbols-outlined text-[18px]" aria-hidden="true">play_circle</span>
                   </a>
                 )}
                 {socialLinks.pinterest && (
-                  <a href={socialLinks.pinterest} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-gold-accent transition-colors" aria-label="Pinterest">
+                  <a href={socialLinks.pinterest} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="Pinterest">
                     <span className="material-symbols-outlined text-[18px]" aria-hidden="true">interests</span>
                   </a>
                 )}
@@ -66,7 +63,7 @@ export default function Footer({ navigation, settings }: FooterProps) {
             {settings?.contactEmail && (
               <a
                 href={`mailto:${settings.contactEmail}`}
-                className="font-body text-[10px] text-white/40 hover:text-gold-accent transition-colors uppercase tracking-widest"
+                className="font-mono-data text-mono-data text-on-surface-variant hover:text-primary transition-colors text-xs mt-2"
               >
                 {settings.contactEmail}
               </a>
@@ -75,20 +72,20 @@ export default function Footer({ navigation, settings }: FooterProps) {
 
           {/* Navigation columns */}
           {footerColumns.map((column, idx) => (
-            <div key={idx} className="flex flex-col gap-4">
+            <div key={idx} className="flex flex-col gap-3">
               {column.heading && (
-                <span className="font-body text-[10px] font-bold text-white/40 uppercase tracking-[0.3em]">
+                <span className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">
                   {column.heading}
                 </span>
               )}
-              <ul className="flex flex-col gap-3">
+              <ul className="flex flex-col gap-2">
                 {column.links?.map((link, linkIdx) => (
                   <li key={linkIdx}>
                     <Link
                       href={link.href || '#'}
                       target={link.openInNewTab ? '_blank' : undefined}
                       rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
-                      className="font-body text-xs text-white/60 hover:text-white transition-colors"
+                      className="font-ui-body text-ui-body text-on-surface-variant hover:text-primary transition-colors text-sm"
                     >
                       {link.label}
                     </Link>
@@ -100,17 +97,17 @@ export default function Footer({ navigation, settings }: FooterProps) {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 py-5 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-6">
-          <p className="font-body text-[10px] text-white/30 uppercase tracking-widest">
+        <div className="border-t border-slate-border py-5 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-6">
+          <p className="font-mono-data text-mono-data text-on-surface-variant text-xs">
             © {year} {siteName}. All rights reserved. Affiliate links may earn us a commission.
           </p>
-          <div className="flex flex-col sm:flex-row items-center gap-6">
-            <nav className="flex items-center gap-6" aria-label="Legal">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+            <nav className="flex items-center gap-4 sm:gap-6" aria-label="Legal">
               {legalLinks.map((link, idx) => (
                 <Link
                   key={idx}
                   href={link.href || '#'}
-                  className="font-body text-[10px] text-white/30 hover:text-white/60 transition-colors uppercase tracking-widest"
+                  className="font-mono-data text-mono-data text-on-surface-variant hover:text-primary transition-colors text-xs uppercase tracking-wider"
                 >
                   {link.label}
                 </Link>
@@ -118,7 +115,7 @@ export default function Footer({ navigation, settings }: FooterProps) {
             </nav>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="font-body text-[10px] text-gold-accent hover:text-white transition-colors uppercase tracking-widest flex items-center gap-1 sm:ml-4"
+              className="font-mono-data text-mono-data text-primary hover:text-on-surface transition-colors text-xs uppercase tracking-wider flex items-center gap-1 sm:ml-4"
               aria-label="Back to top"
             >
               Back To Top
@@ -131,7 +128,6 @@ export default function Footer({ navigation, settings }: FooterProps) {
   )
 }
 
-// ── Fallback defaults (used when Navigation document is not yet created in CMS)
 const DEFAULT_FOOTER_COLUMNS: FooterColumn[] = [
   {
     heading: 'Discover',

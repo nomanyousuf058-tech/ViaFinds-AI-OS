@@ -86,34 +86,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      {/* ── Top Navigation ── */}
-      <nav className="bg-background border-b border-slate-border sticky top-0 z-50">
-        <div className="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-max-content-width mx-auto">
-          <div className="flex items-center gap-8">
-            <Link href="/" className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold tracking-tighter text-on-background">
-              Viafinds
-            </Link>
-            <div className="hidden md:flex gap-6 items-center">
-              <Link href="/reviews" className="text-primary font-bold border-b-2 border-primary pb-1">Reviews</Link>
-              <Link href="/guides" className="text-on-surface-variant hover:text-primary transition-colors">Guides</Link>
-              <Link href="/category/ai-tools" className="text-on-surface-variant hover:text-primary transition-colors">AI Tools</Link>
-              <Link href="/category/saas" className="text-on-surface-variant hover:text-primary transition-colors">Software</Link>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="text-on-surface-variant hover:text-primary transition-colors p-2 hidden md:block">
-              <span className="material-symbols-outlined text-[20px]">search</span>
-            </button>
-            <button className="bg-primary-container text-on-primary-container px-4 py-2 rounded font-label-caps text-label-caps hover:bg-inverse-primary hover:text-white transition-colors hidden md:block">
-              Subscribe
-            </button>
-            <button className="md:hidden text-on-surface-variant hover:text-primary transition-colors p-2">
-              <span className="material-symbols-outlined">menu</span>
-            </button>
-          </div>
-        </div>
-      </nav>
-
       <main className="flex-grow w-full max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16 flex flex-col gap-12">
         {/* Article Header */}
         <header className="flex flex-col gap-6 max-w-3xl">

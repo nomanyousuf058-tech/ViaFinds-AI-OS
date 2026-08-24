@@ -315,6 +315,36 @@ export const REVIEWS_BY_PRODUCT_QUERY = `
   }
 `
 
+export const REVIEW_BY_SLUG_QUERY = `
+  *[_type == "review" && slug.current == $slug][0] {
+    _id, title, "slug": slug.current, reviewType, rating, verdict, pros, cons, content,
+    product->{ _id, title, "slug": slug.current, price, salePrice, currency, availability, rating,
+      gallery, brand->{ _id, "name": coalesce(title, name), "slug": slug.current },
+      category->{ _id, name, "slug": slug.current,
+        parentCategory->{ _id, name, "slug": slug.current }
+      },
+      specifications, affiliateNetwork, affiliateUrl,
+      affiliateLinks[]->{ _id, title, merchant, url, price }
+    },
+    author->{ _id, name, "slug": slug.current, avatar, role, bio, socialLinks },
+    comparisonProducts[]->{ _id, title, "slug": slug.current, price, salePrice, currency, rating,
+      gallery, brand->{ _id, "name": coalesce(title, name), "slug": slug.current }
+    },
+    publishedAt
+  }
+`
+
+export const ALL_REVIEWS_QUERY = `
+  *[_type == "review" && publishedAt <= now()] | order(publishedAt desc) [$from...$to] {
+    _id, title, "slug": slug.current, reviewType, rating, verdict, pros, cons,
+    author->{ _id, name, "slug": slug.current, avatar, role },
+    product->{ _id, title, "slug": slug.current, price, salePrice, currency,
+      gallery, brand->{ _id, "name": coalesce(title, name), "slug": slug.current }
+    },
+    publishedAt
+  }
+`
+
 export const ALL_PRODUCTS_QUERY = `
   *[_type == "product" && status == "published"] | order(publishedAt desc, _createdAt desc) {
     _id, title, "slug": slug.current, 

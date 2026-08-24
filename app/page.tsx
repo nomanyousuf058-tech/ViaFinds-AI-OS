@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity.client'
 import { HOME_PAGE_QUERY } from '@/lib/sanity.queries'
@@ -68,34 +67,6 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
       />
-
-      {/* ── Top Navigation ── */}
-      <nav className="bg-background border-b border-slate-border sticky top-0 z-50">
-        <div className="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-max-content-width mx-auto">
-          <div className="flex items-center gap-8">
-            <Link href="/" className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold tracking-tighter text-on-background">
-              Viafinds
-            </Link>
-            <div className="hidden md:flex gap-6 items-center">
-              <Link href="/reviews" className="text-primary font-bold border-b-2 border-primary pb-1">Reviews</Link>
-              <Link href="/guides" className="text-on-surface-variant hover:text-primary transition-colors">Guides</Link>
-              <Link href="/category/ai-tools" className="text-on-surface-variant hover:text-primary transition-colors">AI Tools</Link>
-              <Link href="/category/saas" className="text-on-surface-variant hover:text-primary transition-colors">Software</Link>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="text-on-surface-variant hover:text-primary transition-colors p-2 hidden md:block">
-              <span className="material-symbols-outlined text-[20px]">search</span>
-            </button>
-            <button className="bg-primary-container text-on-primary-container px-4 py-2 rounded font-label-caps text-label-caps hover:bg-inverse-primary hover:text-white transition-colors hidden md:block">
-              Subscribe
-            </button>
-            <button className="md:hidden text-on-surface-variant hover:text-primary transition-colors p-2">
-              <span className="material-symbols-outlined">menu</span>
-            </button>
-          </div>
-        </div>
-      </nav>
 
       {/* ── Hero Section ── */}
       <section className="border-b border-slate-border pb-12">
@@ -169,15 +140,15 @@ export default async function HomePage() {
       </section>
 
       {/* ── Newsletter Section ── */}
-      <section className="bg-primary text-on-primary py-16 md:py-24 border-t border-white/5 mt-12">
-        <div className="max-w-2xl mx-auto px-margin-mobile text-center">
-          <span className="font-label-caps text-label-caps text-on-primary-container mb-5 block">
+      <section className="bg-surface-container border-t border-slate-border mt-12">
+        <div className="max-w-2xl mx-auto px-margin-mobile py-16 md:py-24 text-center">
+          <span className="font-label-caps text-label-caps text-tertiary mb-5 block">
             Stay Curated
           </span>
-          <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold mb-5 text-white leading-tight">
+          <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold mb-5 text-on-background leading-tight">
             Subscribe to the ViaFinds Journal
           </h2>
-          <p className="font-ui-body text-ui-body text-white/60 max-w-md mx-auto mb-10 leading-relaxed">
+          <p className="font-ui-body text-ui-body text-on-surface-variant max-w-md mx-auto mb-10 leading-relaxed">
             Weekly updates on newly vetted guides, reviews, and curated finds in digital products and software. No spam, ever.
           </p>
           <NewsletterForm />

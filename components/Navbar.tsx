@@ -92,17 +92,17 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
 
   return (
     <>
-      <header className="fixed top-0 w-full z-50 bg-background border-b border-outline">
+      <header className="fixed top-0 w-full z-50 bg-background border-b border-slate-border">
         <nav
-          className="max-w-container-max mx-auto h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop"
+          className="max-w-max-content-width mx-auto h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop"
           role="navigation"
           aria-label="Main navigation"
         >
           {/* Logo */}
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="ViaFinds Home">
-              <span className="font-display text-2xl font-bold uppercase tracking-tighter text-on-surface">
-                ViaFinds
+              <span className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold tracking-tighter text-on-background">
+                Viafinds
               </span>
             </Link>
 
@@ -124,29 +124,29 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                           href={item.href}
                           target={item.openInNewTab ? '_blank' : undefined}
                           rel={item.openInNewTab ? 'noopener noreferrer' : undefined}
-                          className="meta-mono text-on-surface/60 hover:text-gold-accent transition-colors py-5 flex items-center gap-1"
+                          className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-5 flex items-center gap-1"
                         >
                           {item.icon && (
-                            <span className="material-symbols-outlined text-sm" aria-hidden="true">
+                            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
                               {item.icon}
                             </span>
                           )}
                           {item.label}
                           {hasMega && (
-                            <span className="material-symbols-outlined text-sm" aria-hidden="true">
+                            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
                               keyboard_arrow_down
                             </span>
                           )}
                         </Link>
                       ) : (
                         <button
-                          className="meta-mono text-on-surface/60 hover:text-gold-accent transition-colors py-5 flex items-center gap-1"
+                          className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-5 flex items-center gap-1"
                           aria-expanded={megaMenuOpenId === itemId}
                           aria-haspopup={hasMega ? 'true' : undefined}
                         >
                           {item.label}
                           {hasMega && (
-                            <span className="material-symbols-outlined text-sm" aria-hidden="true">
+                            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
                               keyboard_arrow_down
                             </span>
                           )}
@@ -155,7 +155,7 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
 
                       {hasMega && megaMenuOpenId === itemId && (
                         <div
-                          className="absolute top-full left-0 bg-surface-container border border-outline z-50 animate-fade-down min-w-[500px] p-8 grid gap-8"
+                          className="absolute top-full left-0 bg-surface-container border border-slate-border z-50 rounded shadow-lg min-w-[500px] p-6 grid gap-6"
                           style={{ gridTemplateColumns: `repeat(${Math.min(item.megaMenu!.length, 4)}, 1fr)` }}
                           onMouseEnter={() => handleMegaEnter(itemId)}
                           onMouseLeave={handleMegaLeave}
@@ -164,7 +164,7 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                           {item.megaMenu!.map((col, colIdx) => (
                             <div key={colIdx} className="flex flex-col gap-3">
                               {col.columnTitle && (
-                                <span className="meta-mono text-gold-accent border-b border-outline pb-2">
+                                <span className="font-label-caps text-label-caps text-primary uppercase tracking-wider border-b border-slate-border pb-2">
                                   {col.columnTitle}
                                 </span>
                               )}
@@ -174,7 +174,7 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                                     <Link
                                       href={link.href || '#'}
                                       target={link.openInNewTab ? '_blank' : undefined}
-                                      className="font-body text-sm text-on-surface/70 hover:text-gold-accent transition-colors hover:pl-1 block"
+                                      className="font-ui-body text-ui-body text-on-surface-variant hover:text-primary transition-colors hover:pl-1 block"
                                       role="menuitem"
                                       onClick={() => setMegaMenuOpenId(null)}
                                     >
@@ -198,24 +198,24 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                     onMouseLeave={handleMegaLeave}
                   >
                     <button
-                      className={`meta-mono py-5 flex items-center gap-1.5 whitespace-nowrap transition-colors ${
-                        megaMenuOpenId === 'categories-mega' ? 'text-gold-accent' : 'text-on-surface/60 hover:text-gold-accent'
+                      className={`font-label-caps text-label-caps py-5 flex items-center gap-1.5 whitespace-nowrap transition-colors ${
+                        megaMenuOpenId === 'categories-mega' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'
                       }`}
                     >
                       Categories
-                      <span className="material-symbols-outlined text-sm transition-transform duration-200" style={{ transform: megaMenuOpenId === 'categories-mega' ? 'rotate(180deg)' : 'rotate(0deg)' }} aria-hidden="true">
+                      <span className="material-symbols-outlined text-[16px] transition-transform duration-200" style={{ transform: megaMenuOpenId === 'categories-mega' ? 'rotate(180deg)' : 'rotate(0deg)' }} aria-hidden="true">
                         keyboard_arrow_down
                       </span>
                     </button>
 
                     {megaMenuOpenId === 'categories-mega' && rootCategories.length > 0 && (
                       <div
-                        className="absolute top-full left-0 bg-surface-container border border-outline z-50 animate-fade-down flex w-[820px] max-w-[90vw] h-[65vh] min-h-[420px]"
+                        className="absolute top-full left-0 bg-surface-container border border-slate-border z-50 rounded shadow-lg flex w-[820px] max-w-[90vw] h-[65vh] min-h-[420px]"
                         onMouseEnter={() => handleMegaEnter('categories-mega')}
                         onMouseLeave={handleMegaLeave}
                         role="menu"
                       >
-                        <div className="w-[220px] shrink-0 bg-surface-container-lowest border-r border-outline flex flex-col py-3 overflow-y-auto">
+                        <div className="w-[220px] shrink-0 bg-surface-container-lowest border-r border-slate-border flex flex-col py-3 overflow-y-auto rounded-l">
                           {rootCategories.map(rootCat => (
                             <button
                               key={rootCat._id}
@@ -226,29 +226,29 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                               }}
                               className={`flex items-center gap-3 px-5 py-3.5 text-left transition-all ${
                                 activeTabId === rootCat._id
-                                  ? 'bg-surface-container border-l-2 border-gold-accent text-gold-accent font-bold'
-                                  : 'text-on-surface/60 hover:bg-surface-container hover:text-on-surface border-l-2 border-transparent'
+                                  ? 'bg-surface-container border-l-2 border-primary text-primary font-bold'
+                                  : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface border-l-2 border-transparent'
                               }`}
                             >
-                              <span className="font-body text-xs uppercase tracking-wider">{rootCat.name}</span>
+                              <span className="font-ui-body text-ui-body text-xs uppercase tracking-wider">{rootCat.name}</span>
                             </button>
                           ))}
                         </div>
 
-                        <div className="flex-1 bg-surface-container-low p-8 overflow-y-auto">
+                        <div className="flex-1 bg-surface-container p-6 overflow-y-auto rounded-r">
                           {rootCategories.filter(c => c._id === activeTabId).map(activeRoot => {
                             const subCats = getSubcategories(activeRoot._id)
                             const cols = Math.min(3, Math.max(2, Math.ceil(subCats.length / 8)))
 
                             return (
                               <div key={activeRoot._id}>
-                                <div className="flex items-center justify-between pb-3 border-b border-outline mb-6">
-                                  <span className="font-display text-lg font-bold text-on-surface">
+                                <div className="flex items-center justify-between pb-3 border-b border-slate-border mb-4">
+                                  <span className="font-headline-lg text-headline-lg-mobile text-on-surface font-bold">
                                     {activeRoot.name}
                                   </span>
                                   <Link
                                     href={`/${activeRoot.slug}`}
-                                    className="meta-mono text-gold-accent hover:underline"
+                                    className="font-label-caps text-label-caps text-primary hover:underline"
                                     onClick={() => setMegaMenuOpenId(null)}
                                   >
                                     View All →
@@ -267,8 +267,8 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                                       <Link
                                         key={sub._id}
                                         href={`/${activeRoot.slug}/${sub.slug}`}
-                                        className={`font-body text-sm hover:text-gold-accent transition-colors hover:pl-1 block py-1.5 ${
-                                          pathname === `/${activeRoot.slug}/${sub.slug}` ? 'text-gold-accent font-bold border-l-2 border-gold-accent pl-2' : 'text-on-surface/60'
+                                        className={`font-ui-body text-ui-body hover:text-primary transition-colors hover:pl-1 block py-1.5 ${
+                                          pathname === `/${activeRoot.slug}/${sub.slug}` ? 'text-primary font-bold border-l-2 border-primary pl-2' : 'text-on-surface-variant'
                                         }`}
                                         onClick={() => setMegaMenuOpenId(null)}
                                       >
@@ -277,7 +277,7 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                                     ))}
                                   </div>
                                 ) : (
-                                  <p className="text-on-surface/40 text-sm font-body">No subcategories yet.</p>
+                                  <p className="font-ui-body text-ui-body text-on-surface-variant text-sm">No subcategories yet.</p>
                                 )}
                               </div>
                             )
@@ -287,10 +287,10 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                     )}
                   </div>
 
-                  <Link href="/search?type=brand" className="meta-mono text-on-surface/60 hover:text-gold-accent transition-colors py-5 whitespace-nowrap">
+                  <Link href="/search?type=brand" className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-5 whitespace-nowrap">
                     Brands
                   </Link>
-                  <Link href="/articles" className="meta-mono text-on-surface/60 hover:text-gold-accent transition-colors py-5 whitespace-nowrap">
+                  <Link href="/articles" className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-5 whitespace-nowrap">
                     Articles
                   </Link>
                 </>
@@ -301,14 +301,14 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
           {/* Right-side actions */}
           <div className="flex items-center gap-4 lg:gap-5">
             <form onSubmit={handleSearchSubmit} className="relative group hidden sm:block" role="search">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 pointer-events-none group-focus-within:text-gold-accent transition-colors text-[18px]" aria-hidden="true">
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none group-focus-within:text-primary transition-colors text-[18px]" aria-hidden="true">
                 search
               </span>
               <input
                 ref={searchInputRef}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 bg-surface-container border border-outline focus:border-gold-accent w-44 font-body text-sm transition-all duration-300 focus:w-64 outline-none text-on-surface placeholder:text-on-surface/30"
+                className="pl-10 pr-4 py-2 bg-surface-container-low border border-slate-border focus:border-primary w-44 font-mono-data text-mono-data transition-all duration-300 focus:w-64 outline-none text-on-background placeholder:text-on-surface-variant"
                 placeholder="Search..."
                 type="search"
                 aria-label="Search ViaFinds"
@@ -317,7 +317,7 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
 
             <button
               onClick={() => router.push('/search?favorites=true')}
-              className="relative p-1 text-on-surface/60 hover:text-gold-accent transition-colors"
+              className="relative p-1 text-on-surface-variant hover:text-primary transition-colors"
               title={`Favorites${favoritesCount > 0 ? ` (${favoritesCount})` : ''}`}
               aria-label={`Favorites${favoritesCount > 0 ? `, ${favoritesCount} items` : ''}`}
             >
@@ -325,14 +325,14 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
                 favorite
               </span>
               {favoritesCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-gold-accent text-primary text-[8px] font-bold h-4 w-4 rounded-full flex items-center justify-center" aria-hidden="true">
+                <span className="absolute -top-0.5 -right-0.5 bg-primary text-deep-navy text-[8px] font-bold h-4 w-4 rounded-full flex items-center justify-center" aria-hidden="true">
                   {favoritesCount > 9 ? '9+' : favoritesCount}
                 </span>
               )}
             </button>
 
             <button
-              className="lg:hidden p-1 text-on-surface hover:text-gold-accent transition-colors"
+              className="lg:hidden p-1 text-on-surface-variant hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(prev => !prev)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
@@ -348,20 +348,20 @@ export default function Navbar({ categories, navigation }: NavbarProps) {
         {/* Mobile Menu Drawer */}
         <div
           id="mobile-menu"
-          className={`lg:hidden w-full bg-surface-container-lowest border-b border-outline absolute left-0 top-[100%] flex flex-col z-40 overflow-y-auto max-h-[80vh] transition-all duration-300 ${
+          className={`lg:hidden w-full bg-surface-container-lowest border-b border-slate-border absolute left-0 top-[100%] flex flex-col z-40 overflow-y-auto max-h-[80vh] transition-all duration-300 ${
             mobileMenuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
           }`}
           aria-hidden={!mobileMenuOpen}
         >
-          <form onSubmit={handleSearchSubmit} className="p-4 border-b border-outline" role="search">
+          <form onSubmit={handleSearchSubmit} className="p-4 border-b border-slate-border" role="search">
             <div className="relative">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 text-[18px]" aria-hidden="true">
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]" aria-hidden="true">
                 search
               </span>
               <input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-surface-container border border-outline outline-none font-body text-sm text-on-surface"
+                className="w-full pl-10 pr-4 py-3 bg-surface-container border border-slate-border outline-none font-mono-data text-mono-data text-on-background"
                 placeholder="Search..."
                 type="search"
                 aria-label="Mobile search"
@@ -413,12 +413,12 @@ function MobileMenuItem({ item, onClose, depth = 0 }: MobileMenuItemProps) {
   const hasChildren = item.children && item.children.length > 0
 
   return (
-    <div className={`border-b border-outline last:border-0 ${depth > 0 ? 'border-none mt-1' : ''}`}>
+    <div className={`border-b border-slate-border last:border-0 ${depth > 0 ? 'border-none mt-1' : ''}`}>
       <div className="flex items-center justify-between">
         {item.href && !hasChildren ? (
           <Link
             href={item.href}
-            className={`flex items-center gap-2 py-3 px-2 font-body font-semibold text-on-surface hover:text-gold-accent transition-colors flex-1 ${depth > 0 ? 'text-sm text-on-surface/60 py-2' : 'text-sm'}`}
+            className={`flex items-center gap-2 py-3 px-2 font-ui-body text-ui-body font-medium text-on-surface hover:text-primary transition-colors flex-1 ${depth > 0 ? 'text-sm text-on-surface-variant py-2' : 'text-sm'}`}
             onClick={onClose}
           >
             {item.icon && (
@@ -430,7 +430,7 @@ function MobileMenuItem({ item, onClose, depth = 0 }: MobileMenuItemProps) {
           </Link>
         ) : (
           <button
-            className={`flex items-center gap-2 py-3 px-2 font-body font-semibold text-on-surface flex-1 text-left ${depth > 0 ? 'text-sm text-on-surface/60 py-2' : 'text-sm'}`}
+            className={`flex items-center gap-2 py-3 px-2 font-ui-body text-ui-body font-medium text-on-surface flex-1 text-left ${depth > 0 ? 'text-sm text-on-surface-variant py-2' : 'text-sm'}`}
             onClick={() => setOpen(prev => !prev)}
           >
             {item.icon && (
@@ -444,7 +444,7 @@ function MobileMenuItem({ item, onClose, depth = 0 }: MobileMenuItemProps) {
         {hasChildren && (
           <button
             onClick={() => setOpen(prev => !prev)}
-            className="p-2 text-on-surface/60 hover:text-gold-accent"
+            className="p-2 text-on-surface-variant hover:text-primary"
             aria-expanded={open}
             aria-label={open ? `Collapse ${item.label}` : `Expand ${item.label}`}
           >
@@ -456,7 +456,7 @@ function MobileMenuItem({ item, onClose, depth = 0 }: MobileMenuItemProps) {
       </div>
 
       {hasChildren && open && (
-        <div className={`pb-2 pl-4 flex flex-col gap-0.5 animate-fade-down origin-top overflow-hidden ${depth > 0 ? 'border-l-2 border-outline ml-2' : ''}`}>
+        <div className={`pb-2 pl-4 flex flex-col gap-0.5 origin-top overflow-hidden ${depth > 0 ? 'border-l-2 border-slate-border ml-2' : ''}`}>
           {item.children!.map((child, idx) => (
             <MobileMenuItem key={idx} item={child} onClose={onClose} depth={depth + 1} />
           ))}
