@@ -8,7 +8,7 @@ export class RecommendationEngine extends BaseService implements IRecommendation
   }
 
   async getRecommendations(): Promise<Recommendation[]> {
-    this.logInfo('Generating recommendations (placeholder)');
-    return [];
+    this.logInfo('Recommendations skipped: service not configured')
+    return []
   }
 }

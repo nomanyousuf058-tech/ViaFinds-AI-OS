@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server'
+import { adminOnly } from '@/lib/auth'
 import { contentRepository } from '@/lib/content'
 import { optimizationEngine } from '@/lib/optimization/engine'
 import type { OptimizationJob } from '@/lib/content/types'
 
 export async function POST(request: Request) {
   try {
+    await adminOnly()
     const body = await request.json()
     const { type, contentId, contentType = 'article' } = body as {
       type: 'seo' | 'geo' | 'aeo'

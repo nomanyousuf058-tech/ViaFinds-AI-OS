@@ -8,5 +8,9 @@ module.exports = {
     '/\\.playwright\\./',
     '/playwright\\.config\\./',
     'PlatformRegistry\\.test\\.ts',
+    '/e2e/',
   ],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+  },
 };

@@ -1,83 +1,48 @@
-import { NextResponse } from 'next/server';
-import { adminOnly } from '@/lib/auth';
-
-interface Partner {
-  id: string;
-  name: string;
-  type: string;
-  status: 'active' | 'inactive';
-  category: string;
-  lastTested?: string;
-  error?: string;
-  createdAt: string;
-}
+import { NextResponse } from 'next/server'
+import { adminOnly } from '@/lib/auth'
+import { serviceRegistry } from '@/lib/services'
 
 export async function GET() {
   try {
-    await adminOnly();
+    await adminOnly()
+    const services = await serviceRegistry.listServices()
+    const partners = services
+      .filter((s) => ['Affiliate/Partners', 'Social Platforms', 'Search/SEO'].includes(s.category))
+      .map((s) => ({
+        id: s.id,
+        name: s.name,
+        type: s.purpose,
+        status: s.status === 'connected' ? 'active' : 'inactive',
+        category: s.category,
+        lastTested: s.lastHealthCheckAt,
+        error: s.lastHealthCheckError,
+        enabled: s.enabled,
+      }))
+
+    return NextResponse.json(partners)
   } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  try {
-    const partners: Partner[] = [
-      {
-        id: 'digistore24',
-        name: 'Digistore24',
-        type: 'Affiliate Network',
-        status: 'active',
-        category: 'Affiliate',
-        lastTested: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: 'pinterest',
-        name: 'Pinterest',
-        type: 'Social Platform',
-        status: 'inactive',
-        category: 'Social',
-        createdAt: new Date().toISOString(),
-      },
-    ];
-
-    return NextResponse.json(partners);
-  } catch (err) {
-    return NextResponse.json(
-      { error: 'Failed to fetch partners', details: (err as Error).message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 }
 
 export async function POST(request: Request) {
   try {
-    await adminOnly();
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  try {
-    const body = await request.json();
-    const { name, type, category, apiKey, apiSecret } = body;
+    await adminOnly()
+    const body = await request.json()
+    const { name, type, category, apiKey } = body
 
     if (!name || !type) {
-      return NextResponse.json({ error: 'Name and type are required' }, { status: 400 });
+      return NextResponse.json({ error: 'Name and type are required' }, { status: 400 })
     }
 
-    const partner: Partner = {
-      id: crypto.randomUUID(),
-      name,
-      type,
-      status: 'active',
-      category: category || 'Other',
-      createdAt: new Date().toISOString(),
-    };
+    const services = await serviceRegistry.listServices()
+    const existing = services.find((s) => s.name.toLowerCase() === name.toLowerCase())
+    if (existing) {
+      return NextResponse.json({ error: 'Service already exists' }, { status: 409 })
+    }
 
-    return NextResponse.json(partner, { status: 201 });
-  } catch (err) {
-    return NextResponse.json(
-      { error: 'Failed to create partner', details: (err as Error).message },
-      { status: 500 }
-    );
+    return NextResponse.json({ id: name.toLowerCase().replace(/\s+/g, '-'), name, type, category, status: 'inactive' }, { status: 201 })
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 }

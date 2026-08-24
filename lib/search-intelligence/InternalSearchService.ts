@@ -8,17 +8,17 @@ export class InternalSearchService extends BaseService implements IInternalSearc
   }
 
   async getSearchHistory(): Promise<SearchHistoryEntry[]> {
-    this.logInfo('Fetching search history (placeholder)');
-    return [];
+    this.logInfo('Search history skipped: service not configured')
+    return []
   }
 
   async getSearchFrequency(): Promise<SearchFrequency[]> {
-    this.logInfo('Fetching search frequency (placeholder)');
-    return [];
+    this.logInfo('Search frequency skipped: service not configured')
+    return []
   }
 
   async getTrendingSearches(): Promise<TrendingSearch[]> {
-    this.logInfo('Fetching trending searches (placeholder)');
-    return [];
+    this.logInfo('Trending searches skipped: service not configured')
+    return []
   }
 }

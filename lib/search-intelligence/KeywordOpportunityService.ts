@@ -8,7 +8,7 @@ export class KeywordOpportunityService extends BaseService implements IKeywordOp
   }
 
   async getKeywordOpportunities(): Promise<KeywordOpportunity[]> {
-    this.logInfo('Fetching keyword opportunities (placeholder)');
-    return [];
+    this.logInfo('Keyword opportunities skipped: service not configured')
+    return []
   }
 }

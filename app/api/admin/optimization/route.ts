@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server'
+import { adminOnly } from '@/lib/auth'
 import { contentRepository } from '@/lib/content'
 import { optimizationEngine } from '@/lib/optimization/engine'
 
 export async function POST(request: Request) {
   try {
+    await adminOnly()
     const body = await request.json()
     const { contentId, contentType = 'article' } = body as {
       contentId: string

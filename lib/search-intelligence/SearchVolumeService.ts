@@ -7,7 +7,7 @@ export class SearchVolumeService extends BaseService implements ISearchVolumeSer
   }
 
   async getSearchVolume(keyword: string): Promise<number> {
-    this.logInfo(`Fetching search volume for keyword: ${keyword} (placeholder)`);
-    return 0;
+    this.logInfo(`Search volume fetch skipped: service not configured`)
+    return 0
   }
 }

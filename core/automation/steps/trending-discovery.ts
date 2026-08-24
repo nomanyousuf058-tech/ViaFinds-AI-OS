@@ -157,12 +157,6 @@ export class TrendingDiscoveryStep {
   }
 
   private getMockTrendingProducts(): TrendingProduct[] {
-    return [
-      { id: 'mock-1', name: 'Premium Biohacking Supplement Stack', searchVolume: 45000, trendDirection: 'up', estimatedCommission: 15, partnerAvailability: ['amazon', 'shareasale'], categoryMatch: 'Luxury Beauty', confidence: 0.9 },
-      { id: 'mock-2', name: 'AI Workflow Automation Masterclass', searchVolume: 32000, trendDirection: 'up', estimatedCommission: 12, partnerAvailability: ['amazon', 'cj'], categoryMatch: 'High-Ticket Digital Products', confidence: 0.85 },
-      { id: 'mock-3', name: 'Elite Course Creator SaaS Platform', searchVolume: 28000, trendDirection: 'stable', estimatedCommission: 8, partnerAvailability: ['amazon'], categoryMatch: 'High-Ticket Digital Products', confidence: 0.8 },
-      { id: 'mock-4', name: 'Luxury Anti-Aging Skincare System', searchVolume: 52000, trendDirection: 'up', estimatedCommission: 10, partnerAvailability: ['amazon', 'shareasale'], categoryMatch: 'Luxury Beauty', confidence: 0.95 },
-      { id: 'mock-5', name: 'AI-Powered Course Generation Suite', searchVolume: 12000, trendDirection: 'up', estimatedCommission: 20, partnerAvailability: ['ebay'], categoryMatch: 'High-Ticket Digital Products', confidence: 0.75 },
-    ];
+    return []
   }
 }
