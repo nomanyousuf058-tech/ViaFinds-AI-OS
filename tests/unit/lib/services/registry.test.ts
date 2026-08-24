@@ -12,10 +12,10 @@ jest.mock('@/lib/services/registry', () => ({
       { id: 'google-trends', name: 'Trends', category: 'Google Services', status: 'not_configured', healthStatus: 'not_configured', configuration: { apiKey: false }, capabilities: [], requiredEnvironmentVariables: [], purpose: 'Google Service', usedBy: [], enabled: false, lastHealthCheckAt: null, lastHealthCheckError: null },
       { id: 'digistore24', name: 'Digistore24', category: 'Affiliate/Partners', status: 'not_configured', healthStatus: 'not_configured', configuration: { apiKey: false }, capabilities: [], requiredEnvironmentVariables: [], purpose: 'Affiliate Network', usedBy: [], enabled: false, lastHealthCheckAt: null, lastHealthCheckError: null },
       { id: 'amazon-associates', name: 'Amazon Associates', category: 'Affiliate/Partners', status: 'not_configured', healthStatus: 'not_configured', configuration: { apiKey: false }, capabilities: [], requiredEnvironmentVariables: [], purpose: 'Affiliate Network', usedBy: [], enabled: false, lastHealthCheckAt: null, lastHealthCheckError: null },
-    ]),
-    getService: jest.fn().mockResolvedValue(null),
-    testServiceConnection: jest.fn().mockResolvedValue({ status: 'not_configured', error: 'Missing credentials' }),
-    toggleService: jest.fn().mockResolvedValue(undefined),
+    ] as any),
+    getService: jest.fn().mockResolvedValue(null as any),
+    testServiceConnection: jest.fn().mockResolvedValue({ status: 'not_configured', error: 'Missing credentials' } as any),
+    toggleService: jest.fn().mockResolvedValue(undefined as any),
   })),
   serviceRegistry: {
     listServices: jest.fn().mockResolvedValue([
@@ -28,10 +28,10 @@ jest.mock('@/lib/services/registry', () => ({
       { id: 'google-trends', name: 'Trends', category: 'Google Services', status: 'not_configured', healthStatus: 'not_configured', configuration: { apiKey: false }, capabilities: [], requiredEnvironmentVariables: [], purpose: 'Google Service', usedBy: [], enabled: false, lastHealthCheckAt: null, lastHealthCheckError: null },
       { id: 'digistore24', name: 'Digistore24', category: 'Affiliate/Partners', status: 'not_configured', healthStatus: 'not_configured', configuration: { apiKey: false }, capabilities: [], requiredEnvironmentVariables: [], purpose: 'Affiliate Network', usedBy: [], enabled: false, lastHealthCheckAt: null, lastHealthCheckError: null },
       { id: 'amazon-associates', name: 'Amazon Associates', category: 'Affiliate/Partners', status: 'not_configured', healthStatus: 'not_configured', configuration: { apiKey: false }, capabilities: [], requiredEnvironmentVariables: [], purpose: 'Affiliate Network', usedBy: [], enabled: false, lastHealthCheckAt: null, lastHealthCheckError: null },
-    ]),
-    getService: jest.fn().mockResolvedValue(null),
-    testServiceConnection: jest.fn().mockResolvedValue({ status: 'not_configured', error: 'Missing credentials' }),
-    toggleService: jest.fn().mockResolvedValue(undefined),
+    ] as any),
+    getService: jest.fn().mockResolvedValue(null as any),
+    testServiceConnection: jest.fn().mockResolvedValue({ status: 'not_configured', error: 'Missing credentials' } as any),
+    toggleService: jest.fn().mockResolvedValue(undefined as any),
   },
 }))
 

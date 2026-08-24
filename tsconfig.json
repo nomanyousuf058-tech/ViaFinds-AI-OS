@@ -46,6 +46,7 @@
     "images",
     "logs",
     "prompts",
-    "scripts"
+    "scripts",
+    "tests"
   ]
 }

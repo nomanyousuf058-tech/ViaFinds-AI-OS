@@ -19,14 +19,13 @@ export class XAdapter extends PlatformAdapter {
 
   async publish(content: PlatformContent): Promise<PublishingResult> {
     if (!this.isApiAvailable()) {
-      throw new Error(`X (Twitter) API is currently unavailable.`);
+      throw new Error(`X (Twitter) API is currently unavailable.`)
     }
 
     return {
-      success: true,
-      postId: 'MOCK_X_ID',
-      publishedAt: new Date().toISOString()
-    };
+      success: false,
+      error: 'X publishing implementation requires Twitter API v2 integration. Contact support.',
+    }
   }
 
   getManualPublishingPackage(content: PlatformContent): ManualPublishingPackage {

@@ -1,20 +1,48 @@
 import { NextResponse } from 'next/server';
-import { sanityClient } from '@/lib/sanity.client';
-
-// Temporary mock data for partners (to be replaced with real DB)
-const mockPartners = [
-  { id: 'p1', name: 'Digistore24', revenue: 0 },
-  { id: 'p2', name: 'Google Ads', revenue: 0 },
-];
+import { adminOnly } from '@/lib/auth';
+import { serviceRegistry } from '@/lib/services';
 
 export async function GET() {
-  // TODO: Replace with real partner database query
-  return NextResponse.json(mockPartners, { status: 200 });
+  try {
+    await adminOnly()
+    const services = await serviceRegistry.listServices()
+    const partners = services
+      .filter((s) => ['Affiliate/Partners', 'Social Platforms', 'Search/SEO'].includes(s.category))
+      .map((s) => ({
+        id: s.id,
+        name: s.name,
+        type: s.purpose,
+        status: s.status === 'connected' ? 'active' : 'inactive',
+        category: s.category,
+        lastTested: s.lastHealthCheckAt,
+        error: s.lastHealthCheckError,
+        enabled: s.enabled,
+      }))
+
+    return NextResponse.json(partners)
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 }
 
 export async function POST(request: Request) {
-  // TODO: Replace with real partner database creation
-  const newPartner = await request.json();
-  mockPartners.push(newPartner);
-  return NextResponse.json(newPartner, { status: 201 });
+  try {
+    await adminOnly()
+    const body = await request.json()
+    const { name, type, category } = body
+
+    if (!name || !type) {
+      return NextResponse.json({ error: 'Name and type are required' }, { status: 400 })
+    }
+
+    const services = await serviceRegistry.listServices()
+    const existing = services.find((s) => s.name.toLowerCase() === name.toLowerCase())
+    if (existing) {
+      return NextResponse.json({ error: 'Service already exists' }, { status: 409 })
+    }
+
+    return NextResponse.json({ id: name.toLowerCase().replace(/\s+/g, '-'), name, type, category, status: 'inactive' }, { status: 201 })
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 }

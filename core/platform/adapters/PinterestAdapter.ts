@@ -19,15 +19,13 @@ export class PinterestAdapter extends PlatformAdapter {
 
   async publish(content: PlatformContent): Promise<PublishingResult> {
     if (!this.isApiAvailable()) {
-      throw new Error(`Pinterest API is currently unavailable.`);
+      throw new Error(`Pinterest API is currently unavailable.`)
     }
 
-    // Example API logic would go here
     return {
-      success: true,
-      postId: 'MOCK_PIN_ID',
-      publishedAt: new Date().toISOString()
-    };
+      success: false,
+      error: 'Pinterest publishing implementation requires Pinterest API v5 integration. Contact support.',
+    }
   }
 
   getManualPublishingPackage(content: PlatformContent): ManualPublishingPackage {

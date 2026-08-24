@@ -18,14 +18,13 @@ export class InstagramAdapter extends PlatformAdapter {
 
   async publish(content: PlatformContent): Promise<PublishingResult> {
     if (!this.isApiAvailable()) {
-      throw new Error(`Instagram API is currently unavailable.`);
+      throw new Error(`Instagram API is currently unavailable.`)
     }
 
     return {
-      success: true,
-      postId: 'MOCK_IG_ID',
-      publishedAt: new Date().toISOString()
-    };
+      success: false,
+      error: 'Instagram publishing implementation requires Meta Graph API integration. Contact support.',
+    }
   }
 
   getManualPublishingPackage(content: PlatformContent): ManualPublishingPackage {

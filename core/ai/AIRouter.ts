@@ -20,13 +20,13 @@ export class AIRouter {
    * Priority order — Gemini is the primary development provider.
    */
   private providerPriority: AIProviderType[] = [
-    AIProviderType.GEMINI,
-    AIProviderType.GROQ,
-    AIProviderType.OPENROUTER,
-    AIProviderType.DEEPSEEK,
     AIProviderType.MISTRAL,
     AIProviderType.OPENAI,
     AIProviderType.CLAUDE,
+    AIProviderType.DEEPSEEK,
+    AIProviderType.GEMINI,
+    AIProviderType.GROQ,
+    AIProviderType.OPENROUTER,
     AIProviderType.OLLAMA,
   ];
 

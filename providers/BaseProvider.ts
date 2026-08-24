@@ -14,6 +14,10 @@ export abstract class BaseProvider {
     this.config = config;
   }
 
+  public getConfig(): AIProviderConfig {
+    return this.config
+  }
+
   /**
    * Initializes the provider (e.g. validates API keys, tests connection)
    */

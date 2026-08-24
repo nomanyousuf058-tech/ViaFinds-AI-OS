@@ -22,40 +22,36 @@ function getDigistore24Credentials() {
     if (fs.existsSync(partnersPath)) {
       const partners = JSON.parse(fs.readFileSync(partnersPath, 'utf8')) as PartnerRecord[];
       const digiPartner = partners.find((p) => p.type === 'digistore24');
-      return digiPartner?.apiKey || process.env.DIGISTORE24_API_KEY || process.env.DIGISTORE24_APIKEY || '';
+      return digiPartner?.apiKey || process.env.DIGISTORE24_API_KEY || process.env.DIGISTORE24_APIKEY || ''
     }
   } catch {
     // ignore
   }
-  return process.env.DIGISTORE24_API_KEY || process.env.DIGISTORE24_APIKEY || '';
+  return process.env.DIGISTORE24_API_KEY || process.env.DIGISTORE24_APIKEY || ''
 }
 
 export async function GET() {
   try {
-    await adminOnly();
+    await adminOnly()
   } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const apiKey = getDigistore24Credentials();
+  const apiKey = getDigistore24Credentials()
   if (!apiKey) {
-    return NextResponse.json({ revenue: 0, orders: 0, note: 'No Digistore24 credentials configured' });
+    return NextResponse.json({ revenue: 0, orders: 0, note: 'No Digistore24 credentials configured' })
   }
 
   try {
-    const provider = new Digistore24Provider(apiKey);
-    const connected = await provider.testConnection();
+    const provider = new Digistore24Provider(apiKey)
+    const connected = await provider.testConnection()
     
     if (!connected) {
-      return NextResponse.json({ revenue: 0, orders: 0, error: 'Failed to connect to Digistore24' }, { status: 502 });
+      return NextResponse.json({ revenue: 0, orders: 0, error: 'Failed to connect to Digistore24' }, { status: 502 })
     }
 
-    // Placeholder: in production, replace with actual sales/order aggregation endpoint.
-    const revenue = 0;
-    const orders = 0;
-
-    return NextResponse.json({ revenue, orders, connected: true });
+    return NextResponse.json({ revenue: 0, orders: 0, connected: true, note: 'Sales aggregation requires additional API integration' })
   } catch (err) {
-    return NextResponse.json({ revenue: 0, orders: 0, error: (err as Error).message }, { status: 502 });
+    return NextResponse.json({ revenue: 0, orders: 0, error: (err as Error).message }, { status: 502 })
   }
 }
