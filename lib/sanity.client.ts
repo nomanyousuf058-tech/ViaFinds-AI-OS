@@ -32,6 +32,8 @@ export const clientDrafts = createClient({
   token: process.env.SANITY_WRITE_TOKEN || process.env.SANITY_TOKEN || process.env.SANITY_API_TOKEN,
   perspective: 'raw',
 })
+
+export const sanityClient = clientNoCdn;
 // ── Image URL Builder ─────────────────────────────────────────────────────────
 const builder = createImageUrlBuilder(client)
 
