@@ -18,6 +18,8 @@
     "@portabletext/react": "3.2.1",
     "@sanity/client": "6.28.4",
     "@sanity/image-url": "^2.1.1",
+    "@supabase/ssr": "^0.12.5",
+    "@supabase/supabase-js": "^2.112.4",
     "bcryptjs": "^3.0.3",
     "gaxios": "^7.3.1",
     "googleapis": "^176.0.0",
