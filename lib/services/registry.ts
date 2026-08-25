@@ -30,6 +30,56 @@ function saveState(state: Record<string, Partial<ServiceRecord>>): void {
   }
 }
 
+function getServiceUsage(id: string, status: ServiceStatus): string[] {
+  if (status === 'not_configured' || status === 'configured_live_test_unavailable') {
+    return []
+  }
+
+  const usage: Record<string, string[]> = {
+    'serpapi': ['Research', 'Automation', 'Primary Search'],
+    'digistore24': ['Automation', 'Affiliate'],
+    'google-search-console': ['SEO'],
+    'google-analytics': ['Website', 'Analytics'],
+    'posthog': [],
+    'sentry': ['Monitoring'],
+    'google-custom-search': ['Research', 'Automation', 'Secondary Search'],
+    'serper': ['Research'],
+    'tavily': ['Research'],
+    'brave-search': ['Research'],
+    'bing-search': ['Research'],
+    'openai': ['AI Provider'],
+    'gemini': ['AI Provider'],
+    'anthropic': ['AI Provider'],
+    'groq': ['AI Provider'],
+    'deepseek': ['AI Provider'],
+    'mistral': ['AI Provider'],
+    'cerebras': ['AI Provider'],
+    'qwen': ['AI Provider'],
+    'cohere': ['AI Provider'],
+    'huggingface': ['AI Provider'],
+    'together': ['AI Provider'],
+    'fireworks': ['AI Provider'],
+    'sambanova': ['AI Provider'],
+    'zai': ['AI Provider'],
+    'cloudflare-ai': ['AI Provider'],
+    'openrouter': ['AI Provider'],
+    'replicate': ['AI Provider', 'Image Generation', 'Video Generation'],
+    'stability-ai': ['Image Generation'],
+    'fal': ['AI Provider', 'Image Generation', 'Video Generation'],
+    'ideogram': ['Image Generation'],
+    'leonardo': ['Image Generation'],
+    'bfl': ['Image Generation'],
+    'google-veo': ['Video Generation'],
+    'runway': ['Video Generation'],
+    'kling': ['Video Generation'],
+    'luma': ['Video Generation'],
+    'pika': ['Video Generation'],
+    'haiper': ['Video Generation'],
+  }
+
+  return usage[id] || []
+}
+
 export class ServiceRegistry {
   private state: Record<string, Partial<ServiceRecord>> = loadState()
 
@@ -60,7 +110,7 @@ export class ServiceRegistry {
           acc[key] = !!process.env[key.toUpperCase()]
           return acc
         }, {} as Record<string, boolean>),
-        usedBy: [],
+        usedBy: getServiceUsage(provider.id, status),
         enabled: stored.enabled ?? configured,
       })
     }
