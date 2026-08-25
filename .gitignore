@@ -75,3 +75,4 @@ docker-compose.override.yml
 # Old Verification Script
 # =========================
 verify.js
+.vercel
