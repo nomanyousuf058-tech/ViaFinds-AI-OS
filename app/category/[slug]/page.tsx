@@ -5,14 +5,11 @@ import type { Metadata } from 'next'
 import { client, urlFor } from '@/lib/sanity.client'
 import {
   CATEGORY_BY_SLUG_QUERY,
-  PRODUCTS_BY_CATEGORY_QUERY,
   ARTICLES_BY_CATEGORY_QUERY,
 } from '@/lib/sanity.queries'
 import Breadcrumbs, { BreadcrumbItem } from '@/components/Breadcrumbs'
-import ProductCard from '@/components/ProductCard'
 import ArticleCard from '@/components/ArticleCard'
-import SubcategoriesRow from '@/components/SubcategoriesRow'
-import type { Category, Product, Article } from '@/lib/types'
+import type { Category, Article } from '@/lib/types'
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>
@@ -21,14 +18,14 @@ interface CategoryPageProps {
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params
-  if (!slug) return { title: 'Category Not Found' }
+  if (!slug) return { title: 'Topic Not Found' }
 
   const category = await client.fetch<Category | null>(CATEGORY_BY_SLUG_QUERY, { slug })
 
-  if (!category) return { title: 'Category Not Found' }
+  if (!category) return { title: 'Topic Not Found' }
 
-  const title = category.seo?.metaTitle || category.seoTitle || `${category.name} Vetted Collection`
-  const desc = category.seo?.metaDescription || category.seoDescription || category.description || `Discover expert reviews, buying guides, and trending products in ${category.name}.`
+  const title = category.seo?.metaTitle || category.seoTitle || `${category.name} Articles`
+  const desc = category.seo?.metaDescription || category.seoDescription || category.description || `Read articles and guides about ${category.name}.`
   const ogImage = category.seo?.ogImage ? urlFor(category.seo.ogImage) : category.bannerImage ? urlFor(category.bannerImage) : category.coverImage ? urlFor(category.coverImage) : ''
 
   return {
@@ -54,17 +51,14 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   if (!category) return notFound()
 
   const page = Number(resolvedSearchParams.page) || 1
-  const limit = 24
+  const limit = 12
   const from = (page - 1) * limit
   const to = from + limit
 
-  const [products, articles] = await Promise.all([
-    client.fetch<Product[]>(PRODUCTS_BY_CATEGORY_QUERY, { categoryId: category._id, from: 0, to: 500 }),
-    client.fetch<Article[]>(ARTICLES_BY_CATEGORY_QUERY, { categoryId: category._id, from: 0, to: 50 }),
-  ])
+  const articles = await client.fetch<Article[]>(ARTICLES_BY_CATEGORY_QUERY, { categoryId: category._id, from: 0, to: 500 })
 
-  const paginatedProducts = products.slice(from, to)
-  const totalCount = products.length
+  const paginatedArticles = articles.slice(from, to)
+  const totalCount = articles.length
   const totalPages = Math.ceil(totalCount / limit)
 
   const breadcrumbItems: BreadcrumbItem[] = []
@@ -87,7 +81,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: category.name,
-    description: category.description || `Browse vetted items in ${category.name}`,
+    description: category.description || `Read articles and guides about ${category.name}`,
     url: `https://viafinds.com/category/${slug}`,
   }
 
@@ -98,7 +92,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
 
-      {/* ── Category Hero ── */}
+      {/* ── Topic Hero ── */}
       <section className="border-b border-slate-border">
         <div className="max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop pt-16 md:pt-20 pb-12">
           <Breadcrumbs items={breadcrumbItems.slice(0, -1)} />
@@ -115,30 +109,18 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         </div>
       </section>
 
-      {/* ── Subcategories ── */}
-      {category.subcategories && category.subcategories.length > 0 && (
-        <section className="border-b border-slate-border">
-          <div className="max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop py-6">
-            <SubcategoriesRow
-              subcategories={category.subcategories}
-              parentPath={`/category/${slug}`}
-            />
-          </div>
-        </section>
-      )}
-
-      {/* ── Products Section ── */}
+      {/* ── Articles Section ── */}
       <section className="py-section-gap max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop w-full">
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-border">
           <span className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">
-            {totalCount} Curated {totalCount === 1 ? 'Product' : 'Products'}
+            {totalCount} Article{totalCount === 1 ? '' : 's'}
           </span>
         </div>
 
-        {paginatedProducts.length > 0 ? (
+        {paginatedArticles.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {paginatedProducts.map((product) => (
-              <ProductCard key={product._id} product={product} categoryPath={`/category/${slug}`} />
+            {paginatedArticles.map((article) => (
+              <ArticleCard key={article._id} article={article} />
             ))}
           </div>
         ) : (
@@ -146,9 +128,9 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             <span className="material-symbols-outlined text-4xl text-on-surface-variant mb-4 font-light" aria-hidden="true">
               search_off
             </span>
-            <h3 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-2">No Products Found</h3>
+            <h3 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-2">No Articles Found</h3>
             <p className="font-ui-body text-ui-body text-on-surface-variant text-center max-w-sm leading-relaxed">
-              This category is currently being curated. Check back shortly for new additions.
+              Articles for this topic are being curated. Check back shortly.
             </p>
           </div>
         )}
@@ -181,22 +163,6 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           </div>
         )}
       </section>
-
-      {/* ── Articles Section ── */}
-      {articles.length > 0 && (
-        <section className="pb-section-gap max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop w-full">
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-border">
-            <span className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">
-              Editorial Guides
-            </span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {articles.map((article) => (
-              <ArticleCard key={article._id} article={article} />
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   )
 }

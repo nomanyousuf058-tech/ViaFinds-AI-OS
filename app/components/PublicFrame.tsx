@@ -4,16 +4,15 @@ import { usePathname } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import AnnouncementBar from '@/components/AnnouncementBar'
-import type { SiteSettings, Category, Navigation } from '@/lib/types'
+import type { SiteSettings, Navigation } from '@/lib/types'
 
 interface PublicFrameProps {
   children: React.ReactNode
-  categories: Category[]
   settings: SiteSettings | null
   navigation: Navigation | null
 }
 
-export default function PublicFrame({ children, categories, settings, navigation }: PublicFrameProps) {
+export default function PublicFrame({ children, settings, navigation }: PublicFrameProps) {
   const pathname = usePathname()
   const isDashboard = pathname.startsWith('/dashboard')
 
@@ -24,7 +23,7 @@ export default function PublicFrame({ children, categories, settings, navigation
   return (
     <>
       <AnnouncementBar data={settings?.announcementBar} />
-      <Navbar categories={categories} navigation={navigation} />
+      <Navbar navigation={navigation} />
       <main className="flex-1 flex flex-col pt-20">
         {children}
       </main>

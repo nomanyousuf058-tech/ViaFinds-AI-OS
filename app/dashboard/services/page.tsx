@@ -78,6 +78,32 @@ const STATUS_COLORS: Record<ServiceStatus, string> = {
   NOT_NEEDED: 'text-slate-400',
 }
 
+function getUsedBy(id: string, status: string): string[] {
+  if (status === 'NOT_CONFIGURED' || status === 'configured_live_test_unavailable') {
+    return []
+  }
+
+  const usage: Record<string, string[]> = {
+    'serpapi': ['Research', 'Automation', 'Primary Search'],
+    'google-custom-search': ['Research', 'Automation', 'Secondary Search'],
+    'google-search-console': ['SEO Intelligence'],
+    'google-analytics': ['Analytics Intelligence'],
+    'openai': ['AI Generation'],
+    'gemini': ['AI Generation'],
+    'anthropic': ['AI Generation'],
+    'groq': ['AI Generation'],
+    'deepseek': ['AI Generation'],
+    'mistral': ['AI Generation'],
+    'openrouter': ['AI Generation'],
+    'ollama': ['AI Generation (local)'],
+    'digistore24': ['Affiliate Intelligence'],
+    'sentry': ['Error Monitoring'],
+    'posthog': ['Analytics'],
+  }
+
+  return usage[id] || []
+}
+
 const AUTOMATION_INTEGRATIONS = [
   { id: 'search-intelligence', label: 'Search Intelligence', description: 'SerpAPI / Custom Search for topic and competitor research' },
   { id: 'search-console-intelligence', label: 'Search Console Intelligence', description: 'Search Console data for SEO opportunities and query gap analysis' },
@@ -121,7 +147,7 @@ export default function ServicesPage() {
           lastHealthCheckAt: h.latency ? new Date().toISOString() : null,
           lastHealthCheckError: h.error || null,
           configuration: {},
-          usedBy: [],
+          usedBy: getUsedBy(h.id, h.status),
           enabled: h.status === 'CONNECTED_AND_WORKING',
           latency: h.latency,
           automationStage: h.automationStage,
@@ -156,8 +182,8 @@ export default function ServicesPage() {
 
   const categories = Array.from(new Set(services.map((s) => s.category)))
 
-  const connectedCount = services.filter(s => s.status === 'connected').length
-  const automationConnectedCount = services.filter(s => s.usedBy.includes('Automation')).length
+  const connectedCount = services.filter(s => s.status === 'CONNECTED_AND_WORKING' || s.status === 'CONNECTED_BUT_NOT_USED').length
+  const automationConnectedCount = services.filter(s => s.usedBy.some(u => u.toLowerCase().includes('automation') || u.toLowerCase().includes('ai provider') || u.toLowerCase().includes('research') || u.toLowerCase().includes('affiliate') || u.toLowerCase().includes('monitoring'))).length
 
   return (
     <DashboardLayout>
@@ -253,7 +279,16 @@ export default function ServicesPage() {
           <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">Automation Integration Status</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {AUTOMATION_INTEGRATIONS.map((integration) => {
-              const isConnected = services.some(s => s.usedBy.some(usage => usage.toLowerCase().includes(integration.id.replace('-intelligence', '').replace('-integration', ''))))
+              const isConnected = services.some(s => {
+                const usageLower = s.usedBy.map(u => u.toLowerCase())
+                if (integration.id === 'search-intelligence') return usageLower.some(u => u.includes('research') || u.includes('search'))
+                if (integration.id === 'search-console-intelligence') return usageLower.some(u => u.includes('seo'))
+                if (integration.id === 'analytics-intelligence') return usageLower.some(u => u.includes('analytics'))
+                if (integration.id === 'ai-generation') return usageLower.some(u => u.includes('ai generation'))
+                if (integration.id === 'affiliate-intelligence') return usageLower.some(u => u.includes('affiliate'))
+                if (integration.id === 'error-monitoring') return usageLower.some(u => u.includes('monitoring'))
+                return false
+              })
               return (
                 <div key={integration.id} className="bg-obsidian border border-slate-border rounded p-3">
                   <div className="flex items-center justify-between mb-1">

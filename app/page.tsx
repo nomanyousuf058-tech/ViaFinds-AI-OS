@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { client, urlFor } from '@/lib/sanity.client'
 import { HOME_PAGE_QUERY } from '@/lib/sanity.queries'
 import ArticleCard from '@/components/ArticleCard'
@@ -83,40 +84,36 @@ export default async function HomePage() {
               {heroSubheadline}
             </p>
             <div className="pt-4 flex flex-wrap gap-4">
-              <button className="bg-primary text-deep-navy px-6 py-3 rounded hover:bg-inverse-primary hover:text-white transition-colors font-ui-body text-ui-body font-medium flex items-center gap-2">
-                Explore Top Picks <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-              </button>
-              <button className="border border-slate-border text-on-surface px-6 py-3 rounded hover:bg-surface-container-high transition-colors font-ui-body text-ui-body font-medium">
-                Latest Reviews
-              </button>
+              <Link href="/articles" className="bg-primary text-deep-navy px-6 py-3 rounded hover:bg-inverse-primary hover:text-white transition-colors font-ui-body text-ui-body font-medium flex items-center gap-2">
+                Read Articles <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+              </Link>
+              <Link href="/search" className="border border-slate-border text-on-surface px-6 py-3 rounded hover:bg-surface-container-high transition-colors font-ui-body text-ui-body font-medium">
+                Search Topics
+              </Link>
             </div>
           </div>
           <div className="lg:col-span-5 mt-8 lg:mt-0 relative aspect-[4/3] rounded overflow-hidden border border-slate-border bg-obsidian-deep">
-            <Image
-              src={heroImageUrl}
-              alt="Featured digital product review"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-obsidian-deep to-transparent">
-              <span className="font-mono-data text-mono-data text-primary mb-2 block">Featured Review</span>
-              <h3 className="font-headline-lg-mobile text-headline-lg-mobile text-on-background">Top Digital Tools This Quarter</h3>
-            </div>
+              <Image
+                src={heroImageUrl}
+                alt="ViaFinds editorial feature"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-obsidian-deep to-transparent">
+                <span className="font-mono-data text-mono-data text-primary mb-2 block">Featured Article</span>
+                <h3 className="font-headline-lg-mobile text-headline-lg-mobile text-on-background">Research-Backed Insights</h3>
+              </div>
           </div>
         </div>
       </section>
 
-      {/* ── Quick Filters ── */}
+      {/* ── Quick Links ── */}
       <section className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop w-full">
         <div className="flex overflow-x-auto pb-2 -mx-margin-mobile px-margin-mobile md:px-0 md:mx-0 w-full md:w-auto scrollbar-hide gap-2">
-          <button className="flex-shrink-0 bg-surface-container-high text-on-surface border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-primary-container hover:text-on-primary-container hover:border-primary transition-colors">All Categories</button>
-          <button className="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">AI Tools</button>
-          <button className="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">SaaS</button>
-          <button className="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">Productivity</button>
-        </div>
-        <div className="flex items-center gap-2 text-on-surface-variant font-mono-data text-mono-data border border-slate-border px-3 py-1.5 rounded bg-obsidian-deep cursor-pointer hover:border-primary transition-colors">
-          <span className="material-symbols-outlined text-[16px]">sort</span> Sort: Highest Rated
+          <Link href="/articles" className="flex-shrink-0 bg-surface-container-high text-on-surface border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-primary-container hover:text-on-primary-container hover:border-primary transition-colors">All Articles</Link>
+          <Link href="/search" className="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">Search</Link>
+          <Link href="/about" className="flex-shrink-0 bg-transparent text-on-surface-variant border border-slate-border px-4 py-1.5 rounded-full font-label-caps text-label-caps hover:bg-surface-container-high transition-colors">About</Link>
         </div>
       </section>
 

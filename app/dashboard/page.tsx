@@ -31,22 +31,10 @@ export default function DashboardPage() {
               edit_note
             </span>
             <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-2">
-              Content
+              Articles
             </h2>
             <p className="font-ui-body text-ui-body text-on-surface-variant text-sm">
-              Manage articles, reviews, guides, and comparisons.
-            </p>
-          </Link>
-
-          <Link href="/category" className="group bg-obsidian-deep border border-slate-border rounded p-6 hover:border-outline-variant transition-colors">
-            <span className="material-symbols-outlined text-[32px] text-secondary mb-4 block" aria-hidden="true">
-              folder
-            </span>
-            <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-2">
-              Categories
-            </h2>
-            <p className="font-ui-body text-ui-body text-on-surface-variant text-sm">
-              Organize digital product topics and categories.
+              Manage articles, guides, and editorial content.
             </p>
           </Link>
         </div>

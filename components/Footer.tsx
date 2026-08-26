@@ -132,26 +132,25 @@ const DEFAULT_FOOTER_COLUMNS: FooterColumn[] = [
   {
     heading: 'Discover',
     links: [
-      { label: 'All Products', href: '/search' },
-      { label: 'Trending', href: '/search?trending=true' },
-      { label: "Editor's Picks", href: '/search?editor=true' },
-      { label: 'New Arrivals', href: '/search?newest=true' },
-      { label: 'Deals', href: '/search?featured=true' },
+      { label: 'Articles', href: '/articles' },
+      { label: 'Search', href: '/search' },
+      { label: 'Topics', href: '/search' },
     ],
   },
   {
     heading: 'Editorial',
     links: [
-      { label: 'Articles', href: '/articles' },
-      { label: 'Reviews', href: '/reviews' },
-      { label: 'Brands', href: '/search?type=brand' },
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
-    heading: 'Company',
+    heading: 'Legal',
     links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Contact Us', href: '/contact' },
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Service', href: '/terms-of-service' },
+      { label: 'Cookie Policy', href: '/cookie-policy' },
+      { label: 'Affiliate Disclosure', href: '/affiliate-disclosure' },
     ],
   },
 ]

@@ -7,10 +7,10 @@ import AdminGuard from '@/components/AdminGuard'
 
 const navItems = [
   { href: '/dashboard', label: 'Overview', icon: 'dashboard' },
-  { href: '/dashboard/optimization', label: 'Optimization', icon: 'tune' },
-  { href: '/dashboard/services', label: 'Services', icon: 'settings_ethernet' },
   { href: '/dashboard/automation', label: 'Automation', icon: 'smart_toy' },
   { href: '/dashboard/jobs', label: 'Jobs', icon: 'assignment' },
+  { href: '/dashboard/services', label: 'Services', icon: 'settings_ethernet' },
+  { href: '/dashboard/optimization', label: 'Optimization', icon: 'tune' },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

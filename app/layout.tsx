@@ -82,17 +82,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  let categories: Category[] = []
   let settings: SiteSettings | null = null
   let navigation: Navigation | null = null
 
   try {
-    const [catsRes, settingsRes, navRes] = await Promise.all([
-      client.fetch(ALL_CATEGORIES_QUERY),
+    const [settingsRes, navRes] = await Promise.all([
       client.fetch(SITE_SETTINGS_QUERY),
       client.fetch(NAVIGATION_QUERY),
     ])
-    categories = catsRes || []
     settings = settingsRes
     navigation = navRes
   } catch (err) {
@@ -154,7 +151,7 @@ export default async function RootLayout({
       </head>
       <body className="bg-background text-on-surface flex flex-col min-h-screen antialiased">
 
-        <PublicFrame categories={categories} settings={settings} navigation={navigation}>
+        <PublicFrame settings={settings} navigation={navigation}>
           {children}
         </PublicFrame>
 
