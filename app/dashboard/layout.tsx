@@ -7,6 +7,7 @@ import AdminGuard from '@/components/AdminGuard'
 
 const navItems = [
   { href: '/dashboard', label: 'Overview', icon: 'dashboard' },
+  { href: '/dashboard/articles', label: 'Articles', icon: 'edit_note' },
   { href: '/dashboard/automation', label: 'Automation', icon: 'smart_toy' },
   { href: '/dashboard/jobs', label: 'Jobs', icon: 'assignment' },
   { href: '/dashboard/services', label: 'Services', icon: 'settings_ethernet' },

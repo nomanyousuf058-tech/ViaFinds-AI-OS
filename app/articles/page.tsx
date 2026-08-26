@@ -2,13 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
-import { client, urlFor } from '@/lib/sanity.client'
-import { ALL_ARTICLES_QUERY, FEATURED_ARTICLES_QUERY } from '@/lib/sanity.queries'
+import { articleRepository } from '@/lib/db/repositories'
 import ArticleCard from '@/components/ArticleCard'
-import type { Article } from '@/lib/types'
+import type { ArticleRow } from '@/lib/db/types'
 
 interface ArticlesPageProps {
-  searchParams: Promise<{ page?: string; category?: string }>
+  searchParams: Promise<{ page?: string }>
 }
 
 export const metadata: Metadata = {
@@ -31,28 +30,17 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
   const from = (page - 1) * PAGE_SIZE
   const to = from + PAGE_SIZE
 
-  let articles: Article[] = []
-  let featuredArticles: Article[] = []
-  let total = 0
+  const [allArticles, featuredArticles] = await Promise.all([
+    articleRepository.findPublished(500, 0).catch(() => []),
+    articleRepository.findFeatured(4).catch(() => []),
+  ])
 
-  try {
-    const [all, featured] = await Promise.all([
-      client.fetch<Article[]>(ALL_ARTICLES_QUERY, { from: 0, to: 500 }),
-      client.fetch<Article[]>(FEATURED_ARTICLES_QUERY, { limit: 2 }),
-    ])
-    articles = all || []
-    featuredArticles = featured || []
-    total = articles.length
-  } catch (err) {
-    console.error('Failed to load articles:', err)
-  }
-
-  const paginatedArticles = articles.slice(from, to)
+  const total = allArticles.length
+  const paginatedArticles = allArticles.slice(from, to)
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
-  // Hero article — first featured, or first article overall
-  const heroArticle = featuredArticles[0] || articles[0]
-  const heroImageUrl = heroArticle?.coverImage ? urlFor(heroArticle.coverImage) : ''
+  const heroArticle = featuredArticles[0] || allArticles[0]
+  const heroImageUrl = heroArticle?.cover_image_url || ''
 
   return (
     <div className="w-full flex flex-col">
@@ -85,24 +73,16 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
               </p>
             )}
             <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/50">
-              {heroArticle.category && (
-                <Link
-                  href={`/${heroArticle.category.slug}`}
-                  className="text-gold-accent hover:underline"
-                >
-                  {heroArticle.category.name}
-                </Link>
-              )}
-              {heroArticle.publishedAt && (
+              {heroArticle.published_at && (
                 <span>
-                  {new Date(heroArticle.publishedAt).toLocaleDateString('en-US', {
+                  {new Date(heroArticle.published_at).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
                   })}
                 </span>
               )}
-              {heroArticle.readingTime && <span>{heroArticle.readingTime} Min Read</span>}
+              {heroArticle.reading_time && <span>{heroArticle.reading_time} Min Read</span>}
             </div>
             <Link
               href={`/articles/${heroArticle.slug}`}
@@ -141,8 +121,8 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
 
         {paginatedArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {paginatedArticles.map((article) => (
-              <ArticleCard key={article._id} article={article} />
+            {paginatedArticles.map((article: ArticleRow) => (
+              <ArticleCard key={article.id} article={article} />
             ))}
           </div>
         ) : (

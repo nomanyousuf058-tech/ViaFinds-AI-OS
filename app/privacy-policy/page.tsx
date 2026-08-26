@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import PrivacySection from '@/components/PrivacySection';
 
 export const metadata: Metadata = {
@@ -54,12 +53,6 @@ export default function PrivacyPolicyPage() {
   return (
     <main className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen py-8">
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <Breadcrumbs
-          items={[
-            { name: 'Home', slug: '' },
-            { name: 'Privacy Policy', slug: 'privacy-policy' },
-          ]}
-        />
         <h1 className="text-3xl font-bold mt-4 mb-2">Privacy Policy</h1>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Last Updated: {lastUpdated}</p>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({

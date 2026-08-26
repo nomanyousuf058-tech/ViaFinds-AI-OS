@@ -201,3 +201,5 @@ export class DatabaseContentRepository implements ContentRepository {
     return []
   }
 }
+
+export const contentRepository = new DatabaseContentRepository()

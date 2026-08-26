@@ -17,6 +17,5 @@ export type {
 } from './types'
 
 export type { ContentRepository } from './repository'
-export { SanityContentRepository, contentRepository } from './sanity-adapter'
+export { DatabaseContentRepository, contentRepository } from './db-adapter'
 export { FileContentRepository, fileContentRepository } from './file-adapter'
-export { DatabaseContentRepository } from './db-adapter'

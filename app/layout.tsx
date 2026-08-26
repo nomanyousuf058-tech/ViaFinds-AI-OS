@@ -4,13 +4,9 @@ import './globals.css'
 import PublicFrame from '@/app/components/PublicFrame'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import ClarityAnalytics from '@/components/Clarity'
-import { client } from '@/lib/sanity.client'
-import { ALL_CATEGORIES_QUERY, SITE_SETTINGS_QUERY, NAVIGATION_QUERY } from '@/lib/sanity.queries'
-import type { SiteSettings, Navigation, Category } from '@/lib/types'
 import { ProviderLoader } from '@/providers/ProviderLoader'
 import { GoogleTagManager } from '@next/third-parties/google'
 
-// Automatically load and initialize all AI, image, and video providers on startup
 ProviderLoader.loadProviders().catch((err) => {
   console.error('Failed to initialize AI providers on startup:', err)
 })
@@ -28,19 +24,11 @@ const inter = Inter({
   display: 'swap',
 })
 
-// Generate dynamic site-wide metadata using Site Settings from Sanity
 export async function generateMetadata(): Promise<Metadata> {
-  let settings: SiteSettings | null = null
-  try {
-    settings = await client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
-  } catch {
-    // Fail silently
-  }
-
-  const siteName = settings?.siteName || 'ViaFinds'
-  const tagline = settings?.tagline || 'Discovery Defined'
-  const metaTitle = settings?.defaultSeo?.metaTitle || `${siteName} | ${tagline}`
-  const metaDesc = settings?.defaultSeo?.metaDescription || 'Expertly curated software, collectibles, and luxury essentials.'
+  const siteName = 'ViaFinds'
+  const tagline = 'Discovery Defined'
+  const metaTitle = `${siteName} | ${tagline}`
+  const metaDesc = 'Research-backed articles, guides, and insights on software, AI, and modern digital workflows.'
 
   return {
     title: {
@@ -82,45 +70,21 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  let settings: SiteSettings | null = null
-  let navigation: Navigation | null = null
-
-  try {
-    const [settingsRes, navRes] = await Promise.all([
-      client.fetch(SITE_SETTINGS_QUERY),
-      client.fetch(NAVIGATION_QUERY),
-    ])
-    settings = settingsRes
-    navigation = navRes
-  } catch (err) {
-    console.error('Failed to load global layouts data from Sanity:', err)
-  }
-
-  // JSON-LD: Organization
-  const socialLinks = [
-    settings?.socialLinks?.twitter,
-    settings?.socialLinks?.instagram,
-    settings?.socialLinks?.youtube,
-    settings?.socialLinks?.tiktok,
-  ].filter((v): v is string => Boolean(v))
-
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: settings?.siteName || 'ViaFinds',
+    name: 'ViaFinds',
     url: 'https://viafinds.com',
     logo: {
       '@type': 'ImageObject',
       url: 'https://viafinds.com/logo.png',
     },
-    ...(socialLinks.length > 0 && { sameAs: socialLinks }),
   }
 
-  // JSON-LD: WebSite (enables Sitelinks Search Box in Google)
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: settings?.siteName || 'ViaFinds',
+    name: 'ViaFinds',
     url: 'https://viafinds.com',
     potentialAction: {
       '@type': 'SearchAction',
@@ -135,7 +99,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
@@ -150,8 +113,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="bg-background text-on-surface flex flex-col min-h-screen antialiased">
-
-        <PublicFrame settings={settings} navigation={navigation}>
+        <PublicFrame settings={null} navigation={null}>
           {children}
         </PublicFrame>
 
@@ -162,4 +124,5 @@ export default async function RootLayout({
     </html>
   )
 }
-export const revalidate = 3600 // ISR: Revalidate pages every hour
+
+export const revalidate = 3600

@@ -5,17 +5,17 @@ import { articleRepository } from '@/lib/db/repositories'
 export async function GET() {
   try {
     await adminOnly()
-    const [todayArticles, totalArticles] = await Promise.all([
-      articleRepository.countPublished(),
+    const [totalArticles, publishedArticles] = await Promise.all([
+      articleRepository.countAll(),
       articleRepository.countPublished(),
     ])
 
     const stats = {
-      todayArticles,
+      totalArticles,
+      publishedArticles,
       dailyTarget: 10,
       lastRun: null,
       lastPublish: null,
-      totalArticles,
     }
     return NextResponse.json(stats, { status: 200 })
   } catch (error) {

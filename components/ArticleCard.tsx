@@ -3,17 +3,16 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { urlFor } from '@/lib/sanity.client'
-import type { Article } from '@/lib/types'
+import type { ArticleRow } from '@/lib/db/types'
 
 interface ArticleCardProps {
-  article: Article
+  article: ArticleRow
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
-  const imageUrl = article.coverImage ? urlFor(article.coverImage) : ''
-  const publishedDate = article.publishedAt
-    ? new Date(article.publishedAt).toLocaleDateString('en-US', {
+  const imageUrl = article.cover_image_url || ''
+  const publishedDate = article.published_at
+    ? new Date(article.published_at).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -53,10 +52,6 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         </div>
 
         <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">
-          {article.category && (
-            <span className="text-primary">{article.category.name}</span>
-          )}
-          {article.category && publishedDate && <span>•</span>}
           {publishedDate && <span>{publishedDate}</span>}
         </div>
 

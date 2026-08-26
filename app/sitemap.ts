@@ -1,11 +1,6 @@
 import { MetadataRoute } from 'next'
-import { client } from '@/lib/sanity.client'
-import {
-  SITEMAP_PRODUCTS_QUERY,
-  SITEMAP_ARTICLES_QUERY,
-  SITEMAP_CATEGORIES_QUERY,
-  SITEMAP_BRANDS_QUERY,
-} from '@/lib/sanity.queries'
+import { articleRepository } from '@/lib/db/repositories'
+import type { ArticleRow } from '@/lib/db/types'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://viafinds.com'
@@ -22,54 +17,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   try {
-    const [products, articles, categories, brands] = await Promise.all([
-      client.fetch<Array<{ slug: string; category?: { slug: string }; _updatedAt: string }>>(SITEMAP_PRODUCTS_QUERY),
-      client.fetch<Array<{ slug: string; _updatedAt: string }>>(SITEMAP_ARTICLES_QUERY),
-      client.fetch<Array<{ slug: string; _updatedAt: string }>>(SITEMAP_CATEGORIES_QUERY),
-      client.fetch<Array<{ slug: string; _updatedAt: string }>>(SITEMAP_BRANDS_QUERY),
-    ])
-
-    // Products sitemap entries
-    const productEntries = (products || []).map((p) => {
-      let path = `/${p.slug}`
-      if (p.category?.slug) {
-        path = `/${p.category.slug}/${p.slug}`
-      }
-      return {
-        url: `${baseUrl}${path}`,
-        lastModified: new Date(p._updatedAt),
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-      }
-    })
-
-    // Articles sitemap entries
-    const articleEntries = (articles || []).map((a) => ({
+    const articles = await articleRepository.findPublished(1000, 0)
+    const articleEntries = articles.map((a: ArticleRow) => ({
       url: `${baseUrl}/articles/${a.slug}`,
-      lastModified: new Date(a._updatedAt),
+      lastModified: new Date(a.updated_at || a.created_at),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     }))
 
-    // Categories sitemap entries
-    const categoryEntries = (categories || []).map((c) => ({
-      url: `${baseUrl}/${c.slug}`,
-      lastModified: new Date(c._updatedAt),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    }))
-
-    // Brands sitemap entries
-    const brandEntries = (brands || []).map((b) => ({
-      url: `${baseUrl}/brands/${b.slug}`,
-      lastModified: new Date(b._updatedAt),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    }))
-
-    return [...routes, ...categoryEntries, ...productEntries, ...articleEntries, ...brandEntries]
+    return [...routes, ...articleEntries]
   } catch (err) {
-    console.error('Error compiling dynamic sitemaps:', err)
+    console.error('Error compiling sitemap:', err)
     return routes
   }
 }

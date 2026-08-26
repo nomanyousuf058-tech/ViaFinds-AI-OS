@@ -31,7 +31,7 @@ export default function Footer({ navigation, settings }: FooterProps) {
               </span>
             </Link>
             <p className="font-ui-body text-ui-body text-on-surface-variant leading-relaxed max-w-xs text-sm">
-              {tagline} Expertly curated digital products, software, and technical tools for precision-driven professionals.
+              {tagline} Research-backed articles, guides, and insights for the modern web.
             </p>
 
             {/* Social Links */}

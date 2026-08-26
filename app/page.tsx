@@ -1,43 +1,27 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { client, urlFor } from '@/lib/sanity.client'
-import { HOME_PAGE_QUERY } from '@/lib/sanity.queries'
+import { articleRepository } from '@/lib/db/repositories'
+import type { ArticleRow } from '@/lib/db/types'
 import ArticleCard from '@/components/ArticleCard'
 import NewsletterForm from '@/components/NewsletterForm'
-import type { HomePageData } from '@/lib/types'
 
 export default async function HomePage() {
-  let data: HomePageData = {
-    settings: undefined,
-    categories: [],
-    trendingProducts: [],
-    editorPicks: [],
-    featuredProducts: [],
-    latestArticles: [],
-  }
+  const latestArticles = await articleRepository.findPublished(12, 0).catch(() => [])
+  const featuredArticles = await articleRepository.findFeatured(4).catch(() => [])
 
-  try {
-    data = await client.fetch<HomePageData>(HOME_PAGE_QUERY)
-  } catch (err) {
-    console.error('Failed to load homepage data from Sanity:', err)
-  }
-
-  const { settings, latestArticles } = data
-
-  const heroHeadline = settings?.heroHeadline || 'The definitive index of modern software primitives.'
-  const heroSubheadline = settings?.heroSubheadline || 'Expert technical analysis and structured curation of the tools defining the next generation of digital infrastructure, creative workflows, and artificial intelligence.'
-  const heroImageUrl = settings?.heroImage
-    ? urlFor(settings.heroImage)
-    : 'https://lh3.googleusercontent.com/aida-public/AB6AXuCwodbgn4tGORQh-WPoRC15LpXibI-tBD5pEPonGfdFCPTfTB7p6Apfi8PuwFwX9EtC8OIjoTJ5QFvz6CpakqLZFw_JycBRFU44qZGfk2vDGE8OARLmpo5jfydw2fzti9ysUajQ0utKJyQd8PyrpUL_q9ZsznYE7LFQ0X6yBNwMSY2UxvTBomrn4eQMVbWZWHognPZZjyxVQTcKk7Ef0DYn9fdA4mstyf35vN6jR6b95-iVAS-iOvjK'
+  const heroArticle = featuredArticles[0] || latestArticles[0]
+  const heroHeadline = heroArticle?.title || 'The definitive index of modern software primitives.'
+  const heroSubheadline = heroArticle?.excerpt || 'Expert technical analysis and structured curation of the tools defining the next generation of digital infrastructure, creative workflows, and artificial intelligence.'
+  const heroImageUrl = heroArticle?.cover_image_url || 'https://lh3.googleusercontent.com/aida-public/AB6AXuCwodbgn4tGORQh-WPoRC15LpXibI-tBD5pEPonGfdFCPTfTB7p6Apfi8PuwFwX9EtC8OIjoTJ5QFvz6CpakqLZFw_JycBRFU44qZGfk2vDGE8OARLmpo5jfydw2fzti9ysUajQ0utKJyQd8PyrpUL_q9ZsznYE7LFQ0X6yBNwMSY2UxvTBomrn4eQMVbWZWHognPZZjyxVQTcKk7Ef0DYn9fdA4mstyf35vN6jR6b95-iVAS-iOvjK'
 
   const webPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     '@id': 'https://viafinds.com/#webpage',
     url: 'https://viafinds.com',
-    name: settings?.defaultSeo?.metaTitle || 'ViaFinds | Digital Product Discovery',
-    description: settings?.defaultSeo?.metaDescription || 'Expertly curated insights on digital products, SaaS, and software tools.',
+    name: 'ViaFinds | Editorial Insights',
+    description: 'Research-backed articles, guides, and insights on software, AI, and modern digital workflows.',
     isPartOf: {
       '@type': 'WebSite',
       '@id': 'https://viafinds.com/#website',
@@ -120,8 +104,8 @@ export default async function HomePage() {
       {/* ── Curated Grid ── */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter max-w-max-content-width mx-auto px-margin-mobile md:px-margin-desktop w-full">
         {latestArticles.length > 0 ? (
-          latestArticles.map((article) => (
-            <ArticleCard key={article._id} article={article} />
+          latestArticles.map((article: ArticleRow) => (
+            <ArticleCard key={article.id} article={article} />
           ))
         ) : (
           <div className="col-span-full flex flex-col items-center justify-center py-16 px-4 bg-surface-container-lowest border border-outline-variant/10">
@@ -146,7 +130,7 @@ export default async function HomePage() {
             Subscribe to the ViaFinds Journal
           </h2>
           <p className="font-ui-body text-ui-body text-on-surface-variant max-w-md mx-auto mb-10 leading-relaxed">
-            Weekly updates on newly vetted guides, reviews, and curated finds in digital products and software. No spam, ever.
+            Weekly updates on newly vetted guides, research, and curated insights. No spam, ever.
           </p>
           <NewsletterForm />
         </div>

@@ -23,7 +23,7 @@ export default function PublicFrame({ children, settings, navigation }: PublicFr
   return (
     <>
       <AnnouncementBar data={settings?.announcementBar} />
-      <Navbar navigation={navigation} />
+      <Navbar />
       <main className="flex-1 flex flex-col pt-20">
         {children}
       </main>
