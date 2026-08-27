@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyAdminToken } from '@/lib/auth'
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/admin/:path*'],
+  matcher: ['/dashboard/:path*', '/api/admin/:path*', '/api/articles/:path*'],
 }
 
 export async function middleware(request: NextRequest) {

@@ -1,8 +1,19 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { adminUsersRepository } from '@/lib/db/repositories'
 import bcrypt from 'bcryptjs'
 
-export async function POST() {
+export async function POST(request: NextRequest) {
+  const setupSecret = process.env.ADMIN_SETUP_SECRET
+  if (!setupSecret) {
+    return NextResponse.json({ error: 'Setup is not configured on the server' }, { status: 403 })
+  }
+
+  const url = new URL(request.url)
+  const providedSecret = url.searchParams.get('secret')
+  if (!providedSecret || providedSecret !== setupSecret) {
+    return NextResponse.json({ error: 'Invalid setup secret' }, { status: 403 })
+  }
+
   try {
     const initPassword = process.env.INITIAL_ADMIN_PASSWORD
     if (!initPassword) {
