@@ -2,6 +2,20 @@ import { NextRequest, NextResponse } from 'next/server'
 import { adminUsersRepository } from '@/lib/db/repositories'
 import { createAdminToken } from '@/lib/auth'
 
+async function ensureSchema(): Promise<boolean> {
+  try {
+    const { runMigrations } = await import('@/lib/db/migrate')
+    const result = await runMigrations()
+    if (!result.success) {
+      console.error('Schema migration failed:', result.error)
+    }
+    return result.success
+  } catch (error) {
+    console.error('Schema migration error:', error)
+    return false
+  }
+}
+
 async function bootstrapInitialAdmin() {
   const initPassword = process.env.INITIAL_ADMIN_PASSWORD
   if (!initPassword) return null
@@ -28,6 +42,13 @@ export async function POST(request: NextRequest) {
     }
 
     const normalizedEmail = String(email).toLowerCase().trim()
+
+    const schemaReady = await ensureSchema()
+    if (!schemaReady) {
+      console.error('Database schema not ready for login')
+      return NextResponse.json({ error: 'System initialization failed' }, { status: 500 })
+    }
+
     let user = await adminUsersRepository.findByEmail(normalizedEmail)
 
     if (!user) {

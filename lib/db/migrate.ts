@@ -5,11 +5,19 @@ export async function runMigrations(): Promise<{ success: boolean; applied?: str
     const pool = getPool()
     const result = await pool.query(`
       SELECT table_name FROM information_schema.tables
-      WHERE table_schema = 'public' AND table_name IN ('articles', 'reviews', 'categories', 'authors', 'products')
+      WHERE table_schema = 'public' AND table_name IN (
+        'articles', 'reviews', 'categories', 'authors', 'products',
+        'admin_users', 'article_related_articles', 'affiliate_references',
+        'automation_jobs', 'optimization_jobs', 'service_connections', 'audit_logs'
+      )
     `)
     const existing = result.rows.map((r: { table_name: string }) => r.table_name)
 
-    const required = ['articles', 'reviews', 'categories', 'authors', 'products']
+    const required = [
+      'articles', 'reviews', 'categories', 'authors', 'products',
+      'admin_users', 'article_related_articles', 'affiliate_references',
+      'automation_jobs', 'optimization_jobs', 'service_connections', 'audit_logs'
+    ]
     const missing = required.filter((t) => !existing.includes(t))
 
     if (missing.length === 0) {
@@ -28,7 +36,11 @@ export async function runMigrations(): Promise<{ success: boolean; applied?: str
 
 export async function verifyMigration(): Promise<{ success: boolean; counts?: Record<string, number>; error?: string }> {
   try {
-    const tables = ['articles', 'reviews', 'categories', 'authors', 'products', 'automation_jobs', 'optimization_jobs', 'service_connections', 'audit_logs']
+    const tables = [
+      'articles', 'reviews', 'categories', 'authors', 'products',
+      'admin_users', 'article_related_articles', 'affiliate_references',
+      'automation_jobs', 'optimization_jobs', 'service_connections', 'audit_logs'
+    ]
     const counts: Record<string, number> = {}
     for (const table of tables) {
       const result = await getPool().query(`SELECT count(*) as count FROM ${table}`)
