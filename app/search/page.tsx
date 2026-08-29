@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { articleRepository } from '@/lib/db/repositories'
 import type { ArticleRow } from '@/lib/db/types'
 import ArticleCard from '@/components/ArticleCard'
+import SearchForm from '@/components/SearchForm'
 
 interface SearchPageProps {
   searchParams: Promise<{ q?: string }>
@@ -39,6 +40,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       </section>
 
       <section className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 w-full">
+        <SearchForm />
+
         {q && (
           <p className="font-ui-body text-ui-body text-on-surface-variant mb-8">
             {articles.length > 0

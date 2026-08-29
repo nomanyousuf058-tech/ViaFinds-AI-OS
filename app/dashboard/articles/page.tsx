@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import DashboardLayout from '@/app/dashboard/layout'
 import { articleRepository } from '@/lib/db/repositories'
 import type { ArticleRow } from '@/lib/db/types'
 
@@ -49,8 +48,7 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
   }
 
   return (
-    <DashboardLayout>
-      <div className="max-w-6xl">
+          <div className="max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">
@@ -185,8 +183,7 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
           </table>
         </div>
       </div>
-    </DashboardLayout>
-  )
+      )
 }
 
 function StatusBadge({ status }: { status: string }) {

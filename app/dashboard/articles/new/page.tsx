@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DashboardLayout from '@/app/dashboard/layout'
 
 export default function NewArticlePage() {
   const router = useRouter()
@@ -61,8 +60,7 @@ export default function NewArticlePage() {
   }
 
   return (
-    <DashboardLayout>
-      <div className="max-w-4xl">
+          <div className="max-w-4xl">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">
@@ -228,6 +226,5 @@ export default function NewArticlePage() {
           </div>
         </form>
       </div>
-    </DashboardLayout>
-  )
+      )
 }

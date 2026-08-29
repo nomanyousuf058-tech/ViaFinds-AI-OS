@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import DashboardLayout from '@/app/dashboard/layout'
 
 interface ArticleEditorPageProps {
   params: Promise<{ id: string }>
@@ -105,27 +104,22 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
 
   if (loading) {
     return (
-      <DashboardLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
+              <div className="flex items-center justify-center min-h-[400px]">
           <div className="font-ui-body text-ui-body text-on-surface-variant">Loading article...</div>
         </div>
-      </DashboardLayout>
-    )
+          )
   }
 
   if (!article) {
     return (
-      <DashboardLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
+              <div className="flex items-center justify-center min-h-[400px]">
           <div className="font-ui-body text-ui-body text-on-surface-variant">Article not found.</div>
         </div>
-      </DashboardLayout>
-    )
+          )
   }
 
   return (
-    <DashboardLayout>
-      <div className="max-w-4xl">
+          <div className="max-w-4xl">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">
@@ -291,6 +285,5 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
           </div>
         </form>
       </div>
-    </DashboardLayout>
-  )
+      )
 }

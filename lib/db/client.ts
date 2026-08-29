@@ -12,6 +12,16 @@ export type DbConfig = {
   max?: number
 }
 
+export type ConnectionDiagnostics = {
+  mode: 'DATABASE_URL' | 'POSTGRES_*'
+  host: string
+  port: number
+  database: string
+  user: string
+  passwordSet: boolean
+  sslEnabled: boolean
+}
+
 let pool: Pool | null = null
 
 function resolveConfig(): DbConfig {
@@ -50,6 +60,32 @@ export function getPool(): Pool {
     })
   }
   return pool
+}
+
+export function getConnectionDiagnostics(): ConnectionDiagnostics {
+  const databaseUrl = process.env.DATABASE_URL
+  if (databaseUrl && databaseUrl.trim().length > 0) {
+    const url = new URL(databaseUrl)
+    return {
+      mode: 'DATABASE_URL',
+      host: url.hostname,
+      port: Number(url.port) || 5432,
+      database: url.pathname.replace(/^\//, ''),
+      user: url.username,
+      passwordSet: !!url.password,
+      sslEnabled: process.env.DATABASE_SSL === 'true',
+    }
+  }
+
+  return {
+    mode: 'POSTGRES_*',
+    host: process.env.POSTGRES_HOST || 'localhost',
+    port: Number(process.env.POSTGRES_PORT) || 5432,
+    database: process.env.POSTGRES_DATABASE || 'viafinds',
+    user: process.env.POSTGRES_USER || 'postgres',
+    passwordSet: !!process.env.POSTGRES_PASSWORD,
+    sslEnabled: process.env.DATABASE_SSL === 'true',
+  }
 }
 
 export async function query<T = unknown>(text: string, params?: unknown[]): Promise<{ rows: T[]; rowCount: number }> {

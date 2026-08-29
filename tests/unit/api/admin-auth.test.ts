@@ -1,5 +1,5 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals'
-import jwt from 'jsonwebtoken'
+import { SignJWT, jwtVerify } from 'jose'
 
 jest.mock('next/headers', () => ({
   cookies: jest.fn(),
@@ -15,16 +15,21 @@ describe('Admin API Auth', () => {
 
   it('should create a JWT with admin role', async () => {
     const { createAdminToken } = await import('@/lib/auth')
-    const token = createAdminToken('admin-1', 'admin@viafinds.com')
-    const decoded = jwt.verify(token, 'test-secret-key-32b-1234567890') as any
-    expect(decoded.sub).toBe('admin-1')
-    expect(decoded.email).toBe('admin@viafinds.com')
-    expect(decoded.role).toBe('admin')
+    const token = await createAdminToken('admin-1', 'admin@viafinds.com')
+    const secret = new TextEncoder().encode('test-secret-key-32b-1234567890')
+    const { payload } = await jwtVerify(token, secret)
+    expect((payload as any).sub).toBe('admin-1')
+    expect((payload as any).email).toBe('admin@viafinds.com')
+    expect((payload as any).role).toBe('admin')
   })
 
   it('should reject tokens signed with wrong secret', async () => {
     const { verifyAdminToken } = await import('@/lib/auth')
-    const token = jwt.sign({ sub: 'admin-1', email: 'admin@viafinds.com', role: 'admin' }, 'wrong-secret', { expiresIn: '1h' })
+    const wrongSecret = new TextEncoder().encode('wrong-secret')
+    const token = await new SignJWT({ sub: 'admin-1', email: 'admin@viafinds.com', role: 'admin' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('1h')
+      .sign(wrongSecret)
     const { cookies } = require('next/headers')
     cookies.mockReturnValue({ get: () => ({ value: token }) })
 
@@ -34,7 +39,11 @@ describe('Admin API Auth', () => {
 
   it('should reject expired tokens', async () => {
     const { verifyAdminToken } = await import('@/lib/auth')
-    const token = jwt.sign({ sub: 'admin-1', email: 'admin@viafinds.com', role: 'admin' }, 'test-secret-key-32b-1234567890', { expiresIn: '-1h' })
+    const secret = new TextEncoder().encode('test-secret-key-32b-1234567890')
+    const token = await new SignJWT({ sub: 'admin-1', email: 'admin@viafinds.com', role: 'admin' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('-1h')
+      .sign(secret)
     const { cookies } = require('next/headers')
     cookies.mockReturnValue({ get: () => ({ value: token }) })
 
@@ -45,6 +54,6 @@ describe('Admin API Auth', () => {
   it('should reject missing ADMIN_JWT_SECRET', async () => {
     delete process.env.ADMIN_JWT_SECRET
     const { createAdminToken } = await import('@/lib/auth')
-    expect(() => createAdminToken('admin-1', 'admin@viafinds.com')).toThrow()
+    await expect(createAdminToken('admin-1', 'admin@viafinds.com')).rejects.toThrow()
   })
 })

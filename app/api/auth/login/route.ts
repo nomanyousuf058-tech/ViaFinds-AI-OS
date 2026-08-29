@@ -20,7 +20,7 @@ async function bootstrapInitialAdmin() {
   const initPassword = process.env.INITIAL_ADMIN_PASSWORD
   if (!initPassword) return null
 
-  const bootstrapEmail = 'admin@viafinds.com'
+  const bootstrapEmail = process.env.INITIAL_ADMIN_EMAIL || 'admin@viafinds.com'
   const existing = await adminUsersRepository.findByEmail(bootstrapEmail)
   if (existing) return existing
 
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     await adminUsersRepository.updateLastLogin(user.id)
 
-    const tokenValue = createAdminToken(user.id, user.email)
+    const tokenValue = await createAdminToken(user.id, user.email)
     const isProduction = process.env.NODE_ENV === 'production'
     const response = NextResponse.json({ success: true })
 

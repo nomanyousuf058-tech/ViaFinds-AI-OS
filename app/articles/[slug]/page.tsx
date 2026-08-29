@@ -172,7 +172,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           {/* Sidebar */}
           <aside className="lg:col-span-4">
             <div className="sticky top-24 flex flex-col gap-8">
-              <div className="border border-outline-variant/20 p-6 bg-white rounded">
+              <div className="border border-outline-variant/20 p-6 bg-surface-container rounded">
                 <h3 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">
                   Share This Article
                 </h3>

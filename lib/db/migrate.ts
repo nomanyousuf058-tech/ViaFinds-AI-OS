@@ -1,4 +1,5 @@
 import { getPool } from './client'
+import { MIGRATION_SQL } from './migrations'
 
 export async function runMigrations(): Promise<{ success: boolean; applied?: string[]; error?: string }> {
   try {
@@ -24,10 +25,7 @@ export async function runMigrations(): Promise<{ success: boolean; applied?: str
       return { success: true, applied: [] }
     }
 
-    const schemaPath = new URL('./schema.sql', import.meta.url)
-    const schemaSql = await import('fs').then((fs) => fs.readFileSync(schemaPath.pathname, 'utf8'))
-
-    await pool.query(schemaSql)
+    await pool.query(MIGRATION_SQL)
     return { success: true, applied: required }
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : 'Migration failed' }
@@ -39,7 +37,8 @@ export async function verifyMigration(): Promise<{ success: boolean; counts?: Re
     const tables = [
       'articles', 'reviews', 'categories', 'authors', 'products',
       'admin_users', 'article_related_articles', 'affiliate_references',
-      'automation_jobs', 'optimization_jobs', 'service_connections', 'audit_logs'
+      'automation_jobs', 'optimization_jobs', 'service_connections', 'audit_logs',
+      'research_jobs', 'site_settings', 'navigation', 'redirects'
     ]
     const counts: Record<string, number> = {}
     for (const table of tables) {

@@ -1,6 +1,6 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import { SignJWT } from 'jose'
 
 let mockCookieValue: { value?: string } = { value: undefined }
 
@@ -22,14 +22,14 @@ describe('Auth', () => {
 
   it('should create a valid admin token', async () => {
     const { createAdminToken } = await import('@/lib/auth')
-    const token = createAdminToken('admin-1', 'admin@viafinds.com')
+    const token = await createAdminToken('admin-1', 'admin@viafinds.com')
     expect(typeof token).toBe('string')
     expect(token.length).toBeGreaterThan(0)
   })
 
   it('should verify a valid token', async () => {
     const { createAdminToken, verifyAdminToken } = await import('@/lib/auth')
-    const token = createAdminToken('admin-1', 'admin@viafinds.com')
+    const token = await createAdminToken('admin-1', 'admin@viafinds.com')
     mockCookieValue.value = token
 
     const payload = await verifyAdminToken()
@@ -40,7 +40,11 @@ describe('Auth', () => {
 
   it('should reject a token with wrong role', async () => {
     const { verifyAdminToken } = await import('@/lib/auth')
-    const token = jwt.sign({ sub: 'user-1', email: 'user@example.com', role: 'user' }, 'test-secret-key-32b-1234567890', { expiresIn: '1h' })
+    const secret = new TextEncoder().encode('test-secret-key-32b-1234567890')
+    const token = await new SignJWT({ sub: 'user-1', email: 'user@example.com', role: 'user' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('1h')
+      .sign(secret)
     mockCookieValue.value = token
 
     const result = await verifyAdminToken()

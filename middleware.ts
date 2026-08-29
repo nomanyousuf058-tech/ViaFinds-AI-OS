@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyAdminToken } from '@/lib/auth'
+import { verifyAdminTokenEdge } from '@/lib/auth'
 
 export const config = {
   matcher: ['/dashboard/:path*', '/api/admin/:path*', '/api/articles/:path*'],
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const payload = await verifyAdminToken()
+    const payload = await verifyAdminTokenEdge(token)
     if (!payload) {
       const url = new URL('/login', request.url)
       url.searchParams.set('redirect', request.nextUrl.pathname)

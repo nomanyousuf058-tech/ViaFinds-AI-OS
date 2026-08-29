@@ -32,7 +32,7 @@ const STATIC_LAST_UPDATED = 'August 1, 2026';
 
 export default function AffiliateDisclosurePage() {
   return (
-    <main className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen py-8">
+    <main className="w-full flex flex-col bg-background text-on-background font-ui-body antialiased min-h-screen py-8">
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
         <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">
           Affiliate Disclosure

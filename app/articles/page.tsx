@@ -46,7 +46,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
     <div className="w-full flex flex-col">
       {/* ── Hero ── */}
       {heroArticle && (
-        <section className="relative min-h-[55vh] flex items-end py-16 bg-primary overflow-hidden">
+        <section className="relative min-h-[55vh] flex items-end py-16 bg-background border-b border-slate-border overflow-hidden">
           {heroImageUrl && (
             <Image
               src={heroImageUrl}
@@ -63,16 +63,16 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
               </span>
             </Link>
             <Link href={`/articles/${heroArticle.slug}`} className="group block max-w-3xl">
-              <h1 className="font-display text-4xl md:text-6xl font-bold text-white mb-6 leading-tight group-hover:text-gold-accent transition-colors">
+              <h1 className="font-display text-4xl md:text-6xl font-bold text-on-background mb-6 leading-tight group-hover:text-gold-accent transition-colors">
                 {heroArticle.title}
               </h1>
             </Link>
             {heroArticle.excerpt && (
-              <p className="font-body text-sm text-white/70 max-w-xl leading-relaxed mb-8">
+              <p className="font-body text-sm text-on-surface-variant max-w-xl leading-relaxed mb-8">
                 {heroArticle.excerpt}
               </p>
             )}
-            <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/50">
+            <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
               {heroArticle.published_at && (
                 <span>
                   {new Date(heroArticle.published_at).toLocaleDateString('en-US', {
@@ -86,10 +86,10 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
             </div>
             <Link
               href={`/articles/${heroArticle.slug}`}
-              className="mt-8 inline-flex items-center gap-2 bg-gold-accent text-primary font-body text-[10px] font-bold uppercase tracking-wider px-6 py-3 hover:opacity-90 transition-opacity"
+              className="mt-8 inline-flex items-center gap-2 bg-primary text-deep-navy font-body text-sm font-bold uppercase tracking-wider px-6 py-3 rounded hover:bg-inverse-primary hover:text-white transition-colors"
             >
               Read Article
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
             </Link>
           </div>
         </section>

@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import DashboardLayout from '@/app/dashboard/layout'
 
 type ServiceStatus = 'connected' | 'degraded' | 'not_configured' | 'auth_failed' | 'rate_limited' | 'error' | 'configured_live_test_unavailable' | 'CONNECTED_AND_WORKING' | 'CONNECTED_BUT_NOT_USED' | 'FAILED' | 'NOT_CONFIGURED' | 'NOT_NEEDED'
 
@@ -186,8 +185,7 @@ export default function ServicesPage() {
   const automationConnectedCount = services.filter(s => s.usedBy.some(u => u.toLowerCase().includes('automation') || u.toLowerCase().includes('ai provider') || u.toLowerCase().includes('research') || u.toLowerCase().includes('affiliate') || u.toLowerCase().includes('monitoring'))).length
 
   return (
-    <DashboardLayout>
-      <div className="max-w-6xl">
+          <div className="max-w-6xl">
         <div className="flex items-center justify-between mb-2">
           <div>
             <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">Service Connections</h1>
@@ -389,6 +387,5 @@ export default function ServicesPage() {
           </div>
         )}
       </div>
-    </DashboardLayout>
-  )
+      )
 }

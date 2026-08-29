@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
-import { connect } from '@/lib/db/client'
+import { connect, getConnectionDiagnostics } from '@/lib/db/client'
 import { runMigrations, verifyMigration } from '@/lib/db/migrate'
 
 export async function GET() {
   try {
     const dbConnected = await connect()
+    const diagnostics = getConnectionDiagnostics()
 
     let migrationResult
     try {
@@ -22,6 +23,15 @@ export async function GET() {
 
     return NextResponse.json({
       database: dbConnected ? 'connected' : 'disconnected',
+      diagnostics: {
+        mode: diagnostics.mode,
+        host: diagnostics.host,
+        port: diagnostics.port,
+        database: diagnostics.database,
+        user: diagnostics.user,
+        passwordSet: diagnostics.passwordSet,
+        sslEnabled: diagnostics.sslEnabled,
+      },
       migration: migrationResult,
       verification: verificationResult,
       environment: {

@@ -50,7 +50,7 @@ export default function NewsletterForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
+      className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-lg mx-auto w-full"
       noValidate
     >
       <input

@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import DashboardLayout from '@/app/dashboard/layout'
 
 type JobStatus = 'queued' | 'running' | 'completed' | 'failed' | 'cancelled' | 'retrying' | 'awaiting_approval'
 type AutomationMode = 'manual' | 'auto' | 'dry_run'
@@ -14,6 +13,7 @@ type PipelineStage =
   | 'seo_analysis'
   | 'geo_analysis'
   | 'aeo_analysis'
+  | 'eeat_analysis'
   | 'quality_gate'
   | 'affiliate_analysis'
   | 'affiliate_matching'
@@ -32,6 +32,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
   'seo_analysis',
   'geo_analysis',
   'aeo_analysis',
+  'eeat_analysis',
   'quality_gate',
   'affiliate_analysis',
   'affiliate_matching',
@@ -50,6 +51,7 @@ const STAGE_LABELS: Record<PipelineStage, string> = {
   seo_analysis: 'SEO',
   geo_analysis: 'GEO',
   aeo_analysis: 'AEO',
+  eeat_analysis: 'E-E-A-T',
   quality_gate: 'Quality',
   affiliate_analysis: 'Affiliate',
   affiliate_matching: 'Affiliate Match',
@@ -157,8 +159,7 @@ export default function AutomationPage() {
   }
 
   return (
-    <DashboardLayout>
-      <div className="max-w-7xl">
+          <div className="max-w-7xl">
         <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">Automation Control Center</h1>
         <p className="font-ui-body text-ui-body text-on-surface-variant mb-8">Start and monitor editorial automation workflows.</p>
 
@@ -314,7 +315,7 @@ export default function AutomationPage() {
                       </div>
                       {job.error && (
                         <div className="mt-2 p-2 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-xs font-mono-data">
-                          {job.error}
+                          {typeof job.error === 'string' ? job.error : JSON.stringify(job.error)}
                         </div>
                       )}
                     </div>
@@ -396,6 +397,5 @@ export default function AutomationPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
-  )
+      )
 }

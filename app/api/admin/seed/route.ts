@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'INITIAL_ADMIN_PASSWORD not configured' }, { status: 400 })
     }
 
-    const bootstrapEmail = 'admin@viafinds.com'
+    const bootstrapEmail = process.env.INITIAL_ADMIN_EMAIL || 'admin@viafinds.com'
     const existing = await adminUsersRepository.findByEmail(bootstrapEmail)
     if (existing) {
       return NextResponse.json({ error: 'Admin user already exists' }, { status: 409 })

@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import DashboardLayout from '@/app/dashboard/layout'
 
 type OptimizationType = 'seo' | 'geo' | 'aeo'
 type JobStatus = 'idle' | 'running' | 'completed' | 'failed'
@@ -137,8 +136,7 @@ export default function OptimizationPage() {
   }
 
   return (
-    <DashboardLayout>
-      <div className="max-w-4xl">
+          <div className="max-w-4xl">
         <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">
           Content Optimization
         </h1>
@@ -304,6 +302,5 @@ export default function OptimizationPage() {
           </div>
         )}
       </div>
-    </DashboardLayout>
-  )
+      )
 }

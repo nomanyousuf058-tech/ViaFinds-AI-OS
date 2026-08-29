@@ -1,11 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import DashboardLayout from '@/app/dashboard/layout'
 
 export default function DashboardPage() {
   return (
-    <DashboardLayout>
-      <div className="max-w-4xl">
+          <div className="max-w-4xl">
         <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">
           Editorial Dashboard
         </h1>
@@ -39,6 +37,5 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
-    </DashboardLayout>
-  )
+      )
 }

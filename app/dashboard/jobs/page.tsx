@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import DashboardLayout from '@/app/dashboard/layout'
 
 type JobStatus = 'queued' | 'running' | 'completed' | 'failed' | 'cancelled' | 'retrying'
 
@@ -48,8 +47,7 @@ export default function JobsPage() {
   )
 
   return (
-    <DashboardLayout>
-      <div className="max-w-6xl">
+          <div className="max-w-6xl">
         <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">Jobs</h1>
         <p className="font-ui-body text-ui-body text-on-surface-variant mb-8">Monitor all automation and optimization jobs.</p>
 
@@ -110,6 +108,5 @@ export default function JobsPage() {
           )}
         </div>
       </div>
-    </DashboardLayout>
-  )
+      )
 }

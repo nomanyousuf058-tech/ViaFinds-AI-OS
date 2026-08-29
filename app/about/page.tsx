@@ -35,7 +35,7 @@ export default function AboutPage() {
   };
 
   return (
-    <main className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <main className="w-full flex flex-col bg-background text-on-background font-ui-body antialiased min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       
       {/* Hero Section */}
@@ -89,21 +89,21 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white dark:bg-gray-800 p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
+          <div className="bg-surface-container p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
             <span className="material-symbols-outlined text-gold-accent text-4xl mb-4">verified_user</span>
             <h3 className="font-display text-xl font-bold text-primary mb-3">Independent Research</h3>
             <p className="font-body text-sm text-secondary leading-relaxed">
               Every item is evaluated based on its merits, durability, and user feedback across multiple platforms.
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
+          <div className="bg-surface-container p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
             <span className="material-symbols-outlined text-gold-accent text-4xl mb-4">smart_toy</span>
             <h3 className="font-display text-xl font-bold text-primary mb-3">AI-Assisted Analysis</h3>
             <p className="font-body text-sm text-secondary leading-relaxed">
               We leverage advanced AI to aggregate thousands of data points, ensuring we don&apos;t miss subtle patterns in product performance.
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
+          <div className="bg-surface-container p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
             <span className="material-symbols-outlined text-gold-accent text-4xl mb-4">handshake</span>
             <h3 className="font-display text-xl font-bold text-primary mb-3">Affiliate Transparency</h3>
             <p className="font-body text-sm text-secondary leading-relaxed">
@@ -114,25 +114,25 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values */}
-      <section className="bg-primary text-white py-20 px-4 md:px-8">
+      <section className="bg-surface-container text-on-background py-20 px-4 md:px-8 border-y border-slate-border">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="font-display text-3xl font-bold text-gold-accent mb-12">Our Core Values</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <h4 className="font-body font-bold text-lg mb-2 uppercase tracking-widest">Precision</h4>
-              <p className="text-white/70 text-sm">Exactness in our reviews, data, and recommendations.</p>
+              <p className="text-on-surface-variant text-sm">Exactness in our reviews, data, and recommendations.</p>
             </div>
             <div>
               <h4 className="font-body font-bold text-lg mb-2 uppercase tracking-widest">Integrity</h4>
-              <p className="text-white/70 text-sm">Honesty in every interaction and disclosure.</p>
+              <p className="text-on-surface-variant text-sm">Honesty in every interaction and disclosure.</p>
             </div>
             <div>
               <h4 className="font-body font-bold text-lg mb-2 uppercase tracking-widest">Aesthetics</h4>
-              <p className="text-white/70 text-sm">An appreciation for beautiful design and form.</p>
+              <p className="text-on-surface-variant text-sm">An appreciation for beautiful design and form.</p>
             </div>
             <div>
               <h4 className="font-body font-bold text-lg mb-2 uppercase tracking-widest">Utility</h4>
-              <p className="text-white/70 text-sm">A focus on function, longevity, and true value.</p>
+              <p className="text-on-surface-variant text-sm">A focus on function, longevity, and true value.</p>
             </div>
           </div>
         </div>
