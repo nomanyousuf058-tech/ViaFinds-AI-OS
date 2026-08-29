@@ -5,7 +5,7 @@ export const config = {
   matcher: ['/dashboard/:path*', '/api/admin/:path*', '/api/articles/:path*'],
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const token = request.cookies.get('admin_session')?.value
 
   if (!token) {
