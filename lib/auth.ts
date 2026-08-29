@@ -1,4 +1,5 @@
-import { SignJWT, jwtVerify } from 'jose'
+import { SignJWT } from 'jose/jwt/sign'
+import { jwtVerify } from 'jose/jwt/verify'
 
 export const ADMIN_JWT_COOKIE = 'admin_session'
 export const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || ''
