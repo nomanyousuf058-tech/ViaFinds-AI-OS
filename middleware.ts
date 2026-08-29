@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyAdminTokenEdge } from '@/lib/auth'
+import { verifyAdminTokenEdge } from '@/lib/auth-edge'
 
 export const config = {
   matcher: ['/dashboard/:path*', '/api/admin/:path*', '/api/articles/:path*'],

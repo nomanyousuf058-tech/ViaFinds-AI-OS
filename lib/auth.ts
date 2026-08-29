@@ -1,29 +1,25 @@
-import { SignJWT } from 'jose/jwt/sign'
-import { jwtVerify } from 'jose/jwt/verify'
+import { SignJWT, jwtVerify } from 'jose'
 
-export const ADMIN_JWT_COOKIE = 'admin_session'
-export const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || ''
+// Re-export Edge-safe types and constants so existing imports from '@/lib/auth' still work
+export { ADMIN_JWT_COOKIE, ADMIN_JWT_SECRET, verifyAdminTokenEdge } from './auth-edge'
+export type { AdminPayload } from './auth-edge'
 
-export type AdminPayload = {
-  sub: string
-  email: string
-  role: string
-}
+const JWT_SECRET = process.env.ADMIN_JWT_SECRET || ''
 
-export async function verifyAdminToken(): Promise<AdminPayload | null> {
+export async function verifyAdminToken() {
   try {
-    const secret = new TextEncoder().encode(ADMIN_JWT_SECRET)
+    const secret = new TextEncoder().encode(JWT_SECRET)
     const { cookies } = await import('next/headers')
     const cookieStore = await cookies()
-    const token = cookieStore.get(ADMIN_JWT_COOKIE)?.value
+    const token = cookieStore.get('admin_session')?.value
     if (!token || typeof token !== 'string') {
       return null
     }
     const { payload } = await jwtVerify(token, secret)
-    if (!payload || typeof payload !== 'object' || (payload as AdminPayload).role !== 'admin') {
+    if (!payload || typeof payload !== 'object' || (payload as { role: string }).role !== 'admin') {
       return null
     }
-    return payload as AdminPayload
+    return payload as { sub: string; email: string; role: string }
   } catch {
     return null
   }
@@ -39,19 +35,10 @@ export async function adminOnly(): Promise<void> {
 }
 
 export async function createAdminToken(adminId: string, email: string): Promise<string> {
-  const secret = new TextEncoder().encode(ADMIN_JWT_SECRET)
+  const secret = new TextEncoder().encode(JWT_SECRET)
   const jwt = new SignJWT({ sub: adminId, email, role: 'admin' })
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime('1h')
   return jwt.sign(secret)
 }
 
-export async function verifyAdminTokenEdge(token: string): Promise<AdminPayload | null> {
-  try {
-    const secret = new TextEncoder().encode(ADMIN_JWT_SECRET)
-    const { payload } = await jwtVerify(token, secret)
-    return payload as AdminPayload
-  } catch {
-    return null
-  }
-}
