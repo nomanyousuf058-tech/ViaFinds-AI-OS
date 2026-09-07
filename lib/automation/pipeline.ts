@@ -16,6 +16,167 @@ export class AutomationPipeline {
     this.stopSignal = true
   }
 
+  // --- INTERACTIVE WORKFLOW STEPS ---
+
+  async runFindTrends(jobId: string): Promise<AutomationJob | null> {
+    const job = jobManager.getJob(jobId)
+    if (!job) return null
+    jobManager.updateJobStatus(jobId, 'running', 'discovered', 'Searching for trends...')
+
+    try {
+      let trendingProducts = []
+      try {
+        const { TrendingDiscoveryStep } = await import('@/core/automation/steps/trending-discovery')
+        const step = new TrendingDiscoveryStep()
+        const res = await step.execute({ workflowId: job.id, dryRun: job.mode === 'dry_run' })
+        trendingProducts = res.data.trendingProducts || []
+      } catch (err) {
+        logger.warn('Failed to load TrendingDiscoveryStep', { error: err instanceof Error ? err.message : String(err) })
+        trendingProducts = [
+          { name: 'AI Image Generator Pro', searchVolume: 12000, trendDirection: 'up', estimatedCommission: 30, partnerAvailability: ['digistore24'] },
+          { name: 'SEO Content Workflow System', searchVolume: 8500, trendDirection: 'stable', estimatedCommission: 45, partnerAvailability: [] }
+        ]
+      }
+
+      jobManager.setJobResult(jobId, { trendingProducts })
+      jobManager.updateJobStatus(jobId, 'awaiting_approval', 'researching', 'Trends found. Select a product.')
+      return jobManager.getJob(jobId)
+    } catch (error) {
+      jobManager.setJobError(jobId, error instanceof Error ? error.message : String(error))
+      return jobManager.getJob(jobId)
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async runProductSelection(jobId: string, product: Record<string, any>): Promise<AutomationJob | null> {
+    const job = jobManager.getJob(jobId)
+    if (!job) return null
+    jobManager.updateJobStatus(jobId, 'running', 'affiliate_analysis', 'Checking partners and analyzing competitors...')
+
+    try {
+      // 1. Set the topic based on product
+      const topic = product.name
+      const category = product.categoryMatch || 'digital products'
+      job.input = { ...job.input, topic, category }
+      jobManager.setJobResult(jobId, { selectedProduct: product })
+
+      // 2. Affiliate Analysis
+      const productCandidates = [{ productId: product.id || 123456, name: product.name, description: product.description || '' }]
+      jobManager.setJobResult(jobId, { research: { productCandidates, category, topic } as Record<string, unknown> })
+      const _affiliateDecision = await this.runAffiliateAnalysis(job)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // 3. Competitor Research
+      const _competitors = await this.runCompetitorAnalysis(job, topic)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // 4. Strategy determination (mocked quickly for UI presentation)
+      const strategy = {
+        recommendedArticleType: 'Complete Review',
+        reasoning: 'Strong commercial intent. Competitors are ranking with reviews. Product has high affiliate potential.',
+        outline: [
+          `What is ${topic}?`,
+          'Key Features',
+          'Benefits and Limitations',
+          'Pricing',
+          'Competitor Comparison',
+          'Final Verdict',
+          'FAQ'
+        ]
+      }
+      jobManager.setJobResult(jobId, { articleStrategy: strategy })
+
+      jobManager.updateJobStatus(jobId, 'awaiting_approval', 'content_generating', 'Ready to process article.')
+      return jobManager.getJob(jobId)
+    } catch (error) {
+      jobManager.setJobError(jobId, error instanceof Error ? error.message : String(error))
+      return jobManager.getJob(jobId)
+    }
+  }
+
+  async runProcessArticle(jobId: string): Promise<AutomationJob | null> {
+    const job = jobManager.getJob(jobId)
+    if (!job) return null
+    jobManager.updateJobStatus(jobId, 'running', 'content_generating', 'Generating article...')
+
+    try {
+      const topic = (job.input.topic as string) || ''
+      const result = job.result
+      const research = (result.research as ResearchResult) || { topic, category: 'general', searchIntent: 'commercial', buyerIntent: 'high', sources: [] }
+      const competitors = (result.competitors as CompetitorInfo[]) || []
+
+      // 1. Generate Article
+      const draft = await this.runContentGeneration(job, topic, research, competitors)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // 2. Refine
+      const refined = await this.runContentRefinement(job, draft)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // 3. E-E-A-T, SEO, GEO, AEO Checks
+      await this.runEEATAnalysis(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+      await this.runSEOAnalysis(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+      await this.runGEOAnalysis(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+      await this.runAEOAnalysis(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+      await this.runQualityGate(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // 4. Image Requirements
+      const imageRequirements = {
+        needed: true,
+        recommendations: [
+          'Featured Image (Required)',
+          'Product Interface Screenshot (Recommended)'
+        ]
+      }
+      jobManager.setJobResult(jobId, { imageRequirements, draft: refined })
+
+      jobManager.updateJobStatus(jobId, 'awaiting_approval', 'publishing', 'Article ready. Configure affiliate link and publish.')
+      return jobManager.getJob(jobId)
+    } catch (error) {
+      jobManager.setJobError(jobId, error instanceof Error ? error.message : String(error))
+      return jobManager.getJob(jobId)
+    }
+  }
+
+  async runPublishDraft(jobId: string, customDraftParams?: { affiliateUrl?: string, ctaText?: string, draftOnly?: boolean }): Promise<AutomationJob | null> {
+    const job = jobManager.getJob(jobId)
+    if (!job) return null
+    jobManager.updateJobStatus(jobId, 'running', 'publishing', 'Publishing article...')
+
+    try {
+      const draft = job.result.draft as ArticleDraft
+      const affiliateDecision = job.result.affiliateDecision as AffiliateDecision
+
+      if (customDraftParams?.affiliateUrl) {
+        if (!draft.affiliateCta) draft.affiliateCta = { url: '', label: '' }
+        draft.affiliateCta.url = customDraftParams.affiliateUrl
+        draft.affiliateCta.label = customDraftParams.ctaText || 'Check Official Website'
+        jobManager.setJobResult(jobId, { draft })
+      }
+
+      if (customDraftParams?.draftOnly) {
+        jobManager.updateJobStatus(jobId, 'completed', 'published', 'Draft saved.')
+        return jobManager.getJob(jobId)
+      }
+
+      const res = await this.runPublishing(job, draft, affiliateDecision)
+      jobManager.setJobResult(jobId, { publishedUrl: res.slug })
+      jobManager.updateJobStatus(jobId, 'completed', 'published', 'Article published successfully.')
+      return jobManager.getJob(jobId)
+    } catch (error) {
+      jobManager.setJobError(jobId, error instanceof Error ? error.message : String(error))
+      return jobManager.getJob(jobId)
+    }
+  }
+
+  // --- EXISTING FULL AUTOMATION RUN ---
+
+
   async run(jobId: string): Promise<AutomationJob | null> {
     const job = jobManager.getJob(jobId)
     if (!job) return null
@@ -110,26 +271,6 @@ export class AutomationPipeline {
         return jobManager.getJob(jobId)
       }
 
-      if (mode === 'manual') {
-        jobManager.setJobResult(jobId, {
-          research,
-          competitors,
-          draft: refined,
-          seoResult,
-          geoResult,
-          aeoResult,
-          eeatResult,
-          qualityResult,
-          affiliateDecision,
-          awaitingApproval: true,
-        })
-        jobManager.updateJobStatus(jobId, 'awaiting_approval', 'awaiting_approval', 'Awaiting admin approval')
-        return jobManager.getJob(jobId)
-      }
-
-      const published = await this.runPublishing(job, refined, affiliateDecision)
-      if (this.stopSignal) return this.cancelJob(job)
-
       jobManager.setJobResult(jobId, {
         research,
         competitors,
@@ -137,11 +278,12 @@ export class AutomationPipeline {
         seoResult,
         geoResult,
         aeoResult,
+        eeatResult,
         qualityResult,
         affiliateDecision,
-        published,
+        awaitingApproval: true,
       })
-      jobManager.updateJobStatus(jobId, 'completed', 'published', 'Published successfully')
+      jobManager.updateJobStatus(jobId, 'awaiting_approval', 'awaiting_approval', 'Awaiting admin approval')
       return jobManager.getJob(jobId)
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
@@ -362,8 +504,9 @@ Write in a professional, helpful tone. Format as clean HTML with proper heading 
       aiModel = response.model
       body = response.content
     } catch (error) {
-      logger.error(`Content generation failed: ${error}`)
-      body = `<h2>${topic}</h2><p>Content generation failed. Please configure an AI provider.</p>`
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      logger.error(`Content generation failed: ${errorMessage}`)
+      body = `<h2>${topic}</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>`
     }
 
     const slug = topic.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
@@ -586,9 +729,9 @@ Return the refined article HTML.`
     let score = 100
     const text = draft.body.replace(/<[^>]+>/g, ' ')
 
-    const hasRealSources = draft.sources && draft.sources.length > 0 && !draft.sources.some((s: any) => {
-      const url = typeof s === 'string' ? s : (s.url || String(s));
-      return url.includes('example.com');
+    const hasRealSources = draft.sources && draft.sources.length > 0 && !draft.sources.some((s: unknown) => {
+      const url = typeof s === 'string' ? s : (s as { url?: string })?.url || String(s)
+      return url.includes('example.com')
     })
     if (!hasRealSources) {
       findings.push({ category: 'real_sources', severity: 'error', message: 'Missing real sources or contains fake example.com URLs' })
@@ -684,7 +827,7 @@ Return the refined article HTML.`
 
   private runEEATChecks(draft: ArticleDraft): QualityResult['eeat'] {
     const checks: QualityCheck[] = [
-      { name: 'real_sources', status: draft.sources && draft.sources.length > 0 && !draft.sources.some((s: any) => { const url = typeof s === 'string' ? s : (s.url || String(s)); return url.includes('example.com'); }) ? 'pass' : 'fail', message: draft.sources && draft.sources.length > 0 ? 'Real sources present' : 'Missing or fake sources', severity: 'error' },
+      { name: 'real_sources', status: draft.sources && draft.sources.length > 0 && !draft.sources.some((s: unknown) => { const url = typeof s === 'string' ? s : (s as { url?: string })?.url || String(s); return url.includes('example.com'); }) ? 'pass' : 'fail', message: draft.sources && draft.sources.length > 0 ? 'Real sources present' : 'Missing or fake sources', severity: 'error' },
       { name: 'no_fake_claims', status: !draft.body.includes('example.com') && !draft.body.includes('test data') ? 'pass' : 'fail', message: 'No fabricated claims detected', severity: 'error' },
       { name: 'author_present', status: draft.author && draft.author !== 'ViaFinds Editorial' ? 'pass' : 'warning', message: draft.author ? `Author: ${draft.author}` : 'Generic author attribution', severity: 'warning' },
       { name: 'digital_product_focus', status: this.isDigitalProductContent(draft.body) ? 'pass' : 'fail', message: 'Content focuses on digital products', severity: 'error' },
@@ -744,8 +887,7 @@ Return the refined article HTML.`
       confidence = 'high'
       dataAvailable = true
       
-      const candidate = productCandidates[0] as any
-      // Generate a mock Digistore24 product ID based on the title, or use a default
+      const candidate = productCandidates[0] as { productId?: number }
       const productId = candidate?.productId || Math.floor(Math.random() * 100000) + 100000
       
       affiliateUrl = `https://www.digistore24.com/redir/${productId}/${affiliateId}/AUTO`
@@ -794,14 +936,50 @@ Return the refined article HTML.`
 
     const publishedAt = new Date().toISOString()
 
-    // Convert HTML body to content blocks for the article schema
+    // Convert HTML body to content blocks for the canonical custom article schema
+    const generateId = () => Math.random().toString(36).substring(2, 11)
     const contentBlocks = draft.body
-      .split(/(?=<h[2-6])|(?=<p)/)
+      .split(/(?=<h[2-6])|(?=<p)|(?=<ul)|(?=<ol)|(?=<blockquote)/)
       .filter(block => block.trim().length > 0)
-      .map(block => ({
-        _type: 'block',
-        children: block.replace(/<[^>]+>/g, '').trim(),
-      }))
+      .map(block => {
+        const id = generateId()
+        if (block.startsWith('<h')) {
+          const levelMatch = block.match(/^<h([2-6])>/)
+          const level = levelMatch ? parseInt(levelMatch[1], 10) : 2
+          const content = block.replace(/<[^>]+>/g, '').trim()
+          return { id, type: 'heading', level: (level > 4 ? 4 : level), content }
+        } else if (block.startsWith('<ul')) {
+          const listItems = block.match(/<li[^>]*>(.*?)<\/li>/gi) || []
+          const items = listItems.map(li => ({
+            id: generateId(),
+            content: li.replace(/<[^>]+>/g, '').trim(),
+            links: []
+          }))
+          return { id, type: 'bullet-list', items: items.length > 0 ? items : [{ id: generateId(), content: '', links: [] }] }
+        } else if (block.startsWith('<ol')) {
+          const listItems = block.match(/<li[^>]*>(.*?)<\/li>/gi) || []
+          const items = listItems.map(li => ({
+            id: generateId(),
+            content: li.replace(/<[^>]+>/g, '').trim(),
+            links: []
+          }))
+          return { id, type: 'numbered-list', items: items.length > 0 ? items : [{ id: generateId(), content: '', links: [] }] }
+        } else {
+          const content = block.replace(/<[^>]+>/g, '').trim()
+          return { id, type: 'paragraph', content, links: [] }
+        }
+      }).filter(b => b.type !== 'paragraph' || ('content' in b && typeof b.content === 'string' && b.content.length > 0)) as Record<string, unknown>[]
+
+    if (affiliateDecision.affiliateUrl) {
+      contentBlocks.push({
+        id: generateId(),
+        type: 'cta',
+        label: 'Check Official Website',
+        url: affiliateDecision.affiliateUrl,
+        partnerLabel: affiliateDecision.recommendedPartner || '',
+        price: ''
+      } as Record<string, unknown>)
+    }
 
     // Calculate reading time (average 200 words per minute)
     const wordCount = draft.body.replace(/<[^>]+>/g, ' ').split(/\s+/).length

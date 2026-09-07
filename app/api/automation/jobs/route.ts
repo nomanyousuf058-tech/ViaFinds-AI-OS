@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   try {
     await adminOnly()
     const body = await request.json()
-    const { jobId, action } = body as { jobId: string; action: 'approve' | 'reject' | 'retry' | 'cancel' }
+    const { jobId, action, data } = body as { jobId: string; action: 'approve' | 'reject' | 'retry' | 'cancel' | 'select_product' | 'process_article' | 'publish'; data?: Record<string, unknown> }
 
     if (!jobId || !action) {
       return NextResponse.json({ error: 'jobId and action are required' }, { status: 400 })
@@ -44,6 +44,24 @@ export async function POST(request: Request) {
         }
         const result = await automationPipeline.run(jobId)
         return NextResponse.json({ success: true, data: result })
+
+      case 'select_product':
+        if (job.status !== 'awaiting_approval' && job.currentStage !== 'researching') {
+          return NextResponse.json({ error: 'Job is not waiting for product selection' }, { status: 400 })
+        }
+        if (!data || !data.product) {
+          return NextResponse.json({ error: 'Product data is required' }, { status: 400 })
+        }
+        const selectResult = await automationPipeline.runProductSelection(jobId, data.product)
+        return NextResponse.json({ success: true, data: selectResult })
+
+      case 'process_article':
+        const processResult = await automationPipeline.runProcessArticle(jobId)
+        return NextResponse.json({ success: true, data: processResult })
+
+      case 'publish':
+        const publishResult = await automationPipeline.runPublishDraft(jobId, data)
+        return NextResponse.json({ success: true, data: publishResult })
 
       case 'reject':
         jobManager.setJobError(jobId, 'Rejected by admin')

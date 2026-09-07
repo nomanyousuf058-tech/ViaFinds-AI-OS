@@ -4,10 +4,189 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { articleRepository } from '@/lib/db/repositories'
 import type { ArticleRow } from '@/lib/db/types'
-import ArticleCard from '@/components/ArticleCard'
+import ShareButtons from '@/components/ShareButtons'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>
+}
+
+// Content block types
+type BlockType = 'paragraph' | 'heading' | 'bullet-list' | 'numbered-list' | 'image' | 'cta' | 'quote' | 'callout' | 'table'
+
+interface LinkMark {
+  start: number
+  end: number
+  url: string
+  isAffiliate: boolean
+}
+
+interface BaseBlock {
+  id: string
+  type: BlockType
+}
+
+interface ParagraphBlock extends BaseBlock {
+  type: 'paragraph'
+  content: string
+  links?: LinkMark[]
+}
+
+interface HeadingBlock extends BaseBlock {
+  type: 'heading'
+  level: number
+  content: string
+}
+
+interface ListItem {
+  id: string
+  content: string
+  links?: LinkMark[]
+}
+
+interface ListBlock extends BaseBlock {
+  type: 'bullet-list' | 'numbered-list'
+  items: ListItem[]
+}
+
+interface ImageBlock extends BaseBlock {
+  type: 'image'
+  url: string
+  alt: string
+  caption?: string
+}
+
+interface CTAButtonBlock extends BaseBlock {
+  type: 'cta'
+  label: string
+  url: string
+  partnerLabel?: string
+  price?: string
+}
+
+type ContentBlock = ParagraphBlock | HeadingBlock | ListBlock | ImageBlock | CTAButtonBlock | (BaseBlock & Record<string, unknown>)
+
+// Render text with links
+function renderTextWithLinks(text: string, links?: LinkMark[]): React.ReactNode {
+  if (!text) return null
+  if (!links || links.length === 0) return <span>{text}</span>
+
+  const sortedLinks = [...links].sort((a, b) => a.start - b.start)
+  const elements: React.ReactNode[] = []
+  let lastIndex = 0
+
+  sortedLinks.forEach((link, idx) => {
+    if (link.start > lastIndex) {
+      elements.push(<span key={`text-${idx}`}>{text.substring(lastIndex, link.start)}</span>)
+    }
+    const linkText = text.substring(link.start, link.end)
+    elements.push(
+      <a
+        key={`link-${idx}`}
+        href={link.url}
+        target="_blank"
+        rel={link.isAffiliate ? "nofollow sponsored noopener" : "noopener noreferrer"}
+        className={`text-blue-400 hover:text-blue-300 underline ${link.isAffiliate ? 'font-medium' : ''}`}
+      >
+        {linkText}
+      </a>
+    )
+    lastIndex = link.end
+  })
+
+  if (lastIndex < text.length) {
+    elements.push(<span key="text-end">{text.substring(lastIndex)}</span>)
+  }
+
+  return <>{elements}</>
+}
+
+// Render a single content block
+function renderBlock(block: ContentBlock, idx: number): React.ReactNode {
+  const type = block.type
+
+  if (type === 'heading') {
+    const b = block as HeadingBlock
+    const text = renderTextWithLinks(b.content, [])
+    switch (b.level) {
+      case 1: return <h1 key={idx} className="text-4xl font-bold text-on-background mb-6 mt-8">{text}</h1>
+      case 2: return <h2 key={idx} className="text-3xl font-bold text-on-background mb-4 mt-8">{text}</h2>
+      case 3: return <h3 key={idx} className="text-2xl font-bold text-on-background mb-4 mt-6">{text}</h3>
+      case 4: return <h4 key={idx} className="text-xl font-bold text-on-background mb-3 mt-6">{text}</h4>
+      default: return <h2 key={idx} className="text-3xl font-bold text-on-background mb-4 mt-8">{text}</h2>
+    }
+  }
+
+  if (type === 'paragraph') {
+    const b = block as ParagraphBlock
+    return (
+      <p key={idx} className="mb-6 text-base leading-relaxed text-on-surface-variant">
+        {renderTextWithLinks(b.content, b.links)}
+      </p>
+    )
+  }
+
+  if (type === 'image') {
+    const b = block as ImageBlock
+    if (!b.url) return null
+    return (
+      <figure key={idx} className="my-10">
+        <Image
+          src={b.url}
+          alt={b.alt || 'Article image'}
+          width={0}
+          height={0}
+          sizes="(max-width: 768px) 100vw, 800px"
+          className="rounded-xl border border-slate-border/50 w-full h-auto object-cover shadow-sm"
+        />
+        {b.caption && (
+          <figcaption className="mt-3 text-sm text-on-surface-variant/70 text-center italic">
+            {b.caption}
+          </figcaption>
+        )}
+      </figure>
+    )
+  }
+
+  if (type === 'bullet-list') {
+    const b = block as ListBlock
+    return (
+      <ul key={idx} className="list-disc list-inside mb-6 space-y-2 text-on-surface-variant">
+        {b.items?.map((item, i) => (
+          <li key={i}>{renderTextWithLinks(item.content, item.links)}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  if (type === 'numbered-list') {
+    const b = block as ListBlock
+    return (
+      <ol key={idx} className="list-decimal list-inside mb-6 space-y-2 text-on-surface-variant">
+        {b.items?.map((item, i) => (
+          <li key={i}>{renderTextWithLinks(item.content, item.links)}</li>
+        ))}
+      </ol>
+    )
+  }
+
+  if (type === 'cta') {
+    const b = block as CTAButtonBlock
+    return (
+      <div key={idx} className="my-8">
+        <a
+          href={b.url || '#'}
+          target={b.url ? "_blank" : undefined}
+          rel={b.url ? "nofollow sponsored noopener" : undefined}
+          className="block w-full bg-brand-teal text-white text-center font-bold tracking-wider px-8 py-4 rounded hover:bg-brand-teal-dark transition-colors text-lg shadow-lg"
+        >
+          {b.label || 'Check it out'}
+        </a>
+      </div>
+    )
+  }
+
+  // Fallback
+  return null
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
@@ -56,13 +235,23 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   const coverImage = article.cover_image_url || ''
-  const content = Array.isArray(article.content) ? article.content : []
-  const seo = (article.seo as Record<string, unknown>) || {}
+  const content = Array.isArray(article.content) ? article.content as ContentBlock[] : []
   const publishedAt = article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }) : null
+
+  // Check if content has actual blocks
+  const hasValidContent = content.length > 0 && content.some(block => {
+    if (block.type === 'paragraph' || block.type === 'heading') {
+      return ('content' in block && typeof block.content === 'string') ? block.content.trim().length > 0 : false
+    }
+    if (block.type === 'bullet-list' || block.type === 'numbered-list') {
+      return ('items' in block && Array.isArray(block.items)) ? block.items.length > 0 : false
+    }
+    return block.type === 'image' || block.type === 'cta'
+  })
 
   return (
     <div className="w-full flex flex-col">
@@ -116,8 +305,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
       {/* Cover Image */}
       {coverImage && (
-        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full -mt-6 mb-12">
-          <div className="relative aspect-video w-full overflow-hidden rounded border border-slate-border bg-obsidian-deep">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full mt-8 mb-16">
+          <div className="relative aspect-video md:aspect-[21/9] w-full overflow-hidden rounded-2xl border border-slate-border/50 bg-obsidian-deep shadow-2xl">
             <Image src={coverImage} alt={article.title} fill className="object-cover" priority />
           </div>
         </div>
@@ -128,33 +317,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-8">
             <div className="prose prose-lg max-w-none font-body text-on-surface-variant leading-relaxed">
-              {content.length > 0 ? (
-                content.map((block: Record<string, unknown>, idx: number) => {
-                  const type = block._type as string
-                  if (type === 'block' && block.children) {
-                    return (
-                      <p key={idx} className="mb-6 text-base leading-relaxed">
-                        {String(block.children).replace(/\*\*/g, '')}
-                      </p>
-                    )
-                  }
-                  if (type === 'image' && block.asset) {
-                    return (
-                      <div key={idx} className="my-8">
-                        <Image
-                          src={typeof block.asset === 'string' ? block.asset : (block.asset as { url?: string }).url || ''}
-                          alt={article.title}
-                          width={800}
-                          height={450}
-                          className="rounded border border-slate-border"
-                        />
-                      </div>
-                    )
-                  }
-                  return null
-                })
+              {hasValidContent ? (
+                content.map((block, idx) => renderBlock(block, idx))
               ) : (
-                <p className="text-on-surface-variant/60 italic">Full article content loading...</p>
+                <div className="p-8 bg-surface-container border border-outline-variant/20 rounded text-center">
+                  <p className="text-on-surface-variant/60 italic">
+                    This article is being edited. Check back soon for the full content.
+                  </p>
+                </div>
               )}
             </div>
 
@@ -176,9 +346,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <h3 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">
                   Share This Article
                 </h3>
-                <p className="font-body text-xs text-on-surface-variant leading-relaxed">
+                <p className="font-body text-xs text-on-surface-variant leading-relaxed mb-4">
                   Found this useful? Share it with your network.
                 </p>
+                <ShareButtons
+                  url={`https://viafinds.com/articles/${slug}`}
+                  title={article.title}
+                />
               </div>
             </div>
           </aside>

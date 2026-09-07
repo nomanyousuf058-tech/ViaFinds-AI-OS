@@ -857,19 +857,7 @@
   },
   "job_1787636140637_otdxd7k": {
     "id": "job_1787636140637_otdxd7k",
-    "type": {
-      "id": "e2e-test-1787636140633",
-      "type": "article",
-      "mode": "dry_run",
-      "topic": "AI tools for small businesses",
-      "category": "ai-tools",
-      "keyword": "AI tools for small businesses",
-      "input": {
-        "topic": "AI tools for small businesses",
-        "category": "ai-tools",
-        "mode": "dry_run"
-      }
-    },
+    "type": "article",
     "status": "queued",
     "currentStage": "discovered",
     "result": {},
@@ -890,7 +878,7 @@
   "job_1787636319179_1kndre4": {
     "id": "job_1787636319179_1kndre4",
     "type": "article",
-    "status": "awaiting_approval",
+    "status": "failed",
     "currentStage": "awaiting_approval",
     "mode": "manual",
     "input": {
@@ -1141,7 +1129,7 @@
     "retryCount": 0,
     "maxRetries": 3,
     "createdAt": "2026-08-25T05:38:39.179Z",
-    "updatedAt": "2026-08-25T05:38:40.459Z",
+    "updatedAt": "2026-08-30T17:05:37.749Z",
     "auditLog": [
       {
         "timestamp": "2026-08-25T05:38:39.179Z",
@@ -1327,14 +1315,22 @@
         "stage": "awaiting_approval",
         "details": "Awaiting admin approval",
         "error": "Awaiting admin approval"
+      },
+      {
+        "timestamp": "2026-08-30T17:05:37.749Z",
+        "action": "job_failed",
+        "stage": "awaiting_approval",
+        "details": "Rejected by admin",
+        "error": "Rejected by admin"
       }
     ],
-    "error": "Awaiting admin approval"
+    "error": "Rejected by admin",
+    "completedAt": "2026-08-30T17:05:37.749Z"
   },
   "job_1787636384498_ppnwp05": {
     "id": "job_1787636384498_ppnwp05",
     "type": "article",
-    "status": "awaiting_approval",
+    "status": "failed",
     "currentStage": "awaiting_approval",
     "mode": "manual",
     "input": {
@@ -1585,7 +1581,7 @@
     "retryCount": 0,
     "maxRetries": 3,
     "createdAt": "2026-08-25T05:39:44.498Z",
-    "updatedAt": "2026-08-25T05:39:45.183Z",
+    "updatedAt": "2026-08-30T17:05:33.321Z",
     "auditLog": [
       {
         "timestamp": "2026-08-25T05:39:44.498Z",
@@ -1771,9 +1767,17 @@
         "stage": "awaiting_approval",
         "details": "Awaiting admin approval",
         "error": "Awaiting admin approval"
+      },
+      {
+        "timestamp": "2026-08-30T17:05:33.321Z",
+        "action": "job_failed",
+        "stage": "awaiting_approval",
+        "details": "Rejected by admin",
+        "error": "Rejected by admin"
       }
     ],
-    "error": "Awaiting admin approval"
+    "error": "Rejected by admin",
+    "completedAt": "2026-08-30T17:05:33.321Z"
   },
   "job_1787927619240_l23eti9": {
     "id": "job_1787927619240_l23eti9",
@@ -2964,5 +2968,4457 @@
     ],
     "error": "Published successfully",
     "completedAt": "2026-08-28T17:13:05.034Z"
+  },
+  "job_1788011384045_3tnhbr8": {
+    "id": "job_1788011384045_3tnhbr8",
+    "type": "article_generation",
+    "status": "failed",
+    "currentStage": "awaiting_approval",
+    "mode": "manual",
+    "input": {
+      "topic": "AI tools",
+      "category": "ai"
+    },
+    "result": {
+      "research": {
+        "topic": "AI tools",
+        "keyword": "AI tools",
+        "category": "ai",
+        "searchIntent": "informational",
+        "buyerIntent": "medium",
+        "trendSignal": "stable",
+        "sources": [
+          "https://www.huit.harvard.edu/ai/tools",
+          "https://www.buynomics.com/articles/ai-pricing-tool-comparison",
+          "https://www.neura.market/tools/ai-pricing",
+          "https://digitalmaker.ai/blog/ai-tools-comparison-which-ones-worth-paying-for",
+          "https://www.google.com/goto?url=CAESYwHrOzAVx2NKO7e9NhpYWCbSF2VDhnnDPve49fUmbqefQykjP1049Q12p4ZSdMsWDzflZD2ZX-xW_ToialzJk2LnDBfrulo-YEPIr6xccA22L_eipA63Y9gRDMPBLlQel3shEg",
+          "https://rshweb.com/blog-ai-tools-comparison",
+          "https://iet.ucdavis.edu/aggie-ai/artificial-intelligence-tools-comparison-chart",
+          "https://artificialanalysis.ai/models"
+        ],
+        "competitors": [],
+        "productCandidates": [],
+        "confidence": 0.3,
+        "researchTimestamp": "2026-08-29T13:50:01.047Z"
+      },
+      "competitors": [],
+      "draft": {
+        "title": "AI tools",
+        "slug": "ai-tools",
+        "excerpt": "AI toolsContent generation failed. Please configure an AI provider....",
+        "body": "<h2>AI tools</h2><p>Content generation failed. Please configure an AI provider.</p>",
+        "headings": [
+          "What is AI tools?",
+          "Best AI tools Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is AI tools?",
+            "answer": "AI tools refers to digital tools and software solutions in the ai space."
+          },
+          {
+            "question": "Which AI tools tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do AI tools tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://www.huit.harvard.edu/ai/tools",
+          "https://www.buynomics.com/articles/ai-pricing-tool-comparison",
+          "https://www.neura.market/tools/ai-pricing",
+          "https://digitalmaker.ai/blog/ai-tools-comparison-which-ones-worth-paying-for",
+          "https://www.google.com/goto?url=CAESYwHrOzAVx2NKO7e9NhpYWCbSF2VDhnnDPve49fUmbqefQykjP1049Q12p4ZSdMsWDzflZD2ZX-xW_ToialzJk2LnDBfrulo-YEPIr6xccA22L_eipA63Y9gRDMPBLlQel3shEg",
+          "https://rshweb.com/blog-ai-tools-comparison",
+          "https://iet.ucdavis.edu/aggie-ai/artificial-intelligence-tools-comparison-chart",
+          "https://artificialanalysis.ai/models"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "ai",
+        "seo": {
+          "metaTitle": "AI tools",
+          "metaDescription": "AI toolsContent generation failed. Please configure an AI provider.",
+          "canonicalUrl": "https://viafinds.com/articles/ai-tools"
+        }
+      },
+      "refinedDraft": {
+        "title": "AI tools",
+        "slug": "ai-tools",
+        "excerpt": "AI toolsContent generation failed. Please configure an AI provider....",
+        "body": "<h2>AI tools</h2><p>Content generation failed. Please configure an AI provider.</p>",
+        "headings": [
+          "What is AI tools?",
+          "Best AI tools Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is AI tools?",
+            "answer": "AI tools refers to digital tools and software solutions in the ai space."
+          },
+          {
+            "question": "Which AI tools tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do AI tools tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://www.huit.harvard.edu/ai/tools",
+          "https://www.buynomics.com/articles/ai-pricing-tool-comparison",
+          "https://www.neura.market/tools/ai-pricing",
+          "https://digitalmaker.ai/blog/ai-tools-comparison-which-ones-worth-paying-for",
+          "https://www.google.com/goto?url=CAESYwHrOzAVx2NKO7e9NhpYWCbSF2VDhnnDPve49fUmbqefQykjP1049Q12p4ZSdMsWDzflZD2ZX-xW_ToialzJk2LnDBfrulo-YEPIr6xccA22L_eipA63Y9gRDMPBLlQel3shEg",
+          "https://rshweb.com/blog-ai-tools-comparison",
+          "https://iet.ucdavis.edu/aggie-ai/artificial-intelligence-tools-comparison-chart",
+          "https://artificialanalysis.ai/models"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "ai",
+        "seo": {
+          "metaTitle": "AI tools",
+          "metaDescription": "AI toolsContent generation failed. Please configure an AI provider.",
+          "canonicalUrl": "https://viafinds.com/articles/ai-tools"
+        }
+      },
+      "seoResult": {
+        "score": 62,
+        "findings": [
+          {
+            "category": "title",
+            "severity": "warning",
+            "message": "Meta title length suboptimal"
+          },
+          {
+            "category": "meta_description",
+            "severity": "warning",
+            "message": "Meta description length suboptimal"
+          },
+          {
+            "category": "content_length",
+            "severity": "error",
+            "message": "Content too short"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 90,
+        "findings": [
+          {
+            "category": "structured_content",
+            "severity": "info",
+            "message": "No lists detected"
+          },
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "eeatResult": {
+        "score": 75,
+        "findings": [
+          {
+            "category": "original_content",
+            "severity": "error",
+            "message": "Content appears to be placeholder or too short"
+          }
+        ]
+      },
+      "qualityResult": {
+        "status": "pass",
+        "score": 92,
+        "checks": [
+          {
+            "name": "author_attribution",
+            "status": "pass",
+            "message": "Author present",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_disclosure",
+            "status": "pass",
+            "message": "Disclosure present",
+            "severity": "error"
+          },
+          {
+            "name": "content_length",
+            "status": "warning",
+            "message": "9 words",
+            "severity": "warning"
+          },
+          {
+            "name": "sources",
+            "status": "pass",
+            "message": "8 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "faq_section",
+            "status": "pass",
+            "message": "3 FAQ items",
+            "severity": "warning"
+          },
+          {
+            "name": "heading_structure",
+            "status": "pass",
+            "message": "4 headings",
+            "severity": "warning"
+          }
+        ],
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "pass",
+          "score": 83,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "pass",
+              "message": "Real sources present",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "warning",
+              "message": "83 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "commissionInfo": "No product candidates found. Commission data unavailable.",
+        "confidence": "unavailable",
+        "reasoning": "No affiliate data available. Configure an affiliate provider for recommendations.",
+        "dataAvailable": false
+      },
+      "awaitingApproval": true
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-08-29T13:49:44.045Z",
+    "updatedAt": "2026-08-30T17:05:25.696Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-08-29T13:49:44.045Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: article_generation"
+      },
+      {
+        "timestamp": "2026-08-29T13:49:44.048Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Job status changed to running"
+      },
+      {
+        "timestamp": "2026-08-29T13:49:44.052Z",
+        "action": "stage_researching",
+        "stage": "researching",
+        "details": "Researching topic: AI tools"
+      },
+      {
+        "action": "research_started",
+        "stage": "researching",
+        "details": "Starting research for topic: AI tools, category: ai",
+        "timestamp": "2026-08-29T13:49:44.055Z"
+      },
+      {
+        "action": "research_completed",
+        "stage": "researching",
+        "details": "Research completed. Sources: 8, Competitors: 0, Confidence: 0.3. Web search: SerpAPI+Google Custom Search",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-08-29T13:50:01.050Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:01.053Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: AI tools"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: AI tools",
+        "timestamp": "2026-08-29T13:50:01.055Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-08-29T13:50:01.060Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:01.062Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: AI tools"
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: AI tools",
+        "timestamp": "2026-08-29T13:50:01.066Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 9",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-08-29T13:50:11.033Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:11.036Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-08-29T13:50:11.039Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-08-29T13:50:17.120Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:17.123Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-08-29T13:50:17.125Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 62",
+        "timestamp": "2026-08-29T13:50:17.129Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:17.131Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-08-29T13:50:17.134Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 90",
+        "timestamp": "2026-08-29T13:50:17.140Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:17.143Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-08-29T13:50:17.144Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-08-29T13:50:17.148Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:17.151Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-08-29T13:50:17.152Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 75",
+        "timestamp": "2026-08-29T13:50:17.159Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:17.162Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-08-29T13:50:17.163Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: pass (score: 92)",
+        "timestamp": "2026-08-29T13:50:17.169Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:17.173Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-08-29T13:50:17.176Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: unavailable confidence. Partner: digistore24",
+        "timestamp": "2026-08-29T13:50:17.180Z"
+      },
+      {
+        "timestamp": "2026-08-29T13:50:17.185Z",
+        "action": "status_awaiting_approval",
+        "stage": "awaiting_approval",
+        "details": "Awaiting admin approval",
+        "error": "Awaiting admin approval"
+      },
+      {
+        "timestamp": "2026-08-30T17:05:25.696Z",
+        "action": "job_failed",
+        "stage": "awaiting_approval",
+        "details": "Rejected by admin",
+        "error": "Rejected by admin"
+      }
+    ],
+    "error": "Rejected by admin",
+    "completedAt": "2026-08-30T17:05:25.696Z"
+  },
+  "job_1788109286118_u1rthed": {
+    "id": "job_1788109286118_u1rthed",
+    "type": "article_generation",
+    "status": "cancelled",
+    "currentStage": "affiliate_analysis",
+    "mode": "manual",
+    "input": {
+      "topic": "remixable founder edition software",
+      "category": "software"
+    },
+    "result": {
+      "research": {
+        "topic": "remixable founder edition software",
+        "keyword": "remixable founder edition software",
+        "category": "software",
+        "searchIntent": "informational",
+        "buyerIntent": "medium",
+        "trendSignal": "stable",
+        "sources": [
+          "https://www.google.com/goto?url=CAESzQEB6zswFTkh4-qkKOZbgmUe95GjdUkcN-OHsNGfcijddXTG3CxxwKtC5GhaCw_466_J9QnB4pDpzuHO18B7-LSuvm5aRUSK1GZC--PTUEs58UveopXugEv9Gou2_FGAe4IoySAyIx4IeiAqAsB00P9AF1F1f2m4oF8Sdh89OTmtneOalNuCIHvHeHFrE4otcIJa4o1UiG-rZgGXKe39QPps3NWJbLEP7bfzUKL04cngxLwVdoQSQz1bU5fhx4brWaFo07hnkLkD2uLG-4Ar",
+          "https://www.google.com/goto?url=CAESwgEB6zswFcQz57yxj1GjAd9h0kb9BJEt2e_w16HsnMPUu5slGd7kOdmKIyhCHB0rziUXxChs5kO8051ows8YSwu_Gj0gexLtzO3KtnaQ0QU0ffIY89Uztr4qQNTcDUXB0OSQ7GIqE3CGaT7lsz8ynXQlyJjPt0hDPhx67SQDmzXRD2x3Lth3JQrO6H2gnBaktLs20LyhCk2hpvyGTazoKbUHDkb80Eh6FgKODByM6-Jc-P7wHU_qDoanbSesCbOwzI5Gaw",
+          "https://www.google.com/goto?url=CAESyAEB6zswFeWADbQLqERaADKo90wdrnV2Y4m53c7v96X67g0XaTBKxGlJVDnLbfpxjBuM8iyj8dTmhRZWKbLVm_yLAFxYCM3aRjcqpXh4Vr7aDsEYxLTfmNrdptp3IzOmEn_eYxZJnQ_cY0E8Aw3wWh4VCl39kTzGKzsfSN8bKkjoIf0ln1JBeiOy2Pwi4GbqhHXs3XaNkoWz61M72ATYk_vibS72t2Y7R-GlXsKi19gsa-FAywHGxzbZly4iIzW3cfp3XnSQwJnORA",
+          "https://website-prod-hh.s3.amazonaws.com/blog/remixablefounderedition/video/remixable-founder-edition-customer-reviews-and-honest-feedback-x1nedt.html",
+          "https://www.google.com/goto?url=CAESxwEB6zswFR0CqA5kxhQBV4FhMcUL7yDEll970nu7DEK8RaBkmageBwUyvf7-2FLlU27KIiRiqGPzScL0KyCTgRGG9vsApDoKV8pEVPK3g0wzZ7GGxyx6xuqUMn_yWA00muZlHL8NmnbgZi0T0zr4etlh_6jhdxVk4y5Sii1T2lXZ-M8mklXc39ib-JjUwNOXv9x2soflMQon4gUzo29ZeC-zZLvg1o3ThB5o8vLlinMwNiQgY99DXtn3SoSY3HKACk3qUvG6SsEz",
+          "https://www.google.com/goto?url=CAESxAEB6zswFQBOnDJ4MVNZSsvhHZv0F-r5CZIvgUBZzsChj7YRc6k3gUP0eROJ0mXKv8Cf-pztQsoZrtxhFryR0DgHgzYhXlqk6nT2WCMvF2tZRVB4iqdaguJx3sVF_R_cjDppLvCE86XXzeA70T6uj2OfY00zZF1tTwi0h_a4uJl2il7Tnlqya7MKxYBHLpbgCCpbxFbVx7kj19LLfRXs6oj48NXrU2EOAdNAPK3AlNhSyouX0hnpavtXt66fP1Ocyt8d1rdM",
+          "https://www.reddit.com/r/hardware/comments/12jlngn/nvidia_geforce_rtx_4070_founders_edition_review/",
+          "https://www.google.com/goto?url=CAESxQEB6zswFetm6qle_14y4nPleivzQhYYEk2r7w274lBepUIA-EaLCwtEuOJgcKKftbW0wGQffJEiEEkXpwA1wj1PhQviiHmcRhSuGPGU7eGjomfxuFo0knSurfpUlj1111ii3xQU9cOIcoOWXqGnVqO1HRqIMqqfh4knD1RqKWp12aSzsva7taU7s7SyXmaK7npB21ICS3fOMXg0txry4apkEAMzIMF8mdA2lmtQGRbwSRc2KCeKVAuwlazOyKHQkz822m934Q"
+        ],
+        "competitors": [],
+        "productCandidates": [],
+        "confidence": 0.3,
+        "researchTimestamp": "2026-08-30T17:01:42.894Z"
+      },
+      "competitors": [],
+      "draft": {
+        "title": "remixable founder edition software",
+        "slug": "remixable-founder-edition-software",
+        "excerpt": "remixable founder edition softwareEditorial Note: Content generation could not be completed because no AI provider is currently available. All configured provid...",
+        "body": "<h2>remixable founder edition software</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is remixable founder edition software?",
+          "Best remixable founder edition software Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is remixable founder edition software?",
+            "answer": "remixable founder edition software refers to digital tools and software solutions in the software space."
+          },
+          {
+            "question": "Which remixable founder edition software tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do remixable founder edition software tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://www.google.com/goto?url=CAESzQEB6zswFTkh4-qkKOZbgmUe95GjdUkcN-OHsNGfcijddXTG3CxxwKtC5GhaCw_466_J9QnB4pDpzuHO18B7-LSuvm5aRUSK1GZC--PTUEs58UveopXugEv9Gou2_FGAe4IoySAyIx4IeiAqAsB00P9AF1F1f2m4oF8Sdh89OTmtneOalNuCIHvHeHFrE4otcIJa4o1UiG-rZgGXKe39QPps3NWJbLEP7bfzUKL04cngxLwVdoQSQz1bU5fhx4brWaFo07hnkLkD2uLG-4Ar",
+          "https://www.google.com/goto?url=CAESwgEB6zswFcQz57yxj1GjAd9h0kb9BJEt2e_w16HsnMPUu5slGd7kOdmKIyhCHB0rziUXxChs5kO8051ows8YSwu_Gj0gexLtzO3KtnaQ0QU0ffIY89Uztr4qQNTcDUXB0OSQ7GIqE3CGaT7lsz8ynXQlyJjPt0hDPhx67SQDmzXRD2x3Lth3JQrO6H2gnBaktLs20LyhCk2hpvyGTazoKbUHDkb80Eh6FgKODByM6-Jc-P7wHU_qDoanbSesCbOwzI5Gaw",
+          "https://www.google.com/goto?url=CAESyAEB6zswFeWADbQLqERaADKo90wdrnV2Y4m53c7v96X67g0XaTBKxGlJVDnLbfpxjBuM8iyj8dTmhRZWKbLVm_yLAFxYCM3aRjcqpXh4Vr7aDsEYxLTfmNrdptp3IzOmEn_eYxZJnQ_cY0E8Aw3wWh4VCl39kTzGKzsfSN8bKkjoIf0ln1JBeiOy2Pwi4GbqhHXs3XaNkoWz61M72ATYk_vibS72t2Y7R-GlXsKi19gsa-FAywHGxzbZly4iIzW3cfp3XnSQwJnORA",
+          "https://website-prod-hh.s3.amazonaws.com/blog/remixablefounderedition/video/remixable-founder-edition-customer-reviews-and-honest-feedback-x1nedt.html",
+          "https://www.google.com/goto?url=CAESxwEB6zswFR0CqA5kxhQBV4FhMcUL7yDEll970nu7DEK8RaBkmageBwUyvf7-2FLlU27KIiRiqGPzScL0KyCTgRGG9vsApDoKV8pEVPK3g0wzZ7GGxyx6xuqUMn_yWA00muZlHL8NmnbgZi0T0zr4etlh_6jhdxVk4y5Sii1T2lXZ-M8mklXc39ib-JjUwNOXv9x2soflMQon4gUzo29ZeC-zZLvg1o3ThB5o8vLlinMwNiQgY99DXtn3SoSY3HKACk3qUvG6SsEz",
+          "https://www.google.com/goto?url=CAESxAEB6zswFQBOnDJ4MVNZSsvhHZv0F-r5CZIvgUBZzsChj7YRc6k3gUP0eROJ0mXKv8Cf-pztQsoZrtxhFryR0DgHgzYhXlqk6nT2WCMvF2tZRVB4iqdaguJx3sVF_R_cjDppLvCE86XXzeA70T6uj2OfY00zZF1tTwi0h_a4uJl2il7Tnlqya7MKxYBHLpbgCCpbxFbVx7kj19LLfRXs6oj48NXrU2EOAdNAPK3AlNhSyouX0hnpavtXt66fP1Ocyt8d1rdM",
+          "https://www.reddit.com/r/hardware/comments/12jlngn/nvidia_geforce_rtx_4070_founders_edition_review/",
+          "https://www.google.com/goto?url=CAESxQEB6zswFetm6qle_14y4nPleivzQhYYEk2r7w274lBepUIA-EaLCwtEuOJgcKKftbW0wGQffJEiEEkXpwA1wj1PhQviiHmcRhSuGPGU7eGjomfxuFo0knSurfpUlj1111ii3xQU9cOIcoOWXqGnVqO1HRqIMqqfh4knD1RqKWp12aSzsva7taU7s7SyXmaK7npB21ICS3fOMXg0txry4apkEAMzIMF8mdA2lmtQGRbwSRc2KCeKVAuwlazOyKHQkz822m934Q"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "software",
+        "seo": {
+          "metaTitle": "remixable founder edition software",
+          "metaDescription": "remixable founder edition softwareEditorial Note: Content generation could not be completed because no AI provider is currently available. All configured provid",
+          "canonicalUrl": "https://viafinds.com/articles/remixable-founder-edition-software"
+        }
+      },
+      "refinedDraft": {
+        "title": "remixable founder edition software",
+        "slug": "remixable-founder-edition-software",
+        "excerpt": "remixable founder edition softwareEditorial Note: Content generation could not be completed because no AI provider is currently available. All configured provid...",
+        "body": "<h2>remixable founder edition software</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is remixable founder edition software?",
+          "Best remixable founder edition software Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is remixable founder edition software?",
+            "answer": "remixable founder edition software refers to digital tools and software solutions in the software space."
+          },
+          {
+            "question": "Which remixable founder edition software tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do remixable founder edition software tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://www.google.com/goto?url=CAESzQEB6zswFTkh4-qkKOZbgmUe95GjdUkcN-OHsNGfcijddXTG3CxxwKtC5GhaCw_466_J9QnB4pDpzuHO18B7-LSuvm5aRUSK1GZC--PTUEs58UveopXugEv9Gou2_FGAe4IoySAyIx4IeiAqAsB00P9AF1F1f2m4oF8Sdh89OTmtneOalNuCIHvHeHFrE4otcIJa4o1UiG-rZgGXKe39QPps3NWJbLEP7bfzUKL04cngxLwVdoQSQz1bU5fhx4brWaFo07hnkLkD2uLG-4Ar",
+          "https://www.google.com/goto?url=CAESwgEB6zswFcQz57yxj1GjAd9h0kb9BJEt2e_w16HsnMPUu5slGd7kOdmKIyhCHB0rziUXxChs5kO8051ows8YSwu_Gj0gexLtzO3KtnaQ0QU0ffIY89Uztr4qQNTcDUXB0OSQ7GIqE3CGaT7lsz8ynXQlyJjPt0hDPhx67SQDmzXRD2x3Lth3JQrO6H2gnBaktLs20LyhCk2hpvyGTazoKbUHDkb80Eh6FgKODByM6-Jc-P7wHU_qDoanbSesCbOwzI5Gaw",
+          "https://www.google.com/goto?url=CAESyAEB6zswFeWADbQLqERaADKo90wdrnV2Y4m53c7v96X67g0XaTBKxGlJVDnLbfpxjBuM8iyj8dTmhRZWKbLVm_yLAFxYCM3aRjcqpXh4Vr7aDsEYxLTfmNrdptp3IzOmEn_eYxZJnQ_cY0E8Aw3wWh4VCl39kTzGKzsfSN8bKkjoIf0ln1JBeiOy2Pwi4GbqhHXs3XaNkoWz61M72ATYk_vibS72t2Y7R-GlXsKi19gsa-FAywHGxzbZly4iIzW3cfp3XnSQwJnORA",
+          "https://website-prod-hh.s3.amazonaws.com/blog/remixablefounderedition/video/remixable-founder-edition-customer-reviews-and-honest-feedback-x1nedt.html",
+          "https://www.google.com/goto?url=CAESxwEB6zswFR0CqA5kxhQBV4FhMcUL7yDEll970nu7DEK8RaBkmageBwUyvf7-2FLlU27KIiRiqGPzScL0KyCTgRGG9vsApDoKV8pEVPK3g0wzZ7GGxyx6xuqUMn_yWA00muZlHL8NmnbgZi0T0zr4etlh_6jhdxVk4y5Sii1T2lXZ-M8mklXc39ib-JjUwNOXv9x2soflMQon4gUzo29ZeC-zZLvg1o3ThB5o8vLlinMwNiQgY99DXtn3SoSY3HKACk3qUvG6SsEz",
+          "https://www.google.com/goto?url=CAESxAEB6zswFQBOnDJ4MVNZSsvhHZv0F-r5CZIvgUBZzsChj7YRc6k3gUP0eROJ0mXKv8Cf-pztQsoZrtxhFryR0DgHgzYhXlqk6nT2WCMvF2tZRVB4iqdaguJx3sVF_R_cjDppLvCE86XXzeA70T6uj2OfY00zZF1tTwi0h_a4uJl2il7Tnlqya7MKxYBHLpbgCCpbxFbVx7kj19LLfRXs6oj48NXrU2EOAdNAPK3AlNhSyouX0hnpavtXt66fP1Ocyt8d1rdM",
+          "https://www.reddit.com/r/hardware/comments/12jlngn/nvidia_geforce_rtx_4070_founders_edition_review/",
+          "https://www.google.com/goto?url=CAESxQEB6zswFetm6qle_14y4nPleivzQhYYEk2r7w274lBepUIA-EaLCwtEuOJgcKKftbW0wGQffJEiEEkXpwA1wj1PhQviiHmcRhSuGPGU7eGjomfxuFo0knSurfpUlj1111ii3xQU9cOIcoOWXqGnVqO1HRqIMqqfh4knD1RqKWp12aSzsva7taU7s7SyXmaK7npB21ICS3fOMXg0txry4apkEAMzIMF8mdA2lmtQGRbwSRc2KCeKVAuwlazOyKHQkz822m934Q"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "software",
+        "seo": {
+          "metaTitle": "remixable founder edition software",
+          "metaDescription": "remixable founder edition softwareEditorial Note: Content generation could not be completed because no AI provider is currently available. All configured provid",
+          "canonicalUrl": "https://viafinds.com/articles/remixable-founder-edition-software"
+        }
+      },
+      "seoResult": {
+        "score": 80,
+        "findings": [
+          {
+            "category": "content_length",
+            "severity": "error",
+            "message": "Content too short"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 90,
+        "findings": [
+          {
+            "category": "structured_content",
+            "severity": "info",
+            "message": "No lists detected"
+          },
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "eeatResult": {
+        "score": 75,
+        "findings": [
+          {
+            "category": "original_content",
+            "severity": "error",
+            "message": "Content appears to be placeholder or too short"
+          }
+        ]
+      },
+      "qualityResult": {
+        "status": "pass",
+        "score": 92,
+        "checks": [
+          {
+            "name": "author_attribution",
+            "status": "pass",
+            "message": "Author present",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_disclosure",
+            "status": "pass",
+            "message": "Disclosure present",
+            "severity": "error"
+          },
+          {
+            "name": "content_length",
+            "status": "warning",
+            "message": "48 words",
+            "severity": "warning"
+          },
+          {
+            "name": "sources",
+            "status": "pass",
+            "message": "8 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "faq_section",
+            "status": "pass",
+            "message": "3 FAQ items",
+            "severity": "warning"
+          },
+          {
+            "name": "heading_structure",
+            "status": "pass",
+            "message": "4 headings",
+            "severity": "warning"
+          }
+        ],
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "pass",
+          "score": 83,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "pass",
+              "message": "Real sources present",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "warning",
+              "message": "397 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      }
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-08-30T17:01:26.118Z",
+    "updatedAt": "2026-08-30T17:05:09.326Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-08-30T17:01:26.118Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: article_generation"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:26.122Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Job status changed to running"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:26.126Z",
+        "action": "stage_researching",
+        "stage": "researching",
+        "details": "Researching topic: remixable founder edition software"
+      },
+      {
+        "action": "research_started",
+        "stage": "researching",
+        "details": "Starting research for topic: remixable founder edition software, category: software",
+        "timestamp": "2026-08-30T17:01:26.131Z"
+      },
+      {
+        "action": "research_completed",
+        "stage": "researching",
+        "details": "Research completed. Sources: 8, Competitors: 0, Confidence: 0.3. Web search: SerpAPI+Google Custom Search",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-08-30T17:01:42.897Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:42.900Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: remixable founder edition software"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: remixable founder edition software",
+        "timestamp": "2026-08-30T17:01:42.902Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-08-30T17:01:42.907Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:42.911Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: remixable founder edition software"
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: remixable founder edition software",
+        "timestamp": "2026-08-30T17:01:42.913Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 48",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-08-30T17:01:47.757Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:47.760Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-08-30T17:01:47.762Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-08-30T17:01:50.824Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:50.827Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-08-30T17:01:50.830Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 80",
+        "timestamp": "2026-08-30T17:01:50.836Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:50.839Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-08-30T17:01:50.841Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 90",
+        "timestamp": "2026-08-30T17:01:50.847Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:50.855Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-08-30T17:01:50.857Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-08-30T17:01:50.863Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:50.866Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-08-30T17:01:50.869Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 75",
+        "timestamp": "2026-08-30T17:01:50.874Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:50.878Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-08-30T17:01:50.881Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: pass (score: 92)",
+        "timestamp": "2026-08-30T17:01:50.888Z"
+      },
+      {
+        "timestamp": "2026-08-30T17:01:50.892Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "timestamp": "2026-08-30T17:05:09.326Z",
+        "action": "job_cancelled",
+        "stage": "affiliate_analysis",
+        "details": "Job cancelled by user"
+      }
+    ],
+    "completedAt": "2026-08-30T17:05:09.326Z"
+  },
+  "job_1788235932636_lwfl5xa": {
+    "id": "job_1788235932636_lwfl5xa",
+    "type": "article_generation",
+    "status": "failed",
+    "currentStage": "researching",
+    "mode": "auto",
+    "input": {
+      "topic": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+      "category": "book"
+    },
+    "result": {
+      "research": {
+        "topic": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "keyword": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "category": "book",
+        "searchIntent": "informational",
+        "buyerIntent": "medium",
+        "trendSignal": "stable",
+        "sources": [],
+        "competitors": [],
+        "productCandidates": [],
+        "confidence": 0.3,
+        "researchTimestamp": "2026-09-01T04:12:53.121Z"
+      }
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-01T04:12:12.636Z",
+    "updatedAt": "2026-09-01T04:12:53.129Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-01T04:12:12.636Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: article_generation"
+      },
+      {
+        "timestamp": "2026-09-01T04:12:12.639Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Job status changed to running"
+      },
+      {
+        "timestamp": "2026-09-01T04:12:12.643Z",
+        "action": "stage_researching",
+        "stage": "researching",
+        "details": "Researching topic: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)"
+      },
+      {
+        "action": "research_started",
+        "stage": "researching",
+        "details": "Starting research for topic: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed), category: book",
+        "timestamp": "2026-09-01T04:12:12.646Z"
+      },
+      {
+        "action": "research_completed",
+        "stage": "researching",
+        "details": "Research completed. Sources: 0, Competitors: 0, Confidence: 0.3. Web search: SerpAPI+Google Custom Search",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-09-01T04:12:53.124Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:12:53.127Z",
+        "action": "status_failed",
+        "stage": "researching",
+        "details": "Insufficient research: no real sources or low confidence",
+        "error": "Insufficient research: no real sources or low confidence"
+      },
+      {
+        "action": "research_insufficient",
+        "stage": "researching",
+        "details": "Research insufficient. Confidence: 0.3, Sources: 0. Cannot proceed without real data.",
+        "timestamp": "2026-09-01T04:12:53.129Z"
+      }
+    ],
+    "error": "Insufficient research: no real sources or low confidence"
+  },
+  "job_1788236027567_d08rxbt": {
+    "id": "job_1788236027567_d08rxbt",
+    "type": "article_generation",
+    "status": "completed",
+    "currentStage": "published",
+    "mode": "dry_run",
+    "input": {
+      "topic": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+      "category": "book"
+    },
+    "result": {
+      "research": {
+        "topic": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "keyword": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "category": "book",
+        "searchIntent": "informational",
+        "buyerIntent": "medium",
+        "trendSignal": "stable",
+        "sources": [
+          "https://www.youtube.com/shorts/Hoclnyugo_M",
+          "https://www.instagram.com/p/DV75N4-kYWa/",
+          "https://www.accessnewswire.com/newsroom/en/consumer-and-retail-products/josephs-well-reviews-and-complaints-2026-legit-diy-water-guide-or-hype-1179711",
+          "https://www.google.com/goto?url=CAESYwHrOzAVb4TO2FludgvZb5yRIinuR0IaG0U8YF_0OCVRVjxQw3RSR_H9sW08E6RAqjBU51IcLTq2C6rXQj1DroOJVlRPKXm8YGxBemsY5GmVmL8LJx5Z0RmpCTeOM48kFg2oTQ",
+          "https://www.youtube.com/watch?v\\u003dR9rgX4o33Bw",
+          "https://www.publishersweekly.com/",
+          "https://sites.google.com/view/josephs-well-review-2026-pros-/home",
+          "https://www.michaeldiamond.com/great-books/"
+        ],
+        "competitors": [],
+        "productCandidates": [],
+        "confidence": 0.3,
+        "researchTimestamp": "2026-09-01T04:13:55.589Z"
+      },
+      "competitors": [],
+      "draft": {
+        "title": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "slug": "joseph-s-well-blockbuster-offer-from-top-diamond-vendor-book-printed",
+        "excerpt": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)Editorial Note: Content generation could not be completed because no AI provider is curr...",
+        "body": "<h2>Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)?",
+          "Best Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)?",
+            "answer": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) refers to digital tools and software solutions in the book space."
+          },
+          {
+            "question": "Which Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://www.youtube.com/shorts/Hoclnyugo_M",
+          "https://www.instagram.com/p/DV75N4-kYWa/",
+          "https://www.accessnewswire.com/newsroom/en/consumer-and-retail-products/josephs-well-reviews-and-complaints-2026-legit-diy-water-guide-or-hype-1179711",
+          "https://www.google.com/goto?url=CAESYwHrOzAVb4TO2FludgvZb5yRIinuR0IaG0U8YF_0OCVRVjxQw3RSR_H9sW08E6RAqjBU51IcLTq2C6rXQj1DroOJVlRPKXm8YGxBemsY5GmVmL8LJx5Z0RmpCTeOM48kFg2oTQ",
+          "https://www.youtube.com/watch?v\\u003dR9rgX4o33Bw",
+          "https://www.publishersweekly.com/",
+          "https://sites.google.com/view/josephs-well-review-2026-pros-/home",
+          "https://www.michaeldiamond.com/great-books/"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "book",
+        "seo": {
+          "metaTitle": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+          "metaDescription": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)Editorial Note: Content generation could not be completed because no AI provider is curr",
+          "canonicalUrl": "https://viafinds.com/articles/joseph-s-well-blockbuster-offer-from-top-diamond-vendor-book-printed"
+        }
+      },
+      "refinedDraft": {
+        "title": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "slug": "joseph-s-well-blockbuster-offer-from-top-diamond-vendor-book-printed",
+        "excerpt": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)Editorial Note: Content generation could not be completed because no AI provider is curr...",
+        "body": "<h2>Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)?",
+          "Best Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)?",
+            "answer": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) refers to digital tools and software solutions in the book space."
+          },
+          {
+            "question": "Which Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed) tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://www.youtube.com/shorts/Hoclnyugo_M",
+          "https://www.instagram.com/p/DV75N4-kYWa/",
+          "https://www.accessnewswire.com/newsroom/en/consumer-and-retail-products/josephs-well-reviews-and-complaints-2026-legit-diy-water-guide-or-hype-1179711",
+          "https://www.google.com/goto?url=CAESYwHrOzAVb4TO2FludgvZb5yRIinuR0IaG0U8YF_0OCVRVjxQw3RSR_H9sW08E6RAqjBU51IcLTq2C6rXQj1DroOJVlRPKXm8YGxBemsY5GmVmL8LJx5Z0RmpCTeOM48kFg2oTQ",
+          "https://www.youtube.com/watch?v\\u003dR9rgX4o33Bw",
+          "https://www.publishersweekly.com/",
+          "https://sites.google.com/view/josephs-well-review-2026-pros-/home",
+          "https://www.michaeldiamond.com/great-books/"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "book",
+        "seo": {
+          "metaTitle": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+          "metaDescription": "Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)Editorial Note: Content generation could not be completed because no AI provider is curr",
+          "canonicalUrl": "https://viafinds.com/articles/joseph-s-well-blockbuster-offer-from-top-diamond-vendor-book-printed"
+        }
+      },
+      "seoResult": {
+        "score": 70,
+        "findings": [
+          {
+            "category": "title",
+            "severity": "warning",
+            "message": "Meta title length suboptimal"
+          },
+          {
+            "category": "content_length",
+            "severity": "error",
+            "message": "Content too short"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 90,
+        "findings": [
+          {
+            "category": "structured_content",
+            "severity": "info",
+            "message": "No lists detected"
+          },
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "eeatResult": {
+        "score": 75,
+        "findings": [
+          {
+            "category": "original_content",
+            "severity": "error",
+            "message": "Content appears to be placeholder or too short"
+          }
+        ]
+      },
+      "qualityResult": {
+        "status": "pass",
+        "score": 92,
+        "checks": [
+          {
+            "name": "author_attribution",
+            "status": "pass",
+            "message": "Author present",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_disclosure",
+            "status": "pass",
+            "message": "Disclosure present",
+            "severity": "error"
+          },
+          {
+            "name": "content_length",
+            "status": "warning",
+            "message": "55 words",
+            "severity": "warning"
+          },
+          {
+            "name": "sources",
+            "status": "pass",
+            "message": "8 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "faq_section",
+            "status": "pass",
+            "message": "3 FAQ items",
+            "severity": "warning"
+          },
+          {
+            "name": "heading_structure",
+            "status": "pass",
+            "message": "4 headings",
+            "severity": "warning"
+          }
+        ],
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "pass",
+          "score": 83,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "pass",
+              "message": "Real sources present",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "warning",
+              "message": "435 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "commissionInfo": "No product candidates found. Commission data unavailable.",
+        "confidence": "unavailable",
+        "reasoning": "No affiliate data available. Configure an affiliate provider for recommendations.",
+        "dataAvailable": false
+      },
+      "dryRun": true
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-01T04:13:47.567Z",
+    "updatedAt": "2026-09-01T04:14:03.550Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-01T04:13:47.567Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: article_generation"
+      },
+      {
+        "timestamp": "2026-09-01T04:13:47.569Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Job status changed to running"
+      },
+      {
+        "timestamp": "2026-09-01T04:13:47.571Z",
+        "action": "stage_researching",
+        "stage": "researching",
+        "details": "Researching topic: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)"
+      },
+      {
+        "action": "research_started",
+        "stage": "researching",
+        "details": "Starting research for topic: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed), category: book",
+        "timestamp": "2026-09-01T04:13:47.574Z"
+      },
+      {
+        "action": "research_completed",
+        "stage": "researching",
+        "details": "Research completed. Sources: 8, Competitors: 0, Confidence: 0.3. Web search: SerpAPI+Google Custom Search",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-09-01T04:13:55.591Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:13:55.594Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "timestamp": "2026-09-01T04:13:55.596Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-09-01T04:13:55.601Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:13:55.605Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)"
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: Joseph’s Well – Blockbuster Offer From Top Diamond Vendor Book (printed)",
+        "timestamp": "2026-09-01T04:13:55.607Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 55",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-09-01T04:14:00.494Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:00.497Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-09-01T04:14:00.500Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-09-01T04:14:03.477Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:03.480Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-09-01T04:14:03.482Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 70",
+        "timestamp": "2026-09-01T04:14:03.489Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:03.493Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-09-01T04:14:03.495Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 90",
+        "timestamp": "2026-09-01T04:14:03.500Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:03.504Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-09-01T04:14:03.506Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-09-01T04:14:03.510Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:03.514Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-09-01T04:14:03.517Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 75",
+        "timestamp": "2026-09-01T04:14:03.521Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:03.524Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-09-01T04:14:03.527Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: pass (score: 92)",
+        "timestamp": "2026-09-01T04:14:03.533Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:03.538Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-09-01T04:14:03.540Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: unavailable confidence. Partner: digistore24",
+        "timestamp": "2026-09-01T04:14:03.545Z"
+      },
+      {
+        "timestamp": "2026-09-01T04:14:03.550Z",
+        "action": "status_completed",
+        "stage": "published",
+        "details": "Dry run completed",
+        "error": "Dry run completed"
+      }
+    ],
+    "error": "Dry run completed",
+    "completedAt": "2026-09-01T04:14:03.550Z"
+  },
+  "job_1788541733817_g1252np": {
+    "id": "job_1788541733817_g1252np",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "content_generating",
+    "mode": "manual",
+    "input": {
+      "topic": "Top 10 Trending Products to Sell in 2026",
+      "category": "digital products",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788541749306-2j7znmg",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 49155,
+          "trendDirection": "up",
+          "estimatedCommission": 20,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788541749306-e985ais",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 45807,
+          "trendDirection": "up",
+          "estimatedCommission": 5,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788541749306-c5szubn",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 38443,
+          "trendDirection": "stable",
+          "estimatedCommission": 23,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788541749306-ub7lum0",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 37450,
+          "trendDirection": "up",
+          "estimatedCommission": 20,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788541749306-q4d32tn",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 23456,
+          "trendDirection": "stable",
+          "estimatedCommission": 24,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788541749306-lvss60c",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 11450,
+          "trendDirection": "up",
+          "estimatedCommission": 26,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788541749306-4qrxcsd",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 5423,
+          "trendDirection": "up",
+          "estimatedCommission": 23,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788541749306-1k1076d",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 1888,
+          "trendDirection": "stable",
+          "estimatedCommission": 25,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ],
+      "selectedProduct": {
+        "id": "serp-1788541749306-2j7znmg",
+        "name": "Top 10 Trending Products to Sell in 2026",
+        "searchVolume": 49155,
+        "trendDirection": "up",
+        "estimatedCommission": 20,
+        "partnerAvailability": [],
+        "categoryMatch": null,
+        "confidence": 0.7
+      },
+      "research": {
+        "productCandidates": [
+          {
+            "productId": "serp-1788541749306-2j7znmg",
+            "name": "Top 10 Trending Products to Sell in 2026",
+            "description": ""
+          }
+        ],
+        "category": "digital products",
+        "topic": "Top 10 Trending Products to Sell in 2026"
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "affiliateUrl": "https://www.digistore24.com/redir/serp-1788541749306-2j7znmg/1727525/AUTO",
+        "commissionInfo": "Commission verified via Digistore24",
+        "confidence": "high",
+        "reasoning": "Affiliate partner recommended based on product match and availability with Digistore24 hoplink generated.",
+        "dataAvailable": true
+      },
+      "competitors": [],
+      "articleStrategy": {
+        "recommendedArticleType": "Complete Review",
+        "reasoning": "Strong commercial intent. Competitors are ranking with reviews. Product has high affiliate potential.",
+        "outline": [
+          "What is Top 10 Trending Products to Sell in 2026?",
+          "Key Features",
+          "Benefits and Limitations",
+          "Pricing",
+          "Competitor Comparison",
+          "Final Verdict",
+          "FAQ"
+        ]
+      }
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:08:53.818Z",
+    "updatedAt": "2026-09-04T17:09:18.697Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:08:53.818Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:08:53.823Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends...",
+        "error": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:09:09.312Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product.",
+        "error": "Trends found. Select a product."
+      },
+      {
+        "timestamp": "2026-09-04T17:09:18.599Z",
+        "action": "status_running",
+        "stage": "affiliate_analysis",
+        "details": "Checking partners and analyzing competitors...",
+        "error": "Checking partners and analyzing competitors..."
+      },
+      {
+        "timestamp": "2026-09-04T17:09:18.667Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-09-04T17:09:18.671Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: high confidence. Partner: digistore24",
+        "timestamp": "2026-09-04T17:09:18.678Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:09:18.681Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: Top 10 Trending Products to Sell in 2026"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: Top 10 Trending Products to Sell in 2026",
+        "timestamp": "2026-09-04T17:09:18.684Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-09-04T17:09:18.692Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:09:18.697Z",
+        "action": "status_awaiting_approval",
+        "stage": "content_generating",
+        "details": "Ready to process article.",
+        "error": "Ready to process article."
+      }
+    ],
+    "error": "Ready to process article."
+  },
+  "job_1788543988200_5arpbm3": {
+    "id": "job_1788543988200_5arpbm3",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "researching",
+    "mode": "manual",
+    "input": {
+      "topic": "",
+      "category": "",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788543993433-giyaayc",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 47868,
+          "trendDirection": "stable",
+          "estimatedCommission": 22,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788543993433-ac98fuu",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 47557,
+          "trendDirection": "up",
+          "estimatedCommission": 5,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788543993433-5lz8fbq",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 45827,
+          "trendDirection": "up",
+          "estimatedCommission": 15,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788543993433-dqfemmw",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 38195,
+          "trendDirection": "up",
+          "estimatedCommission": 19,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788543993433-4udob0q",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 21909,
+          "trendDirection": "up",
+          "estimatedCommission": 21,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788543993433-obm4v5c",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 14567,
+          "trendDirection": "up",
+          "estimatedCommission": 16,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788543993433-3unv4e1",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 8991,
+          "trendDirection": "up",
+          "estimatedCommission": 20,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788543993433-wju03cj",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 5530,
+          "trendDirection": "up",
+          "estimatedCommission": 10,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:46:28.200Z",
+    "updatedAt": "2026-09-04T17:46:33.439Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:46:28.200Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:46:28.204Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends...",
+        "error": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:46:33.439Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product.",
+        "error": "Trends found. Select a product."
+      }
+    ],
+    "error": "Trends found. Select a product."
+  },
+  "job_1788544066345_yz3m381": {
+    "id": "job_1788544066345_yz3m381",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "researching",
+    "mode": "manual",
+    "input": {
+      "topic": "",
+      "category": "",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788544066832-hfroibm",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 42648,
+          "trendDirection": "up",
+          "estimatedCommission": 6,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544066832-d9g0739",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 40854,
+          "trendDirection": "up",
+          "estimatedCommission": 21,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544066832-6pjqxsr",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 32231,
+          "trendDirection": "up",
+          "estimatedCommission": 8,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544066832-ltc9xls",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 31653,
+          "trendDirection": "up",
+          "estimatedCommission": 20,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544066832-yi0xr47",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 28190,
+          "trendDirection": "up",
+          "estimatedCommission": 10,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544066832-khwwdpy",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 25953,
+          "trendDirection": "up",
+          "estimatedCommission": 10,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544066832-0hy3vyq",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 8543,
+          "trendDirection": "up",
+          "estimatedCommission": 6,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544066832-rtcfmx8",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 3434,
+          "trendDirection": "up",
+          "estimatedCommission": 8,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:47:46.345Z",
+    "updatedAt": "2026-09-04T17:47:46.837Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:47:46.345Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:47:46.349Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends...",
+        "error": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:47:46.837Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product.",
+        "error": "Trends found. Select a product."
+      }
+    ],
+    "error": "Trends found. Select a product."
+  },
+  "job_1788544219212_9pqyb33": {
+    "id": "job_1788544219212_9pqyb33",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "researching",
+    "mode": "manual",
+    "input": {
+      "topic": "",
+      "category": "",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788544220578-9e42xzo",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 47792,
+          "trendDirection": "up",
+          "estimatedCommission": 28,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544220578-n2pta5t",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 46125,
+          "trendDirection": "up",
+          "estimatedCommission": 26,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544220578-rmvcbgt",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 45038,
+          "trendDirection": "up",
+          "estimatedCommission": 8,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544220578-7j7ins5",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 36993,
+          "trendDirection": "up",
+          "estimatedCommission": 8,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544220578-mp26i4b",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 34778,
+          "trendDirection": "up",
+          "estimatedCommission": 14,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544220578-myrrzby",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 19152,
+          "trendDirection": "stable",
+          "estimatedCommission": 27,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544220578-u38qi7e",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 16691,
+          "trendDirection": "stable",
+          "estimatedCommission": 7,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544220578-isdnhrt",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 7721,
+          "trendDirection": "up",
+          "estimatedCommission": 27,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:50:19.212Z",
+    "updatedAt": "2026-09-04T17:50:20.583Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:50:19.212Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:50:19.216Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:50:20.583Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      }
+    ]
+  },
+  "job_1788544303240_946uako": {
+    "id": "job_1788544303240_946uako",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "content_generating",
+    "mode": "manual",
+    "input": {
+      "topic": "The top 19 trending products to sell online in 2026",
+      "category": "digital products",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788544304115-qa7euwv",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 45925,
+          "trendDirection": "up",
+          "estimatedCommission": 13,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544304115-4xy769r",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 38316,
+          "trendDirection": "up",
+          "estimatedCommission": 11,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544304115-io92s60",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 37285,
+          "trendDirection": "up",
+          "estimatedCommission": 24,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544304115-82hikrt",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 34200,
+          "trendDirection": "stable",
+          "estimatedCommission": 31,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544304115-0eq2h8j",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 16978,
+          "trendDirection": "up",
+          "estimatedCommission": 34,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544304115-md6sdic",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 4304,
+          "trendDirection": "up",
+          "estimatedCommission": 13,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544304115-5x94tk3",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 3601,
+          "trendDirection": "up",
+          "estimatedCommission": 27,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544304115-kv5hvis",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 3448,
+          "trendDirection": "stable",
+          "estimatedCommission": 20,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ],
+      "selectedProduct": {
+        "id": "serp-1788544304115-qa7euwv",
+        "name": "The top 19 trending products to sell online in 2026",
+        "searchVolume": 45925,
+        "trendDirection": "up",
+        "estimatedCommission": 13,
+        "partnerAvailability": [],
+        "categoryMatch": null,
+        "confidence": 0.7
+      },
+      "research": {
+        "productCandidates": [
+          {
+            "productId": "serp-1788544304115-qa7euwv",
+            "name": "The top 19 trending products to sell online in 2026",
+            "description": ""
+          }
+        ],
+        "category": "digital products",
+        "topic": "The top 19 trending products to sell online in 2026"
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "affiliateUrl": "https://www.digistore24.com/redir/serp-1788544304115-qa7euwv/1727525/AUTO",
+        "commissionInfo": "Commission verified via Digistore24",
+        "confidence": "high",
+        "reasoning": "Affiliate partner recommended based on product match and availability with Digistore24 hoplink generated.",
+        "dataAvailable": true
+      },
+      "competitors": [],
+      "articleStrategy": {
+        "recommendedArticleType": "Complete Review",
+        "reasoning": "Strong commercial intent. Competitors are ranking with reviews. Product has high affiliate potential.",
+        "outline": [
+          "What is The top 19 trending products to sell online in 2026?",
+          "Key Features",
+          "Benefits and Limitations",
+          "Pricing",
+          "Competitor Comparison",
+          "Final Verdict",
+          "FAQ"
+        ]
+      }
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:51:43.240Z",
+    "updatedAt": "2026-09-04T17:51:44.826Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:51:43.240Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:51:43.244Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:51:44.121Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      },
+      {
+        "timestamp": "2026-09-04T17:51:44.780Z",
+        "action": "status_running",
+        "stage": "affiliate_analysis",
+        "details": "Checking partners and analyzing competitors..."
+      },
+      {
+        "timestamp": "2026-09-04T17:51:44.791Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-09-04T17:51:44.795Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: high confidence. Partner: digistore24",
+        "timestamp": "2026-09-04T17:51:44.803Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:51:44.807Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: The top 19 trending products to sell online in 2026"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: The top 19 trending products to sell online in 2026",
+        "timestamp": "2026-09-04T17:51:44.810Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-09-04T17:51:44.818Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:51:44.826Z",
+        "action": "status_awaiting_approval",
+        "stage": "content_generating",
+        "details": "Ready to process article."
+      }
+    ]
+  },
+  "job_1788544406921_vah6ewk": {
+    "id": "job_1788544406921_vah6ewk",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "publishing",
+    "mode": "manual",
+    "input": {
+      "topic": "The Top 10 Consumer Trends To Watch in 2026",
+      "category": "digital products",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788544407440-84kaou4",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 47914,
+          "trendDirection": "stable",
+          "estimatedCommission": 27,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544407440-dkqbkey",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 44036,
+          "trendDirection": "stable",
+          "estimatedCommission": 25,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544407440-qwuirvx",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 28808,
+          "trendDirection": "stable",
+          "estimatedCommission": 10,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544407440-jjz2obl",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 28241,
+          "trendDirection": "up",
+          "estimatedCommission": 33,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544407440-ng2okb4",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 22330,
+          "trendDirection": "stable",
+          "estimatedCommission": 17,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544407440-3p5b5xu",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 20628,
+          "trendDirection": "up",
+          "estimatedCommission": 6,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544407440-dbvseg5",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 17781,
+          "trendDirection": "up",
+          "estimatedCommission": 18,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544407440-hvc8yp9",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 10948,
+          "trendDirection": "up",
+          "estimatedCommission": 16,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ],
+      "selectedProduct": {
+        "id": "serp-1788544407440-84kaou4",
+        "name": "The Top 10 Consumer Trends To Watch in 2026",
+        "searchVolume": 47914,
+        "trendDirection": "stable",
+        "estimatedCommission": 27,
+        "partnerAvailability": [],
+        "categoryMatch": null,
+        "confidence": 0.7
+      },
+      "research": {
+        "productCandidates": [
+          {
+            "productId": "serp-1788544407440-84kaou4",
+            "name": "The Top 10 Consumer Trends To Watch in 2026",
+            "description": ""
+          }
+        ],
+        "category": "digital products",
+        "topic": "The Top 10 Consumer Trends To Watch in 2026"
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "affiliateUrl": "https://www.digistore24.com/redir/serp-1788544407440-84kaou4/1727525/AUTO",
+        "commissionInfo": "Commission verified via Digistore24",
+        "confidence": "high",
+        "reasoning": "Affiliate partner recommended based on product match and availability with Digistore24 hoplink generated.",
+        "dataAvailable": true
+      },
+      "competitors": [],
+      "articleStrategy": {
+        "recommendedArticleType": "Complete Review",
+        "reasoning": "Strong commercial intent. Competitors are ranking with reviews. Product has high affiliate potential.",
+        "outline": [
+          "What is The Top 10 Consumer Trends To Watch in 2026?",
+          "Key Features",
+          "Benefits and Limitations",
+          "Pricing",
+          "Competitor Comparison",
+          "Final Verdict",
+          "FAQ"
+        ]
+      },
+      "draft": {
+        "title": "The Top 10 Consumer Trends To Watch in 2026",
+        "slug": "the-top-10-consumer-trends-to-watch-in-2026",
+        "excerpt": "The Top 10 Consumer Trends To Watch in 2026Editorial Note: Content generation could not be completed because no AI provider is currently available. All configur...",
+        "body": "<h2>The Top 10 Consumer Trends To Watch in 2026</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is The Top 10 Consumer Trends To Watch in 2026?",
+          "Best The Top 10 Consumer Trends To Watch in 2026 Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is The Top 10 Consumer Trends To Watch in 2026?",
+            "answer": "The Top 10 Consumer Trends To Watch in 2026 refers to digital tools and software solutions in the digital products space."
+          },
+          {
+            "question": "Which The Top 10 Consumer Trends To Watch in 2026 tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do The Top 10 Consumer Trends To Watch in 2026 tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "digital products",
+        "seo": {
+          "metaTitle": "The Top 10 Consumer Trends To Watch in 2026",
+          "metaDescription": "The Top 10 Consumer Trends To Watch in 2026Editorial Note: Content generation could not be completed because no AI provider is currently available. All configur",
+          "canonicalUrl": "https://viafinds.com/articles/the-top-10-consumer-trends-to-watch-in-2026"
+        }
+      },
+      "refinedDraft": {
+        "title": "The Top 10 Consumer Trends To Watch in 2026",
+        "slug": "the-top-10-consumer-trends-to-watch-in-2026",
+        "excerpt": "The Top 10 Consumer Trends To Watch in 2026Editorial Note: Content generation could not be completed because no AI provider is currently available. All configur...",
+        "body": "<h2>The Top 10 Consumer Trends To Watch in 2026</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is The Top 10 Consumer Trends To Watch in 2026?",
+          "Best The Top 10 Consumer Trends To Watch in 2026 Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is The Top 10 Consumer Trends To Watch in 2026?",
+            "answer": "The Top 10 Consumer Trends To Watch in 2026 refers to digital tools and software solutions in the digital products space."
+          },
+          {
+            "question": "Which The Top 10 Consumer Trends To Watch in 2026 tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do The Top 10 Consumer Trends To Watch in 2026 tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "digital products",
+        "seo": {
+          "metaTitle": "The Top 10 Consumer Trends To Watch in 2026",
+          "metaDescription": "The Top 10 Consumer Trends To Watch in 2026Editorial Note: Content generation could not be completed because no AI provider is currently available. All configur",
+          "canonicalUrl": "https://viafinds.com/articles/the-top-10-consumer-trends-to-watch-in-2026"
+        }
+      },
+      "eeatResult": {
+        "score": 45,
+        "findings": [
+          {
+            "category": "real_sources",
+            "severity": "error",
+            "message": "Missing real sources or contains fake example.com URLs"
+          },
+          {
+            "category": "original_content",
+            "severity": "error",
+            "message": "Content appears to be placeholder or too short"
+          }
+        ]
+      },
+      "seoResult": {
+        "score": 80,
+        "findings": [
+          {
+            "category": "content_length",
+            "severity": "error",
+            "message": "Content too short"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 90,
+        "findings": [
+          {
+            "category": "structured_content",
+            "severity": "info",
+            "message": "No lists detected"
+          },
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "qualityResult": {
+        "status": "pass",
+        "score": 83,
+        "checks": [
+          {
+            "name": "author_attribution",
+            "status": "pass",
+            "message": "Author present",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_disclosure",
+            "status": "pass",
+            "message": "Disclosure present",
+            "severity": "error"
+          },
+          {
+            "name": "content_length",
+            "status": "warning",
+            "message": "53 words",
+            "severity": "warning"
+          },
+          {
+            "name": "sources",
+            "status": "warning",
+            "message": "0 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "faq_section",
+            "status": "pass",
+            "message": "3 FAQ items",
+            "severity": "warning"
+          },
+          {
+            "name": "heading_structure",
+            "status": "pass",
+            "message": "4 headings",
+            "severity": "warning"
+          }
+        ],
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "fail",
+          "score": 67,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "fail",
+              "message": "Missing or fake sources",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "warning",
+              "message": "406 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "imageRequirements": {
+        "needed": true,
+        "recommendations": [
+          "Featured Image (Required)",
+          "Product Interface Screenshot (Recommended)"
+        ]
+      }
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:53:26.921Z",
+    "updatedAt": "2026-09-04T17:53:59.254Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:53:26.921Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:26.925Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:53:27.445Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      },
+      {
+        "timestamp": "2026-09-04T17:53:27.913Z",
+        "action": "status_running",
+        "stage": "affiliate_analysis",
+        "details": "Checking partners and analyzing competitors..."
+      },
+      {
+        "timestamp": "2026-09-04T17:53:27.929Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-09-04T17:53:27.934Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: high confidence. Partner: digistore24",
+        "timestamp": "2026-09-04T17:53:27.941Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:27.946Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: The Top 10 Consumer Trends To Watch in 2026"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: The Top 10 Consumer Trends To Watch in 2026",
+        "timestamp": "2026-09-04T17:53:27.950Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-09-04T17:53:27.957Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:27.971Z",
+        "action": "status_awaiting_approval",
+        "stage": "content_generating",
+        "details": "Ready to process article."
+      },
+      {
+        "timestamp": "2026-09-04T17:53:28.212Z",
+        "action": "status_running",
+        "stage": "content_generating",
+        "details": "Generating article..."
+      },
+      {
+        "timestamp": "2026-09-04T17:53:28.217Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: The Top 10 Consumer Trends To Watch in 2026"
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: The Top 10 Consumer Trends To Watch in 2026",
+        "timestamp": "2026-09-04T17:53:28.220Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 53",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-09-04T17:53:47.995Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:47.999Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-09-04T17:53:48.005Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-09-04T17:53:59.148Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:59.152Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-09-04T17:53:59.158Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 45",
+        "timestamp": "2026-09-04T17:53:59.167Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:59.171Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-09-04T17:53:59.176Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 80",
+        "timestamp": "2026-09-04T17:53:59.186Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:59.190Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-09-04T17:53:59.195Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 90",
+        "timestamp": "2026-09-04T17:53:59.204Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:59.208Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-09-04T17:53:59.214Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-09-04T17:53:59.224Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:59.228Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-09-04T17:53:59.233Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: pass (score: 83)",
+        "timestamp": "2026-09-04T17:53:59.243Z"
+      },
+      {
+        "timestamp": "2026-09-04T17:53:59.254Z",
+        "action": "status_awaiting_approval",
+        "stage": "publishing",
+        "details": "Article ready. Configure affiliate link and publish."
+      }
+    ]
+  },
+  "job_1788544575088_ieyaj3p": {
+    "id": "job_1788544575088_ieyaj3p",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "researching",
+    "mode": "manual",
+    "input": {
+      "topic": "",
+      "category": "",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788544575887-mmbuu9d",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 45877,
+          "trendDirection": "up",
+          "estimatedCommission": 8,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544575887-ng9pgqe",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 36294,
+          "trendDirection": "up",
+          "estimatedCommission": 7,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544575887-gu779px",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 28528,
+          "trendDirection": "up",
+          "estimatedCommission": 8,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544575887-lw7a99u",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 25773,
+          "trendDirection": "up",
+          "estimatedCommission": 32,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544575887-oi9ul9t",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 16998,
+          "trendDirection": "stable",
+          "estimatedCommission": 15,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544575887-04z9qfh",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 16106,
+          "trendDirection": "up",
+          "estimatedCommission": 13,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544575887-f56hqrm",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 5135,
+          "trendDirection": "up",
+          "estimatedCommission": 34,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544575887-84ig2ib",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 1043,
+          "trendDirection": "up",
+          "estimatedCommission": 5,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:56:15.088Z",
+    "updatedAt": "2026-09-04T17:56:15.897Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:56:15.088Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:56:15.094Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:56:15.897Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      }
+    ]
+  },
+  "job_1788544575982_catt5zm": {
+    "id": "job_1788544575982_catt5zm",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "researching",
+    "mode": "manual",
+    "input": {
+      "topic": "",
+      "category": "",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788544576165-61obaox",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 47528,
+          "trendDirection": "up",
+          "estimatedCommission": 19,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576165-mlhoflw",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 44454,
+          "trendDirection": "stable",
+          "estimatedCommission": 16,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576165-ftlythi",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 41786,
+          "trendDirection": "up",
+          "estimatedCommission": 21,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576165-6lu3tro",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 38556,
+          "trendDirection": "stable",
+          "estimatedCommission": 12,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576165-2061fz7",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 36038,
+          "trendDirection": "up",
+          "estimatedCommission": 33,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576165-qdn6tfg",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 14676,
+          "trendDirection": "up",
+          "estimatedCommission": 10,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576165-iyyym9g",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 6235,
+          "trendDirection": "up",
+          "estimatedCommission": 9,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576165-8negn5c",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 4083,
+          "trendDirection": "up",
+          "estimatedCommission": 21,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:56:15.982Z",
+    "updatedAt": "2026-09-04T17:56:16.172Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:56:15.982Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:56:15.986Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:56:16.172Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      }
+    ]
+  },
+  "job_1788544576047_xntfsu4": {
+    "id": "job_1788544576047_xntfsu4",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "researching",
+    "mode": "manual",
+    "input": {
+      "topic": "",
+      "category": "",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788544576706-4w42l8u",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 44848,
+          "trendDirection": "up",
+          "estimatedCommission": 25,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576706-i3lw90t",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 43424,
+          "trendDirection": "stable",
+          "estimatedCommission": 10,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576706-f5e2y6c",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 36539,
+          "trendDirection": "up",
+          "estimatedCommission": 34,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576706-s3lf0he",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 33893,
+          "trendDirection": "up",
+          "estimatedCommission": 5,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576706-7x5wymx",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 30043,
+          "trendDirection": "up",
+          "estimatedCommission": 12,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576706-p1zm40i",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 21750,
+          "trendDirection": "stable",
+          "estimatedCommission": 18,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576706-6ma7b90",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 8013,
+          "trendDirection": "up",
+          "estimatedCommission": 24,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788544576706-559ev43",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 7069,
+          "trendDirection": "stable",
+          "estimatedCommission": 30,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T17:56:16.048Z",
+    "updatedAt": "2026-09-04T17:56:16.716Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T17:56:16.048Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T17:56:16.057Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T17:56:16.716Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      }
+    ]
+  },
+  "job_1788545473444_95vnl4z": {
+    "id": "job_1788545473444_95vnl4z",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "publishing",
+    "mode": "manual",
+    "input": {
+      "topic": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+      "category": "digital products",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788545475830-h0glgd4",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 49671,
+          "trendDirection": "up",
+          "estimatedCommission": 28,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788545475830-33dxbwu",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 47690,
+          "trendDirection": "up",
+          "estimatedCommission": 31,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788545475830-0t235hk",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 43668,
+          "trendDirection": "up",
+          "estimatedCommission": 29,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788545475830-ct1kh4x",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 41306,
+          "trendDirection": "stable",
+          "estimatedCommission": 14,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788545475830-ndkph34",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 36157,
+          "trendDirection": "up",
+          "estimatedCommission": 22,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788545475830-rtiw5dv",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 25014,
+          "trendDirection": "up",
+          "estimatedCommission": 34,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788545475830-paoux5c",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 10121,
+          "trendDirection": "up",
+          "estimatedCommission": 6,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788545475830-4xn5w2c",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 7020,
+          "trendDirection": "up",
+          "estimatedCommission": 27,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ],
+      "selectedProduct": {
+        "id": "serp-1788545475830-h0glgd4",
+        "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+        "searchVolume": 49671,
+        "trendDirection": "up",
+        "estimatedCommission": 28,
+        "partnerAvailability": [],
+        "categoryMatch": null,
+        "confidence": 0.7
+      },
+      "research": {
+        "productCandidates": [
+          {
+            "productId": "serp-1788545475830-h0glgd4",
+            "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+            "description": ""
+          }
+        ],
+        "category": "digital products",
+        "topic": "These 25 Best-Selling Products of 2026 Are Winning Over ..."
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "affiliateUrl": "https://www.digistore24.com/redir/serp-1788545475830-h0glgd4/1727525/AUTO",
+        "commissionInfo": "Commission verified via Digistore24",
+        "confidence": "high",
+        "reasoning": "Affiliate partner recommended based on product match and availability with Digistore24 hoplink generated.",
+        "dataAvailable": true
+      },
+      "competitors": [],
+      "articleStrategy": {
+        "recommendedArticleType": "Complete Review",
+        "reasoning": "Strong commercial intent. Competitors are ranking with reviews. Product has high affiliate potential.",
+        "outline": [
+          "What is These 25 Best-Selling Products of 2026 Are Winning Over ...?",
+          "Key Features",
+          "Benefits and Limitations",
+          "Pricing",
+          "Competitor Comparison",
+          "Final Verdict",
+          "FAQ"
+        ]
+      },
+      "draft": {
+        "title": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+        "slug": "these-25-best-selling-products-of-2026-are-winning-over",
+        "excerpt": "These 25 Best-Selling Products of 2026 Are Winning Over ...Editorial Note: Content generation could not be completed because no AI provider is currently availab...",
+        "body": "<h2>These 25 Best-Selling Products of 2026 Are Winning Over ...</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is These 25 Best-Selling Products of 2026 Are Winning Over ...?",
+          "Best These 25 Best-Selling Products of 2026 Are Winning Over ... Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is These 25 Best-Selling Products of 2026 Are Winning Over ...?",
+            "answer": "These 25 Best-Selling Products of 2026 Are Winning Over ... refers to digital tools and software solutions in the digital products space."
+          },
+          {
+            "question": "Which These 25 Best-Selling Products of 2026 Are Winning Over ... tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do These 25 Best-Selling Products of 2026 Are Winning Over ... tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "digital products",
+        "seo": {
+          "metaTitle": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "metaDescription": "These 25 Best-Selling Products of 2026 Are Winning Over ...Editorial Note: Content generation could not be completed because no AI provider is currently availab",
+          "canonicalUrl": "https://viafinds.com/articles/these-25-best-selling-products-of-2026-are-winning-over"
+        }
+      },
+      "refinedDraft": {
+        "title": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+        "slug": "these-25-best-selling-products-of-2026-are-winning-over",
+        "excerpt": "These 25 Best-Selling Products of 2026 Are Winning Over ...Editorial Note: Content generation could not be completed because no AI provider is currently availab...",
+        "body": "<h2>These 25 Best-Selling Products of 2026 Are Winning Over ...</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is These 25 Best-Selling Products of 2026 Are Winning Over ...?",
+          "Best These 25 Best-Selling Products of 2026 Are Winning Over ... Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is These 25 Best-Selling Products of 2026 Are Winning Over ...?",
+            "answer": "These 25 Best-Selling Products of 2026 Are Winning Over ... refers to digital tools and software solutions in the digital products space."
+          },
+          {
+            "question": "Which These 25 Best-Selling Products of 2026 Are Winning Over ... tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do These 25 Best-Selling Products of 2026 Are Winning Over ... tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "digital products",
+        "seo": {
+          "metaTitle": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "metaDescription": "These 25 Best-Selling Products of 2026 Are Winning Over ...Editorial Note: Content generation could not be completed because no AI provider is currently availab",
+          "canonicalUrl": "https://viafinds.com/articles/these-25-best-selling-products-of-2026-are-winning-over"
+        }
+      },
+      "eeatResult": {
+        "score": 45,
+        "findings": [
+          {
+            "category": "real_sources",
+            "severity": "error",
+            "message": "Missing real sources or contains fake example.com URLs"
+          },
+          {
+            "category": "original_content",
+            "severity": "error",
+            "message": "Content appears to be placeholder or too short"
+          }
+        ]
+      },
+      "seoResult": {
+        "score": 80,
+        "findings": [
+          {
+            "category": "content_length",
+            "severity": "error",
+            "message": "Content too short"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 90,
+        "findings": [
+          {
+            "category": "structured_content",
+            "severity": "info",
+            "message": "No lists detected"
+          },
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "qualityResult": {
+        "status": "pass",
+        "score": 83,
+        "checks": [
+          {
+            "name": "author_attribution",
+            "status": "pass",
+            "message": "Author present",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_disclosure",
+            "status": "pass",
+            "message": "Disclosure present",
+            "severity": "error"
+          },
+          {
+            "name": "content_length",
+            "status": "warning",
+            "message": "54 words",
+            "severity": "warning"
+          },
+          {
+            "name": "sources",
+            "status": "warning",
+            "message": "0 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "faq_section",
+            "status": "pass",
+            "message": "3 FAQ items",
+            "severity": "warning"
+          },
+          {
+            "name": "heading_structure",
+            "status": "pass",
+            "message": "4 headings",
+            "severity": "warning"
+          }
+        ],
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "fail",
+          "score": 67,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "fail",
+              "message": "Missing or fake sources",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "warning",
+              "message": "422 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "imageRequirements": {
+        "needed": true,
+        "recommendations": [
+          "Featured Image (Required)",
+          "Product Interface Screenshot (Recommended)"
+        ]
+      }
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-04T18:11:13.444Z",
+    "updatedAt": "2026-09-04T18:12:35.982Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-04T18:11:13.444Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-04T18:11:13.449Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-04T18:11:15.845Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      },
+      {
+        "timestamp": "2026-09-04T18:11:57.057Z",
+        "action": "status_running",
+        "stage": "affiliate_analysis",
+        "details": "Checking partners and analyzing competitors..."
+      },
+      {
+        "timestamp": "2026-09-04T18:11:57.075Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-09-04T18:11:57.078Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: high confidence. Partner: digistore24",
+        "timestamp": "2026-09-04T18:11:57.090Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:11:57.096Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: These 25 Best-Selling Products of 2026 Are Winning Over ..."
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: These 25 Best-Selling Products of 2026 Are Winning Over ...",
+        "timestamp": "2026-09-04T18:11:57.101Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-09-04T18:11:57.121Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:11:57.137Z",
+        "action": "status_awaiting_approval",
+        "stage": "content_generating",
+        "details": "Ready to process article."
+      },
+      {
+        "timestamp": "2026-09-04T18:12:12.608Z",
+        "action": "status_running",
+        "stage": "content_generating",
+        "details": "Generating article..."
+      },
+      {
+        "timestamp": "2026-09-04T18:12:12.614Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: These 25 Best-Selling Products of 2026 Are Winning Over ..."
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: These 25 Best-Selling Products of 2026 Are Winning Over ...",
+        "timestamp": "2026-09-04T18:12:12.620Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 54",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-09-04T18:12:28.933Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:12:28.939Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-09-04T18:12:28.943Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-09-04T18:12:35.853Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:12:35.858Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-09-04T18:12:35.863Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 45",
+        "timestamp": "2026-09-04T18:12:35.874Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:12:35.879Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-09-04T18:12:35.883Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 80",
+        "timestamp": "2026-09-04T18:12:35.894Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:12:35.899Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-09-04T18:12:35.905Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 90",
+        "timestamp": "2026-09-04T18:12:35.914Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:12:35.925Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-09-04T18:12:35.932Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-09-04T18:12:35.947Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:12:35.955Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-09-04T18:12:35.960Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: pass (score: 83)",
+        "timestamp": "2026-09-04T18:12:35.972Z"
+      },
+      {
+        "timestamp": "2026-09-04T18:12:35.982Z",
+        "action": "status_awaiting_approval",
+        "stage": "publishing",
+        "details": "Article ready. Configure affiliate link and publish."
+      }
+    ]
+  },
+  "job_1788671141825_tvu5lju": {
+    "id": "job_1788671141825_tvu5lju",
+    "type": "article_generation",
+    "status": "awaiting_approval",
+    "currentStage": "awaiting_approval",
+    "mode": "auto",
+    "input": {
+      "topic": "Best Productivity Apps for Startups 2026 QA TEST",
+      "category": "",
+      "keyword": ""
+    },
+    "result": {
+      "research": {
+        "topic": "Best Productivity Apps for Startups 2026 QA TEST",
+        "keyword": "Best Productivity Apps for Startups 2026 QA TEST",
+        "category": "general",
+        "searchIntent": "informational",
+        "buyerIntent": "medium",
+        "trendSignal": "stable",
+        "sources": [
+          "https://quire.io/compare/best-productivity-apps",
+          "https://technologyadvice.com/ai-productivity-tools/",
+          "https://testguild.com/7-innovative-ai-test-automation-tools-future-third-wave/",
+          "https://bugbug.io/blog/test-automation-tools/productivity-tools-for-startups/",
+          "https://zapier.com/blog/best-productivity-apps/",
+          "https://storyflow.so/blog/best-productivity-apps-2026",
+          "https://titanapps.io/blog/qa-testing-tools",
+          "https://www.youtube.com/watch?v=Cmf8z5v2Oj0"
+        ],
+        "competitors": [],
+        "productCandidates": [],
+        "confidence": 0.3,
+        "researchTimestamp": "2026-09-06T05:05:54.006Z"
+      },
+      "competitors": [],
+      "draft": {
+        "title": "Best Productivity Apps for Startups 2026 QA TEST",
+        "slug": "best-productivity-apps-for-startups-2026-qa-test",
+        "excerpt": "Best Productivity Apps for Startups 2026 QA TESTEditorial Note: Content generation could not be completed because no AI provider is currently available. All con...",
+        "body": "<h2>Best Productivity Apps for Startups 2026 QA TEST</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is Best Productivity Apps for Startups 2026 QA TEST?",
+          "Best Best Productivity Apps for Startups 2026 QA TEST Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is Best Productivity Apps for Startups 2026 QA TEST?",
+            "answer": "Best Productivity Apps for Startups 2026 QA TEST refers to digital tools and software solutions in the general space."
+          },
+          {
+            "question": "Which Best Productivity Apps for Startups 2026 QA TEST tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do Best Productivity Apps for Startups 2026 QA TEST tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://quire.io/compare/best-productivity-apps",
+          "https://technologyadvice.com/ai-productivity-tools/",
+          "https://testguild.com/7-innovative-ai-test-automation-tools-future-third-wave/",
+          "https://bugbug.io/blog/test-automation-tools/productivity-tools-for-startups/",
+          "https://zapier.com/blog/best-productivity-apps/",
+          "https://storyflow.so/blog/best-productivity-apps-2026",
+          "https://titanapps.io/blog/qa-testing-tools",
+          "https://www.youtube.com/watch?v=Cmf8z5v2Oj0"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "general",
+        "seo": {
+          "metaTitle": "Best Productivity Apps for Startups 2026 QA TEST",
+          "metaDescription": "Best Productivity Apps for Startups 2026 QA TESTEditorial Note: Content generation could not be completed because no AI provider is currently available. All con",
+          "canonicalUrl": "https://viafinds.com/articles/best-productivity-apps-for-startups-2026-qa-test"
+        }
+      },
+      "refinedDraft": {
+        "title": "Best Productivity Apps for Startups 2026 QA TEST",
+        "slug": "best-productivity-apps-for-startups-2026-qa-test",
+        "excerpt": "Best Productivity Apps for Startups 2026 QA TESTEditorial Note: Content generation could not be completed because no AI provider is currently available. All con...",
+        "body": "<h2>Best Productivity Apps for Startups 2026 QA TEST</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>",
+        "headings": [
+          "What is Best Productivity Apps for Startups 2026 QA TEST?",
+          "Best Best Productivity Apps for Startups 2026 QA TEST Tools",
+          "How to Choose",
+          "FAQ"
+        ],
+        "faq": [
+          {
+            "question": "What is Best Productivity Apps for Startups 2026 QA TEST?",
+            "answer": "Best Productivity Apps for Startups 2026 QA TEST refers to digital tools and software solutions in the general space."
+          },
+          {
+            "question": "Which Best Productivity Apps for Startups 2026 QA TEST tool is best?",
+            "answer": "The best tool depends on your specific needs and use case."
+          },
+          {
+            "question": "How much do Best Productivity Apps for Startups 2026 QA TEST tools cost?",
+            "answer": "Pricing varies by provider and plan. Check individual product pages for current pricing."
+          }
+        ],
+        "sources": [
+          "https://quire.io/compare/best-productivity-apps",
+          "https://technologyadvice.com/ai-productivity-tools/",
+          "https://testguild.com/7-innovative-ai-test-automation-tools-future-third-wave/",
+          "https://bugbug.io/blog/test-automation-tools/productivity-tools-for-startups/",
+          "https://zapier.com/blog/best-productivity-apps/",
+          "https://storyflow.so/blog/best-productivity-apps-2026",
+          "https://titanapps.io/blog/qa-testing-tools",
+          "https://www.youtube.com/watch?v=Cmf8z5v2Oj0"
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "general",
+        "seo": {
+          "metaTitle": "Best Productivity Apps for Startups 2026 QA TEST",
+          "metaDescription": "Best Productivity Apps for Startups 2026 QA TESTEditorial Note: Content generation could not be completed because no AI provider is currently available. All con",
+          "canonicalUrl": "https://viafinds.com/articles/best-productivity-apps-for-startups-2026-qa-test"
+        }
+      },
+      "seoResult": {
+        "score": 80,
+        "findings": [
+          {
+            "category": "content_length",
+            "severity": "error",
+            "message": "Content too short"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 90,
+        "findings": [
+          {
+            "category": "structured_content",
+            "severity": "info",
+            "message": "No lists detected"
+          },
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "eeatResult": {
+        "score": 75,
+        "findings": [
+          {
+            "category": "original_content",
+            "severity": "error",
+            "message": "Content appears to be placeholder or too short"
+          }
+        ]
+      },
+      "qualityResult": {
+        "status": "pass",
+        "score": 92,
+        "checks": [
+          {
+            "name": "author_attribution",
+            "status": "pass",
+            "message": "Author present",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_disclosure",
+            "status": "pass",
+            "message": "Disclosure present",
+            "severity": "error"
+          },
+          {
+            "name": "content_length",
+            "status": "warning",
+            "message": "52 words",
+            "severity": "warning"
+          },
+          {
+            "name": "sources",
+            "status": "pass",
+            "message": "8 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "faq_section",
+            "status": "pass",
+            "message": "3 FAQ items",
+            "severity": "warning"
+          },
+          {
+            "name": "heading_structure",
+            "status": "pass",
+            "message": "4 headings",
+            "severity": "warning"
+          }
+        ],
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "pass",
+          "score": 83,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "pass",
+              "message": "Real sources present",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "warning",
+              "message": "411 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "commissionInfo": "No product candidates found. Commission data unavailable.",
+        "confidence": "unavailable",
+        "reasoning": "No affiliate data available. Configure an affiliate provider for recommendations.",
+        "dataAvailable": false
+      },
+      "awaitingApproval": true
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-06T05:05:41.825Z",
+    "updatedAt": "2026-09-06T05:06:00.511Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-06T05:05:41.825Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: article_generation"
+      },
+      {
+        "timestamp": "2026-09-06T05:05:41.834Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Job status changed to running"
+      },
+      {
+        "timestamp": "2026-09-06T05:05:41.844Z",
+        "action": "stage_researching",
+        "stage": "researching",
+        "details": "Researching topic: Best Productivity Apps for Startups 2026 QA TEST"
+      },
+      {
+        "action": "research_started",
+        "stage": "researching",
+        "details": "Starting research for topic: Best Productivity Apps for Startups 2026 QA TEST, category: general",
+        "timestamp": "2026-09-06T05:05:41.851Z"
+      },
+      {
+        "action": "research_completed",
+        "stage": "researching",
+        "details": "Research completed. Sources: 8, Competitors: 0, Confidence: 0.3. Web search: SerpAPI+Google Custom Search",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-09-06T05:05:54.011Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:05:54.016Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: Best Productivity Apps for Startups 2026 QA TEST"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: Best Productivity Apps for Startups 2026 QA TEST",
+        "timestamp": "2026-09-06T05:05:54.021Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-09-06T05:05:54.031Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:05:54.039Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: Best Productivity Apps for Startups 2026 QA TEST"
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: Best Productivity Apps for Startups 2026 QA TEST",
+        "timestamp": "2026-09-06T05:05:54.046Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 52",
+        "provider": "none",
+        "model": "none",
+        "timestamp": "2026-09-06T05:05:57.509Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:05:57.513Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-09-06T05:05:57.518Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-09-06T05:06:00.348Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:06:00.352Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-09-06T05:06:00.358Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 80",
+        "timestamp": "2026-09-06T05:06:00.366Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:06:00.371Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-09-06T05:06:00.378Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 90",
+        "timestamp": "2026-09-06T05:06:00.391Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:06:00.398Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-09-06T05:06:00.403Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-09-06T05:06:00.415Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:06:00.422Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-09-06T05:06:00.428Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 75",
+        "timestamp": "2026-09-06T05:06:00.448Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:06:00.453Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-09-06T05:06:00.460Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: pass (score: 92)",
+        "timestamp": "2026-09-06T05:06:00.472Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:06:00.479Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-09-06T05:06:00.489Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: unavailable confidence. Partner: digistore24",
+        "timestamp": "2026-09-06T05:06:00.500Z"
+      },
+      {
+        "timestamp": "2026-09-06T05:06:00.511Z",
+        "action": "status_awaiting_approval",
+        "stage": "awaiting_approval",
+        "details": "Awaiting admin approval"
+      }
+    ]
+  },
+  "job_1788822741799_0flqav8": {
+    "id": "job_1788822741799_0flqav8",
+    "type": "find_trends",
+    "status": "awaiting_approval",
+    "currentStage": "content_generating",
+    "mode": "manual",
+    "input": {
+      "topic": "The top 19 trending products to sell online in 2026",
+      "category": "digital products",
+      "keyword": ""
+    },
+    "result": {
+      "trendingProducts": [
+        {
+          "id": "serp-1788822746566-n09upah",
+          "name": "The top 19 trending products to sell online in 2026",
+          "searchVolume": 46744,
+          "trendDirection": "up",
+          "estimatedCommission": 34,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746566-23pe2k7",
+          "name": "The Best Trending Products in 2026 - BestProducts.com",
+          "searchVolume": 46175,
+          "trendDirection": "up",
+          "estimatedCommission": 21,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746566-ojha4lh",
+          "name": "4 Products That Are About to Explode in 2026",
+          "searchVolume": 43130,
+          "trendDirection": "up",
+          "estimatedCommission": 22,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746566-rylj3cd",
+          "name": "Top 10 Trending Products to Sell in 2026",
+          "searchVolume": 36582,
+          "trendDirection": "stable",
+          "estimatedCommission": 19,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746566-l1gmra8",
+          "name": "The Top 10 Consumer Trends To Watch in 2026",
+          "searchVolume": 36500,
+          "trendDirection": "up",
+          "estimatedCommission": 14,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746565-z9xagiu",
+          "name": "21 Trending products to sell online in 2026",
+          "searchVolume": 23232,
+          "trendDirection": "up",
+          "estimatedCommission": 20,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746566-jtbn694",
+          "name": "30 Top High-Demand E-Commerce Products to Sell in 2026",
+          "searchVolume": 19622,
+          "trendDirection": "stable",
+          "estimatedCommission": 7,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746566-kgyxels",
+          "name": "These 25 Best-Selling Products of 2026 Are Winning Over ...",
+          "searchVolume": 12630,
+          "trendDirection": "up",
+          "estimatedCommission": 19,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        },
+        {
+          "id": "serp-1788822746566-je3n7uj",
+          "name": "12 Google Trends Products to Sell in 2026",
+          "searchVolume": 3554,
+          "trendDirection": "stable",
+          "estimatedCommission": 18,
+          "partnerAvailability": [],
+          "categoryMatch": null,
+          "confidence": 0.7
+        }
+      ],
+      "selectedProduct": {
+        "id": "serp-1788822746566-n09upah",
+        "name": "The top 19 trending products to sell online in 2026",
+        "searchVolume": 46744,
+        "trendDirection": "up",
+        "estimatedCommission": 34,
+        "partnerAvailability": [],
+        "categoryMatch": null,
+        "confidence": 0.7
+      },
+      "research": {
+        "productCandidates": [
+          {
+            "productId": "serp-1788822746566-n09upah",
+            "name": "The top 19 trending products to sell online in 2026",
+            "description": ""
+          }
+        ],
+        "category": "digital products",
+        "topic": "The top 19 trending products to sell online in 2026"
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "affiliateUrl": "https://www.digistore24.com/redir/serp-1788822746566-n09upah/1727525/AUTO",
+        "commissionInfo": "Commission verified via Digistore24",
+        "confidence": "high",
+        "reasoning": "Affiliate partner recommended based on product match and availability with Digistore24 hoplink generated.",
+        "dataAvailable": true
+      },
+      "competitors": [],
+      "articleStrategy": {
+        "recommendedArticleType": "Complete Review",
+        "reasoning": "Strong commercial intent. Competitors are ranking with reviews. Product has high affiliate potential.",
+        "outline": [
+          "What is The top 19 trending products to sell online in 2026?",
+          "Key Features",
+          "Benefits and Limitations",
+          "Pricing",
+          "Competitor Comparison",
+          "Final Verdict",
+          "FAQ"
+        ]
+      }
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-07T23:12:21.799Z",
+    "updatedAt": "2026-09-07T23:13:33.857Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-07T23:12:21.799Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: find_trends"
+      },
+      {
+        "timestamp": "2026-09-07T23:12:21.803Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching for trends..."
+      },
+      {
+        "timestamp": "2026-09-07T23:12:26.571Z",
+        "action": "status_awaiting_approval",
+        "stage": "researching",
+        "details": "Trends found. Select a product."
+      },
+      {
+        "timestamp": "2026-09-07T23:13:33.808Z",
+        "action": "status_running",
+        "stage": "affiliate_analysis",
+        "details": "Checking partners and analyzing competitors..."
+      },
+      {
+        "timestamp": "2026-09-07T23:13:33.818Z",
+        "action": "stage_affiliate_analysis",
+        "stage": "affiliate_analysis",
+        "details": "Analyzing affiliate partners"
+      },
+      {
+        "action": "affiliate_analysis_started",
+        "stage": "affiliate_analysis",
+        "details": "Starting affiliate partner analysis",
+        "timestamp": "2026-09-07T23:13:33.823Z"
+      },
+      {
+        "action": "affiliate_analysis_completed",
+        "stage": "affiliate_analysis",
+        "details": "Affiliate analysis: high confidence. Partner: digistore24",
+        "timestamp": "2026-09-07T23:13:33.831Z"
+      },
+      {
+        "timestamp": "2026-09-07T23:13:33.835Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: The top 19 trending products to sell online in 2026"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: The top 19 trending products to sell online in 2026",
+        "timestamp": "2026-09-07T23:13:33.839Z"
+      },
+      {
+        "action": "competitor_analysis_insufficient",
+        "stage": "competitor_analysis",
+        "details": "No real competitor data available from research. Cannot fabricate competitors.",
+        "timestamp": "2026-09-07T23:13:33.848Z"
+      },
+      {
+        "timestamp": "2026-09-07T23:13:33.857Z",
+        "action": "status_awaiting_approval",
+        "stage": "content_generating",
+        "details": "Ready to process article."
+      }
+    ]
   }
 }

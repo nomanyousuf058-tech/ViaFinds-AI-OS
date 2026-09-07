@@ -72,7 +72,22 @@ data/pgadmin/
 docker-compose.override.yml
 
 # =========================
-# Old Verification Script
+# Old Verification Script & Testing Artifacts
 # =========================
 verify.js
 .vercel
+test-results/
+playwright-report/
+tests/e2e/screenshots/
+error.html
+.kilo/
+
+# Scratch testing and query scripts
+qa-*.mjs
+test-automation-api.mjs
+query-article.ts
+migrate-article-type.ts
+
+# Uploads directory contents
+public/uploads/*
+!public/uploads/.gitkeep

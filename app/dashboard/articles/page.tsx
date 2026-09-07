@@ -2,9 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import { articleRepository } from '@/lib/db/repositories'
 import type { ArticleRow } from '@/lib/db/types'
+import DeleteArticleButton from '@/components/DeleteArticleButton'
 
 interface DashboardArticlesPageProps {
-  searchParams: Promise<{ status?: string; q?: string }>
+  searchParams: Promise<{ status?: string; q?: string; type?: string }>
 }
 
 const STATUS_OPTIONS = [
@@ -20,9 +21,18 @@ const STATUS_OPTIONS = [
 export default async function DashboardArticlesPage({ searchParams }: DashboardArticlesPageProps) {
   const resolvedParams = await searchParams
   const statusFilter = resolvedParams.status || ''
+  const typeFilter = resolvedParams.type || ''
   const query = resolvedParams.q || ''
 
   let articles = await articleRepository.findAll(100, 0, statusFilter || undefined)
+  if (!statusFilter) {
+    // Hide archived from the "All Articles" view by default
+    articles = articles.filter((a: ArticleRow) => a.status !== 'archived')
+  }
+
+  if (typeFilter) {
+    articles = articles.filter((a: ArticleRow) => a.article_type === typeFilter)
+  }
   if (query) {
     const lower = query.toLowerCase()
     articles = articles.filter(
@@ -60,33 +70,69 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
           </div>
           <Link
             href="/dashboard/articles/new"
-            className="inline-flex items-center gap-2 bg-primary text-deep-navy font-ui-body text-ui-body font-bold uppercase tracking-wider px-6 py-3 hover:bg-gold-accent transition-colors"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-deep-navy font-ui-body text-ui-body font-bold uppercase tracking-wider px-6 py-3 hover:bg-gold-accent transition-colors rounded shadow-sm"
           >
-            <span className="material-symbols-outlined text-[18px]">add</span>
+            <span className="material-symbols-outlined text-[20px] leading-none">add</span>
             New Article
           </Link>
         </div>
 
         {/* Status Filters */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {STATUS_OPTIONS.map((option) => {
-            const isActive = statusFilter === option.value
-            const count = option.value ? countsMap[option.value] : articles.length
-            return (
-              <Link
-                key={option.value}
-                href={`/dashboard/articles${option.value ? `?status=${option.value}` : ''}`}
-                className={`px-4 py-2 rounded border font-ui-body text-ui-body text-sm transition-colors ${
-                  isActive
-                    ? 'bg-primary text-deep-navy border-primary'
-                    : 'bg-transparent text-on-surface-variant border-outline-variant/30 hover:border-outline-variant'
-                }`}
-              >
-                {option.label}
-                <span className="ml-2 text-xs opacity-70">({count})</span>
-              </Link>
-            )
-          })}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div className="flex flex-wrap gap-2">
+            {STATUS_OPTIONS.map((option) => {
+              const isActive = statusFilter === option.value
+              const count = option.value ? countsMap[option.value] : articles.length
+              return (
+                <Link
+                  key={option.value}
+                  href={`/dashboard/articles?${new URLSearchParams({
+                    ...(option.value && { status: option.value }),
+                    ...(typeFilter && { type: typeFilter }),
+                    ...(query && { q: query })
+                  }).toString()}`}
+                  className={`px-4 py-2 rounded border font-ui-body text-ui-body text-sm transition-colors ${
+                    isActive
+                      ? 'bg-primary text-deep-navy border-primary'
+                      : 'bg-transparent text-on-surface-variant border-outline-variant/30 hover:border-outline-variant'
+                  }`}
+                >
+                  {option.label}
+                  <span className="ml-2 text-xs opacity-70">({count})</span>
+                </Link>
+              )
+            })}
+          </div>
+          
+          <form className="flex gap-2">
+            {statusFilter && <input type="hidden" name="status" value={statusFilter} />}
+            {query && <input type="hidden" name="q" value={query} />}
+            <select
+              name="type"
+              defaultValue={typeFilter}
+              className="bg-surface-container border border-slate-border rounded px-3 py-2 font-ui-body text-sm text-on-background focus:outline-none focus:border-primary"
+            >
+              <option value="">All Types</option>
+              <option value="Standard">Standard</option>
+              <option value="Comparison">Comparison</option>
+              <option value="News">News</option>
+              <option value="Feature">Feature</option>
+              <option value="Opinion">Opinion</option>
+              <option value="Investigative">Investigative</option>
+              <option value="Review">Review</option>
+              <option value="How-To">How-To</option>
+              <option value="Listicle">Listicle</option>
+              <option value="Guide">Guide</option>
+              <option value="Explainer">Explainer</option>
+              <option value="Case Study">Case Study</option>
+              <option value="Roundup">Roundup</option>
+              <option value="Analysis">Analysis</option>
+              <option value="Buying Guide">Buying Guide</option>
+            </select>
+            <button type="submit" className="bg-surface-container-high text-on-background border border-slate-border rounded px-3 py-2 font-ui-body text-sm hover:bg-surface-container-highest transition-colors">
+              Filter
+            </button>
+          </form>
         </div>
 
         {/* Articles Table */}
@@ -96,6 +142,9 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
               <tr>
                 <th className="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider text-xs">
                   Title
+                </th>
+                <th className="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider text-xs">
+                  Type
                 </th>
                 <th className="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider text-xs">
                   Status
@@ -128,13 +177,18 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
                   <tr key={article.id} className="hover:bg-surface-container-low/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1">
-                        <span className="font-ui-body text-ui-body text-on-background font-medium">
-                          {article.title}
-                        </span>
-                        <span className="font-mono-data text-mono-data text-on-surface-variant text-xs">
-                          {article.slug}
-                        </span>
+                        <div className="font-ui-body text-on-surface font-medium line-clamp-1" title={article.title}>
+                        {article.title}
                       </div>
+                      <div className="text-xs text-on-surface-variant truncate max-w-[200px] md:max-w-xs" title={article.slug}>
+                        {article.slug}
+                      </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="inline-block bg-surface-container border border-slate-border text-on-surface-variant px-2 py-1 rounded text-xs">
+                        {article.article_type || 'Standard'}
+                      </span>
                     </td>
                     <td className="px-6 py-4">
                       <StatusBadge status={article.status} />
@@ -158,22 +212,24 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
                         : '—'}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-3">
                         <Link
                           href={`/dashboard/articles/${article.id}`}
-                          className="p-2 text-on-surface-variant hover:text-primary transition-colors"
+                          className="p-2 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center rounded-full hover:bg-surface-container"
                           title="Edit"
                         >
-                          <span className="material-symbols-outlined text-[18px]">edit</span>
+                          <span className="material-symbols-outlined text-[20px] leading-none">edit</span>
                         </Link>
-                        <Link
+                        <a
                           href={`/articles/${article.slug}`}
                           target="_blank"
-                          className="p-2 text-on-surface-variant hover:text-primary transition-colors"
-                          title="View"
+                          rel="noopener noreferrer"
+                          className="p-2 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center rounded-full hover:bg-surface-container"
+                          title="View Live"
                         >
-                          <span className="material-symbols-outlined text-[18px]">open_in_new</span>
-                        </Link>
+                          <span className="material-symbols-outlined text-[20px] leading-none">open_in_new</span>
+                        </a>
+                        <DeleteArticleButton id={article.id} title={article.title} />
                       </div>
                     </td>
                   </tr>

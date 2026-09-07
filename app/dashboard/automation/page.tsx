@@ -2,400 +2,413 @@
 
 import React, { useEffect, useState } from 'react'
 
-type JobStatus = 'queued' | 'running' | 'completed' | 'failed' | 'cancelled' | 'retrying' | 'awaiting_approval'
-type AutomationMode = 'manual' | 'auto' | 'dry_run'
-type PipelineStage = 
-  | 'discovered'
-  | 'researching'
-  | 'competitor_analysis'
-  | 'content_generating'
-  | 'content_refining'
-  | 'seo_analysis'
-  | 'geo_analysis'
-  | 'aeo_analysis'
-  | 'eeat_analysis'
-  | 'quality_gate'
-  | 'affiliate_analysis'
-  | 'affiliate_matching'
-  | 'awaiting_approval'
-  | 'publishing'
-  | 'published'
-  | 'monitoring'
-  | 'failed'
 
-const PIPELINE_STAGES: PipelineStage[] = [
-  'discovered',
-  'researching',
-  'competitor_analysis',
-  'content_generating',
-  'content_refining',
-  'seo_analysis',
-  'geo_analysis',
-  'aeo_analysis',
-  'eeat_analysis',
-  'quality_gate',
-  'affiliate_analysis',
-  'affiliate_matching',
-  'awaiting_approval',
-  'publishing',
-  'published',
-  'monitoring',
+
+const INTERACTIVE_STAGES = [
+  { id: 'discovered', label: 'Trend Research' },
+  { id: 'researching', label: 'Product Discovery' },
+  { id: 'affiliate_analysis', label: 'Affiliate Research' },
+  { id: 'competitor_analysis', label: 'Article Strategy' },
+  { id: 'content_generating', label: 'Content' },
+  { id: 'eeat_analysis', label: 'E-E-A-T' },
+  { id: 'seo_analysis', label: 'SEO / GEO / AEO' },
+  { id: 'publishing', label: 'Final Review & Publish' },
 ]
 
-const STAGE_LABELS: Record<PipelineStage, string> = {
-  discovered: 'Discovered',
-  researching: 'Research',
-  competitor_analysis: 'Competitor',
-  content_generating: 'Generation',
-  content_refining: 'Refinement',
-  seo_analysis: 'SEO',
-  geo_analysis: 'GEO',
-  aeo_analysis: 'AEO',
-  eeat_analysis: 'E-E-A-T',
-  quality_gate: 'Quality',
-  affiliate_analysis: 'Affiliate',
-  affiliate_matching: 'Affiliate Match',
-  awaiting_approval: 'Approval',
-  publishing: 'Publishing',
-  published: 'Published',
-  monitoring: 'Monitoring',
-  failed: 'Failed',
-}
-
-type Job = {
-  id: string
-  type: string
-  status: JobStatus
-  currentStage: PipelineStage
-  mode: AutomationMode
-  topic?: string
-  error?: string
-  createdAt: string
-  updatedAt: string
-  result: Record<string, unknown>
-}
-
 export default function AutomationPage() {
-  const [jobs, setJobs] = useState<Job[]>([])
-  const [loading, setLoading] = useState(true)
-  const [starting, setStarting] = useState(false)
-  const [topic, setTopic] = useState('')
-  const [category, setCategory] = useState('')
-  const [mode, setMode] = useState<AutomationMode>('manual')
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null)
-  const [actionLoading, setActionLoading] = useState<string | null>(null)
+  const [activeJobId, setActiveJobId] = useState<string | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [job, setJob] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [actionLoading, setActionLoading] = useState(false)
 
-  const fetchJobs = async () => {
+  // Affiliate link state
+  const [affiliateLink, setAffiliateLink] = useState('')
+  const [linkPlacement, setLinkPlacement] = useState<'cta' | 'word'>('cta')
+  const [ctaText, setCtaText] = useState('Check Official Website')
+
+  const fetchJob = async (id: string) => {
     try {
-      const res = await fetch('/api/automation/run')
+      const res = await fetch('/api/automation/jobs')
       const json = await res.json()
-      if (json.success) setJobs(json.data || [])
+      if (json.success) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const found = json.data.jobs.find((j: any) => j.id === id)
+        if (found) setJob(found)
+      }
     } catch {
       // ignore
+    }
+  }
+
+  useEffect(() => {
+    if (!activeJobId) return
+    fetchJob(activeJobId)
+    const interval = setInterval(() => fetchJob(activeJobId), 3000)
+    return () => clearInterval(interval)
+  }, [activeJobId])
+
+  const handleStartTrends = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/automation/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'find_trends', mode: 'manual' }),
+      })
+      const json = await res.json()
+      if (json.success && json.data?.id) {
+        setActiveJobId(json.data.id)
+        setJob(json.data)
+      }
+    } catch {
     } finally {
       setLoading(false)
     }
   }
 
-  useEffect(() => {
-    fetchJobs()
-    const interval = setInterval(fetchJobs, 5000)
-    return () => clearInterval(interval)
-  }, [])
+  const handleFullAutomation = async () => {
+    // Prompt for topic for full automation since it requires it
+    const topic = window.prompt("Enter a topic or keyword for full automation:")
+    if (!topic) return
 
-  const handleStart = async () => {
-    if (!topic.trim()) return
-    setStarting(true)
+    setLoading(true)
     try {
       const res = await fetch('/api/automation/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'article_generation',
-          mode,
-          topic,
-          category,
-          dryRun: mode === 'dry_run',
-        }),
+        body: JSON.stringify({ type: 'article_generation', mode: 'auto', topic }),
       })
       const json = await res.json()
-      if (json.success) {
-        setTopic('')
-        setCategory('')
-        await fetchJobs()
+      if (json.success && json.data?.id) {
+        setActiveJobId(json.data.id)
+        setJob(json.data)
       }
     } catch {
-      // ignore
     } finally {
-      setStarting(false)
+      setLoading(false)
     }
   }
 
-  const handleJobAction = async (jobId: string, action: string) => {
-    setActionLoading(jobId)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleAction = async (action: string, data?: any) => {
+    if (!activeJobId) return
+    setActionLoading(true)
     try {
       const res = await fetch('/api/automation/jobs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobId, action }),
+        body: JSON.stringify({ jobId: activeJobId, action, data }),
       })
       const json = await res.json()
-      if (json.success) await fetchJobs()
+      if (json.success && json.data) {
+        setJob(json.data)
+      }
     } catch {
-      // ignore
     } finally {
-      setActionLoading(null)
+      setActionLoading(false)
     }
   }
 
-  const getStageIndex = (stage: PipelineStage) => PIPELINE_STAGES.indexOf(stage)
+  const renderProgress = () => {
+    if (!job) return null
+    const currentStageIdx = INTERACTIVE_STAGES.findIndex(s => s.id === job.currentStage) || 0
+    
+    return (
+      <div className="bg-obsidian-deep border border-slate-border rounded p-4 mb-6">
+        <h3 className="font-mono-data text-mono-data text-xs text-on-surface-variant uppercase mb-4">Current Workflow</h3>
+        <ul className="space-y-3">
+          {INTERACTIVE_STAGES.map((stage, idx) => {
+            const isCompleted = idx < currentStageIdx || (job.status === 'completed')
+            const isCurrent = stage.id === job.currentStage && job.status !== 'completed'
+            
+            return (
+              <li key={stage.id} className="flex items-center gap-3">
+                {isCompleted ? (
+                  <span className="text-green-400">✓</span>
+                ) : isCurrent ? (
+                  <span className="text-primary animate-pulse">●</span>
+                ) : (
+                  <span className="text-slate-600">○</span>
+                )}
+                <span className={`font-ui-body text-sm ${isCurrent ? 'text-on-background font-medium' : isCompleted ? 'text-on-surface-variant' : 'text-slate-500'}`}>
+                  {stage.label}
+                </span>
+              </li>
+            )
+          })}
+        </ul>
+        
+        {job.status === 'running' && (
+           <div className="mt-6 pt-4 border-t border-slate-border/50">
+             <p className="font-mono-data text-xs text-primary animate-pulse">Working: {job.auditLog?.[job.auditLog.length - 1]?.details || 'Processing...'}</p>
+           </div>
+        )}
+      </div>
+    )
+  }
 
-  const formatMode = (m: string) => {
-    switch (m) {
-      case 'dry_run': return 'Dry Run'
-      case 'auto': return 'Auto'
-      default: return 'Manual'
+  const renderWorkspace = () => {
+    if (!job) {
+      return (
+        <div className="flex flex-col items-center justify-center h-64 border border-dashed border-slate-border rounded bg-obsidian-deep/50 text-center">
+          <p className="font-ui-body text-on-surface-variant mb-2">No active automation workflow.</p>
+          <p className="font-mono-data text-xs text-slate-500">Select an option above to begin.</p>
+        </div>
+      )
     }
+
+    if (job.error) {
+      return (
+        <div className="p-6 bg-red-900/20 border border-red-500/30 rounded text-red-200">
+          <h3 className="font-headline-lg mb-2">Workflow Error</h3>
+          <p className="font-mono-data text-sm">{job.error}</p>
+          <button 
+            onClick={() => setActiveJobId(null)}
+            className="mt-4 px-4 py-2 bg-surface-container rounded hover:bg-surface-container/80 transition-colors text-sm"
+          >
+            Start New Research
+          </button>
+        </div>
+      )
+    }
+
+    const { result } = job
+
+    return (
+      <div className="space-y-6">
+        
+        {/* Step 1: Trends */}
+        {result?.trendingProducts && !result?.selectedProduct && (
+          <div className="bg-obsidian-deep border border-slate-border rounded p-6">
+            <h2 className="font-headline-lg text-on-background mb-4">Trending Digital Products</h2>
+            <div className="space-y-4">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {result.trendingProducts.map((product: any, idx: number) => (
+                <div key={idx} className="p-4 border border-slate-border rounded bg-surface-container/30 flex justify-between items-start">
+                  <div>
+                    <h3 className="font-ui-body font-medium text-lg text-on-background">{product.name}</h3>
+                    <p className="font-mono-data text-xs text-on-surface-variant mt-1">
+                      Volume: {product.searchVolume} | Trend: {product.trendDirection} | Commission: {product.estimatedCommission}%
+                    </p>
+                    {product.partnerAvailability?.length > 0 ? (
+                      <span className="inline-block mt-2 px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">
+                        Available on {product.partnerAvailability.join(', ')}
+                      </span>
+                    ) : (
+                      <span className="inline-block mt-2 px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded">
+                        Partner Check Required
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => handleAction('select_product', { product })}
+                    disabled={actionLoading}
+                    className="px-4 py-2 bg-primary text-deep-navy text-sm font-medium rounded hover:bg-primary/90 transition-colors"
+                  >
+                    Select Product
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Product Strategy & Generation */}
+        {result?.selectedProduct && !result?.draft && job.status === 'awaiting_approval' && (
+           <div className="bg-obsidian-deep border border-slate-border rounded p-6">
+             <h2 className="font-headline-lg text-on-background mb-4">Article Strategy: {result.selectedProduct.name}</h2>
+             
+             {result.affiliateDecision && (
+               <div className="mb-6 p-4 bg-surface-container/50 rounded border border-slate-border">
+                 <h3 className="font-ui-body text-on-background font-medium mb-2">Affiliate Opportunity</h3>
+                 <p className="font-mono-data text-sm text-on-surface-variant">
+                   Partner: {result.affiliateDecision.recommendedPartner || 'Unknown'}<br/>
+                   Status: {result.affiliateDecision.commissionInfo}
+                 </p>
+               </div>
+             )}
+
+             {result.articleStrategy && (
+               <div className="mb-6">
+                 <h3 className="font-ui-body text-on-background font-medium mb-2">Recommended Approach: {result.articleStrategy.recommendedArticleType}</h3>
+                 <p className="font-mono-data text-sm text-on-surface-variant mb-4">{result.articleStrategy.reasoning}</p>
+                 <div className="p-4 bg-surface-container/30 rounded border border-slate-border">
+                   <h4 className="font-mono-data text-xs text-on-surface-variant uppercase mb-2">Outline</h4>
+                   <ul className="list-disc pl-5 font-ui-body text-sm text-on-background space-y-1">
+                     {result.articleStrategy.outline.map((item: string, i: number) => (
+                       <li key={i}>{item}</li>
+                     ))}
+                   </ul>
+                 </div>
+               </div>
+             )}
+
+             <button
+                onClick={() => handleAction('process_article')}
+                disabled={actionLoading}
+                className="w-full py-3 bg-primary text-deep-navy font-medium rounded hover:bg-primary/90 transition-colors"
+             >
+               {actionLoading ? 'Processing...' : 'PROCESS ARTICLE'}
+             </button>
+           </div>
+        )}
+
+        {/* Step 3: Review and Publish */}
+        {result?.draft && (
+           <div className="bg-obsidian-deep border border-slate-border rounded p-6">
+             <div className="flex justify-between items-center mb-6">
+               <h2 className="font-headline-lg text-on-background">Content Review</h2>
+               <div className="flex gap-2">
+                 <span className={`px-2 py-1 text-xs rounded ${result.qualityResult?.status === 'pass' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                   E-E-A-T: {result.qualityResult?.status?.toUpperCase() || 'REVIEW'}
+                 </span>
+                 <span className={`px-2 py-1 text-xs rounded ${(result.seoResult?.score || 0) > 80 ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                   SEO: {result.seoResult?.score || 0}
+                 </span>
+               </div>
+             </div>
+
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+               <div className="md:col-span-2">
+                 <div className="prose prose-invert prose-slate max-w-none bg-surface-container/30 p-6 rounded border border-slate-border h-[500px] overflow-y-auto">
+                   <h1 className="text-2xl font-bold mb-4">{result.draft.title}</h1>
+                   <div dangerouslySetInnerHTML={{ __html: result.draft.body }} />
+                 </div>
+               </div>
+               
+               <div className="space-y-6">
+                 {/* Images */}
+                 {result.imageRequirements?.needed && (
+                   <div className="p-4 bg-surface-container rounded border border-slate-border">
+                     <h3 className="font-ui-body text-on-background font-medium mb-2">Images Needed</h3>
+                     <ul className="list-disc pl-5 font-mono-data text-xs text-on-surface-variant mb-4">
+                       {result.imageRequirements.recommendations.map((rec: string, i: number) => <li key={i}>{rec}</li>)}
+                     </ul>
+                     <button className="w-full py-2 border border-primary text-primary text-sm rounded hover:bg-primary/10 transition-colors">
+                       Upload Image
+                     </button>
+                   </div>
+                 )}
+
+                 {/* Affiliate Link Config */}
+                 <div className="p-4 bg-surface-container rounded border border-slate-border">
+                   <h3 className="font-ui-body text-on-background font-medium mb-4">Affiliate Link</h3>
+                   
+                   <label className="block font-mono-data text-xs text-on-surface-variant mb-1">Affiliate URL</label>
+                   <input 
+                     type="text" 
+                     value={affiliateLink}
+                     onChange={(e) => setAffiliateLink(e.target.value)}
+                     placeholder={result.affiliateDecision?.affiliateUrl || "https://..."}
+                     className="w-full bg-obsidian-deep border border-slate-border rounded px-3 py-2 text-sm mb-4 text-on-background"
+                   />
+
+                   <label className="block font-mono-data text-xs text-on-surface-variant mb-1">Placement</label>
+                   <div className="flex gap-4 mb-4">
+                     <label className="flex items-center gap-2 text-sm text-on-background">
+                       <input type="radio" checked={linkPlacement === 'cta'} onChange={() => setLinkPlacement('cta')} />
+                       CTA BUTTON
+                     </label>
+                     <label className="flex items-center gap-2 text-sm text-on-background">
+                       <input type="radio" checked={linkPlacement === 'word'} onChange={() => setLinkPlacement('word')} />
+                       WORD / PHRASE
+                     </label>
+                   </div>
+
+                   {linkPlacement === 'cta' && (
+                     <>
+                       <label className="block font-mono-data text-xs text-on-surface-variant mb-1">CTA Text</label>
+                       <input 
+                         type="text" 
+                         value={ctaText}
+                         onChange={(e) => setCtaText(e.target.value)}
+                         className="w-full bg-obsidian-deep border border-slate-border rounded px-3 py-2 text-sm mb-2 text-on-background"
+                       />
+                     </>
+                   )}
+                 </div>
+               </div>
+             </div>
+
+             {job.status === 'awaiting_approval' && (
+               <div className="flex gap-4 border-t border-slate-border pt-6">
+                 <button 
+                   onClick={() => handleAction('publish', { affiliateUrl: affiliateLink, ctaText, draftOnly: true })}
+                   disabled={actionLoading}
+                   className="px-6 py-2 bg-surface-container text-on-background font-medium rounded hover:bg-surface-container/80 transition-colors"
+                 >
+                   Save Draft
+                 </button>
+                 <button 
+                   onClick={() => handleAction('publish', { affiliateUrl: affiliateLink, ctaText, draftOnly: false })}
+                   disabled={actionLoading}
+                   className="px-6 py-2 bg-primary text-deep-navy font-medium rounded hover:bg-primary/90 transition-colors"
+                 >
+                   Publish
+                 </button>
+               </div>
+             )}
+
+             {job.status === 'completed' && (
+               <div className="p-4 bg-green-900/20 border border-green-500/30 rounded text-green-400 mt-6 text-center">
+                 <p className="font-medium mb-4">Article successfully {result.publishedUrl ? 'published' : 'saved as draft'}!</p>
+                 <div className="flex justify-center gap-4">
+                   <button 
+                     onClick={() => { setActiveJobId(null); setJob(null) }}
+                     className="px-6 py-2 bg-surface-container text-on-background text-sm rounded hover:bg-surface-container/80 transition-colors"
+                   >
+                     Next Article
+                   </button>
+                   <button 
+                     onClick={() => { setActiveJobId(null); setJob(null) }}
+                     className="px-6 py-2 bg-surface-container text-on-background text-sm rounded hover:bg-surface-container/80 transition-colors"
+                   >
+                     New Research
+                   </button>
+                 </div>
+               </div>
+             )}
+           </div>
+        )}
+
+      </div>
+    )
   }
 
   return (
-          <div className="max-w-7xl">
-        <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">Automation Control Center</h1>
-        <p className="font-ui-body text-ui-body text-on-surface-variant mb-8">Start and monitor editorial automation workflows.</p>
-
-        <div className="bg-obsidian-deep border border-slate-border rounded p-6 mb-8">
-          <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">Start New Automation</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-            <div>
-              <label className="block font-mono-data text-mono-data text-xs text-on-surface-variant mb-1">Topic / Keyword</label>
-              <input
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="e.g. best AI writing tools"
-                className="w-full bg-surface-container border border-slate-border rounded px-3 py-2 font-ui-body text-ui-body text-sm text-on-background placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary"
-              />
-            </div>
-            <div>
-              <label className="block font-mono-data text-mono-data text-xs text-on-surface-variant mb-1">Category</label>
-              <input
-                type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder="e.g. ai-tools"
-                className="w-full bg-surface-container border border-slate-border rounded px-3 py-2 font-ui-body text-ui-body text-sm text-on-background placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary"
-              />
-            </div>
-            <div>
-              <label className="block font-mono-data text-mono-data text-xs text-on-surface-variant mb-1">Mode</label>
-              <select
-                value={mode}
-                onChange={(e) => setMode(e.target.value as AutomationMode)}
-                className="w-full bg-surface-container border border-slate-border rounded px-3 py-2 font-ui-body text-ui-body text-sm text-on-background focus:outline-none focus:border-primary"
-              >
-                <option value="manual">Manual Approval</option>
-                <option value="dry_run">Dry Run</option>
-                <option value="auto">Auto Publish</option>
-              </select>
-            </div>
-            <div className="flex items-end">
-              <button
-                onClick={handleStart}
-                disabled={starting || !topic.trim()}
-                className="w-full px-4 py-2 bg-primary text-deep-navy font-ui-body text-sm font-medium rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {starting ? 'Starting...' : 'Start Automation'}
-              </button>
-            </div>
-          </div>
-          <p className="font-mono-data text-mono-data text-xs text-on-surface-variant">
-            Manual: stops for approval before publishing. Dry Run: complete pipeline without publishing. Auto: publishes without approval.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <div className="bg-obsidian-deep border border-slate-border rounded">
-              <div className="px-4 py-3 border-b border-slate-border">
-                <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold">Jobs</h2>
-              </div>
-              {loading ? (
-                <div className="p-4 text-on-surface-variant font-ui-body">Loading...</div>
-              ) : jobs.length === 0 ? (
-                <div className="p-4 text-on-surface-variant font-ui-body">No jobs yet. Start automation above.</div>
-              ) : (
-                <div className="divide-y divide-slate-border">
-                  {jobs.slice(0, 20).map((job) => (
-                    <div key={job.id} className="p-4 hover:bg-surface-container/50 transition-colors">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <div className="font-ui-body text-ui-body text-sm text-on-background font-medium">
-                            {job.topic || job.type}
-                          </div>
-                          <div className="font-mono-data text-mono-data text-xs text-on-surface-variant mt-1">
-                            {job.id} · {formatMode(job.mode)}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className={`px-2 py-1 rounded text-xs font-mono-data ${
-                            job.status === 'completed' ? 'bg-green-500/20 text-green-400' :
-                            job.status === 'running' ? 'bg-blue-500/20 text-blue-400' :
-                            job.status === 'failed' ? 'bg-red-500/20 text-red-400' :
-                            job.status === 'awaiting_approval' ? 'bg-yellow-500/20 text-yellow-400' :
-                            'bg-slate-500/20 text-slate-400'
-                          }`}>
-                            {job.status.replace(/_/g, ' ').toUpperCase()}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1 mb-2">
-                        {PIPELINE_STAGES.map((stage, idx) => {
-                          const currentIdx = getStageIndex(job.currentStage)
-                          const isActive = stage === job.currentStage
-                          const isPast = currentIdx > idx
-                          const isFailed = job.status === 'failed' && isActive
-                          return (
-                            <div key={stage} className="flex-1 h-1.5 rounded-full bg-slate-border/50 overflow-hidden">
-                              <div className={`h-full rounded-full ${
-                                isFailed ? 'bg-red-500' :
-                                isPast || isActive ? 'bg-primary' : 'bg-transparent'
-                              }`} style={{ width: isActive ? '60%' : isPast ? '100%' : '0%' }} />
-                            </div>
-                          )
-                        })}
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono-data text-mono-data text-xs text-on-surface-variant">
-                          {STAGE_LABELS[job.currentStage]} · {new Date(job.updatedAt).toLocaleString()}
-                        </span>
-                        <div className="flex gap-2">
-                          {job.status === 'awaiting_approval' && (
-                            <>
-                              <button
-                                onClick={() => handleJobAction(job.id, 'approve')}
-                                disabled={actionLoading === job.id}
-                                className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-ui-body rounded hover:bg-green-500/30 disabled:opacity-50 transition-colors"
-                              >
-                                {actionLoading === job.id ? 'Processing...' : 'Approve'}
-                              </button>
-                              <button
-                                onClick={() => handleJobAction(job.id, 'reject')}
-                                disabled={actionLoading === job.id}
-                                className="px-3 py-1 bg-red-500/20 text-red-400 text-xs font-ui-body rounded hover:bg-red-500/30 disabled:opacity-50 transition-colors"
-                              >
-                                Reject
-                              </button>
-                            </>
-                          )}
-                          {job.status === 'failed' && (
-                            <button
-                              onClick={() => handleJobAction(job.id, 'retry')}
-                              disabled={actionLoading === job.id}
-                              className="px-3 py-1 bg-primary/20 text-primary text-xs font-ui-body rounded hover:bg-primary/30 disabled:opacity-50 transition-colors"
-                            >
-                              Retry
-                            </button>
-                          )}
-                          {(job.status === 'queued' || job.status === 'running') && (
-                            <button
-                              onClick={() => handleJobAction(job.id, 'cancel')}
-                              disabled={actionLoading === job.id}
-                              className="px-3 py-1 bg-slate-500/20 text-slate-400 text-xs font-ui-body rounded hover:bg-slate-500/30 disabled:opacity-50 transition-colors"
-                            >
-                              Cancel
-                            </button>
-                          )}
-                          <button
-                            onClick={() => setSelectedJob(job)}
-                            className="px-3 py-1 bg-surface-container text-on-background text-xs font-ui-body rounded hover:bg-surface-container/80 transition-colors"
-                          >
-                            View
-                          </button>
-                        </div>
-                      </div>
-                      {job.error && (
-                        <div className="mt-2 p-2 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-xs font-mono-data">
-                          {typeof job.error === 'string' ? job.error : JSON.stringify(job.error)}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <div className="bg-obsidian-deep border border-slate-border rounded p-4 mb-6">
-              <h3 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-3">Pipeline Status</h3>
-              <div className="space-y-2">
-                {PIPELINE_STAGES.map((stage) => {
-                  const activeJobs = jobs.filter(j => j.currentStage === stage && (j.status === 'running' || j.status === 'awaiting_approval'))
-                  return (
-                    <div key={stage} className="flex items-center justify-between">
-                      <span className="font-ui-body text-ui-body text-sm text-on-surface-variant">{STAGE_LABELS[stage]}</span>
-                      {activeJobs.length > 0 && (
-                        <span className="px-2 py-0.5 bg-primary/20 text-primary text-xs font-mono-data rounded">{activeJobs.length}</span>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-
-            {selectedJob && (
-              <div className="bg-obsidian-deep border border-slate-border rounded p-4">
-                <h3 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-3">Job Details</h3>
-                <div className="space-y-2 text-sm font-ui-body">
-                  <div>
-                    <span className="text-on-surface-variant">Topic:</span>
-                    <span className="text-on-background ml-2">{selectedJob.topic || 'N/A'}</span>
-                  </div>
-                  <div>
-                    <span className="text-on-surface-variant">Status:</span>
-                    <span className="text-on-background ml-2">{selectedJob.status}</span>
-                  </div>
-                  <div>
-                    <span className="text-on-surface-variant">Stage:</span>
-                    <span className="text-on-background ml-2">{STAGE_LABELS[selectedJob.currentStage]}</span>
-                  </div>
-                  <div>
-                    <span className="text-on-surface-variant">Mode:</span>
-                    <span className="text-on-background ml-2">{formatMode(selectedJob.mode)}</span>
-                  </div>
-                  <div>
-                    <span className="text-on-surface-variant">Created:</span>
-                    <span className="text-on-background ml-2">{new Date(selectedJob.createdAt).toLocaleString()}</span>
-                  </div>
-                </div>
-                {(selectedJob.result.research && typeof selectedJob.result.research === 'object') ? (
-                  <div className="mt-4" key="research">
-                    <h4 className="font-mono-data text-mono-data text-xs text-on-surface-variant uppercase mb-2">Research</h4>
-                    <pre className="text-xs font-mono-data text-on-background bg-surface-container p-2 rounded overflow-auto max-h-40">
-                      {JSON.stringify(selectedJob.result.research as unknown as Record<string, unknown>, null, 2)}
-                    </pre>
-                  </div>
-                ) : null}
-                {(selectedJob.result.draft && typeof selectedJob.result.draft === 'object') ? (
-                  <div className="mt-4" key="draft">
-                    <h4 className="font-mono-data text-mono-data text-xs text-on-surface-variant uppercase mb-2">Draft</h4>
-                    <pre className="text-xs font-mono-data text-on-background bg-surface-container p-2 rounded overflow-auto max-h-40">
-                      {JSON.stringify(selectedJob.result.draft as unknown as Record<string, unknown>, null, 2)}
-                    </pre>
-                  </div>
-                ) : null}
-                {(selectedJob.result.affiliateDecision && typeof selectedJob.result.affiliateDecision === 'object') ? (
-                  <div className="mt-4" key="affiliate">
-                    <h4 className="font-mono-data text-mono-data text-xs text-on-surface-variant uppercase mb-2">Affiliate Decision</h4>
-                    <pre className="text-xs font-mono-data text-on-background bg-surface-container p-2 rounded overflow-auto max-h-40">
-                      {JSON.stringify(selectedJob.result.affiliateDecision as unknown as Record<string, unknown>, null, 2)}
-                    </pre>
-                  </div>
-                ) : null}
-              </div>
-            )}
-          </div>
+    <div className="max-w-7xl">
+      <div className="mb-8">
+        <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">AUTOMATION</h1>
+        <p className="font-ui-body text-ui-body text-on-surface-variant mb-6">Find the best digital-product opportunities and turn them into affiliate content.</p>
+        
+        <div className="flex gap-4">
+          <button
+            onClick={handleStartTrends}
+            disabled={loading || actionLoading}
+            className="px-6 py-3 bg-primary text-deep-navy font-medium rounded shadow-lg hover:bg-primary/90 transition-all disabled:opacity-50"
+          >
+            RUN FINDS TRENDS
+          </button>
+          <button
+            onClick={handleFullAutomation}
+            disabled={loading || actionLoading}
+            className="px-6 py-3 bg-surface-container border border-slate-border text-on-background font-medium rounded hover:bg-surface-container/80 transition-colors disabled:opacity-50"
+          >
+            RUN FULL AUTOMATION
+          </button>
         </div>
       </div>
-      )
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-1">
+          {renderProgress()}
+        </div>
+        <div className="lg:col-span-3">
+          <h2 className="font-mono-data text-mono-data text-xs text-on-surface-variant uppercase mb-4 pl-2">AI Workspace</h2>
+          {renderWorkspace()}
+        </div>
+      </div>
+    </div>
+  )
 }

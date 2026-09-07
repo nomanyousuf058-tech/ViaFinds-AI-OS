@@ -30,10 +30,10 @@ export default function LoginPage() {
         return;
       }
 
-      const redirectTo = new URLSearchParams(window.location.search).get('redirect') || '/dashboard';
-      router.push(redirectTo);
-      router.refresh();
-    } catch {
+    const redirectTo = new URLSearchParams(window.location.search).get('redirect') || '/dashboard';
+    router.push(redirectTo);
+    router.refresh();
+  } catch {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);

@@ -29,13 +29,36 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Job type is required' }, { status: 400 })
     }
 
+    const topicStr = topic || keyword || ''
+    
+    // DUPLICATE PROTECTION
+    // Check if there's already an active job (queued or running) with the same type and topic
+    const allJobs = jobManager.getAllJobs()
+    const activeDuplicate = allJobs.find(j => 
+      (j.status === 'queued' || j.status === 'running') && 
+      j.type === type && 
+      j.input.topic === topicStr
+    )
+    
+    if (activeDuplicate) {
+      return NextResponse.json({ 
+        error: 'A job with these parameters is already active',
+        jobId: activeDuplicate.id
+      }, { status: 409 })
+    }
+
     const job = jobManager.createJob(type, dryRun ? 'dry_run' : (mode || 'manual'), {
-      topic: topic || keyword,
-      category,
-      keyword,
+      topic: topicStr,
+      category: category || '',
+      keyword: keyword || '',
     })
 
-    const result = await automationPipeline.run(job.id)
+    let result;
+    if (type === 'find_trends') {
+      result = await automationPipeline.runFindTrends(job.id)
+    } else {
+      result = await automationPipeline.run(job.id)
+    }
 
     return NextResponse.json({ success: true, data: result }, { status: 201 })
   } catch (error) {

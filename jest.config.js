@@ -9,9 +9,11 @@ module.exports = {
     '/playwright\\.config\\./',
     'PlatformRegistry\\.test\\.ts',
     '/e2e/',
+    '/\\.kilo/',
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '^jose$': '<rootDir>/__tests__/__mocks__/jose.ts',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(jose|@jose/.*)/)',

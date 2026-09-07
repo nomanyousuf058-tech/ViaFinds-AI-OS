@@ -8,7 +8,10 @@ const JWT_SECRET = process.env.ADMIN_JWT_SECRET || ''
 
 export async function verifyAdminToken() {
   try {
-    const secret = new TextEncoder().encode(JWT_SECRET)
+    const secretStr = process.env.ADMIN_JWT_SECRET || ''
+    if (!secretStr) return null
+    
+    const secret = new TextEncoder().encode(secretStr)
     const { cookies } = await import('next/headers')
     const cookieStore = await cookies()
     const token = cookieStore.get('admin_session')?.value
@@ -35,7 +38,11 @@ export async function adminOnly(): Promise<void> {
 }
 
 export async function createAdminToken(adminId: string, email: string): Promise<string> {
-  const secret = new TextEncoder().encode(JWT_SECRET)
+  const secretStr = process.env.ADMIN_JWT_SECRET || ''
+  if (!secretStr) {
+    throw new Error('Missing ADMIN_JWT_SECRET')
+  }
+  const secret = new TextEncoder().encode(secretStr)
   const jwt = new SignJWT({ sub: adminId, email, role: 'admin' })
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime('1h')

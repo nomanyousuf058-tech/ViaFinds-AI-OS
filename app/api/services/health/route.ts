@@ -55,26 +55,43 @@ export async function GET() {
         continue
       }
 
-      const start = Date.now()
-      const result = await testConnection(provider.id, 'health-check')
-      const latency = Date.now() - start
+      try {
+        const start = Date.now()
+        const apiKey = credentialFields.map((key) => process.env[key.toUpperCase()]).filter(Boolean).join(',') || ''
+        const result = await testConnection(provider.id, apiKey)
+        const latency = Date.now() - start
 
-      services.push({
-        id: provider.id,
-        name: provider.name,
-        category: provider.category,
-        status: result.success ? 'CONNECTED_AND_WORKING' : 'FAILED',
-        latency,
-        error: result.error,
-        automationStage: getAutomationStage(provider.id),
-        purpose: provider.type,
-        fallback: getFallback(provider.id),
-      })
+        services.push({
+          id: provider.id,
+          name: provider.name,
+          category: provider.category,
+          status: result.success ? 'CONNECTED_AND_WORKING' : 'FAILED',
+          latency,
+          error: result.error,
+          automationStage: getAutomationStage(provider.id),
+          purpose: provider.type,
+          fallback: getFallback(provider.id),
+        })
+      } catch (error) {
+        services.push({
+          id: provider.id,
+          name: provider.name,
+          category: provider.category,
+          status: 'FAILED',
+          latency: null,
+          error: error instanceof Error ? error.message : 'Health check failed',
+          automationStage: getAutomationStage(provider.id),
+          purpose: provider.type,
+          fallback: getFallback(provider.id),
+        })
+      }
     }
 
     return NextResponse.json({ success: true, data: services })
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unauthorized'
+    const isAuth = message === 'Unauthorized'
+    return NextResponse.json({ error: message }, { status: isAuth ? 401 : 500 })
   }
 }
 

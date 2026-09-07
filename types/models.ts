@@ -15,6 +15,7 @@ export interface UniversalProductObject extends BaseEntity {
 export interface Article extends BaseEntity {
   title: string;
   slug: string;
+  article_type: string;
   content: string;
   productId: string;
   status: 'draft' | 'published' | 'rejected';

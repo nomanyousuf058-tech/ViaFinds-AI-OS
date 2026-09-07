@@ -78,20 +78,24 @@ export class JobManager {
     return this.getAllJobs().filter(j => j.status === status)
   }
 
-  updateJobStatus(id: string, status: JobStatus, stage: PipelineStage, error?: string): AutomationJob | null {
+  updateJobStatus(id: string, status: JobStatus, stage: PipelineStage, message?: string): AutomationJob | null {
     const job = this.jobs[id]
     if (!job) return null
     job.status = status
     job.currentStage = stage
     job.updatedAt = new Date().toISOString()
-    if (error) job.error = error
+    if (status === 'failed' && message) {
+        job.error = message
+    } else if (status !== 'failed' && job.error && message !== job.error) {
+        // keep error if there is one but this isn't an error message
+    }
     if (status === 'completed') job.completedAt = new Date().toISOString()
     job.auditLog.push({
       timestamp: job.updatedAt,
       action: `status_${status}`,
       stage,
-      details: error || `Job status changed to ${status}`,
-      error,
+      details: message || `Job status changed to ${status}`,
+      error: status === 'failed' ? message : undefined,
     })
     saveJobs(this.jobs)
     return job

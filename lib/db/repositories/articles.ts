@@ -5,6 +5,7 @@ export type ArticleRow = {
   id: string
   title: string
   slug: string
+  article_type: string
   excerpt: string | null
   content: unknown
   status: string
@@ -130,12 +131,13 @@ export class ArticleRepository {
   async create(data: Partial<ArticleRow>): Promise<ArticleRow | null> {
     const pool = await this.getPool()
     const result = await pool.query(
-      `INSERT INTO articles (title, slug, excerpt, content, status, cover_image_url, author_id, category_id, seo, geo, aeo, published_at, featured, trending, reading_time)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+      `INSERT INTO articles (title, slug, article_type, excerpt, content, status, cover_image_url, author_id, category_id, seo, geo, aeo, published_at, featured, trending, reading_time)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
        RETURNING *`,
       [
         data.title,
         data.slug,
+        data.article_type ?? 'Standard',
         data.excerpt ?? null,
         JSON.stringify(data.content ?? []),
         data.status ?? 'draft',
@@ -163,6 +165,7 @@ export class ArticleRepository {
     const map: Record<string, unknown> = {}
     if (data.title !== undefined) map.title = data.title
     if (data.slug !== undefined) map.slug = data.slug
+    if (data.article_type !== undefined) map.article_type = data.article_type
     if (data.excerpt !== undefined) map.excerpt = data.excerpt
     if (data.content !== undefined) map.content = data.content
     if (data.status !== undefined) map.status = data.status

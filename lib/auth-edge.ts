@@ -27,7 +27,8 @@ function base64UrlDecode(str: string): Uint8Array {
 
 export async function verifyAdminTokenEdge(token: string): Promise<AdminPayload | null> {
   try {
-    if (!ADMIN_JWT_SECRET) return null
+    const secret = process.env.ADMIN_JWT_SECRET || ''
+    if (!secret) return null
 
     const parts = token.split('.')
     if (parts.length !== 3) return null
@@ -38,7 +39,7 @@ export async function verifyAdminTokenEdge(token: string): Promise<AdminPayload 
     const encoder = new TextEncoder()
     const key = await crypto.subtle.importKey(
       'raw',
-      encoder.encode(ADMIN_JWT_SECRET),
+      encoder.encode(secret),
       { name: 'HMAC', hash: 'SHA-256' },
       false,
       ['verify']

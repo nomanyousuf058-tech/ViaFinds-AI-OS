@@ -62,6 +62,10 @@ module.exports = {
         "deep-navy": "#00113A",
         "electric-indigo": "#0047FF",
         "gold-leaf": "#D4AF37",
+        "brand-teal": "#0F766E",
+        "brand-teal-dark": "#064E3B",
+        "brand-mint": "#D1FAE5",
+        "brand-green": "#22C55E",
         "obsidian": "#0A0A0A",
         "obsidian-deep": "#0A0A0A",
         "charcoal-surface": "#131313",
@@ -73,6 +77,9 @@ module.exports = {
         lg: "0.25rem",
         xl: "0.5rem",
         full: "0.75rem",
+      },
+      maxWidth: {
+        "container-max": "1280px",
       },
       spacing: {
         "margin-mobile": "16px",

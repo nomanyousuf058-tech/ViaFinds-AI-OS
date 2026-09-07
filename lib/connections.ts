@@ -220,7 +220,7 @@ export async function testConnection(providerId: string, apiKey: string, _settin
 
   try {
     let url = testConfig.url
-    const headers: Record<string, string> = { ...testConfig.headers }
+    const headers: Record<string, string> = { ...(testConfig.headers || {}) }
 
     // Replace placeholder in URL
     if (url.includes('REPLACE_KEY')) {

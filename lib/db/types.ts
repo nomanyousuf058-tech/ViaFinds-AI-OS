@@ -2,6 +2,7 @@ export type ArticleRow = {
   id: string
   title: string
   slug: string
+  article_type: string
   excerpt: string | null
   content: unknown
   status: string

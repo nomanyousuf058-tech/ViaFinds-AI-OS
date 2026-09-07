@@ -28,6 +28,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     const updates: Record<string, unknown> = {}
     if (body.title !== undefined) updates.title = body.title
     if (body.slug !== undefined) updates.slug = body.slug
+    if (body.article_type !== undefined) updates.article_type = body.article_type
     if (body.excerpt !== undefined) updates.excerpt = body.excerpt
     if (body.content !== undefined) updates.content = body.content
     if (body.status !== undefined) updates.status = body.status
@@ -58,11 +59,13 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     await adminOnly()
     const { id } = await params
-    const deleted = await articleRepository.delete(id)
-    if (!deleted) {
+    
+    // Soft delete to prevent breaking any potential foreign key relationships
+    const article = await articleRepository.update(id, { status: 'archived' })
+    if (!article) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 })
     }
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true, archived: true })
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },
