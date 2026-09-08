@@ -167,14 +167,14 @@ export class ArticleRepository {
     if (data.slug !== undefined) map.slug = data.slug
     if (data.article_type !== undefined) map.article_type = data.article_type
     if (data.excerpt !== undefined) map.excerpt = data.excerpt
-    if (data.content !== undefined) map.content = data.content
+    if (data.content !== undefined) map.content = JSON.stringify(data.content)
     if (data.status !== undefined) map.status = data.status
     if (data.cover_image_url !== undefined) map.cover_image_url = data.cover_image_url
     if (data.author_id !== undefined) map.author_id = data.author_id
     if (data.category_id !== undefined) map.category_id = data.category_id
-    if (data.seo !== undefined) map.seo = data.seo
-    if (data.geo !== undefined) map.geo = data.geo
-    if (data.aeo !== undefined) map.aeo = data.aeo
+    if (data.seo !== undefined) map.seo = JSON.stringify(data.seo)
+    if (data.geo !== undefined) map.geo = JSON.stringify(data.geo)
+    if (data.aeo !== undefined) map.aeo = JSON.stringify(data.aeo)
     if (data.published_at !== undefined) map.published_at = data.published_at
     if (data.featured !== undefined) map.featured = data.featured
     if (data.trending !== undefined) map.trending = data.trending
