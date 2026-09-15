@@ -19,46 +19,48 @@ const STATUS_OPTIONS = [
 ]
 
 export default async function DashboardArticlesPage({ searchParams }: DashboardArticlesPageProps) {
-  const resolvedParams = await searchParams
-  const statusFilter = resolvedParams.status || ''
-  const typeFilter = resolvedParams.type || ''
-  const query = resolvedParams.q || ''
+  try {
+    const resolvedParams = await searchParams
+    const statusFilter = resolvedParams.status || ''
+    const typeFilter = resolvedParams.type || ''
+    const query = resolvedParams.q || ''
 
-  let articles = await articleRepository.findAll(100, 0, statusFilter || undefined)
-  if (!statusFilter) {
-    // Hide archived from the "All Articles" view by default
-    articles = articles.filter((a: ArticleRow) => a.status !== 'archived')
-  }
+    let articles = await articleRepository.findAll(100, 0, statusFilter || undefined)
+    if (!statusFilter) {
+      // Hide archived from the "All Articles" view by default
+      articles = articles.filter((a: ArticleRow) => a.status !== 'archived')
+    }
 
-  if (typeFilter) {
-    articles = articles.filter((a: ArticleRow) => a.article_type === typeFilter)
-  }
-  if (query) {
-    const lower = query.toLowerCase()
-    articles = articles.filter(
-      (a: ArticleRow) =>
-        a.title.toLowerCase().includes(lower) ||
-        (a.excerpt || '').toLowerCase().includes(lower) ||
-        a.slug.toLowerCase().includes(lower)
+    if (typeFilter) {
+      articles = articles.filter((a: ArticleRow) => a.article_type === typeFilter)
+    }
+    if (query) {
+      const lower = query.toLowerCase()
+      articles = articles.filter(
+        (a: ArticleRow) =>
+          a.title.toLowerCase().includes(lower) ||
+          (a.excerpt || '').toLowerCase().includes(lower) ||
+          a.slug.toLowerCase().includes(lower)
+      )
+    }
+
+    const counts = await Promise.all(
+      ['draft', 'in_review', 'approved', 'scheduled', 'published', 'archived'].map((s) =>
+        articleRepository.countByStatus(s)
+      )
     )
-  }
 
-  const counts = await Promise.all(
-    ['draft', 'in_review', 'approved', 'scheduled', 'published', 'archived'].map((s) =>
-      articleRepository.countByStatus(s)
-    )
-  )
-  const countsMap: Record<string, number> = {
-    draft: counts[0],
-    in_review: counts[1],
-    approved: counts[2],
-    scheduled: counts[3],
-    published: counts[4],
-    archived: counts[5],
-  }
+    const countsMap: Record<string, number> = {
+      draft: counts[0],
+      in_review: counts[1],
+      approved: counts[2],
+      scheduled: counts[3],
+      published: counts[4],
+      archived: counts[5],
+    }
 
-  return (
-          <div className="max-w-6xl">
+    return (
+      <div className="max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">
@@ -238,8 +240,25 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
             </tbody>
           </table>
         </div>
+        </div>
       </div>
-      )
+    )
+  } catch (error) {
+    console.error('Error fetching articles:', error)
+    return (
+      <div className="max-w-6xl">
+        <div className="bg-error/10 border border-error/20 p-6 rounded text-error">
+          <h2 className="font-headline-sm mb-2">Failed to load articles</h2>
+          <p className="font-ui-body">
+            {error instanceof Error ? error.message : 'An unexpected error occurred while fetching data from the database.'}
+          </p>
+          <pre className="mt-4 p-4 bg-black/20 rounded font-mono-data text-xs overflow-auto">
+            {error instanceof Error ? error.stack : JSON.stringify(error, null, 2)}
+          </pre>
+        </div>
+      </div>
+    )
+  }
 }
 
 function StatusBadge({ status }: { status: string }) {
