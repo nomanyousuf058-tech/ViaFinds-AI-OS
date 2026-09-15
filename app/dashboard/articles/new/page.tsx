@@ -32,6 +32,8 @@ export default function NewArticlePage() {
     aeo_answer: '',
   })
 
+  const [isUploading, setIsUploading] = useState(false)
+
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -52,6 +54,7 @@ export default function NewArticlePage() {
     }
     reader.readAsDataURL(file)
 
+    setIsUploading(true)
     const formData = new FormData()
     formData.append('file', file)
     
@@ -69,13 +72,19 @@ export default function NewArticlePage() {
       }
     } catch {
       setError('Failed to upload image')
+    } finally {
+      setIsUploading(false)
     }
   }
 
   const saveArticle = async (statusOverride?: string) => {
+    if (isUploading) {
+      setError('Please wait for the image upload to finish before saving.')
+      return
+    }
     setSaving(true)
     setError(null)
-    
+
     const payloadStatus = statusOverride || form.status
     
     let parsedContent = []

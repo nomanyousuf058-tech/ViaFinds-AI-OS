@@ -88,6 +88,7 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
     }
     fetchArticle()
   }, [id])
+  const [isUploading, setIsUploading] = useState(false)
 
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -109,6 +110,7 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
     }
     reader.readAsDataURL(file)
 
+    setIsUploading(true)
     const formData = new FormData()
     formData.append('file', file)
     
@@ -127,11 +129,18 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
       }
     } catch {
       setError('Failed to upload image')
+    } finally {
+      setIsUploading(false)
     }
   }
 
   const saveArticle = async (statusOverride?: string) => {
     if (!article) return
+    if (isUploading) {
+      setError('Please wait for the image upload to finish before saving.')
+      return
+    }
+    
     setSaving(true)
     setSaveState('saving')
     setError(null)
