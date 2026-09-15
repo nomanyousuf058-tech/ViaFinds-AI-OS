@@ -16,13 +16,15 @@ export async function POST(request: Request) {
   try {
     await adminOnly()
     const body = await request.json()
-    const { type, mode, topic, category, keyword, dryRun } = body as {
+    const { type, mode, topic, category, keyword, dryRun, affiliateUrl, partnerName } = body as {
       type: string
       mode?: string
       topic?: string
       category?: string
       keyword?: string
       dryRun?: boolean
+      affiliateUrl?: string
+      partnerName?: string
     }
 
     if (!type) {
@@ -51,11 +53,17 @@ export async function POST(request: Request) {
       topic: topicStr,
       category: category || '',
       keyword: keyword || '',
+      affiliateUrl: body.affiliateUrl,
+      partnerName: body.partnerName,
     })
 
     let result;
     if (type === 'find_trends') {
       result = await automationPipeline.runFindTrends(job.id)
+    } else if (type === 'manual_affiliate') {
+      result = await automationPipeline.runManualAffiliate(job.id, body.affiliateUrl)
+    } else if (type === 'auto_partner') {
+      result = await automationPipeline.runAutoPartner(job.id, body.partnerName)
     } else {
       result = await automationPipeline.run(job.id)
     }

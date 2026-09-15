@@ -23,7 +23,8 @@ export async function verifyAdminToken() {
       return null
     }
     return payload as { sub: string; email: string; role: string }
-  } catch {
+  } catch (e) {
+    console.error('verifyAdminToken error:', e)
     return null
   }
 }

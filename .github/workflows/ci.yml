@@ -25,16 +25,12 @@ jobs:
 
     - name: Check types
       run: npm run typecheck
-      continue-on-error: true
 
     - name: Run Linter
       run: npm run lint
-      continue-on-error: true
 
     - name: Run Tests
       run: npm run test
-      continue-on-error: true
 
     - name: Build Next.js App
       run: npm run build
-      continue-on-error: true

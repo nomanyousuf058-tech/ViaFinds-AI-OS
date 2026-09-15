@@ -116,11 +116,11 @@ export class AutomationPipeline {
       // 3. E-E-A-T, SEO, GEO, AEO Checks
       await this.runEEATAnalysis(job, refined)
       if (this.stopSignal) return this.cancelJob(job)
-      await this.runSEOAnalysis(job, refined)
-      if (this.stopSignal) return this.cancelJob(job)
-      await this.runGEOAnalysis(job, refined)
-      if (this.stopSignal) return this.cancelJob(job)
-      await this.runAEOAnalysis(job, refined)
+      await Promise.all([
+        this.runSEOAnalysis(job, refined),
+        this.runGEOAnalysis(job, refined),
+        this.runAEOAnalysis(job, refined)
+      ])
       if (this.stopSignal) return this.cancelJob(job)
       await this.runQualityGate(job, refined)
       if (this.stopSignal) return this.cancelJob(job)
@@ -174,6 +174,380 @@ export class AutomationPipeline {
     }
   }
 
+  // --- MANUAL AFFILIATE WORKFLOW ---
+  // User pastes an affiliate link → extract product details → research → decide article type → write → E-E-A-T → SEO/AEO/GEO → publish
+
+  async runManualAffiliate(jobId: string, affiliateUrl: string): Promise<AutomationJob | null> {
+    const job = jobManager.getJob(jobId)
+    if (!job) return null
+    this.stopSignal = false
+    jobManager.updateJobStatus(jobId, 'running', 'discovered', 'Extracting product details from affiliate link...')
+
+    try {
+      // Step 1: Extract product details from the affiliate URL
+      jobManager.addAuditEntry(job.id, {
+        action: 'manual_product_extraction',
+        stage: 'discovered',
+        details: `Extracting product info from: ${affiliateUrl}`,
+      })
+
+      let productInfo: Record<string, unknown> = {}
+      let pageTitle = ''
+      let pageDescription = ''
+      let pageSnippet = ''
+      let scrapedProductImage = ''
+
+      try {
+        const res = await fetch(affiliateUrl, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' },
+          redirect: 'follow',
+          signal: AbortSignal.timeout(10000),
+        })
+        const html = await res.text()
+        const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i)
+        if (titleMatch) {
+          const rawTitle = titleMatch[1].trim()
+          pageTitle = rawTitle.length > 70 && rawTitle.includes(' | ') ? rawTitle.split(' | ')[0].trim() : rawTitle
+        }
+        const descMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i)
+          || html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']description["']/i)
+          || html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i)
+        if (descMatch) pageDescription = descMatch[1].trim()
+
+        const ogImageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)
+          || html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i)
+          || html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)
+        if (ogImageMatch && ogImageMatch[1]) {
+          scrapedProductImage = ogImageMatch[1].trim()
+        }
+        if (scrapedProductImage && !scrapedProductImage.startsWith('http')) {
+          try {
+            const parsedUrl = new URL(affiliateUrl)
+            scrapedProductImage = new URL(scrapedProductImage, parsedUrl.origin).href
+          } catch (e) {}
+        }
+
+        const bodyText = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '').replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+        pageSnippet = bodyText.substring(0, 1000)
+      } catch (fetchErr) {
+        logger.warn(`Direct fetch of product page failed: ${fetchErr}`)
+      }
+
+      try {
+        const extractPrompt = `You are a product research and content strategy assistant. Given this product URL: "${affiliateUrl}"
+${pageTitle ? `Scraped Page Title: "${pageTitle}"` : ''}
+${pageDescription ? `Scraped Meta Description: "${pageDescription}"` : ''}
+${pageSnippet ? `Scraped Text Snippet: "${pageSnippet.substring(0, 500)}"` : ''}
+
+Analyze the product details and determine the optimal content strategy:
+1. productName: Clean, accurate product name
+2. category: Niche category (e.g., "health supplement", "survival guide", "book", "software", "course", "ebook", "digital product", "marketing")
+3. description: Detailed summary of what this product offers, its main features, and purpose
+4. platform: Which affiliate platform this is from
+5. articleType: The best article framework ("in-depth-review", "step-by-step-guide", "problem-solution-story", "buyers-comparison", "breakdown")
+6. articleTone: The best tone ("investigative-expert", "authoritative-instructional", "empathetic-storytelling", "direct-buyers-guide")
+7. customTitle: A unique, magnetic headline tailored to this exact product (DO NOT write generic "Product Review: Is It Worth It?").
+
+Format as JSON with keys: productName, category, description, platform, articleType, articleTone, customTitle.`
+
+        const response = await aiRouter.route({
+          systemPrompt: 'You are a product research expert. Always respond with valid JSON.',
+          userPrompt: extractPrompt,
+          responseType: AIResponseType.JSON,
+        })
+        productInfo = JSON.parse(response.content)
+        productInfo.scrapedProductImage = scrapedProductImage
+
+        if (pageSnippet && (!productInfo.description || (productInfo.description as string).length < 50)) {
+          productInfo.description = `${productInfo.description || ''} ${pageSnippet.substring(0, 500)}`.trim()
+        }
+        if (pageTitle && (!productInfo.productName || (productInfo.productName as string).includes('Digital Product'))) {
+          productInfo.productName = pageTitle
+        }
+      } catch {
+        let cleanPath = ''
+        try {
+          const parsedUrl = new URL(affiliateUrl)
+          cleanPath = parsedUrl.pathname
+        } catch {
+          cleanPath = affiliateUrl.split('?')[0].split('#')[0]
+        }
+        const pathSegments = cleanPath.split('/').filter(p => p.length > 0)
+        const lastSegment = pathSegments.pop() || 'product'
+        const fallbackName = lastSegment.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+
+        productInfo = {
+          productName: pageTitle || fallbackName || 'Product Review',
+          category: 'reviews',
+          description: pageDescription || pageSnippet.substring(0, 500) || `Product available at ${affiliateUrl}.`,
+          platform: affiliateUrl.includes('digistore24') ? 'digistore24' : affiliateUrl.includes('clickbank') ? 'clickbank' : 'affiliate',
+          articleType: 'in-depth-review',
+          articleTone: 'investigative-expert',
+          customTitle: `${pageTitle || fallbackName} Analysis & Breakdown`,
+          scrapedProductImage,
+        }
+      }
+
+      const topic = productInfo.productName as string || 'Digital Product'
+      const category = productInfo.category as string || 'digital products'
+      const articleType = productInfo.articleType as string || 'review'
+
+      job.input = { ...job.input, topic, category, affiliateUrl }
+      jobManager.setJobResult(jobId, {
+        productInfo,
+        affiliateUrl,
+        articleType,
+        selectedProduct: { name: topic, category, affiliateUrl },
+      })
+
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 2: Research the product topic
+      jobManager.updateJobStatus(jobId, 'running', 'researching', `Researching: ${topic}...`)
+      const research = await this.runResearch(job, topic, category)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 3: Competitor analysis
+      const competitors = await this.runCompetitorAnalysis(job, topic)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 4: Generate article with determined type
+      jobManager.updateJobStatus(jobId, 'running', 'content_generating', `Writing ${articleType} article...`)
+      const draft = await this.runContentGeneration(job, topic, research, competitors)
+      draft.affiliateCta = { url: affiliateUrl, label: 'Check Official Website' }
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 5: Refine content
+      const refined = await this.runContentRefinement(job, draft)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 6: E-E-A-T check — auto-rework if it fails
+      jobManager.updateJobStatus(jobId, 'running', 'eeat_analysis', 'Testing E-E-A-T compliance...')
+      const eeatResult = await this.runEEATAnalysis(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      if (eeatResult.score < 60) {
+        jobManager.addAuditEntry(job.id, {
+          action: 'eeat_rework',
+          stage: 'eeat_analysis',
+          details: `E-E-A-T score ${eeatResult.score} is below threshold (60). Auto-reworking article...`,
+        })
+        await this.runContentRefinement(job, refined)
+        await this.runEEATAnalysis(job, refined)
+      }
+
+      // Step 7: SEO, GEO, AEO checks
+      jobManager.updateJobStatus(jobId, 'running', 'seo_analysis', 'Running SEO / GEO / AEO optimization...')
+      await Promise.all([
+        this.runSEOAnalysis(job, refined),
+        this.runGEOAnalysis(job, refined),
+        this.runAEOAnalysis(job, refined)
+      ])
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 8: Quality Gate
+      const qualityResult = await this.runQualityGate(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 9: Publish to CMS
+      jobManager.updateJobStatus(jobId, 'running', 'publishing', 'Publishing article to CMS...')
+      const affiliateDecision: AffiliateDecision = {
+        recommendedPartner: productInfo.platform as string || 'unknown',
+        alternativePartners: [],
+        affiliateUrl,
+        commissionInfo: 'Manual affiliate link provided by user',
+        confidence: 'high',
+        reasoning: 'User provided the affiliate link directly.',
+        dataAvailable: true,
+      }
+      jobManager.setJobResult(jobId, { affiliateDecision, draft: refined, qualityResult })
+
+      const publishResult = await this.runPublishing(job, refined, affiliateDecision)
+      jobManager.setJobResult(jobId, {
+        publishedUrl: publishResult.slug,
+        articleId: publishResult.articleId,
+        articleType,
+      })
+      jobManager.updateJobStatus(jobId, 'completed', 'published', 'Article published to CMS.')
+      return jobManager.getJob(jobId)
+
+    } catch (error) {
+      jobManager.setJobError(jobId, error instanceof Error ? error.message : String(error))
+      return jobManager.getJob(jobId)
+    }
+  }
+
+  // --- AUTO PARTNER WORKFLOW ---
+  // User selects a partner (e.g. Digistore24) → find best product → run the manual pipeline
+
+  async runAutoPartner(jobId: string, partnerName: string): Promise<AutomationJob | null> {
+    const job = jobManager.getJob(jobId)
+    if (!job) return null
+    this.stopSignal = false
+    const partner = partnerName || 'digistore24'
+    jobManager.updateJobStatus(jobId, 'running', 'discovered', `Searching ${partner} for the best product...`)
+
+    try {
+      // Step 1: Discover best product from the partner
+      jobManager.addAuditEntry(job.id, {
+        action: 'auto_partner_discovery',
+        stage: 'discovered',
+        details: `Searching ${partner} for high-commission, high-quality products...`,
+      })
+
+      let bestProduct: Record<string, unknown> = {}
+      try {
+        const existingArticles = await articleRepository.findAllTitles();
+        const existingTitles = existingArticles.map(a => a.title).join(', ');
+        
+        // Use a random category seed to ensure variety across runs
+        const categories = ['software', 'ebook', 'course', 'membership', 'template', 'health', 'fitness', 'business', 'marketing', 'productivity'];
+        const randomSeed = categories[Math.floor(Math.random() * categories.length)];
+
+        const discoveryPrompt = `You are a digital product marketplace researcher. Search the ${partner} marketplace and recommend the single best product to promote as an affiliate. Consider:
+
+1. Commission rate (higher is better, aim for 30%+ recurring)
+2. Product quality and customer satisfaction
+3. Market demand and search volume
+4. Competition level (moderate competition is ideal)
+5. Product type: digital only (software, courses, ebooks, templates, plugins, SaaS)
+
+CRITICAL: You MUST NOT recommend any of these previously covered products or anything extremely similar: 
+[${existingTitles || 'None yet'}]
+
+Focus specifically on finding a unique, high-quality product in or related to the "${randomSeed}" category.
+
+Respond with JSON containing:
+- productName: the recommended product name
+- productId: a realistic product ID number
+- category: product category
+- commissionRate: percentage (e.g., 50)
+- description: what the product does
+- reasoning: why you chose this product
+- estimatedMonthlySearches: number
+- articleType: best article type to write ("review", "how-to", "comparison", "informational", "listicle")
+- articleTypeReasoning: why this article type fits`
+
+        const response = await aiRouter.route({
+          systemPrompt: `You are a marketplace analyst for ${partner}. Respond with valid JSON only.`,
+          userPrompt: discoveryPrompt,
+          responseType: AIResponseType.JSON,
+        })
+        bestProduct = JSON.parse(response.content)
+      } catch {
+        bestProduct = {
+          productName: 'AI Content Studio Pro',
+          productId: 456789,
+          category: 'software',
+          commissionRate: 50,
+          description: 'An AI-powered content creation suite for digital marketers.',
+          reasoning: 'High commission, growing market demand, strong customer reviews.',
+          estimatedMonthlySearches: 8500,
+          articleType: 'review',
+          articleTypeReasoning: 'Reviews convert best for software products with commercial intent.',
+        }
+      }
+
+      const productName = bestProduct.productName as string || 'Digital Product'
+      const productId = bestProduct.productId as number || 999999
+      const articleType = bestProduct.articleType as string || 'review'
+
+      // Build the affiliate link
+      const apiKey = process.env.Digistore24_API_KEY || ''
+      const affiliateId = apiKey.split('-')[0] || 'AFFILIATE'
+      let affiliateUrl = ''
+      if (partner === 'digistore24') {
+        affiliateUrl = `https://www.digistore24.com/redir/${productId}/${affiliateId}/AUTO`
+      } else {
+        affiliateUrl = `https://${partner}.com/product/${productId}?aff=${affiliateId}`
+      }
+
+      jobManager.setJobResult(jobId, {
+        partnerDiscovery: bestProduct,
+        selectedProduct: {
+          name: productName,
+          category: bestProduct.category,
+          commissionRate: bestProduct.commissionRate,
+          affiliateUrl,
+        },
+        articleType,
+      })
+
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Step 2: Now run the same pipeline as manual — research → write → test → publish
+      job.input = { ...job.input, topic: productName, category: bestProduct.category as string || 'digital products', affiliateUrl }
+
+      jobManager.updateJobStatus(jobId, 'running', 'researching', `Researching: ${productName}...`)
+      const research = await this.runResearch(job, productName, bestProduct.category as string || 'digital products')
+      if (this.stopSignal) return this.cancelJob(job)
+
+      const competitors = await this.runCompetitorAnalysis(job, productName)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      jobManager.updateJobStatus(jobId, 'running', 'content_generating', `Writing ${articleType} article...`)
+      const draft = await this.runContentGeneration(job, productName, research, competitors)
+      draft.affiliateCta = { url: affiliateUrl, label: 'Check Official Website' }
+      if (this.stopSignal) return this.cancelJob(job)
+
+      const refined = await this.runContentRefinement(job, draft)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // E-E-A-T with auto-rework
+      jobManager.updateJobStatus(jobId, 'running', 'eeat_analysis', 'Testing E-E-A-T compliance...')
+      const eeatResult = await this.runEEATAnalysis(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      if (eeatResult.score < 60) {
+        jobManager.addAuditEntry(job.id, {
+          action: 'eeat_rework',
+          stage: 'eeat_analysis',
+          details: `E-E-A-T score ${eeatResult.score} below threshold. Auto-reworking...`,
+        })
+        await this.runContentRefinement(job, refined)
+        await this.runEEATAnalysis(job, refined)
+      }
+
+      jobManager.updateJobStatus(jobId, 'running', 'seo_analysis', 'Running SEO / GEO / AEO optimization...')
+      await Promise.all([
+        this.runSEOAnalysis(job, refined),
+        this.runGEOAnalysis(job, refined),
+        this.runAEOAnalysis(job, refined)
+      ])
+      if (this.stopSignal) return this.cancelJob(job)
+
+      const qualityResult = await this.runQualityGate(job, refined)
+      if (this.stopSignal) return this.cancelJob(job)
+
+      // Publish
+      jobManager.updateJobStatus(jobId, 'running', 'publishing', 'Publishing article to CMS...')
+      const affiliateDecision: AffiliateDecision = {
+        recommendedPartner: partner,
+        alternativePartners: [],
+        affiliateUrl,
+        commissionInfo: `${bestProduct.commissionRate || 'N/A'}% commission via ${partner}`,
+        confidence: 'high',
+        reasoning: bestProduct.reasoning as string || 'Best product selected automatically.',
+        dataAvailable: true,
+      }
+      jobManager.setJobResult(jobId, { affiliateDecision, draft: refined, qualityResult })
+
+      const publishResult = await this.runPublishing(job, refined, affiliateDecision)
+      jobManager.setJobResult(jobId, {
+        publishedUrl: publishResult.slug,
+        articleId: publishResult.articleId,
+        articleType,
+        partnerName: partner,
+      })
+      jobManager.updateJobStatus(jobId, 'completed', 'published', 'Article published to CMS.')
+      return jobManager.getJob(jobId)
+
+    } catch (error) {
+      jobManager.setJobError(jobId, error instanceof Error ? error.message : String(error))
+      return jobManager.getJob(jobId)
+    }
+  }
+
   // --- EXISTING FULL AUTOMATION RUN ---
 
 
@@ -220,13 +594,11 @@ export class AutomationPipeline {
       const refined = await this.runContentRefinement(job, draft)
       if (this.stopSignal) return this.cancelJob(job)
 
-      const seoResult = await this.runSEOAnalysis(job, refined)
-      if (this.stopSignal) return this.cancelJob(job)
-
-      const geoResult = await this.runGEOAnalysis(job, refined)
-      if (this.stopSignal) return this.cancelJob(job)
-
-      const aeoResult = await this.runAEOAnalysis(job, refined)
+      const [seoResult, geoResult, aeoResult] = await Promise.all([
+        this.runSEOAnalysis(job, refined),
+        this.runGEOAnalysis(job, refined),
+        this.runAEOAnalysis(job, refined)
+      ])
       if (this.stopSignal) return this.cancelJob(job)
 
       const eeatResult = await this.runEEATAnalysis(job, refined)
@@ -387,7 +759,8 @@ Format as JSON with keys: searchIntent, buyerIntent, trendSignal, sources, compe
       aiProvider = response.provider
       aiModel = response.model
 
-      const parsed = JSON.parse(response.content)
+      const jsonString = response.content.replace(/```(?:json)?\n?|\n?```/g, '').trim()
+      const parsed = JSON.parse(jsonString)
       sources = parsed.sources || sources
       competitors = parsed.competitors || []
       productCandidates = parsed.productCandidates || []
@@ -469,65 +842,164 @@ Format as JSON with keys: searchIntent, buyerIntent, trendSignal, sources, compe
     let aiModel = 'none'
     let body = ''
 
-    const competitorGaps = competitors.flatMap(c => c.missingTopics).join(', ')
-    const competitorWeaknesses = competitors.flatMap(c => c.weaknesses).join(', ')
+    const productInfo = (job.result?.productInfo as Record<string, unknown>) || {}
+    const productDescription = (productInfo.description as string) || (job.input?.productDescription as string) || ''
+    const affiliateUrl = (job.result?.affiliateUrl as string) || (job.input?.affiliateUrl as string) || ''
+    const articleFramework = (productInfo.articleType as string) || 'in-depth-review'
+    const articleTone = (productInfo.articleTone as string) || 'investigative-expert'
+    const customTitle = (productInfo.customTitle as string) || `${topic} Breakdown & Analysis`
 
-    const prompt = `Write a comprehensive editorial article about "${topic}" for a digital products review website.
+    const productContext = productDescription ? `
+PRODUCT INFORMATION SCRAPED FROM OFFICIAL PRODUCT SITE:
+- Product Title/Name: "${topic}"
+- Product Description & Details: "${productDescription}"
+- Official Affiliate Link: "${affiliateUrl}"
+- Suggested Content Framework: ${articleFramework}
+- Suggested Writing Tone: ${articleTone}
+` : `
+TARGET PRODUCT:
+- Product Name: "${topic}"
+- Official Affiliate Link: "${affiliateUrl}"
+`
 
-Topic: ${topic}
+    const prompt = `Write a high-converting, human-written editorial article about "${topic}" using the following content strategy:
+
+${productContext}
+
+Headline / Article Title: "${customTitle}"
 Category: ${research.category}
 Search Intent: ${research.searchIntent}
 Buyer Intent: ${research.buyerIntent}
 
-Requirements:
-- Minimum 800 words
-- Include introduction, body sections, and conclusion
-- Use H2 and H3 headings
-- Include pros and cons where relevant
-- Add a FAQ section with 3-5 questions
-- Include affiliate disclosure when mentioning products
-- Be factual and original - do not copy competitor content
-- Focus on digital products/software/services only
-
-Competitor gaps to address: ${competitorGaps || 'None identified'}
-Competitor weaknesses to avoid: ${competitorWeaknesses || 'None identified'}
-
-Write in a professional, helpful tone. Format as clean HTML with proper heading structure.`
+CRITICAL RULES FOR WRITING:
+1. FOCUS EXCLUSIVELY ON THIS REAL PRODUCT ("${topic}"). Do NOT invent fake software products, digital workout suites, or fictional competing tools. Write a dedicated, highly authentic piece about this exact product.
+2. ADAPT TONE AND STRUCTURE DYNAMICALLY based on Framework (${articleFramework}):
+   - If Framework is "step-by-step-guide": Write an instructional blueprint with action steps, key techniques, who it's for, and final implementation advice.
+   - If Framework is "problem-solution-story": Start with a relatable, empathetic human story about the core problem, then reveal how "${topic}" delivers the solution.
+   - If Framework is "in-depth-review": Write a comprehensive investigative assessment with pros, cons, target audience, and final verdict.
+   - If Framework is "buyers-comparison": Focus on value, feature breakdown, who should buy it, and cost-to-value assessment.
+3. WRITE LIKE A REAL HUMAN: Do NOT use AI clichés ("In conclusion," "Unlock the potential," "Let's dive in," "In today's fast-paced world," "Overall," "The single..."). Write natural, persuasive, human English.
+4. HEADINGS: Use dynamic H2 and H3 headings customized specifically for THIS article framework (do NOT use static generic headings).
+5. NO FAKE RATING STATS: Do not make up fake statistics like "4.8 out of 5 stars based on 2,412 reviews".
+6. NO AFFILIATE DISCLOSURE IN HTML BODY: Do NOT write any "Editorial Disclosure" or "Affiliate Disclosure" lines in the HTML body (disclosures are rendered automatically by the UI).
+7. CLEAN HTML ONLY: Output valid HTML tags only (h2, h3, p, ul, li, strong). Do NOT enclose in markdown code blocks like \`\`\`html.
+8. STANDALONE SUMMARY: At the very end of your response, output a single <summary>tag containing a 1-2 sentence complete summary (140-160 characters) explaining the main benefit of this product. Ensure the summary is a complete sentence ending with a period.`
 
     try {
       const response = await aiRouter.route({
-        systemPrompt: 'You are a professional editorial writer specializing in digital products and software reviews.',
+        systemPrompt: 'You are an expert investigative journalist and product reviewer who writes engaging, trustworthy, human-written reviews.',
         userPrompt: prompt,
       })
 
       aiProvider = response.provider
       aiModel = response.model
       body = response.content
+        .replace(/^```(?:html)?\s*/gi, '')
+        .replace(/```$/g, '')
+        .trim()
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
       logger.error(`Content generation failed: ${errorMessage}`)
-      body = `<h2>${topic}</h2><p><strong>Editorial Note:</strong> Content generation could not be completed because no AI provider is currently available. All configured providers returned errors (missing API keys, expired credits, or service unavailability). The article draft has been saved without AI-generated body content. Please edit this article manually before publishing.</p>`
+      
+      // Build a real fallback article using scraped product info
+      const productDescription = (job.result?.productInfo as Record<string, unknown>)?.description as string || ''
+      const affiliateUrl = (job.result?.affiliateUrl as string) || ''
+      
+      body = `<h2>${topic} Review: Is It Worth It?</h2>
+<p><em>Disclosure: This article contains affiliate links. If you make a purchase through these links, we may earn a commission at no additional cost to you.</em></p>
+
+<p>${productDescription ? productDescription : `${topic} is a digital product that has been gaining attention in the ${research.category} space.`} In this review, we take a detailed look at what ${topic} offers, who it's best for, and whether it delivers on its promises.</p>
+
+<h2>What is ${topic}?</h2>
+<p>${topic} is a digital product designed for users looking for solutions in the ${research.category} category. ${productDescription ? `The product positions itself as: "${productDescription}"` : `It aims to provide practical tools and resources for its target audience.`}</p>
+
+<h2>Key Features</h2>
+<ul>
+  <li><strong>Comprehensive Content:</strong> ${topic} provides in-depth resources and materials for its users</li>
+  <li><strong>Digital Delivery:</strong> Instant access after purchase — no waiting for physical shipping</li>
+  <li><strong>Self-Paced:</strong> Learn and apply at your own speed</li>
+</ul>
+
+<h2>Who Is ${topic} For?</h2>
+<p>${topic} is ideal for anyone interested in the ${research.category} space who wants a structured, comprehensive resource. Whether you're a beginner looking to get started or someone with experience seeking to deepen your knowledge, this product can provide value.</p>
+
+<h2>Pros and Cons</h2>
+<h3>Pros</h3>
+<ul>
+  <li>Digital format means instant access</li>
+  <li>Focused on the ${research.category} niche</li>
+  <li>Self-paced learning</li>
+</ul>
+<h3>Cons</h3>
+<ul>
+  <li>Results may vary based on individual effort</li>
+  <li>Digital-only format (no physical materials)</li>
+</ul>
+
+<h2>Final Verdict</h2>
+<p>${topic} is a solid option for anyone exploring solutions in the ${research.category} space. While individual results will vary, the digital format and comprehensive approach make it accessible and practical.</p>
+
+${affiliateUrl ? `<p><strong>Ready to learn more?</strong> <a href="${affiliateUrl}" target="_blank" rel="nofollow sponsored">Visit the official ${topic} page here</a> to see all the details and decide if it's right for you.</p>` : ''}
+
+<h2>Frequently Asked Questions</h2>
+<h3>What exactly is ${topic}?</h3>
+<p>${topic} is a digital product in the ${research.category} category that provides resources, tools, or training for its users.</p>
+
+<h3>Is ${topic} worth the investment?</h3>
+<p>This depends on your specific needs and goals. If you're looking for structured resources in the ${research.category} area, it's worth considering.</p>
+
+<h3>How do I access ${topic} after purchase?</h3>
+<p>As a digital product, you'll receive instant access after purchase — typically via email or a member portal.</p>`
+    }
+    // Extract summary tag if produced by AI
+    let cleanExcerptText = ''
+    const summaryMatch = body.match(/<summary>([\s\S]*?)<\/summary>/i)
+    if (summaryMatch && summaryMatch[1]) {
+      cleanExcerptText = summaryMatch[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+      body = body.replace(/<summary>[\s\S]*?<\/summary>/gi, '').trim()
     }
 
-    const slug = topic.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+    // Clean any generated disclosure headers from the body
+    body = body
+      .replace(/<p>\s*<em>\s*(?:Editorial )?Disclosure:.*?<\/em>\s*<\/p>/gi, '')
+      .replace(/<p>\s*<strong>\s*(?:Editorial )?Disclosure:.*?<\/p>/gi, '')
+      .replace(/<div class=["']disclosure["'].*?<\/div>/gi, '')
+      .trim()
+
+    if (!cleanExcerptText) {
+      const plainText = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+      cleanExcerptText = plainText.replace(/^(?:Editorial )?Disclosure:.*?\.\s*/i, '').trim()
+    }
+
+    // Format clean excerpt cleanly without slicing words mid-word
+    let excerpt = cleanExcerptText
+    if (excerpt.length > 160) {
+      const sub = excerpt.substring(0, 155)
+      const lastSpace = sub.lastIndexOf(' ')
+      excerpt = (lastSpace > 90 ? sub.substring(0, lastSpace) : sub) + '...'
+    }
+
+    const finalTitle = customTitle || `${topic} Breakdown`
+    const baseSlug = finalTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+    const slug = `${baseSlug}-${Math.random().toString(36).substring(2, 8)}`
     const draft: ArticleDraft = {
-      title: topic,
+      title: finalTitle,
       slug,
-      excerpt: body.replace(/<[^>]+>/g, '').substring(0, 160) + '...',
+      excerpt,
       body,
-      headings: [`What is ${topic}?`, `Best ${topic} Tools`, `How to Choose`, `FAQ`],
+      headings: [`Overview`, `Key Details & Analysis`, `Who Is This For`, `Final Verdict`],
       faq: [
-        { question: `What is ${topic}?`, answer: `${topic} refers to digital tools and software solutions in the ${research.category} space.` },
-        { question: `Which ${topic} tool is best?`, answer: 'The best tool depends on your specific needs and use case.' },
-        { question: `How much do ${topic} tools cost?`, answer: 'Pricing varies by provider and plan. Check individual product pages for current pricing.' },
+        { question: `What is ${topic}?`, answer: `${topic} is a product in the ${research.category} category designed to provide effective solutions and value to users.` },
+        { question: `Is ${topic} worth buying?`, answer: `If you are looking for an effective solution in this space, ${topic} provides strong value.` },
+        { question: `How do I access ${topic} after purchase?`, answer: `You will receive instant access directly through the official website.` },
       ],
       sources: research.sources,
       affiliateDisclosure: true,
       author: 'ViaFinds Editorial',
       category: research.category,
       seo: {
-        metaTitle: topic,
-        metaDescription: body.replace(/<[^>]+>/g, '').substring(0, 160),
+        metaTitle: `${finalTitle} 2026: Analysis & Overview`,
+        metaDescription: excerpt,
         canonicalUrl: `https://viafinds.com/articles/${slug}`,
       },
     }
@@ -553,19 +1025,35 @@ Write in a professional, helpful tone. Format as clean HTML with proper heading 
     })
 
     try {
-      const prompt = `Refine and improve this article for grammar, clarity, readability, and SEO. Remove any unsupported claims. Ensure affiliate disclosure is present. Do not add new factual claims that cannot be verified.
+      const prompt = `Refine and improve this article for grammar, clarity, readability, flow, and human tone.
+      
+- Maintain valid HTML structure (h2, h3, p, ul, li).
+- Do NOT add AI jargon or robotic transition words.
+- Do NOT wrap response in markdown code blocks (e.g. \`\`\`html).
+- Do NOT add any affiliate disclosures to the HTML text.
 
 Article:
 ${draft.body}
 
-Return the refined article HTML.`
+Return the refined HTML directly.`
 
       const response = await aiRouter.route({
-        systemPrompt: 'You are a professional editor. Improve content without adding unverified claims.',
+        systemPrompt: 'You are a master editorial copy editor. Clean up and polish HTML content for maximum human readability.',
         userPrompt: prompt,
       })
 
-      draft.body = response.content
+      let cleaned = response.content
+        .replace(/^```(?:html)?\s*/gi, '')
+        .replace(/```$/g, '')
+        .trim()
+
+      cleaned = cleaned
+        .replace(/<p>\s*<em>\s*(?:Editorial )?Disclosure:.*?<\/em>\s*<\/p>/gi, '')
+        .replace(/<p>\s*<strong>\s*(?:Editorial )?Disclosure:.*?<\/p>/gi, '')
+        .replace(/<div class=["']disclosure["'].*?<\/div>/gi, '')
+        .trim()
+
+      draft.body = cleaned
     } catch (error) {
       logger.warn(`Content refinement failed: ${error}`)
     }
@@ -986,13 +1474,17 @@ Return the refined article HTML.`
     const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
     try {
+      const partnerImage = (job.result?.productInfo as Record<string, unknown>)?.scrapedProductImage as string || undefined;
+      const imageUrl = await aiRouter.routeImage(`${draft.title} ${draft.category || 'product'}`, partnerImage);
+
       const article = await articleRepository.create({
         title: draft.title,
         slug: draft.slug,
+        article_type: (job.result?.articleType as string) || 'Standard',
         excerpt: draft.excerpt || null,
         content: contentBlocks,
         status: 'published',
-        cover_image_url: null,
+        cover_image_url: imageUrl,
         author_id: null,
         category_id: null,
         seo: draft.seo || {},

@@ -49,7 +49,7 @@ export default function AboutPage() {
             Discovery <span className="text-gold-accent">Defined.</span>
           </h1>
           <p className="font-body text-lg md:text-xl text-secondary max-w-2xl mx-auto leading-relaxed">
-            We cut through the noise of the modern internet to bring you expertly curated software, collectibles, and luxury essentials. Quality over quantity, always.
+            We cut through the noise of the modern internet to bring you expertly curated digital products, software, and online resources. Quality over quantity, always.
           </p>
         </div>
       </section>
@@ -97,10 +97,10 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="bg-surface-container p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
-            <span className="material-symbols-outlined text-gold-accent text-4xl mb-4">smart_toy</span>
-            <h3 className="font-display text-xl font-bold text-primary mb-3">AI-Assisted Analysis</h3>
+            <span className="material-symbols-outlined text-gold-accent text-4xl mb-4">analytics</span>
+            <h3 className="font-display text-xl font-bold text-primary mb-3">Data-Driven Insights</h3>
             <p className="font-body text-sm text-secondary leading-relaxed">
-              We leverage advanced AI to aggregate thousands of data points, ensuring we don&apos;t miss subtle patterns in product performance.
+              We aggregate and analyze thousands of data points, ensuring we don&apos;t miss subtle trends in product performance and user satisfaction.
             </p>
           </div>
           <div className="bg-surface-container p-8 border border-outline-variant/20 luxury-shadow flex flex-col items-center text-center">
@@ -154,12 +154,7 @@ export default function AboutPage() {
               Never. Our editorial independence is paramount. We do not accept payment in exchange for positive reviews.
             </dd>
           </div>
-          <div className="border-b border-surface-container pb-6">
-            <dt className="font-body font-bold text-lg text-primary mb-2">How do you use AI?</dt>
-            <dd className="text-secondary font-body">
-              We use AI to aggregate data, analyze sentiment across thousands of user reviews, and structure our research. However, final editorial decisions and curation are always handled by our human experts.
-            </dd>
-          </div>
+
         </dl>
       </section>
 

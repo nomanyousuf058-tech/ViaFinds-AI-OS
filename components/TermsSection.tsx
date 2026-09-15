@@ -55,7 +55,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
         return (
           <>
             <p className="mb-4">
-              The information provided by the Site regarding products is for general informational purposes only. All information on the Site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information on the Site.
+              The information provided by the Site regarding digital products, software, and online services is for general informational purposes only. We provide our honest feedback and research, but we make no representation or warranty of any kind regarding the completeness or accuracy of any information on the Site.
             </p>
           </>
         );
@@ -63,7 +63,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
         return (
           <>
             <p className="mb-4">
-              Some content on this Site, including product summaries and recommendations, is generated or assisted by artificial intelligence. While we strive for accuracy, AI-generated content may occasionally contain errors. Always verify critical information independently.
+              We leverage advanced tools to help gather data and structure our findings about digital products. While we review our content carefully, always verify critical product details independently before making a purchase.
             </p>
           </>
         );
@@ -128,7 +128,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
             </p>
             <address className="not-italic">
               ViaFinds<br />
-              support@viafinds.com
+              viafinds77@gmail.com
             </address>
           </>
         );
@@ -182,7 +182,7 @@ export default function TermsSection({ id, title }: TermsSectionProps) {
               <div>
                 <dt className="font-medium">How do I report a violation of these terms?</dt>
                 <dd className="ml-4 text-gray-700 dark:text-gray-300">
-                  Please contact us at support@viafinds.com to report any suspected violations.
+                  Please contact us at viafinds77@gmail.com to report any suspected violations.
                 </dd>
               </div>
             </dl>

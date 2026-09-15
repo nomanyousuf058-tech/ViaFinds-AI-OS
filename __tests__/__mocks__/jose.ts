@@ -46,7 +46,7 @@ async function jwtVerify(token: string, secret: Uint8Array) {
     throw new Error('Invalid token');
   }
   if (token.startsWith('fake.jwt.token.')) {
-    const payloadB64 = token.split('.')[2];
+    const payloadB64 = token.split('.')[3];
     if (payloadB64) {
       const payload = JSON.parse(Buffer.from(payloadB64, 'base64').toString('utf8'));
       return {

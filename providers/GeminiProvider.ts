@@ -34,10 +34,15 @@ export class GeminiProvider extends BaseProvider {
    */
   public async generateCompletion(payload: AIPromptPayload): Promise<AIProviderResponse> {
     if (!this.client) {
-      throw new Error('GeminiProvider: Client not initialized. Call initialize() first.');
+      const apiKey = this.config.apiKey || process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error('GeminiProvider: Client not initialized. GEMINI_API_KEY is missing.');
+      }
+      this.client = new GoogleGenerativeAI(apiKey);
     }
 
-    const model = this.client.getGenerativeModel({ model: this.config.defaultModel });
+    const modelName = this.config.defaultModel || process.env.GEMINI_MODEL || 'gemini-3.6-flash';
+    const model = this.client.getGenerativeModel({ model: modelName });
     const startMs = Date.now();
 
     // Build the prompt parts

@@ -5,7 +5,7 @@ import { SignJWT } from 'jose'
 let mockCookieValue: { value?: string } = { value: undefined }
 
 jest.mock('next/headers', () => ({
-  cookies: jest.fn(() => ({
+  cookies: jest.fn(() => Promise.resolve({
     get: (name: string) => {
       if (name === 'admin_session') return { value: mockCookieValue.value }
       return undefined

@@ -91,3 +91,8 @@ migrate-article-type.ts
 # Uploads directory contents
 public/uploads/*
 !public/uploads/.gitkeep
+
+data/automation/jobs.json
+scratch.js
+scratch.json
+scratch_auto.js

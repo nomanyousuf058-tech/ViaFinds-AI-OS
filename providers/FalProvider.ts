@@ -40,6 +40,33 @@ export class FalProvider extends BaseProvider {
       throw new Error('FalProvider is not available');
     }
     logger.info(`Generating image with Fal.ai: "${prompt}"`);
-    return `stub-fal-url-for-${encodeURIComponent(prompt)}`;
+    
+    const modelStr = this.config.defaultModel === 'fal-flux-schnell' ? 'fal-ai/flux/schnell' : this.config.defaultModel || 'fal-ai/flux/schnell';
+    const baseUrl = this.config.baseUrl || 'https://fal.run';
+    const url = `${baseUrl.replace(/\/$/, '')}/${modelStr}`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Key ${this.config.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        image_size: "landscape_4_3"
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Fal.ai image generation error ${response.status}: ${errText}`);
+    }
+
+    const data = await response.json();
+    if (data && data.images && data.images.length > 0 && data.images[0].url) {
+      return data.images[0].url;
+    }
+
+    throw new Error('No image URL returned from Fal API');
   }
 }

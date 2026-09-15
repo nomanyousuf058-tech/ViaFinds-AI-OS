@@ -99,4 +99,50 @@ export class OpenAIProvider extends BaseProvider {
       return false;
     }
   }
+
+  public async generateImage(prompt: string): Promise<string> {
+    if (this.config.disabled || !this.config.apiKey) {
+      throw new Error('OpenAIProvider API key is missing or disabled');
+    }
+    
+    // Try dall-e-2 first for broader key compatibility
+    let response = await fetch('https://api.openai.com/v1/images/generations', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.config.apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'dall-e-2',
+        prompt: prompt.substring(0, 950),
+        n: 1,
+        size: '1024x1024',
+      }),
+    });
+
+    if (!response.ok) {
+      response = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.config.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'dall-e-3',
+          prompt: prompt.substring(0, 950),
+          n: 1,
+          size: '1024x1024',
+        }),
+      });
+    }
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`OpenAI DALL-E image generation error ${response.status}: ${errText}`);
+    }
+
+    const data = await response.json();
+    return data.data?.[0]?.url || '';
+  }
 }
+

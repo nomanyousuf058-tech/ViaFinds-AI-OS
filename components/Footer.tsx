@@ -34,31 +34,7 @@ export default function Footer({ navigation, settings }: FooterProps) {
               {tagline} Research-backed articles, guides, and insights for the modern web.
             </p>
 
-            {/* Social Links */}
-            {socialLinks && (
-              <div className="flex items-center gap-4 mt-2">
-                {socialLinks.twitter && (
-                  <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="Twitter / X">
-                    <span className="material-symbols-outlined text-[18px]" aria-hidden="true">flutter_dash</span>
-                  </a>
-                )}
-                {socialLinks.instagram && (
-                  <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="Instagram">
-                    <span className="material-symbols-outlined text-[18px]" aria-hidden="true">photo_camera</span>
-                  </a>
-                )}
-                {socialLinks.youtube && (
-                  <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="YouTube">
-                    <span className="material-symbols-outlined text-[18px]" aria-hidden="true">play_circle</span>
-                  </a>
-                )}
-                {socialLinks.pinterest && (
-                  <a href={socialLinks.pinterest} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors" aria-label="Pinterest">
-                    <span className="material-symbols-outlined text-[18px]" aria-hidden="true">interests</span>
-                  </a>
-                )}
-              </div>
-            )}
+
 
             {settings?.contactEmail && (
               <a

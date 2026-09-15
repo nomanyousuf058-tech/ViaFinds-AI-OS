@@ -279,6 +279,7 @@ export interface Article {
   _id: string
   title: string
   slug: string
+  articleType?: string
   excerpt?: string
   content?: PortableTextBlock[]
   author?: Author | null

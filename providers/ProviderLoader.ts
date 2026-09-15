@@ -141,7 +141,16 @@ export class ProviderLoader {
         } catch(e) {}
 
         const getConf = (type: AIProviderType) => {
-          return { ...defaultProviderConfigs[type], ...customConfigs[type] };
+          const base = defaultProviderConfigs[type] || {};
+          let apiKey = base.apiKey;
+          if (type === AIProviderType.GEMINI) apiKey = process.env.GEMINI_API_KEY || apiKey;
+          if (type === AIProviderType.OPENAI) apiKey = process.env.OPENAI_API_KEY || apiKey;
+          if (type === AIProviderType.CLAUDE) apiKey = process.env.ANTHROPIC_API_KEY || apiKey;
+          if (type === AIProviderType.OPENROUTER) apiKey = process.env.OPENROUTER_API_KEY || apiKey;
+          if (type === AIProviderType.GROQ) apiKey = process.env.GROQ_API_KEY || apiKey;
+          if (type === AIProviderType.DEEPSEEK) apiKey = process.env.DEEPSEEK_API_KEY || apiKey;
+          if (type === AIProviderType.MISTRAL) apiKey = process.env.MISTRAL_API_KEY || apiKey;
+          return { ...base, apiKey, ...customConfigs[type] };
         };
 
         try {

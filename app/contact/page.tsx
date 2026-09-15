@@ -34,7 +34,7 @@ export default function ContactPage() {
       url: 'https://viafinds.com',
       contactPoint: {
         '@type': 'ContactPoint',
-        email: 'support@viafinds.com',
+        email: 'viafinds77@gmail.com',
         contactType: 'customer support',
       },
     },
@@ -68,7 +68,7 @@ export default function ContactPage() {
                 <span className="material-symbols-outlined text-gold-accent mt-0.5" aria-hidden="true">mail</span>
                 <div>
                   <strong className="block font-body text-sm text-primary uppercase tracking-wide">Email</strong>
-                  <a href="mailto:support@viafinds.com" className="font-body text-secondary hover:text-gold-accent transition-colors">support@viafinds.com</a>
+                  <a href="mailto:viafinds77@gmail.com" className="font-body text-secondary hover:text-gold-accent transition-colors">viafinds77@gmail.com</a>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -88,38 +88,7 @@ export default function ContactPage() {
             </ul>
           </div>
 
-          {/* Social Media Placeholder */}
-          <div>
-            <h3 className="font-display text-xl font-bold text-primary mb-4">Connect With Us</h3>
-            <div className="flex gap-4">
-              <a href="#" className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-gold-accent hover:text-white transition-colors" aria-label="Twitter Profile">
-                <span className="material-symbols-outlined" aria-hidden="true">flutter_dash</span>
-              </a>
-              <a href="#" className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-gold-accent hover:text-white transition-colors" aria-label="Instagram Profile">
-                <span className="material-symbols-outlined" aria-hidden="true">photo_camera</span>
-              </a>
-              <a href="#" className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-gold-accent hover:text-white transition-colors" aria-label="YouTube Channel">
-                <span className="material-symbols-outlined" aria-hidden="true">play_circle</span>
-              </a>
-              <a href="#" className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-gold-accent hover:text-white transition-colors" aria-label="Pinterest Board">
-                <span className="material-symbols-outlined" aria-hidden="true">interests</span>
-              </a>
-            </div>
-          </div>
 
-          {/* Google Map Placeholder */}
-          <div>
-            <h3 className="font-display text-xl font-bold text-primary mb-4">Our Location</h3>
-            <div className="w-full h-64 bg-surface-container flex items-center justify-center border border-outline-variant/20 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                <div className="text-center p-4">
-                  <span className="material-symbols-outlined text-gold-accent text-4xl mb-2" aria-hidden="true">map</span>
-                  <p className="font-body font-bold text-secondary text-sm uppercase tracking-widest">Map Placeholder</p>
-                  <p className="font-body text-xs text-secondary mt-1">Insert Google Maps iframe here</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

@@ -196,6 +196,18 @@ export class ArticleRepository {
     return result.rows[0] || null
   }
 
+  async findAllTitles(): Promise<{ title: string; slug: string }[]> {
+    try {
+      const pool = await this.getPool()
+      const result = await pool.query<{ title: string; slug: string }>(
+        `SELECT title, slug FROM articles ORDER BY created_at DESC`
+      )
+      return result.rows
+    } catch {
+      return []
+    }
+  }
+
   async delete(id: string): Promise<boolean> {
     const pool = await this.getPool()
     const result = await pool.query(`DELETE FROM articles WHERE id = $1`, [id])

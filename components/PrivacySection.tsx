@@ -21,13 +21,13 @@ export default function PrivacySection({ id, title }: PrivacySectionProps) {
         return (
           <>
             <p className="mb-4">
-              At ViaFinds (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;), we respect your privacy and are
+              At ViaFinds, we respect your privacy and are
               committed to protecting the personal information you share with us.
               This Privacy Policy explains what information we collect, how we use
-              it, and your rights regarding that data.
+              it, and your rights regarding that data as you interact with our digital products.
             </p>
             <p className="mb-4">
-              By accessing or using https://viafinds.com (the &quot;Site&quot;), you agree to
+              By accessing or using https://viafinds.com, you agree to
               the practices described in this policy.
             </p>
           </>
@@ -252,8 +252,7 @@ export default function PrivacySection({ id, title }: PrivacySectionProps) {
               <li>Withdraw consent at any time.</li>
             </ul>
             <p className="mb-4">
-              To exercise these rights, please contact us at
-              support@viafinds.com.
+              To exercise these rights, please contact us at viafinds77@gmail.com.
             </p>
           </>
         );
@@ -295,7 +294,7 @@ export default function PrivacySection({ id, title }: PrivacySectionProps) {
             </p>
             <address className="not-italic">
               ViaFinds<br />
-              support@viafinds.com
+              viafinds77@gmail.com
             </address>
           </>
         );
@@ -358,14 +357,13 @@ export default function PrivacySection({ id, title }: PrivacySectionProps) {
                 <dt className="font-medium">What are my privacy rights?</dt>
                 <dd className="ml-4 text-gray-700 dark:text-gray-300">
                   You have the right to access, correct, delete, or restrict the
-                  processing of your personal data. Contact us at
-                  support@viafinds.com to exercise these rights.
+                  processing of your personal data. Contact us at viafinds77@gmail.com to exercise these rights.
                 </dd>
               </div>
               <div>
                 <dt className="font-medium">How can I contact ViaFinds about privacy?</dt>
                 <dd className="ml-4 text-gray-700 dark:text-gray-300">
-                  Email us at support@viafinds.com.
+                  Email us at viafinds77@gmail.com.
                 </dd>
               </div>
             </dl>

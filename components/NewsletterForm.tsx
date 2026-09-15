@@ -50,7 +50,7 @@ export default function NewsletterForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-lg mx-auto w-full"
+      className="flex flex-col sm:flex-row items-stretch justify-center max-w-lg mx-auto w-full relative"
       noValidate
     >
       <input
@@ -61,7 +61,7 @@ export default function NewsletterForm() {
           if (status === 'error') setStatus('idle')
         }}
         placeholder="Your email address"
-        className={`flex-1 bg-white/10 border px-5 py-3.5 font-body text-xs text-white placeholder:text-white/40 focus:outline-none transition-colors ${
+        className={`flex-1 bg-white/10 border px-5 py-3.5 font-body text-xs text-white placeholder:text-white/40 focus:outline-none transition-colors sm:border-r-0 sm:rounded-l sm:rounded-tr-none ${
           status === 'error' ? 'border-red-400' : 'border-white/20 focus:border-gold-accent'
         }`}
         required
@@ -71,7 +71,7 @@ export default function NewsletterForm() {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="bg-gold-accent text-primary px-8 py-3.5 font-body text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity whitespace-nowrap disabled:opacity-60"
+        className="bg-primary text-deep-navy px-8 py-3.5 font-body text-xs font-bold uppercase tracking-widest hover:bg-gold-accent transition-colors whitespace-nowrap disabled:opacity-60 sm:rounded-r sm:rounded-bl-none border border-transparent sm:border-l-0"
       >
         {status === 'loading' ? (
           <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
@@ -80,7 +80,7 @@ export default function NewsletterForm() {
         )}
       </button>
       {status === 'error' && (
-        <p className="text-red-400 font-body text-[10px] sm:col-span-2 w-full text-left mt-1">
+        <p className="text-red-400 font-body text-[10px] sm:col-span-2 w-full text-left mt-1 absolute -bottom-5">
           Please enter a valid email address.
         </p>
       )}
