@@ -62,6 +62,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ url: publicUrl, filename })
     } else {
       // Local development fallback
+      if (process.env.VERCEL) {
+        return NextResponse.json(
+          { error: 'Image uploads require SUPABASE_SERVICE_ROLE_KEY environment variable to be set in Vercel to use Supabase Storage. Local uploads are not supported on Vercel.' },
+          { status: 500 }
+        )
+      }
+
       const uploadsDir = join(process.cwd(), 'public', 'uploads')
       if (!existsSync(uploadsDir)) {
         await mkdir(uploadsDir, { recursive: true })
@@ -76,7 +83,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Upload error:', error)
     return NextResponse.json(
-      { error: 'Failed to upload file' },
+      { error: error instanceof Error ? error.message : JSON.stringify(error) },
       { status: 500 }
     )
   }
