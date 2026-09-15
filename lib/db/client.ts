@@ -28,13 +28,14 @@ function resolveConfig(): DbConfig {
   const databaseUrl = process.env.DATABASE_URL
   if (databaseUrl && databaseUrl.trim().length > 0) {
     const url = new URL(databaseUrl)
+    const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
     return {
       host: url.hostname,
       port: Number(url.port) || 5432,
       database: url.pathname.replace(/^\//, ''),
       user: url.username,
       password: url.password,
-      ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
+      ssl: process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false }),
       connectionTimeoutMillis: 10000,
       idleTimeoutMillis: 30000,
       max: 10,
@@ -46,7 +47,8 @@ function resolveConfig(): DbConfig {
   const database = process.env.POSTGRES_DATABASE || 'viafinds'
   const user = process.env.POSTGRES_USER || 'postgres'
   const password = process.env.POSTGRES_PASSWORD || ''
-  const ssl = process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false
+  const isLocal = host === 'localhost' || host === '127.0.0.1'
+  const ssl = process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false })
 
   return { host, port, database, user, password, ssl, connectionTimeoutMillis: 10000, idleTimeoutMillis: 30000, max: 10 }
 }
