@@ -279,6 +279,7 @@ export interface Article {
   _id: string
   title: string
   slug: string
+  status?: 'draft' | 'auto_draft' | 'published' | 'manual'
   articleType?: string
   excerpt?: string
   content?: PortableTextBlock[]

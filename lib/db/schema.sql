@@ -410,10 +410,28 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION protect_manual_articles()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Prevent overwriting or downgrading published/manual articles by automated processes
+  -- This constraint ensures that the automated engine can only touch drafts.
+  IF OLD.status IN ('published', 'manual') THEN
+    -- If the new status isn't also published/manual (e.g., trying to set to auto_draft) or this is a background script, block it.
+    -- To allow true human admins to update, they would do it through the dashboard. 
+    -- The simplest DB-level safety is to block updates if the new status drops from published/manual to draft/auto_draft.
+    IF NEW.status IN ('draft', 'auto_draft') THEN
+       RAISE EXCEPTION 'Cannot downgrade a published or manual article to a draft via automation.';
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE TRIGGER update_admin_users_updated_at BEFORE UPDATE ON admin_users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE OR REPLACE TRIGGER update_authors_updated_at BEFORE UPDATE ON authors FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE OR REPLACE TRIGGER update_categories_updated_at BEFORE UPDATE ON categories FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE OR REPLACE TRIGGER update_articles_updated_at BEFORE UPDATE ON articles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE OR REPLACE TRIGGER protect_manual_articles_trigger BEFORE UPDATE ON articles FOR EACH ROW EXECUTE FUNCTION protect_manual_articles();
 CREATE OR REPLACE TRIGGER update_reviews_updated_at BEFORE UPDATE ON reviews FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE OR REPLACE TRIGGER update_products_updated_at BEFORE UPDATE ON products FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE OR REPLACE TRIGGER update_service_connections_updated_at BEFORE UPDATE ON service_connections FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

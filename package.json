@@ -9,7 +9,8 @@
     "lint": "eslint app components lib",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "test:auth": "jest __tests__/auth"
+    "test:auth": "jest __tests__/auth",
+    "test:automation": "tsx scripts/test-automation.ts && npm run build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1114.0",
