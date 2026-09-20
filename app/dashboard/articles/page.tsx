@@ -240,7 +240,6 @@ export default async function DashboardArticlesPage({ searchParams }: DashboardA
             </tbody>
           </table>
         </div>
-        </div>
       </div>
     )
   } catch (error) {
