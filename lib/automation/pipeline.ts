@@ -12,6 +12,41 @@ export class AutomationPipeline {
 
   constructor() {}
 
+  /**
+   * Sanitize LLM response content that may be wrapped in markdown code fences.
+   * LLMs often return ```json { ... } ``` which breaks JSON.parse.
+   */
+  private cleanJsonResponse(content: string): string {
+    let cleaned = content.trim()
+    // Strip markdown code fences: ```json ... ``` or ``` ... ```
+    cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '')
+    // Strip any leading/trailing whitespace after removal
+    cleaned = cleaned.trim()
+    return cleaned
+  }
+
+  /**
+   * Safely parse JSON from LLM response, with sanitization and retry.
+   */
+  private safeParseJson(content: string): Record<string, unknown> {
+    const cleaned = this.cleanJsonResponse(content)
+    try {
+      return JSON.parse(cleaned)
+    } catch (firstError) {
+      // Try to extract JSON object from the string
+      const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
+      if (jsonMatch) {
+        try {
+          return JSON.parse(jsonMatch[0])
+        } catch {
+          // Fall through to throw
+        }
+      }
+      logger.error('Failed to parse LLM JSON response', { content: cleaned.substring(0, 500), error: firstError instanceof Error ? firstError.message : String(firstError) })
+      throw new Error(`LLM returned invalid JSON: ${firstError instanceof Error ? firstError.message : String(firstError)}`)
+    }
+  }
+
   stop(): void {
     this.stopSignal = true
   }
@@ -31,11 +66,21 @@ export class AutomationPipeline {
         const res = await step.execute({ workflowId: job.id, dryRun: job.mode === 'dry_run' })
         trendingProducts = res.data.trendingProducts || []
       } catch (err) {
-        logger.warn('Failed to load TrendingDiscoveryStep', { error: err instanceof Error ? err.message : String(err) })
-        trendingProducts = [
-          { name: 'AI Image Generator Pro', searchVolume: 12000, trendDirection: 'up', estimatedCommission: 30, partnerAvailability: ['digistore24'] },
-          { name: 'SEO Content Workflow System', searchVolume: 8500, trendDirection: 'stable', estimatedCommission: 45, partnerAvailability: [] }
-        ]
+        logger.warn('Failed to load TrendingDiscoveryStep, falling back to LLM discovery', { error: err instanceof Error ? err.message : String(err) })
+        // Dynamic fallback: ask LLM for trending products instead of returning hardcoded data
+        try {
+          const trendPrompt = `You are a digital product trend analyst. Identify 3-5 currently trending digital products (software, courses, ebooks, SaaS tools) that are performing well on affiliate marketplaces like Digistore24 or ClickBank. For each product, provide: name, searchVolume (estimated monthly), trendDirection (up/stable/down), estimatedCommission (percentage), partnerAvailability (array of marketplace names). Use current timestamp ${Date.now()} as a randomization seed to ensure unique results. Return valid JSON array.`
+          const trendResponse = await aiRouter.route({
+            systemPrompt: 'You are a marketplace trend analyst. Respond with a valid JSON array only.',
+            userPrompt: trendPrompt,
+            responseType: AIResponseType.JSON,
+          })
+          const parsed = this.safeParseJson(trendResponse.content)
+          trendingProducts = Array.isArray(parsed) ? parsed : (parsed as Record<string, unknown>).products as unknown[] || []
+        } catch (llmErr) {
+          logger.error('LLM trend discovery also failed', { error: llmErr instanceof Error ? llmErr.message : String(llmErr) })
+          throw new Error('Could not discover trending products: both TrendingDiscoveryStep and LLM fallback failed.')
+        }
       }
 
       jobManager.setJobResult(jobId, { trendingProducts })
@@ -255,7 +300,7 @@ Format as JSON with keys: productName, category, description, platform, articleT
           userPrompt: extractPrompt,
           responseType: AIResponseType.JSON,
         })
-        productInfo = JSON.parse(response.content)
+        productInfo = this.safeParseJson(response.content)
         productInfo.scrapedProductImage = scrapedProductImage
 
         if (pageSnippet && (!productInfo.description || (productInfo.description as string).length < 50)) {
@@ -433,19 +478,12 @@ Respond with JSON containing:
           userPrompt: discoveryPrompt,
           responseType: AIResponseType.JSON,
         })
-        bestProduct = JSON.parse(response.content)
-      } catch {
-        bestProduct = {
-          productName: 'AI Content Studio Pro',
-          productId: 456789,
-          category: 'software',
-          commissionRate: 50,
-          description: 'An AI-powered content creation suite for digital marketers.',
-          reasoning: 'High commission, growing market demand, strong customer reviews.',
-          estimatedMonthlySearches: 8500,
-          articleType: 'review',
-          articleTypeReasoning: 'Reviews convert best for software products with commercial intent.',
-        }
+        bestProduct = this.safeParseJson(response.content)
+        logger.info('LLM product discovery succeeded', { productName: bestProduct.productName })
+      } catch (discoveryErr) {
+        logger.error('Auto partner product discovery failed', { error: discoveryErr instanceof Error ? discoveryErr.message : String(discoveryErr) })
+        // NO hardcoded fallback. Propagate the error so the user sees a real failure.
+        throw new Error(`Failed to discover a product from ${partner}: ${discoveryErr instanceof Error ? discoveryErr.message : String(discoveryErr)}`)
       }
 
       const productName = bestProduct.productName as string || 'Digital Product'
