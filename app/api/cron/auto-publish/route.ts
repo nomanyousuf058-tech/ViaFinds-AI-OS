@@ -50,7 +50,7 @@ export async function GET(request: Request) {
     }
 
     if (result.status === 'failed') {
-      logger.error('Cron auto-publish pipeline failed', { error: result.error })
+      logger.error('Cron auto-publish pipeline failed', undefined, { error: result.error })
       return NextResponse.json({ 
         success: false, 
         error: result.error,
@@ -75,7 +75,7 @@ export async function GET(request: Request) {
     })
 
   } catch (error) {
-    logger.error('Cron auto-publish unhandled error', { error: error instanceof Error ? error.message : String(error) })
+    logger.error('Cron auto-publish unhandled error', error instanceof Error ? error : new Error(String(error)))
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }

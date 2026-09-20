@@ -42,7 +42,7 @@ export class AutomationPipeline {
           // Fall through to throw
         }
       }
-      logger.error('Failed to parse LLM JSON response', { content: cleaned.substring(0, 500), error: firstError instanceof Error ? firstError.message : String(firstError) })
+      logger.error('Failed to parse LLM JSON response', firstError instanceof Error ? firstError : new Error(String(firstError)), { content: cleaned.substring(0, 500) })
       throw new Error(`LLM returned invalid JSON: ${firstError instanceof Error ? firstError.message : String(firstError)}`)
     }
   }
@@ -78,7 +78,7 @@ export class AutomationPipeline {
           const parsed = this.safeParseJson(trendResponse.content)
           trendingProducts = Array.isArray(parsed) ? parsed : (parsed as Record<string, unknown>).products as unknown[] || []
         } catch (llmErr) {
-          logger.error('LLM trend discovery also failed', { error: llmErr instanceof Error ? llmErr.message : String(llmErr) })
+          logger.error('LLM trend discovery also failed', llmErr instanceof Error ? llmErr : new Error(String(llmErr)))
           throw new Error('Could not discover trending products: both TrendingDiscoveryStep and LLM fallback failed.')
         }
       }
