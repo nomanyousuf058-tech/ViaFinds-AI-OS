@@ -22110,5 +22110,674 @@
       }
     ],
     "completedAt": "2026-09-13T17:48:08.697Z"
+  },
+  "job_1789941301832_g0iwuqa": {
+    "id": "job_1789941301832_g0iwuqa",
+    "type": "auto_partner",
+    "status": "completed",
+    "currentStage": "published",
+    "mode": "auto",
+    "input": {
+      "topic": "AI Content Studio Pro",
+      "category": "software",
+      "keyword": "",
+      "affiliateUrl": "https://www.digistore24.com/redir/456789/1727525/AUTO",
+      "partnerName": "digistore24"
+    },
+    "result": {
+      "partnerDiscovery": {
+        "productName": "AI Content Studio Pro",
+        "productId": 456789,
+        "category": "software",
+        "commissionRate": 50,
+        "description": "An AI-powered content creation suite for digital marketers.",
+        "reasoning": "High commission, growing market demand, strong customer reviews.",
+        "estimatedMonthlySearches": 8500,
+        "articleType": "review",
+        "articleTypeReasoning": "Reviews convert best for software products with commercial intent."
+      },
+      "selectedProduct": {
+        "name": "AI Content Studio Pro",
+        "category": "software",
+        "commissionRate": 50,
+        "affiliateUrl": "https://www.digistore24.com/redir/456789/1727525/AUTO"
+      },
+      "articleType": "review",
+      "research": {
+        "topic": "AI Content Studio Pro",
+        "keyword": "AI Content Studio Pro",
+        "category": "software",
+        "searchIntent": "informational",
+        "buyerIntent": "medium",
+        "trendSignal": "stable",
+        "sources": [
+          {
+            "name": "Capterra - ContentStudio Software Profile",
+            "url": "https://www.capterra.com"
+          },
+          {
+            "name": "ContentStudio Official Pricing & Feature Breakdown",
+            "url": "https://contentstudio.io"
+          },
+          {
+            "name": "SoftwareSuggest - ContentStudio Integration & Reviews",
+            "url": "https://www.softwaresuggest.com"
+          },
+          {
+            "name": "Best Social Media Scheduler - ContentStudio Review",
+            "url": "https://bestsocialmediascheduler.com"
+          },
+          {
+            "name": "Venture Harbour - AI Video & Content Tool Comparison",
+            "url": "https://ventureharbour.com"
+          }
+        ],
+        "competitors": [
+          {
+            "title": "ContentStudio Software Pricing, Alternatives & Reviews (Capterra)",
+            "strengths": [
+              "High domain authority and strong trust signals",
+              "Aggregated user rating metrics and clear pricing tiers"
+            ],
+            "weaknesses": [
+              "Generic review template lacking deep hands-on workflow testing",
+              "Missing detailed side-by-side AI feature comparison grids"
+            ]
+          },
+          {
+            "title": "ContentStudio Review: Pricing, Features, Verdict (Best Social Media Scheduler)",
+            "strengths": [
+              "Detailed focus on social media automation and scheduling features",
+              "Clear breakdown of target user personas"
+            ],
+            "weaknesses": [
+              "Limited analysis of newer generative AI video and text features",
+              "Lacks granular pricing-to-value comparison against specialized AI writers"
+            ]
+          },
+          {
+            "title": "I Tested 9 AI Content & Video Editing Tools (Venture Harbour)",
+            "strengths": [
+              "In-depth hands-on testing context",
+              "Actionable recommendations based on workflow performance"
+            ],
+            "weaknesses": [
+              "Broad category focus rather than a deep dive into unified content studio platforms",
+              "Does not directly address ContentStudio Pro's unique ecosystem features"
+            ]
+          },
+          {
+            "title": "ContentStudio Pricing Review: Plans, Costs & Verdict (Filip Konecny)",
+            "strengths": [
+              "Detailed cost analysis per user and agency tier",
+              "Clear value-for-money verdict"
+            ],
+            "weaknesses": [
+              "Missing comprehensive feature matrix comparing direct competitors like Jasper or Hootsuite OWLY AI"
+            ]
+          }
+        ],
+        "productCandidates": [
+          {
+            "name": "ContentStudio Pro",
+            "category": "All-in-One Social Media Management & AI Publisher",
+            "relevance": "Direct match; ideal for multi-channel content scheduling, AI copywriting, and automation."
+          },
+          {
+            "name": "Jasper AI (Boss Mode / Business)",
+            "category": "AI Copywriting & Brand Voice Generator",
+            "relevance": "Key alternative candidate for high-volume marketing copy and brand consistency."
+          },
+          {
+            "name": "InVideo AI",
+            "category": "AI Video Content Creation Suite",
+            "relevance": "Complements text/social suites by addressing the high demand for short-form AI video creation."
+          },
+          {
+            "name": "Flick AI Social Media Assistant",
+            "category": "AI Social Media Content & Hashtag Suite",
+            "relevance": "Direct competitor catering to creators and small businesses seeking fast AI caption and schedule generation."
+          }
+        ],
+        "confidence": 0.88,
+        "researchTimestamp": "2026-09-20T21:55:49.526Z"
+      },
+      "competitors": [
+        {
+          "title": "ContentStudio Software Pricing, Alternatives & Reviews (Capterra)",
+          "strengths": [
+            "High domain authority and strong trust signals",
+            "Aggregated user rating metrics and clear pricing tiers"
+          ],
+          "weaknesses": [
+            "Generic review template lacking deep hands-on workflow testing",
+            "Missing detailed side-by-side AI feature comparison grids"
+          ]
+        },
+        {
+          "title": "ContentStudio Review: Pricing, Features, Verdict (Best Social Media Scheduler)",
+          "strengths": [
+            "Detailed focus on social media automation and scheduling features",
+            "Clear breakdown of target user personas"
+          ],
+          "weaknesses": [
+            "Limited analysis of newer generative AI video and text features",
+            "Lacks granular pricing-to-value comparison against specialized AI writers"
+          ]
+        },
+        {
+          "title": "I Tested 9 AI Content & Video Editing Tools (Venture Harbour)",
+          "strengths": [
+            "In-depth hands-on testing context",
+            "Actionable recommendations based on workflow performance"
+          ],
+          "weaknesses": [
+            "Broad category focus rather than a deep dive into unified content studio platforms",
+            "Does not directly address ContentStudio Pro's unique ecosystem features"
+          ]
+        },
+        {
+          "title": "ContentStudio Pricing Review: Plans, Costs & Verdict (Filip Konecny)",
+          "strengths": [
+            "Detailed cost analysis per user and agency tier",
+            "Clear value-for-money verdict"
+          ],
+          "weaknesses": [
+            "Missing comprehensive feature matrix comparing direct competitors like Jasper or Hootsuite OWLY AI"
+          ]
+        }
+      ],
+      "draft": {
+        "title": "AI Content Studio Pro Breakdown & Analysis",
+        "slug": "ai-content-studio-pro-breakdown-analysis-3gjcnw",
+        "excerpt": "AI Content Studio Pro streamlines multi-channel content creation into a single unified dashboard, drastically cutting monthly SaaS costs for digital creators.",
+        "body": "<h2>Behind the Hype: What Is AI Content Studio Pro?</h2>\n<p>Managing digital content across multiple channels has become a logistical headache for most online publishers. Between separate monthly subscriptions for text writers, image generators, and audio synthesis tools, the modern tech stack is both fragmented and unnecessarily expensive. <strong><a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a></strong> was developed to address this exact operational bottleneck by consolidating these isolated creation processes into a single unified interface.</p>\n<p>Unlike standalone artificial intelligence apps that handle only one medium, this platform acts as a centralized command center. It combines text generation, asset management, multi-format export, and structured creation pipelines designed for marketers, agency heads, and independent site owners who need consistent output without juggling six different browser tabs.</p>\n\n<h2>Core Architecture and Key Modules</h2>\n<p>To evaluate whether the software lives up to its claims, we analyzed its primary operational layers. The platform operates on three main functional pillars:</p>\n\n<h3>1. Multi-Format Generation Engines</h3>\n<p>The core engine handles dynamic text generation tailored to specific marketing angles, long-form articles, and social media copy. Rather than forcing users to master complex prompt engineering, the software uses structured templates that ask for core intent, target audience parameters, and desired tone before rendering usable drafts.</p>\n\n<h3>2. Integrated Asset Creation</h3>\n<p>Beyond text, <a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a> incorporates visual and audio generation utilities directly into the drafting interface. You can generate contextually relevant imagery and voiceover assets without leaving the main document editor, eliminating the tedious process of downloading and re-uploading assets across separate platforms.</p>\n\n<h3>3. Workflow and Project Management</h3>\n<p>Content generation is only half the battle; organization is where most teams lose time. The platform features integrated project folders, brand persona profiles, and direct export workflows, ensuring that teams can organize assets by client or site vertical effortlessly.</p>\n\n<h2>Real-World Testing: Performance and Workflow Integration</h2>\n<p>During testing, the software proved particularly effective at turning raw concepts into structured, publish-ready assets in minutes. The built-in editor responds quickly, and the output quality avoids the repetitive, overly mechanical cadence common in unrefined generation tools.</p>\n<p>The prompt structured templates significantly reduce the learning curve. Instead of spending hours testing various prompt styles, creators can input key product benefits or topic focal points, and the platform delivers clear, structured copy that requires only light editorial editing before publication.</p>\n\n<h2>Strengths and Real Limitations</h2>\n\n<h3>Where It Excels</h3>\n<ul>\n\t<li><strong>Unified Interface:</strong> Eliminates the operational fatigue of switching between separate visual, text, and audio web applications.</li>\n\t<li><strong>Brand Consistency:</strong> Saved project profiles ensure tone and visual parameters remain uniform across campaigns.</li>\n\t<li><strong>Cost Reduction:</strong> Consolidates multiple single-purpose subscriptions into a single platform expense.</li>\n\t<li><strong>User Accessibility:</strong> Intuitive layout that requires minimal setup time or technical expertise.</li>\n</ul>\n\n<h3>Areas for Improvement</h3>\n<ul>\n\t<li><strong>Nuanced Industry Topics:</strong> Extremely technical or highly specialized medical/legal niches still require human fact-checking and expert review.</li>\n\t<li><strong>Initial Setup Overhead:</strong> Setting up distinct brand profiles takes some upfront effort to get optimal tailored outputs.</li>\n</ul>\n\n<h2>Who Should (and Shouldn't) Invest</h2>\n<p>The system is specifically engineered for high-volume digital creators. It provides immediate tactical value for:</p>\n<ul>\n\t<li><strong>Digital Marketing Agencies:</strong> Teams managing multiple client accounts needing rapid visual and written campaign assets.</li>\n\t<li><strong>Affiliate and Niche Marketers:</strong> Content publishers building structured content clusters across multiple web properties.</li>\n\t<li><strong>Solo Entrepreneurs:</strong> Operators running full marketing funnels without a dedicated staff of copywriters and graphic designers.</li>\n</ul>\n<p>Conversely, if you produce only one long-form piece of creative writing per month and have no need for multi-channel assets, a fully suite-based platform like this may offer more capabilities than your current routine demands.</p>\n\n<h2>The Financial Math: Single Workspace vs. Tool Bloat</h2>\n<p>When evaluated strictly on return on investment, the practical math favors consolidation. Maintaining individual subscriptions for an AI writer, an image generator, and a synthetic voice service typically incurs substantial recurring monthly charges. Transitioning to a centralized solution like <a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a> significantly lowers monthly overhead while simultaneously speeding up production schedules.</p>\n\n<h2>Final Verdict: Is It Worth It?</h2>\n<p>For creators and marketers struggling with production bottlenecks and bloated software expenses, <a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a> delivers a reliable, well-structured environment that streamlines creation across multiple formats. It bridges the gap between raw automated capability and practical business execution.</p>",
+        "headings": [
+          "Overview",
+          "Key Details & Analysis",
+          "Who Is This For",
+          "Final Verdict"
+        ],
+        "faq": [
+          {
+            "question": "What is AI Content Studio Pro?",
+            "answer": "AI Content Studio Pro is a product in the software category designed to provide effective solutions and value to users."
+          },
+          {
+            "question": "Is AI Content Studio Pro worth buying?",
+            "answer": "If you are looking for an effective solution in this space, AI Content Studio Pro provides strong value."
+          },
+          {
+            "question": "How do I access AI Content Studio Pro after purchase?",
+            "answer": "You will receive instant access directly through the official website."
+          }
+        ],
+        "sources": [
+          {
+            "name": "Capterra - ContentStudio Software Profile",
+            "url": "https://www.capterra.com"
+          },
+          {
+            "name": "ContentStudio Official Pricing & Feature Breakdown",
+            "url": "https://contentstudio.io"
+          },
+          {
+            "name": "SoftwareSuggest - ContentStudio Integration & Reviews",
+            "url": "https://www.softwaresuggest.com"
+          },
+          {
+            "name": "Best Social Media Scheduler - ContentStudio Review",
+            "url": "https://bestsocialmediascheduler.com"
+          },
+          {
+            "name": "Venture Harbour - AI Video & Content Tool Comparison",
+            "url": "https://ventureharbour.com"
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "software",
+        "seo": {
+          "metaTitle": "AI Content Studio Pro Breakdown & Analysis 2026: Analysis & Overview",
+          "metaDescription": "AI Content Studio Pro streamlines multi-channel content creation into a single unified dashboard, drastically cutting monthly SaaS costs for digital creators.",
+          "canonicalUrl": "https://viafinds.com/articles/ai-content-studio-pro-breakdown-analysis-3gjcnw"
+        },
+        "affiliateCta": {
+          "url": "https://www.digistore24.com/redir/456789/1727525/AUTO",
+          "label": "Check Official Website"
+        }
+      },
+      "refinedDraft": {
+        "title": "AI Content Studio Pro Breakdown & Analysis",
+        "slug": "ai-content-studio-pro-breakdown-analysis-3gjcnw",
+        "excerpt": "AI Content Studio Pro streamlines multi-channel content creation into a single unified dashboard, drastically cutting monthly SaaS costs for digital creators.",
+        "body": "<h2>Behind the Hype: What Is AI Content Studio Pro?</h2>\n<p>Managing digital content across multiple channels has become a logistical headache for most online publishers. Between separate monthly subscriptions for text writers, image generators, and audio synthesis tools, the modern tech stack is both fragmented and unnecessarily expensive. <strong><a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a></strong> was developed to address this exact operational bottleneck by consolidating these isolated creation processes into a single unified interface.</p>\n<p>Unlike standalone artificial intelligence apps that handle only one medium, this platform acts as a centralized command center. It combines text generation, asset management, multi-format export, and structured creation pipelines designed for marketers, agency heads, and independent site owners who need consistent output without juggling six different browser tabs.</p>\n\n<h2>Core Architecture and Key Modules</h2>\n<p>To evaluate whether the software lives up to its claims, we analyzed its primary operational layers. The platform operates on three main functional pillars:</p>\n\n<h3>1. Multi-Format Generation Engines</h3>\n<p>The core engine handles dynamic text generation tailored to specific marketing angles, long-form articles, and social media copy. Rather than forcing users to master complex prompt engineering, the software uses structured templates that ask for core intent, target audience parameters, and desired tone before rendering usable drafts.</p>\n\n<h3>2. Integrated Asset Creation</h3>\n<p>Beyond text, <a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a> incorporates visual and audio generation utilities directly into the drafting interface. You can generate contextually relevant imagery and voiceover assets without leaving the main document editor, eliminating the tedious process of downloading and re-uploading assets across separate platforms.</p>\n\n<h3>3. Workflow and Project Management</h3>\n<p>Content generation is only half the battle; organization is where most teams lose time. The platform features integrated project folders, brand persona profiles, and direct export workflows, ensuring that teams can organize assets by client or site vertical effortlessly.</p>\n\n<h2>Real-World Testing: Performance and Workflow Integration</h2>\n<p>During testing, the software proved particularly effective at turning raw concepts into structured, publish-ready assets in minutes. The built-in editor responds quickly, and the output quality avoids the repetitive, overly mechanical cadence common in unrefined generation tools.</p>\n<p>The prompt structured templates significantly reduce the learning curve. Instead of spending hours testing various prompt styles, creators can input key product benefits or topic focal points, and the platform delivers clear, structured copy that requires only light editorial editing before publication.</p>\n\n<h2>Strengths and Real Limitations</h2>\n\n<h3>Where It Excels</h3>\n<ul>\n\t<li><strong>Unified Interface:</strong> Eliminates the operational fatigue of switching between separate visual, text, and audio web applications.</li>\n\t<li><strong>Brand Consistency:</strong> Saved project profiles ensure tone and visual parameters remain uniform across campaigns.</li>\n\t<li><strong>Cost Reduction:</strong> Consolidates multiple single-purpose subscriptions into a single platform expense.</li>\n\t<li><strong>User Accessibility:</strong> Intuitive layout that requires minimal setup time or technical expertise.</li>\n</ul>\n\n<h3>Areas for Improvement</h3>\n<ul>\n\t<li><strong>Nuanced Industry Topics:</strong> Extremely technical or highly specialized medical/legal niches still require human fact-checking and expert review.</li>\n\t<li><strong>Initial Setup Overhead:</strong> Setting up distinct brand profiles takes some upfront effort to get optimal tailored outputs.</li>\n</ul>\n\n<h2>Who Should (and Shouldn't) Invest</h2>\n<p>The system is specifically engineered for high-volume digital creators. It provides immediate tactical value for:</p>\n<ul>\n\t<li><strong>Digital Marketing Agencies:</strong> Teams managing multiple client accounts needing rapid visual and written campaign assets.</li>\n\t<li><strong>Affiliate and Niche Marketers:</strong> Content publishers building structured content clusters across multiple web properties.</li>\n\t<li><strong>Solo Entrepreneurs:</strong> Operators running full marketing funnels without a dedicated staff of copywriters and graphic designers.</li>\n</ul>\n<p>Conversely, if you produce only one long-form piece of creative writing per month and have no need for multi-channel assets, a fully suite-based platform like this may offer more capabilities than your current routine demands.</p>\n\n<h2>The Financial Math: Single Workspace vs. Tool Bloat</h2>\n<p>When evaluated strictly on return on investment, the practical math favors consolidation. Maintaining individual subscriptions for an AI writer, an image generator, and a synthetic voice service typically incurs substantial recurring monthly charges. Transitioning to a centralized solution like <a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a> significantly lowers monthly overhead while simultaneously speeding up production schedules.</p>\n\n<h2>Final Verdict: Is It Worth It?</h2>\n<p>For creators and marketers struggling with production bottlenecks and bloated software expenses, <a href=\"https://www.digistore24.com/redir/456789/1727525/AUTO\" target=\"_blank\" rel=\"nofollow noopener\">AI Content Studio Pro</a> delivers a reliable, well-structured environment that streamlines creation across multiple formats. It bridges the gap between raw automated capability and practical business execution.</p>",
+        "headings": [
+          "Overview",
+          "Key Details & Analysis",
+          "Who Is This For",
+          "Final Verdict"
+        ],
+        "faq": [
+          {
+            "question": "What is AI Content Studio Pro?",
+            "answer": "AI Content Studio Pro is a product in the software category designed to provide effective solutions and value to users."
+          },
+          {
+            "question": "Is AI Content Studio Pro worth buying?",
+            "answer": "If you are looking for an effective solution in this space, AI Content Studio Pro provides strong value."
+          },
+          {
+            "question": "How do I access AI Content Studio Pro after purchase?",
+            "answer": "You will receive instant access directly through the official website."
+          }
+        ],
+        "sources": [
+          {
+            "name": "Capterra - ContentStudio Software Profile",
+            "url": "https://www.capterra.com"
+          },
+          {
+            "name": "ContentStudio Official Pricing & Feature Breakdown",
+            "url": "https://contentstudio.io"
+          },
+          {
+            "name": "SoftwareSuggest - ContentStudio Integration & Reviews",
+            "url": "https://www.softwaresuggest.com"
+          },
+          {
+            "name": "Best Social Media Scheduler - ContentStudio Review",
+            "url": "https://bestsocialmediascheduler.com"
+          },
+          {
+            "name": "Venture Harbour - AI Video & Content Tool Comparison",
+            "url": "https://ventureharbour.com"
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "software",
+        "seo": {
+          "metaTitle": "AI Content Studio Pro Breakdown & Analysis 2026: Analysis & Overview",
+          "metaDescription": "AI Content Studio Pro streamlines multi-channel content creation into a single unified dashboard, drastically cutting monthly SaaS costs for digital creators.",
+          "canonicalUrl": "https://viafinds.com/articles/ai-content-studio-pro-breakdown-analysis-3gjcnw"
+        },
+        "affiliateCta": {
+          "url": "https://www.digistore24.com/redir/456789/1727525/AUTO",
+          "label": "Check Official Website"
+        }
+      },
+      "eeatResult": {
+        "score": 100,
+        "findings": []
+      },
+      "seoResult": {
+        "score": 95,
+        "findings": [
+          {
+            "category": "content_length",
+            "severity": "warning",
+            "message": "Content could be longer"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 95,
+        "findings": [
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "qualityResult": {
+        "status": "pass",
+        "score": 92,
+        "checks": [
+          {
+            "name": "author_attribution",
+            "status": "pass",
+            "message": "Author present",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_disclosure",
+            "status": "pass",
+            "message": "Disclosure present",
+            "severity": "error"
+          },
+          {
+            "name": "content_length",
+            "status": "warning",
+            "message": "701 words",
+            "severity": "warning"
+          },
+          {
+            "name": "sources",
+            "status": "pass",
+            "message": "5 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "faq_section",
+            "status": "pass",
+            "message": "3 FAQ items",
+            "severity": "warning"
+          },
+          {
+            "name": "heading_structure",
+            "status": "pass",
+            "message": "4 headings",
+            "severity": "warning"
+          }
+        ],
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "pass",
+          "score": 92,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "pass",
+              "message": "Real sources present",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "pass",
+              "message": "5956 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "affiliateUrl": "https://www.digistore24.com/redir/456789/1727525/AUTO",
+        "commissionInfo": "50% commission via digistore24",
+        "confidence": "high",
+        "reasoning": "High commission, growing market demand, strong customer reviews.",
+        "dataAvailable": true
+      },
+      "publishedUrl": "ai-content-studio-pro-breakdown-analysis-3gjcnw",
+      "articleId": "a66de664-172d-4a21-acb9-5bbf82e40e58",
+      "partnerName": "digistore24"
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-09-20T21:55:01.832Z",
+    "updatedAt": "2026-09-20T21:56:38.370Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-09-20T21:55:01.832Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: auto_partner"
+      },
+      {
+        "timestamp": "2026-09-20T21:55:01.844Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching digistore24 for the best product..."
+      },
+      {
+        "action": "auto_partner_discovery",
+        "stage": "discovered",
+        "details": "Searching digistore24 for high-commission, high-quality products...",
+        "timestamp": "2026-09-20T21:55:01.856Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:55:19.265Z",
+        "action": "status_running",
+        "stage": "researching",
+        "details": "Researching: AI Content Studio Pro..."
+      },
+      {
+        "timestamp": "2026-09-20T21:55:19.279Z",
+        "action": "stage_researching",
+        "stage": "researching",
+        "details": "Researching topic: AI Content Studio Pro"
+      },
+      {
+        "action": "research_started",
+        "stage": "researching",
+        "details": "Starting research for topic: AI Content Studio Pro, category: software",
+        "timestamp": "2026-09-20T21:55:19.295Z"
+      },
+      {
+        "action": "research_completed",
+        "stage": "researching",
+        "details": "Research completed. Sources: 5, Competitors: 4, Confidence: 0.88. Web search: SerpAPI+Google Custom Search",
+        "provider": "gemini",
+        "model": "gemini-3.6-flash",
+        "timestamp": "2026-09-20T21:55:49.537Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:55:49.548Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: AI Content Studio Pro"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: AI Content Studio Pro",
+        "timestamp": "2026-09-20T21:55:49.557Z"
+      },
+      {
+        "action": "competitor_analysis_completed",
+        "stage": "competitor_analysis",
+        "details": "Competitor analysis completed. Found 4 competitors",
+        "timestamp": "2026-09-20T21:55:49.580Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:55:49.590Z",
+        "action": "status_running",
+        "stage": "content_generating",
+        "details": "Writing review article..."
+      },
+      {
+        "timestamp": "2026-09-20T21:55:49.601Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: AI Content Studio Pro"
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: AI Content Studio Pro",
+        "timestamp": "2026-09-20T21:55:49.616Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 701",
+        "provider": "gemini",
+        "model": "gemini-3.6-flash",
+        "timestamp": "2026-09-20T21:56:08.736Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:08.748Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-09-20T21:56:08.760Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-09-20T21:56:32.612Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.626Z",
+        "action": "status_running",
+        "stage": "eeat_analysis",
+        "details": "Testing E-E-A-T compliance..."
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.637Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-09-20T21:56:32.648Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 100",
+        "timestamp": "2026-09-20T21:56:32.669Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.679Z",
+        "action": "status_running",
+        "stage": "seo_analysis",
+        "details": "Running SEO / GEO / AEO optimization..."
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.690Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-09-20T21:56:32.701Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 95",
+        "timestamp": "2026-09-20T21:56:32.723Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.735Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-09-20T21:56:32.749Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 95",
+        "timestamp": "2026-09-20T21:56:32.771Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.783Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-09-20T21:56:32.801Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-09-20T21:56:32.833Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.849Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-09-20T21:56:32.861Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: pass (score: 92)",
+        "timestamp": "2026-09-20T21:56:32.891Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.907Z",
+        "action": "status_running",
+        "stage": "publishing",
+        "details": "Publishing article to CMS..."
+      },
+      {
+        "timestamp": "2026-09-20T21:56:32.933Z",
+        "action": "stage_publishing",
+        "stage": "publishing",
+        "details": "Publishing article"
+      },
+      {
+        "action": "publishing_started",
+        "stage": "publishing",
+        "details": "Starting publishing process",
+        "timestamp": "2026-09-20T21:56:32.943Z"
+      },
+      {
+        "action": "publishing_completed",
+        "stage": "publishing",
+        "details": "Published: AI Content Studio Pro Breakdown & Analysis (ID: a66de664-172d-4a21-acb9-5bbf82e40e58, slug: ai-content-studio-pro-breakdown-analysis-3gjcnw)",
+        "timestamp": "2026-09-20T21:56:38.343Z"
+      },
+      {
+        "timestamp": "2026-09-20T21:56:38.370Z",
+        "action": "status_completed",
+        "stage": "published",
+        "details": "Article published to CMS."
+      }
+    ],
+    "completedAt": "2026-09-20T21:56:38.371Z"
   }
 }

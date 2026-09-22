@@ -60,6 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
     verification: {
       other: {
         'impact-site-verification': '01f81daa-2982-441b-a510-97500aa10c86',
+        'p:domain_verify': 'a3014db2e9cdcdc8336b7895563a736c',
       },
     },
   }

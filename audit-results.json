@@ -1,0 +1,40 @@
+{
+  "working": [
+    {
+      "name": "DATABASE_URL (Supabase Postgres)",
+      "msg": "Connected and executed SELECT NOW()"
+    },
+    {
+      "name": "GEMINI_API_KEY",
+      "msg": "Authenticated successfully"
+    },
+    {
+      "name": "GOOGLE_SEARCH_CONSOLE_CREDENTIALS",
+      "msg": "JWT Auth Client created successfully"
+    }
+  ],
+  "broken": [
+    {
+      "name": "OPENAI_API_KEY",
+      "msg": "Failed with status 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key p..."
+    },
+    {
+      "name": "ANTHROPIC_API_KEY",
+      "msg": "Failed with status 401: {\"type\":\"error\",\"error\":{\"type\":\"authentication_er..."
+    },
+    {
+      "name": "OPENROUTER_API_KEY",
+      "msg": "Failed with status 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}..."
+    }
+  ],
+  "missing": [
+    {
+      "name": "X_API_KEY",
+      "msg": "ENABLE_X is true but X_API_KEY is missing"
+    },
+    {
+      "name": "EMAIL_PROVIDER",
+      "msg": "ENABLE_EMAIL is true but no email provider is configured"
+    }
+  ]
+}
