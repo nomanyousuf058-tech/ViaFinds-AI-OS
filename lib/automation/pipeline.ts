@@ -532,12 +532,33 @@ Respond with JSON containing:
       const productId = bestProduct.productId as number || 999999
       const articleType = bestProduct.articleType as string || 'review'
 
-      // Build the affiliate link
+      // Build the affiliate link — use dedicated env var for affiliate ID
       const apiKey = process.env.Digistore24_API_KEY || ''
-      const affiliateId = apiKey.split('-')[0] || 'AFFILIATE'
+      const affiliateId = process.env.DIGISTORE24_AFFILIATE_ID || apiKey.split('-')[0] || 'AFFILIATE'
       let affiliateUrl = ''
       if (partner === 'digistore24') {
-        affiliateUrl = `https://www.digistore24.com/redir/${productId}/${affiliateId}/AUTO`
+        // Validate that the product is actually live before generating a hop-link
+        let validatedProductId = productId
+        try {
+          const { Digistore24Provider } = await import('@/providers/affiliate/Digistore24Provider')
+          const provider = new Digistore24Provider(apiKey)
+          const validated = await provider.validateProduct(productId)
+          if (validated) {
+            validatedProductId = Number(validated.id) || productId
+            logger.info('Digistore24 product validated as live', { productId: validatedProductId, name: validated.name })
+          } else {
+            logger.warn(`Digistore24 product ${productId} could not be validated as live — link may be dead`, { productId })
+            jobManager.addAuditEntry(job.id, {
+              action: 'product_validation_warning',
+              stage: 'discovered',
+              details: `Product ID ${productId} could not be validated as active on Digistore24. The generated link may point to an unavailable product.`,
+            })
+          }
+        } catch (valErr) {
+          logger.warn('Digistore24 product validation skipped due to error', { error: valErr instanceof Error ? valErr.message : String(valErr) })
+        }
+        // Correct Digistore24 hop-link format: https://www.digistore24.com/redir/PRODUCT_ID/AFFILIATE_ID
+        affiliateUrl = `https://www.digistore24.com/redir/${validatedProductId}/${affiliateId}`
       } else {
         affiliateUrl = `https://${partner}.com/product/${productId}?aff=${affiliateId}`
       }
@@ -1448,7 +1469,7 @@ Return the refined HTML directly.`
 
     const configuredAffiliateProviders = process.env.ENABLE_Digistore24 === 'true' ? ['digistore24'] : []
     const apiKey = process.env.Digistore24_API_KEY || ''
-    const affiliateId = apiKey.split('-')[0] // E.g. "1727525"
+    const affiliateId = process.env.DIGISTORE24_AFFILIATE_ID || apiKey.split('-')[0] // Prefer dedicated env var
     
     if (productCandidates.length > 0 && configuredAffiliateProviders.length > 0) {
       recommendedPartner = configuredAffiliateProviders[0]
@@ -1456,9 +1477,32 @@ Return the refined HTML directly.`
       dataAvailable = true
       
       const candidate = productCandidates[0] as { productId?: number }
-      const productId = candidate?.productId || Math.floor(Math.random() * 100000) + 100000
-      
-      affiliateUrl = `https://www.digistore24.com/redir/${productId}/${affiliateId}/AUTO`
+      let productId = candidate?.productId || Math.floor(Math.random() * 100000) + 100000
+
+      // Validate that the product is live before generating the hop-link
+      if (apiKey) {
+        try {
+          const { Digistore24Provider } = await import('@/providers/affiliate/Digistore24Provider')
+          const provider = new Digistore24Provider(apiKey)
+          const validated = await provider.validateProduct(productId)
+          if (validated) {
+            productId = Number(validated.id) || productId
+            logger.info('Affiliate analysis: Digistore24 product validated as live', { productId })
+          } else {
+            logger.warn(`Affiliate analysis: Digistore24 product ${productId} is inactive or not found`)
+            jobManager.addAuditEntry(job.id, {
+              action: 'affiliate_product_inactive',
+              stage: 'affiliate_analysis',
+              details: `Product ID ${productId} is inactive or not found on Digistore24. Link may be dead.`,
+            })
+          }
+        } catch (valErr) {
+          logger.warn('Digistore24 product validation skipped in affiliate analysis', { error: valErr instanceof Error ? valErr.message : String(valErr) })
+        }
+      }
+
+      // Correct Digistore24 hop-link format (no /AUTO suffix)
+      affiliateUrl = `https://www.digistore24.com/redir/${productId}/${affiliateId}`
       commissionInfo = 'Commission verified via Digistore24'
     } else if (configuredAffiliateProviders.length > 0) {
       recommendedPartner = configuredAffiliateProviders[0]
