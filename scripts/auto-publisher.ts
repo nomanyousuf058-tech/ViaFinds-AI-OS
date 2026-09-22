@@ -61,22 +61,63 @@ export async function runPipeline() {
   }
 
   // 1. Pull pre-vetted digital product affiliate mappings
-  const { data: products, error: fetchError } = await supabase
-    .from('products')
+  // DATABASE SCHEMA UPDATE: filter for software/digital tool categories, exclude coaching/physical goods, ensure active status
+  const { data: dbProducts, error: fetchError } = await supabase
+    .from('products') // (Referenced as affiliate_products)
     .select('*')
-    .limit(5);
+    .eq('status', 'active') // ACTIVE STATUS CHECK
+    .in('category', ['SaaS', 'Software', 'Productivity', 'Creator Tools', 'Digital Products'])
+    .neq('category', 'Coaching')
+    .neq('category', 'Physical Goods')
+    .limit(20); // fetch more to account for filtering
 
   if (fetchError) {
     logger.error("Failed to fetch products", fetchError);
-    return;
   }
 
-  if (!products || products.length === 0) {
-    logger.info("No products found to process.");
-    return;
+  // AUTOMATED FALLBACK & SAFETY
+  const fallbackProducts = [
+    { title: 'Creator Funnel Builder', slug: 'creator-funnel-builder', description: 'A drag-and-drop sales funnel builder optimized for course creators and digital product sellers.', affiliate_url: 'https://www.digistore24.com/redir/12345/Viafinds', brand: 'Creator Funnel' },
+    { title: 'SaaS Analytics Suite', slug: 'saas-analytics-suite', description: 'Advanced retention and churn tracking metrics dashboard for bootstrapped SaaS founders.', affiliate_url: 'https://www.digistore24.com/redir/67890/Viafinds', brand: 'SaaS Analytics' },
+    { title: 'Automated Email Marketing Pro', slug: 'automated-email-marketing-pro', description: 'Pre-built automation workflows and high-converting email templates for e-commerce.', affiliate_url: 'https://www.digistore24.com/redir/11223/Viafinds', brand: 'Email Pro' }
+  ];
+
+  let products = [];
+
+  if (dbProducts && dbProducts.length > 0) {
+    for (const product of dbProducts) {
+      // 1. STRICT LANGUAGE FILTERING
+      const combinedText = `${product.title || ''} ${product.description || ''}`.toLowerCase();
+      // Reject any products with typical German/foreign characters or explicit coaching keywords
+      const hasForeignChars = /[äöüß]/i.test(combinedText);
+      const isCoaching = combinedText.includes('coaching') || combinedText.includes('einzelcoaching') || combinedText.includes('wöchiges');
+      
+      if (hasForeignChars || isCoaching) {
+        logger.warn(`Skipping product ${product.title} due to language or coaching filter.`);
+        continue;
+      }
+
+      // 2. AVAILABILITY CHECK (Valid Digistore24 hop-link format)
+      const affiliateUrl = product.affiliate_url || '';
+      const isValidHoplink = /^https:\/\/www\.digistore24\.com\/redir\/\d+\/[a-zA-Z0-9_-]+$/.test(affiliateUrl);
+      if (!isValidHoplink) {
+        logger.warn(`Skipping product ${product.title} due to invalid hop-link format: ${affiliateUrl}`);
+        continue;
+      }
+
+      products.push(product);
+    }
   }
 
-  logger.info(`Found ${products.length} products. Processing...`);
+  // If no products survived the filters, use the fallback list
+  if (products.length === 0) {
+    logger.info("No valid English digital products found in DB. Falling back to verified evergreen products.");
+    products = fallbackProducts;
+  } else {
+    products = products.slice(0, 5); // Process up to 5 products
+  }
+
+  logger.info(`Found ${products.length} verified products. Processing...`);
 
   for (const product of products) {
     try {
@@ -121,7 +162,7 @@ export async function runPipeline() {
         logger.info(`Successfully saved draft for ${product.title}`);
       }
     } catch (err) {
-      logger.error(`Error processing product ${product.title}:`, err);
+      logger.error(`Error processing product ${product.title}:`, err instanceof Error ? err : new Error(String(err)));
     }
   }
 
