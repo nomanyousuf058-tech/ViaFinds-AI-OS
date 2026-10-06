@@ -310,12 +310,27 @@ export class Brain {
 }
 
 /**
- * One-time Brain Wake Up — idempotent.
+ * A wake_up run older than this is treated as stale (its owning process is
+ * presumed dead), so the stuck 'initializing' record is safely resumable.
+ */
+const STUCK_INITIALIZATION_TIMEOUT_MS = 15 * 60 * 1000;
+
+/**
+ * One-time Brain Wake Up — idempotent, truthful semantics.
  *
- * - If Brain is NOT initialized: creates initialization record, runs full loop,
- *   marks Brain as initialized. Creates a brain_runs record with run_type='wake_up'.
- * - If Brain IS already initialized: returns current Brain state without resetting.
- *   Creates a brain_runs record with run_type='cycle' for the periodic run.
+ * FIRST WAKE (no initialization record):
+ *   create initialization -> run full loop -> activate baseline strategy ->
+ *   ensure required production schedules -> mark initialized ONLY after all
+ *   succeed -> record a successful wake_up Brain run.
+ *
+ * STUCK INITIALIZATION (status='initializing'):
+ *   Inspect ownership: if a wake_up run is still 'running' and recent, another
+ *   process owns it (throw "in progress"). Otherwise it is safely resumable:
+ *   reuse the row and retry the full contract.
+ *
+ * ALREADY INITIALIZED:
+ *   Do NOT recreate initialization, baseline strategy, schedules, or memory.
+ *   Run a normal cycle and record it.
  *
  * Concurrent calls are safe: the database singleton constraint prevents
  * duplicate initialization.
@@ -324,8 +339,8 @@ export async function wakeBrain(researchQuery?: string): Promise<BrainReport & {
   const init = await brainRepository.getInitialization();
 
   if (init && init.status === 'initialized') {
-    // Brain is already active — do NOT reset, do NOT recreate strategy.
-    // Run a normal cycle instead.
+    // Brain is already active — do NOT reset, do NOT recreate strategy,
+    // schedules, or memory. Run a normal cycle instead.
     const run = await brainRepository.createRun({
       runType: 'cycle',
       trigger: researchQuery ? `manual:${researchQuery}` : 'manual',
@@ -359,11 +374,27 @@ export async function wakeBrain(researchQuery?: string): Promise<BrainReport & {
   let initResult: { id: string; initialization_id: string } | null = null;
 
   if (init) {
-    // Reuse the existing failed or stuck initialization
+    // A row exists but is not 'initialized'. Determine whether it is a
+    // genuinely stuck record or a live in-progress initialization.
+    const initStartedAt = init.initialized_at as string | null;
+    const runningRun = await brainRepository.getRunningWakeUpRun();
+    const isOwnedByLiveProcess =
+      !!runningRun &&
+      !!initStartedAt &&
+      Date.now() - new Date(initStartedAt).getTime() < STUCK_INITIALIZATION_TIMEOUT_MS;
+
+    if (isOwnedByLiveProcess) {
+      throw new Error(
+        `Brain initialization is already in progress (started ${initStartedAt}). Please wait for it to complete before calling Wake Up again.`
+      );
+    }
+
+    // Stuck or failed record: safely resumable. Reuse the row and retry the
+    // full initialization contract from scratch.
     initResult = { id: init.id as string, initialization_id: init.initialization_id as string };
     await brainRepository.updateInitialization(initResult.id, {
       status: 'initializing',
-      error: null
+      error: null,
     });
   } else {
     // First-time initialization
@@ -394,12 +425,31 @@ export async function wakeBrain(researchQuery?: string): Promise<BrainReport & {
   try {
     const report = await brain.runFullLoop(researchQuery);
 
-    // Mark Brain as initialized ONLY after successful execution
+    // --- Required first-wake side effects (all must succeed) ---
+
+    // 1. Baseline strategy: the operating foundation for all Brain decisions.
+    //    This is NOT a consequential change, so it is activated automatically
+    //    at initialization. Opportunity-based strategies remain 'proposed'
+    //    until the owner approves them.
+    const baseline = await brainRepository.ensureBaselineStrategy();
+    if (!baseline) {
+      throw new Error('Failed to create baseline strategy during Brain initialization');
+    }
+    const activation = await brainRepository.activateStrategy(String(baseline.id), 'brain-initialization');
+    if (!activation.success) {
+      throw new Error(`Failed to activate baseline strategy: ${activation.error || 'unknown error'}`);
+    }
+
+    // 2. Required production schedules: idempotent — only created if missing.
+    await brainRepository.ensureRequiredSchedules();
+
+    // 3. Mark Brain as initialized ONLY after the full contract succeeded.
     await brainRepository.updateInitialization(initResult.id, {
       status: 'initialized',
       data: {
         initializedAt: new Date().toISOString(),
         firstReportId: report.id,
+        baselineStrategyId: String(baseline.id),
         trigger: researchQuery || 'manual',
       },
     });
@@ -408,54 +458,15 @@ export async function wakeBrain(researchQuery?: string): Promise<BrainReport & {
       await brainRepository.updateRun(run.id, {
         status: 'completed',
         observations: report.observations,
-        results: { reportId: report.id },
+        results: { reportId: report.id, baselineStrategyId: baseline.id },
         completedAt: true,
       });
     }
 
-    // Ensure the Brain has a CURRENT ACTIVE STRATEGY from the start.
-    // The baseline business strategy is the operating foundation (not a
-    // consequential change), so it is activated automatically at
-    // initialization. Opportunity-based strategies remain 'proposed'
-    // until the owner approves them.
-    try {
-      const activeStrategy = await brainRepository.getCurrentActiveStrategy();
-      if (!activeStrategy) {
-        const baseline = await brainRepository.createStrategy({
-          title: 'ViaFinds Baseline: Digital Products Affiliate Content Business',
-          description: 'Article/blog-driven digital products affiliate business operated from Pakistan for an international audience. Revenue-first, evidence-driven, with Pakistan-first affiliate eligibility and payout practicality as a hard constraint.',
-          business_goal: 'Sustained affiliate revenue growth through high-quality digital product content',
-          reason: 'Initial baseline strategy created during one-time Brain Wake Up',
-          evidence: {
-            source: 'business_foundation',
-            constraints: [
-              'Pakistan operator must have a realistic, verified way to receive affiliate commissions',
-              'No fake data, no fabricated affiliate links or partner eligibility',
-              'International customers allowed; Pakistan payout practicality is the hard constraint',
-            ],
-            createdAt: new Date().toISOString(),
-          },
-          expected_impact: 'Defines the operating frame for all Brain opportunity, partner, and content decisions',
-          confidence: 'High',
-          risks: 'Baseline assumptions may need refinement as real revenue data accumulates',
-          status: 'approved',
-        });
-        if (baseline) {
-          const activation = await brainRepository.activateStrategy(baseline.id, 'brain-initialization');
-          if (!activation.success) {
-            console.warn('wakeBrain: baseline strategy activation failed:', activation.error);
-          }
-        }
-      }
-    } catch (strategyError) {
-      // Strategy setup failure must not fail the whole initialization —
-      // the Brain is initialized; a strategy can be created/activated later.
-      console.warn('wakeBrain: baseline strategy setup failed:', strategyError instanceof Error ? strategyError.message : String(strategyError));
-    }
-
     return { ...report, alreadyInitialized: false, runId: run?.id || null };
   } catch (error) {
-    // Record failure — Brain remains safely uninitialized
+    // Record failure — Brain remains safely uninitialized. Historical
+    // failures are preserved, never rewritten to look successful.
     await brainRepository.updateInitialization(initResult.id, {
       status: 'failed',
       error: error instanceof Error ? error.message : 'Unknown initialization error',

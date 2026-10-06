@@ -2126,12 +2126,34 @@ export class BrainRepository {
 
   // ───── Phase 5.6: Brain OS Foundation — Initialization & Runs ─────
 
+  /**
+   * Fetch the Brain initialization record.
+   *
+   * IMPORTANT: this does NOT swallow database / infrastructure failures.
+   * - A successful query that returns zero rows => `null` (Brain not yet initialized).
+   * - A connection error, a missing table, a constraint violation, or any other
+   *   database failure is RE-THROWN so callers can react (fail the run, surface
+   *   the error, etc.) instead of being told "no initialization exists" when the
+   *   database is actually broken.
+   */
   async getInitialization(): Promise<Record<string, unknown> | null> {
+    const pool = await this.getDb()
+    let result: { rows: Record<string, unknown>[] }
     try {
-      const pool = await this.getDb()
-      const result = await pool.query('SELECT * FROM brain_initialization LIMIT 1')
-      return result.rows[0] || null
-    } catch { return null }
+      result = await pool.query('SELECT * FROM brain_initialization LIMIT 1')
+    } catch (e) {
+      const err = e instanceof Error ? e.message : String(e)
+      console.error(
+        JSON.stringify({
+          component: 'BrainRepository.getInitialization',
+          severity: 'DATABASE_FAILURE',
+          error: err,
+          timestamp: new Date().toISOString(),
+        })
+      )
+      throw new Error(`Brain initialization query failed: ${err}`)
+    }
+    return result.rows[0] || null
   }
 
   async createInitialization(data?: Record<string, unknown>): Promise<{ id: string; initialization_id: string } | null> {
@@ -2239,6 +2261,25 @@ export class BrainRepository {
         `SELECT id, run_id, trigger, started_at
          FROM brain_runs
          WHERE run_type = 'cycle' AND status IN ('queued', 'running')
+         ORDER BY started_at DESC NULLS LAST
+         LIMIT 1`
+      )
+      return result.rows[0] || null
+    } catch { return null }
+  }
+
+  /**
+   * Return the in-flight wake_up run, if any.
+   * Used by wakeBrain() to decide whether a stuck 'initializing'
+   * record is genuinely owned by a still-running process.
+   */
+  async getRunningWakeUpRun(): Promise<Record<string, unknown> | null> {
+    try {
+      const pool = await this.getDb()
+      const result = await pool.query(
+        `SELECT id, run_id, trigger, started_at
+         FROM brain_runs
+         WHERE run_type = 'wake_up' AND status IN ('queued', 'running')
          ORDER BY started_at DESC NULLS LAST
          LIMIT 1`
       )
@@ -2600,6 +2641,87 @@ export class BrainRepository {
       )
       return result.rows[0] || null
     } catch { return null }
+  }
+
+  /**
+   * Idempotently ensure the baseline business strategy exists.
+   * Returns the baseline row (creating it if missing) or null on failure.
+   *
+   * The baseline is the operating foundation for the Brain — it is NOT a
+   * consequential change, so it is created/activated automatically during
+   * one-time initialization. Opportunity-based strategies remain 'proposed'
+   * until the owner approves them.
+   */
+  async ensureBaselineStrategy(): Promise<Record<string, unknown> | null> {
+    try {
+      const existing = await this.getCurrentActiveStrategy()
+      if (existing) return existing
+
+      const pool = await this.getDb()
+      const result = await pool.query(
+        `INSERT INTO brain_strategies (
+           title, description, business_goal, reason, evidence, expected_impact,
+           confidence, risks, status, provenance, strategy_type
+         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+         RETURNING *`,
+        [
+          'ViaFinds Baseline: Digital Products Affiliate Content Business',
+          'Article/blog-driven digital products affiliate business operated from Pakistan for an international audience. Revenue-first, evidence-driven, with Pakistan-first affiliate eligibility and payout practicality as a hard constraint.',
+          'Sustained affiliate revenue growth through high-quality digital product content',
+          'Initial baseline strategy created during one-time Brain Wake Up',
+          JSON.stringify({
+            source: 'business_foundation',
+            constraints: [
+              'Pakistan operator must have a realistic, verified way to receive affiliate commissions',
+              'No fake data, no fabricated affiliate links or partner eligibility',
+              'International customers allowed; Pakistan payout practicality is the hard constraint',
+            ],
+            createdAt: new Date().toISOString(),
+          }),
+          'Defines the operating frame for all Brain opportunity, partner, and content decisions',
+          'High',
+          'Baseline assumptions may need refinement as real revenue data accumulates',
+          'approved',
+          'REAL',
+          'baseline',
+        ]
+      )
+      return result.rows[0] || null
+    } catch (e) {
+      console.error('BrainRepository.ensureBaselineStrategy:', e)
+      return null
+    }
+  }
+
+  /**
+   * Idempotently ensure the required production schedules exist.
+   * Missing schedules are inserted; existing ones are left untouched.
+   */
+  async ensureRequiredSchedules(): Promise<void> {
+    const schedules: Array<{
+      key: string; purpose: string; frequency: string; handler: string
+    }> = [
+      { key: 'daily_opportunity_scan', purpose: 'Daily opportunity discovery and validation', frequency: 'daily', handler: 'brain_cycle:opportunities' },
+      { key: 'daily_health', purpose: 'Daily system health assessment', frequency: 'daily', handler: 'brain_cycle:health' },
+      { key: 'weekly_research', purpose: 'Weekly deep research cycle', frequency: 'weekly', handler: 'brain_cycle:research' },
+      { key: 'monthly_strategy_review', purpose: 'Monthly strategy evaluation and adjustment', frequency: 'monthly', handler: 'brain_cycle:strategy_review' },
+      { key: 'daily_revenue_scan', purpose: 'Daily revenue and conversion scan', frequency: 'daily', handler: 'brain_cycle:revenue' },
+      { key: 'weekly_product_research', purpose: 'Weekly product discovery and partner verification', frequency: 'weekly', handler: 'brain_cycle:partners' },
+      { key: 'weekly_partner_verification', purpose: 'Weekly partner eligibility re-verification', frequency: 'weekly', handler: 'brain_cycle:partners' },
+    ]
+    try {
+      const pool = await this.getDb()
+      for (const s of schedules) {
+        await pool.query(
+          `INSERT INTO brain_schedules (key, purpose, frequency, enabled, status, handler, metadata)
+           VALUES ($1, $2, $3, true, 'scheduled', $4, $5)
+           ON CONFLICT (key) DO NOTHING`,
+          [s.key, s.purpose, s.frequency, s.handler, JSON.stringify({ ensuredBy: 'wakeBrain' })]
+        )
+      }
+    } catch (e) {
+      console.error('BrainRepository.ensureRequiredSchedules:', e)
+    }
   }
 
   /** Full strategy history, newest first. */

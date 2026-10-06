@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { formatJsonField } from '@/lib/utils/format'
 
 interface BrainStatus {
   isOn: boolean
@@ -120,23 +121,13 @@ export default function TodayPage() {
         }
         if (apprJson.success && Array.isArray(apprJson.data)) {
           approvals = apprJson.data.map((a: Record<string, unknown>) => {
-            const fmt = (val: unknown): string => {
-              if (typeof val === 'string') return val;
-              if (typeof val === 'object' && val !== null) {
-                const o = val as Record<string, unknown>;
-                return String(o.title || o.description || o.action || o.type || o.name || JSON.stringify(val));
-              }
-              return String(val || '');
-            };
-            const pa = a.proposed_action || a.proposedAction || '';
-            const rp = a.requested_permission || a.requestedPermission || '';
             return {
               id: String(a.id || ''),
-              proposedAction: fmt(pa),
-              requestedPermission: fmt(rp),
+              proposedAction: formatJsonField(a.proposed_action || a.proposedAction),
+              requestedPermission: formatJsonField(a.requested_permission || a.requestedPermission),
               status: String(a.status || 'pending'),
               createdAt: String(a.created_at || a.createdAt || ''),
-            };
+            }
           })
         }
       }

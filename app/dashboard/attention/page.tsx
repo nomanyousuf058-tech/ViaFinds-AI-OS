@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useCallback } from 'react'
+import { formatJsonField } from '@/lib/utils/format'
 
 interface Approval {
   id: string
@@ -27,6 +28,10 @@ function categorize(a: Approval): Category {
   return 'information'
 }
 
+function fmt(val: unknown): string {
+  return formatJsonField(val)
+}
+
 export default function AttentionPage() {
   const [approvals, setApprovals] = useState<Approval[]>([])
   const [loading, setLoading] = useState(true)
@@ -45,9 +50,9 @@ export default function AttentionPage() {
           taskId: String(a.task_id || a.taskId || ''),
           strategyId: String(a.strategy_id || a.strategyId || ''),
           executionPlanId: String(a.execution_plan_id || a.executionPlanId || ''),
-          proposedAction: String(a.proposed_action || a.proposedAction || ''),
-          requestedPermission: String(a.requested_permission || a.requestedPermission || ''),
-          requiredPermission: String(a.required_permission || a.requiredPermission || ''),
+          proposedAction: fmt(a.proposed_action || a.proposedAction),
+          requestedPermission: fmt(a.requested_permission || a.requestedPermission),
+          requiredPermission: fmt(a.required_permission || a.requiredPermission),
           evidence: typeof a.evidence === 'object' && a.evidence !== null ? JSON.stringify(a.evidence, null, 2) : String(a.evidence || ''),
           status: String(a.status || 'pending'),
           decision: (a.decision as string) || null,
