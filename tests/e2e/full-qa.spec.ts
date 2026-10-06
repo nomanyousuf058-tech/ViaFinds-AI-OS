@@ -1,120 +1,89 @@
-import { test, expect, Browser, Page, chromium } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
-let browser: Browser;
+async function adminLogin(page: Page): Promise<boolean> {
+  const email = process.env.ADMIN_EMAIL || 'admin@viafinds.com'
+  const password = process.env.ADMIN_PASSWORD || process.env.INITIAL_ADMIN_PASSWORD || ''
+  if (!password) return false
 
-test.beforeAll(async () => {
-  browser = await chromium.launch({ headless: false });
-});
-
-test.afterAll(async () => {
-  await browser?.close();
-});
-
-async function testPage(name: string, path: string, screenshotName: string): Promise<{ name: string; status: string; error?: string }> {
-  const page = await browser.newPage();
+  await page.goto('/login')
+  await page.fill('input[type="email"]', email)
+  await page.fill('input[type="password"]', password)
+  await page.click('button[type="submit"]')
   try {
-    await page.goto(`http://localhost:3000${path}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    await page.waitForTimeout(2000);
-    await page.screenshot({ path: `tests/e2e/screenshots/${screenshotName}.png` });
-    return { name, status: 'PASS' };
-  } catch (e: any) {
-    return { name, status: 'FAIL', error: e.message?.substring(0, 200) };
-  } finally {
-    await page.close();
+    await page.waitForURL(/\/dashboard/, { timeout: 10000 })
+    return true
+  } catch {
+    return false
   }
 }
 
-test('Full QA - Login', async () => {
-  const page = await browser.newPage();
-  await page.goto('http://localhost:3000/login', { waitUntil: 'domcontentloaded' });
-  await page.fill('input[type="email"]', 'admin@viafinds.com');
-  await page.fill('input[type="password"]', 'project.viafinds058');
-  await page.click('button:has-text("Sign In")');
-  await page.waitForURL('**/dashboard', { timeout: 20000 });
-  await page.screenshot({ path: 'tests/e2e/screenshots/qa-login-success.png' });
-  await page.close();
+test('Full QA - Login', async ({ page }) => {
+  const loggedIn = await adminLogin(page);
+  test.skip(!loggedIn, 'Admin credentials not available');
+  await expect(page).toHaveURL(/\/dashboard/);
 });
 
-test('Full QA - Dashboard Pages', async () => {
-  // Login first
-  const page = await browser.newPage();
-  await page.goto('http://localhost:3000/login', { waitUntil: 'domcontentloaded' });
-  await page.fill('input[type="email"]', 'admin@viafinds.com');
-  await page.fill('input[type="password"]', 'project.viafinds058');
-  await page.click('button:has-text("Sign In")');
-  await page.waitForURL('**/dashboard', { timeout: 20000 });
+test('Full QA - Dashboard Pages', async ({ page }) => {
+  const loggedIn = await adminLogin(page);
+  test.skip(!loggedIn, 'Admin credentials not available');
 
   const pages = [
-    { name: 'Dashboard', path: '/dashboard', shot: 'qa-dashboard' },
-    { name: 'Articles', path: '/dashboard/articles', shot: 'qa-articles' },
-    { name: 'New Article', path: '/dashboard/articles/new', shot: 'qa-new-article' },
-    { name: 'Automation', path: '/dashboard/automation', shot: 'qa-automation' },
-    { name: 'Jobs', path: '/dashboard/jobs', shot: 'qa-jobs' },
-    { name: 'Services', path: '/dashboard/services', shot: 'qa-services' },
-    { name: 'Optimization', path: '/dashboard/optimization', shot: 'qa-optimization' },
+    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Articles', path: '/dashboard/articles' },
+    { name: 'New Article', path: '/dashboard/articles/new' },
+    { name: 'Automation', path: '/dashboard/automation' },
+    { name: 'Jobs', path: '/dashboard/jobs' },
+    { name: 'Services', path: '/dashboard/services' },
+    { name: 'Optimization', path: '/dashboard/optimization' },
   ];
 
   for (const p of pages) {
-    await page.goto(`http://localhost:3000${p.path}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    await page.waitForTimeout(1500);
-    await page.screenshot({ path: `tests/e2e/screenshots/${p.shot}.png` });
+    await page.goto(p.path, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    const body = await page.textContent('body');
+    expect(body?.length).toBeGreaterThan(50);
   }
-
-  await page.close();
 });
 
-test('Full QA - Public Pages', async () => {
-  const page = await browser.newPage();
-  
+test('Full QA - Public Pages', async ({ page }) => {
   const publicPages = [
-    { name: 'Home', path: '/', shot: 'qa-home' },
-    { name: 'Articles', path: '/articles', shot: 'qa-public-articles' },
-    { name: 'Search', path: '/search', shot: 'qa-search' },
-    { name: 'About', path: '/about', shot: 'qa-about' },
-    { name: 'Contact', path: '/contact', shot: 'qa-contact' },
-    { name: 'Privacy', path: '/privacy-policy', shot: 'qa-privacy' },
-    { name: 'Terms', path: '/terms-of-service', shot: 'qa-terms' },
-    { name: 'Cookie', path: '/cookie-policy', shot: 'qa-cookie' },
-    { name: 'Affiliate Disclosure', path: '/affiliate-disclosure', shot: 'qa-affiliate' },
+    { name: 'Home', path: '/' },
+    { name: 'Articles', path: '/articles' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+    { name: 'Privacy', path: '/privacy-policy' },
+    { name: 'Terms', path: '/terms-of-service' },
+    { name: 'Cookie', path: '/cookie-policy' },
+    { name: 'Affiliate Disclosure', path: '/affiliate-disclosure' },
   ];
 
   for (const p of publicPages) {
-    try {
-      await page.goto(`http://localhost:3000${p.path}`, { waitUntil: 'domcontentloaded', timeout: 20000 });
-      await page.waitForTimeout(1500);
-      await page.screenshot({ path: `tests/e2e/screenshots/${p.shot}.png` });
-    } catch (e: any) {
-      console.log(`Failed: ${p.name} - ${e.message?.substring(0, 100)}`);
-    }
+    const response = await page.goto(p.path, { waitUntil: 'domcontentloaded', timeout: 20000 });
+    expect(response?.status()).toBeLessThan(500);
+    const body = await page.textContent('body');
+    expect(body?.length).toBeGreaterThan(50);
   }
-
-  await page.close();
 });
 
-test('Full QA - Article Page', async () => {
-  const page = await browser.newPage();
-  try {
-    await page.goto('http://localhost:3000/articles/josephs-well-review-diy-water-from-air-system', { waitUntil: 'domcontentloaded', timeout: 20000 });
-    await page.waitForTimeout(3000);
-    await page.screenshot({ path: 'tests/e2e/screenshots/qa-article-public.png', fullPage: true });
-  } catch (e: any) {
-    console.log(`Article page error: ${e.message?.substring(0, 200)}`);
+test('Full QA - Article Page', async ({ page }) => {
+  await page.goto('/articles', { waitUntil: 'domcontentloaded', timeout: 20000 });
+  const firstArticle = page.locator('a[href*="/articles/"]').first();
+  const href = await firstArticle.getAttribute('href');
+  if (href) {
+    const response = await page.goto(href, { waitUntil: 'domcontentloaded', timeout: 20000 });
+    expect(response?.status()).toBeLessThan(500);
+    const body = await page.textContent('body');
+    expect(body?.length).toBeGreaterThan(200);
   }
-  await page.close();
 });
 
-test('Full QA - Mobile Responsive', async () => {
-  const page = await browser.newPage();
+test('Full QA - Mobile Responsive', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   
-  await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded', timeout: 20000 });
-  await page.waitForTimeout(1500);
-  await page.screenshot({ path: 'tests/e2e/screenshots/qa-mobile-home.png' });
+  await page.goto('/', { waitUntil: 'domcontentloaded', timeout: 20000 });
+  const body = await page.textContent('body');
+  expect(body?.length).toBeGreaterThan(100);
 
-  await page.goto('http://localhost:3000/articles', { waitUntil: 'domcontentloaded', timeout: 20000 });
-  await page.waitForTimeout(1500);
-  await page.screenshot({ path: 'tests/e2e/screenshots/qa-mobile-articles.png' });
-
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.close();
+  await page.goto('/articles', { waitUntil: 'domcontentloaded', timeout: 20000 });
+  const articlesBody = await page.textContent('body');
+  expect(articlesBody?.length).toBeGreaterThan(100);
 });

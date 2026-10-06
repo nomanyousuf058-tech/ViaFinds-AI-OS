@@ -1,7 +1,9 @@
-import { AIProviderType, AIPromptPayload, AIProviderResponse } from './types';
+import { AIProviderType, AIPromptPayload, AIProviderResponse, AIModelCapability } from './types';
 import { providerRegistry } from '../../providers/ProviderRegistry';
 import { defaultProviderConfigs } from '../../providers/ProviderConfig';
 import { logger } from '../../lib/logger';
+import { healthChecker } from './HealthChecker';
+import { modelRegistry } from './ModelRegistry';
 
 
 /** Providers that require an API key to be configured. Ollama is local-only. */
@@ -20,14 +22,15 @@ export class AIRouter {
    * Priority order — Gemini is the primary development provider.
    */
   private providerPriority: AIProviderType[] = [
-    AIProviderType.GEMINI,
+    AIProviderType.OLLAMA,
     AIProviderType.GROQ,
     AIProviderType.MISTRAL,
+    AIProviderType.DEEPSEEK,
     AIProviderType.OPENROUTER,
+    AIProviderType.GEMINI,
+    AIProviderType.COHERE,
     AIProviderType.OPENAI,
     AIProviderType.CLAUDE,
-    AIProviderType.DEEPSEEK,
-    AIProviderType.OLLAMA,
   ];
 
   private providersLoaded = false;
@@ -37,7 +40,7 @@ export class AIRouter {
    * Logs detailed diagnostics for every provider attempt.
    * Stops immediately after the first successful response.
    */
-  public async route(payload: AIPromptPayload, preferredProvider?: AIProviderType): Promise<AIProviderResponse> {
+  public async route(payload: AIPromptPayload, preferredProvider?: AIProviderType, requiredCapabilities?: AIModelCapability[]): Promise<AIProviderResponse> {
     if (!this.providersLoaded) {
       const { ProviderLoader } = require('../../providers/ProviderLoader');
       await ProviderLoader.loadProviders();
@@ -50,6 +53,9 @@ export class AIRouter {
     logger.info('================================');
     logger.info('AIRouter: Beginning provider routing');
     logger.info(`Provider sequence: ${sequence.join(' → ')}`);
+    if (requiredCapabilities && requiredCapabilities.length > 0) {
+      logger.info(`Required Capabilities: ${requiredCapabilities.join(', ')}`);
+    }
     logger.info('================================');
 
     for (const providerType of sequence) {
@@ -57,52 +63,76 @@ export class AIRouter {
       const provider = providerRegistry.getProvider(providerType);
       const isRegistered = !!provider;
       const isConfigured = this.isProviderConfigured(providerType);
-      const model = config?.defaultModel ?? 'N/A';
-
+      const modelId = config?.defaultModel ?? 'N/A';
+      
       logger.info('--------------------------------');
       logger.info(`Trying provider: ${providerType}`);
       logger.info(`  Registered: ${isRegistered}`);
       logger.info(`  Configured: ${isConfigured}`);
-      logger.info(`  Model:      ${model}`);
+      logger.info(`  Model:      ${modelId}`);
 
-      // --- Gate 1: Not configured (missing API key) — skip without attempting ---
       if (!isConfigured) {
         const reason = 'missing API key';
         logger.warn(`  Provider error: ${reason} — skipping`);
-        logger.info('--------------------------------');
         report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
         continue;
       }
 
-      // --- Gate 2: Not registered in ProviderRegistry ---
       if (!isRegistered) {
         const reason = 'not registered in ProviderRegistry';
         logger.warn(`  Provider error: ${reason} — skipping`);
-        logger.info('--------------------------------');
+        report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
+        continue;
+      }
+      
+      // Gate 3: Check Capabilities
+      if (requiredCapabilities && requiredCapabilities.length > 0) {
+        const modelInfo = modelRegistry.getModel(modelId);
+        if (modelInfo) {
+          const supported = modelInfo.capabilities.supportedCapabilities || [];
+          const missing = requiredCapabilities.filter(c => !supported.includes(c));
+          if (missing.length > 0) {
+            const reason = `missing capabilities: ${missing.join(', ')}`;
+            logger.warn(`  Provider error: ${reason} — skipping`);
+            report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
+            continue;
+          }
+        } else {
+          // If model info not found, we can optionally skip or allow. We'll allow but warn.
+          logger.warn(`  Provider warning: Model info for ${modelId} not found, proceeding anyway.`);
+        }
+      }
+
+      // Gate 4: Smart Fallback via Health Checker
+      // Only skip if explicitly on cooldown or permanently offline (401/402).
+      // We will attempt requests if status is just degraded or unknown to not block recovery.
+      if (!healthChecker.isAvailable(providerType)) {
+        const reason = 'provider is on cooldown or offline due to recent errors';
+        logger.warn(`  Provider error: ${reason} — skipping via Smart Fallback`);
         report.push(`${this.formatProviderName(providerType)}:\nSkipped\nReason: ${reason}`);
         continue;
       }
 
-      // NOTE: Health check is ADVISORY only. We always attempt the actual request
-      // regardless of health status. Health checks can fail due to cold starts,
-      // network blips, or sandbox restrictions — they must not block real requests.
-      logger.info(`  Attempting request (health check is advisory, not a gate)...`);
+      logger.info(`  Attempting request...`);
 
-      // --- Attempt the actual request ---
+      const startTime = Date.now();
       try {
         const response = await provider!.generateCompletion(payload);
-        logger.info(`  ✓ Provider ${providerType} SUCCESS (model=${response.model}, tokens=${response.totalTokens ?? 'N/A'})`);
-        logger.info('--------------------------------');
+        const latency = Date.now() - startTime;
+        logger.info(`  ✓ Provider ${providerType} SUCCESS (model=${response.model}, tokens=${response.totalTokens ?? 'N/A'}, latency=${latency}ms)`);
         report.push(`${this.formatProviderName(providerType)}:\nSUCCESS`);
-        // Stop immediately after a successful response — no further fallback.
+        
+        // Report success
+        healthChecker.reportSuccess(providerType, latency);
+        
         return response;
       } catch (error) {
         const errMessage = error instanceof Error ? error.message : String(error);
         logger.warn(`  ✗ Provider ${providerType} FAILED: ${errMessage}`);
-        logger.info('--------------------------------');
         report.push(`${this.formatProviderName(providerType)}:\nFailed\nReason: ${errMessage}`);
         
-        // All provider errors are treated as non-fatal — always try the next provider
+        // Report failure to trigger Smart Fallback cooldowns
+        healthChecker.reportFailure(providerType, error);
         continue;
       }
     }
@@ -307,7 +337,8 @@ export class AIRouter {
        type === AIProviderType.OPENROUTER ? process.env.OPENROUTER_API_KEY :
        type === AIProviderType.GROQ ? process.env.GROQ_API_KEY :
        type === AIProviderType.DEEPSEEK ? process.env.DEEPSEEK_API_KEY :
-       type === AIProviderType.MISTRAL ? process.env.MISTRAL_API_KEY : undefined);
+       type === AIProviderType.MISTRAL ? process.env.MISTRAL_API_KEY :
+       type === AIProviderType.COHERE ? process.env.COHERE_API_KEY : undefined);
 
     return !!key;
   }

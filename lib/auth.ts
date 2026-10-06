@@ -33,7 +33,7 @@ export async function adminOnly(): Promise<void> {
   const payload = await verifyAdminToken()
   if (!payload) {
     const err = new Error('Unauthorized')
-    ;(err as Error & { status?: number }).status = 403
+    ;(err as Error & { status?: number }).status = 401
     throw err
   }
 }

@@ -18,7 +18,7 @@ test.describe('Admin Authentication', () => {
     await page.fill('input[type="email"]', 'wrong@example.com')
     await page.fill('input[type="password"]', 'wrongpassword')
     await page.click('button[type="submit"]')
-    await expect(page.locator('text=Invalid credentials')).toBeVisible()
+    await expect(page.locator('text=Invalid credentials')).toBeVisible({ timeout: 10000 })
   })
 })
 

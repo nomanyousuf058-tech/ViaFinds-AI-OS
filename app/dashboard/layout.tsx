@@ -6,12 +6,13 @@ import { usePathname } from 'next/navigation'
 import AdminGuard from '@/components/AdminGuard'
 
 const navItems = [
-  { href: '/dashboard', label: 'Overview', icon: 'dashboard' },
-  { href: '/dashboard/articles', label: 'Articles', icon: 'edit_note' },
-  { href: '/dashboard/automation', label: 'Automation', icon: 'smart_toy' },
-  { href: '/dashboard/jobs', label: 'Jobs', icon: 'assignment' },
-  { href: '/dashboard/services', label: 'Services', icon: 'settings_ethernet' },
-  { href: '/dashboard/optimization', label: 'Optimization', icon: 'tune' },
+  { href: '/dashboard', label: 'Today', icon: 'home' },
+  { href: '/dashboard/attention', label: 'Attention', icon: 'notifications_active' },
+  { href: '/dashboard/calendar', label: 'Calendar', icon: 'calendar_month' },
+  { href: '/dashboard/brain', label: 'Brain', icon: 'psychology' },
+  { href: '/dashboard/articles', label: 'Content', icon: 'edit_note' },
+  { href: '/dashboard/revenue', label: 'Growth', icon: 'trending_up' },
+  { href: '/dashboard/services', label: 'System', icon: 'settings' },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

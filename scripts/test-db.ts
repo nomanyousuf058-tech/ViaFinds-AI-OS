@@ -1,28 +1,15 @@
-import { Client } from 'pg'
+import { getPool } from '@/lib/db/client';
 
 async function main() {
-  console.log('Starting...')
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
-  })
-  await client.connect()
-  console.log('Connected')
-  const r = await client.query('SELECT 1')
-  console.log('SELECT 1:', r.rows[0])
-  const tables = ['articles', 'reviews', 'categories', 'authors', 'products', 'admin_users', 'article_related_articles', 'affiliate_references', 'automation_jobs', 'optimization_jobs', 'service_connections', 'audit_logs', 'research_jobs', 'site_settings', 'navigation', 'redirects']
-  for (const t of tables) {
-    try {
-      const result = await client.query('SELECT count(*) as count FROM ' + t)
-      console.log(t + ': ' + result.rows[0].count)
-    } catch (e) {
-      console.log(t + ': MISSING')
-    }
+  const pool = getPool();
+  pool.on('error', (err) => console.error('Pool error:', err));
+
+  try {
+    const result = await pool.query('SELECT 1 as test');
+    console.log('Connection test:', result.rows);
+  } catch (e) {
+    console.error('Connection failed:', e);
   }
-  await client.end()
 }
 
-main().catch(e => {
-  console.error('ERROR:', e)
-  process.exit(1)
-})
+main();

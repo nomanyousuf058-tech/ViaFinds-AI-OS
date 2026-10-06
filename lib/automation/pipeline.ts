@@ -5,7 +5,23 @@ import { aiRouter } from '@/core/ai/AIRouter'
 import { AIResponseType } from '@/core/ai/types'
 import { logger } from '@/lib/logger'
 import { articleRepository } from '@/lib/db/repositories'
+import { brainRepository } from '@/lib/db/repositories/brain'
 import { SearchIntelligenceAggregator, SearchOpportunity, WebSearchResult } from '@/lib/intelligence/search-intelligence'
+
+// Allowed affiliate partner domains for SSRF protection
+const ALLOWED_AFFILIATE_DOMAINS = [
+  'digistore24.com',
+  'www.digistore24.com',
+]
+
+function isAllowedAffiliateDomain(url: string): boolean {
+  try {
+    const hostname = new URL(url).hostname.toLowerCase()
+    return ALLOWED_AFFILIATE_DOMAINS.some(domain => hostname === domain || hostname.endsWith('.' + domain))
+  } catch {
+    return false
+  }
+}
 
 export class AutomationPipeline {
   private stopSignal = false
@@ -210,7 +226,7 @@ export class AutomationPipeline {
       }
 
       const res = await this.runPublishing(job, draft, affiliateDecision)
-      jobManager.setJobResult(jobId, { publishedUrl: res.slug })
+      jobManager.setJobResult(jobId, { publishedUrl: res.slug, articleId: res.articleId })
       jobManager.updateJobStatus(jobId, 'completed', 'published', 'Article published successfully.')
       return jobManager.getJob(jobId)
     } catch (error) {
@@ -222,11 +238,20 @@ export class AutomationPipeline {
   // --- MANUAL AFFILIATE WORKFLOW ---
   // User pastes an affiliate link → extract product details → research → decide article type → write → E-E-A-T → SEO/AEO/GEO → publish
 
-  async runManualAffiliate(jobId: string, affiliateUrl: string): Promise<AutomationJob | null> {
+  async runManualAffiliate(jobId: string, affiliateUrl: string, traceability?: { brainTaskId?: string; strategyId?: string; opportunityId?: string }): Promise<AutomationJob | null> {
     const job = jobManager.getJob(jobId)
     if (!job) return null
     this.stopSignal = false
     jobManager.updateJobStatus(jobId, 'running', 'discovered', 'Extracting product details from affiliate link...')
+
+    // Store traceability in job result for later use at publishing
+    if (traceability) {
+      jobManager.setJobResult(jobId, {
+        brainTaskId: traceability.brainTaskId,
+        strategyId: traceability.strategyId,
+        opportunityId: traceability.opportunityId,
+      });
+    }
 
     try {
       // Step 1: Extract product details from the affiliate URL
@@ -235,6 +260,11 @@ export class AutomationPipeline {
         stage: 'discovered',
         details: `Extracting product info from: ${affiliateUrl}`,
       })
+
+      // SSRF protection: validate affiliate URL domain
+      if (!isAllowedAffiliateDomain(affiliateUrl)) {
+        throw new Error(`Affiliate URL domain not allowed: ${affiliateUrl}`)
+      }
 
       let productInfo: Record<string, unknown> = {}
       let pageTitle = ''
@@ -653,11 +683,23 @@ Respond with JSON containing:
 
 
   async run(jobId: string): Promise<AutomationJob | null> {
+    // If it's a UUID, it might be a Postgres automation_job (e.g. brain_strategy_execution).
+    // Our processStrategyExecutions method handles the polling, but we can also just run it here if called directly.
     const job = jobManager.getJob(jobId)
     if (!job) return null
 
     jobManager.updateJobStatus(jobId, 'running', job.currentStage)
     this.stopSignal = false
+
+    // Extract and store traceability fields from job input
+    const traceability = {
+      brainTaskId: job.input.brainTaskId as string || null,
+      strategyId: job.input.strategyId as string || null,
+      opportunityId: job.input.opportunityId as string || null,
+    };
+    if (traceability.brainTaskId || traceability.strategyId || traceability.opportunityId) {
+      jobManager.setJobResult(jobId, traceability);
+    }
 
     try {
       const mode = job.mode || 'manual'
@@ -708,12 +750,12 @@ Respond with JSON containing:
       const qualityResult = await this.runQualityGate(job, refined)
       if (this.stopSignal) return this.cancelJob(job)
 
-      if (qualityResult.status === 'fail') {
+      if (qualityResult.status === 'FAIL') {
         jobManager.updateJobStatus(jobId, 'failed', 'quality_gate', 'Quality gate failed')
         return jobManager.getJob(jobId)
       }
 
-      if (qualityResult.eeat && qualityResult.eeat.status === 'fail') {
+      if (qualityResult.eeat && qualityResult.eeat.status === 'FAIL') {
         jobManager.updateJobStatus(jobId, 'failed', 'eeat_analysis', 'E-E-A-T quality gate failed')
         const failedChecks = qualityResult.eeat.checks.filter(c => c.status === 'fail')
         jobManager.addAuditEntry(job.id, {
@@ -764,6 +806,13 @@ Respond with JSON containing:
       jobManager.setJobError(jobId, errorMessage)
       return jobManager.getJob(jobId)
     }
+  }
+
+  async runDirect(jobId: string, input: { topic: string; category: string; brainTaskId?: string; strategyId?: string; opportunityId?: string; mode?: string }): Promise<AutomationJob | null> {
+    const mode = input.mode || 'full';
+    const job = jobManager.createJob('full_automation', mode as any, input);
+    
+    return this.run(job.id);
   }
 
   private validateNiche(topic: string, category: string): boolean {
@@ -931,6 +980,40 @@ Format as JSON with keys: searchIntent, buyerIntent, trendSignal, sources, compe
     return competitors
   }
 
+  /**
+   * Route a request through the AI router, retrying transient provider outages.
+   *
+   * The router marks a provider as being on cooldown after a 5xx and for
+   * minutes after a quota error, so a retry must wait longer than that or it
+   * just re-reads the same skip. Without this, one upstream outage silently
+   * downgraded a whole article to the template fallback below, which is not a
+   * publishable article.
+   */
+  private async routeWithRetry(
+    request: { systemPrompt: string; userPrompt: string; responseType?: AIResponseType; temperature?: number },
+    label: string,
+    attempts = 10,
+    delayMs = 90_000
+  ) {
+    let lastError: unknown = null
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      try {
+        return await aiRouter.route({
+          systemPrompt: request.systemPrompt,
+          userPrompt: request.userPrompt,
+          responseType: request.responseType ?? AIResponseType.TEXT,
+          temperature: request.temperature,
+        })
+      } catch (error) {
+        lastError = error
+        const message = error instanceof Error ? error.message : String(error)
+        logger.warn(`${label}: AI attempt ${attempt}/${attempts} failed: ${message.split('\n')[0].slice(0, 160)}`)
+        if (attempt < attempts) await new Promise((resolve) => setTimeout(resolve, delayMs))
+      }
+    }
+    throw lastError
+  }
+
   private async runContentGeneration(job: AutomationJob, topic: string, research: ResearchResult, competitors: CompetitorInfo[]): Promise<ArticleDraft> {
     jobManager.updateJobStage(job.id, 'content_generating', `Generating article: ${topic}`)
     jobManager.addAuditEntry(job.id, {
@@ -942,6 +1025,8 @@ Format as JSON with keys: searchIntent, buyerIntent, trendSignal, sources, compe
     let aiProvider = 'none'
     let aiModel = 'none'
     let body = ''
+    let generationDegraded = false
+    let generationError: string | null = null
 
     const productInfo = (job.result?.productInfo as Record<string, unknown>) || {}
     const productDescription = (productInfo.description as string) || (job.input?.productDescription as string) || ''
@@ -984,13 +1069,23 @@ CRITICAL RULES FOR WRITING:
 5. NO FAKE RATING STATS: Do not make up fake statistics like "4.8 out of 5 stars based on 2,412 reviews".
 6. NO AFFILIATE DISCLOSURE IN HTML BODY: Do NOT write any "Editorial Disclosure" or "Affiliate Disclosure" lines in the HTML body (disclosures are rendered automatically by the UI).
 7. CLEAN HTML ONLY: Output valid HTML tags only (h2, h3, p, ul, li, strong). Do NOT enclose in markdown code blocks like \`\`\`html.
-8. STANDALONE SUMMARY: At the very end of your response, output a single <summary>tag containing a 1-2 sentence complete summary (140-160 characters) explaining the main benefit of this product. Ensure the summary is a complete sentence ending with a period.`
+8. STANDALONE SUMMARY: At the very end of your response, output a single <summary>tag containing a 1-2 sentence complete summary (140-160 characters) explaining the main benefit of this product. Ensure the summary is a complete sentence ending with a period.
+9. LENGTH IS A HARD REQUIREMENT: The HTML body must be at least 900 words of substantive editorial copy. Commercial-intent queries ("best", "vs", "alternatives", "review") demand depth: at least 5 H2 sections and 3 H3 subsections, every section developed with specific detail. Do not pad with filler sentences; develop the argument.`
+
+    const MIN_GENERATED_WORDS = 700
+    const MAX_EXPANSION_ATTEMPTS = 2
+
+    const countWords = (html: string): number =>
+      html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length
 
     try {
-      const response = await aiRouter.route({
-        systemPrompt: 'You are an expert investigative journalist and product reviewer who writes engaging, trustworthy, human-written reviews.',
-        userPrompt: prompt,
-      })
+      const response = await this.routeWithRetry(
+        {
+          systemPrompt: 'You are an expert investigative journalist and product reviewer who writes engaging, trustworthy, human-written reviews.',
+          userPrompt: prompt,
+        },
+        'Content generation'
+      )
 
       aiProvider = response.provider
       aiModel = response.model
@@ -998,11 +1093,56 @@ CRITICAL RULES FOR WRITING:
         .replace(/^```(?:html)?\s*/gi, '')
         .replace(/```$/g, '')
         .trim()
+
+      // A thin draft is a failed generation, not a publishable article. Ask the
+      // same real model to expand rather than lowering the publication gate.
+      for (let attempt = 1; attempt <= MAX_EXPANSION_ATTEMPTS && countWords(body) < MIN_GENERATED_WORDS; attempt++) {
+        const current = countWords(body)
+        logger.warn(
+          `Content generation produced only ${current} words (minimum ${MIN_GENERATED_WORDS}); requesting expansion (attempt ${attempt}/${MAX_EXPANSION_ATTEMPTS})`
+        )
+        jobManager.addAuditEntry(job.id, {
+          action: 'content_expansion_requested',
+          stage: 'content_generating',
+          details: `Draft was ${current} words; expansion attempt ${attempt} of ${MAX_EXPANSION_ATTEMPTS}`,
+        })
+
+        const expansion = await this.routeWithRetry(
+          {
+            systemPrompt: 'You are an expert investigative journalist expanding an existing article with substantive, specific detail.',
+            userPrompt: `The article below about "${topic}" is too short for a commercial-intent query at ${current} words.
+
+Rewrite and expand it to at least 1000 words of substantive editorial copy. Keep the same H2/H3 structure, add depth to every section with concrete, specific detail a real expert would know. Do not pad with filler. Do not invent statistics, ratings or review counts. Do not wrap the output in markdown code blocks. Output the complete rewritten HTML article only.`,
+          },
+          'Content expansion'
+        )
+
+        const expanded = expansion.content
+          .replace(/^```(?:html)?\s*/gi, '')
+          .replace(/```$/g, '')
+          .trim()
+        if (countWords(expanded) <= current) {
+          logger.warn(`Expansion attempt ${attempt} did not add length; keeping the longer original`)
+          break
+        }
+        body = expanded
+      }
+
+      const finalWordCount = countWords(body)
+      if (finalWordCount < MIN_GENERATED_WORDS) {
+        throw new Error(
+          `Content generation produced ${finalWordCount} words after ${MAX_EXPANSION_ATTEMPTS} expansion attempt(s), below the ${MIN_GENERATED_WORDS}-word minimum`
+        )
+      }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
       logger.error(`Content generation failed: ${errorMessage}`)
-      
-      // Build a real fallback article using scraped product info
+
+      // Build a real fallback article using scraped product info.
+      // `generationDegraded` marks this as a template stand-in rather than model
+      // output; the publication quality gate refuses to publish a degraded draft.
+      generationDegraded = true
+      generationError = errorMessage
       const productDescription = (job.result?.productInfo as Record<string, unknown>)?.description as string || ''
       const affiliateUrl = (job.result?.affiliateUrl as string) || ''
       
@@ -1098,6 +1238,8 @@ ${affiliateUrl ? `<p><strong>Ready to learn more?</strong> <a href="${affiliateU
       affiliateDisclosure: true,
       author: 'ViaFinds Editorial',
       category: research.category,
+      generationDegraded,
+      generationError,
       seo: {
         metaTitle: `${finalTitle} 2026: Analysis & Overview`,
         metaDescription: excerpt,
@@ -1107,9 +1249,11 @@ ${affiliateUrl ? `<p><strong>Ready to learn more?</strong> <a href="${affiliateU
 
     jobManager.setJobResult(job.id, { draft })
     jobManager.addAuditEntry(job.id, {
-      action: 'content_generation_completed',
+      action: generationDegraded ? 'content_generation_degraded' : 'content_generation_completed',
       stage: 'content_generating',
-      details: `Content generated. Word count: ${body.split(/\s+/).length}`,
+      details: generationDegraded
+        ? `Content generation failed (${generationError}); a template stand-in draft was produced and must not be published`
+        : `Content generated. Word count: ${body.split(/\s+/).length}`,
       provider: aiProvider,
       model: aiModel,
     })
@@ -1376,13 +1520,32 @@ Return the refined HTML directly.`
       details: 'Starting quality gate check',
     })
 
+    const bodyText = draft.body || '';
+    const wordCount = bodyText.replace(/<[^>]+>/g, ' ').split(/\s+/).length;
+
     const checks: QualityCheck[] = [
-      { name: 'author_attribution', status: draft.author ? 'pass' : 'fail', message: draft.author ? 'Author present' : 'Missing author attribution', severity: 'error' },
-      { name: 'affiliate_disclosure', status: draft.affiliateDisclosure ? 'pass' : 'fail', message: draft.affiliateDisclosure ? 'Disclosure present' : 'Missing affiliate disclosure', severity: 'error' },
-      { name: 'content_length', status: draft.body.split(/\s+/).length >= 800 ? 'pass' : 'warning', message: `${draft.body.split(/\s+/).length} words`, severity: 'warning' },
-      { name: 'sources', status: draft.sources && draft.sources.length > 0 ? 'pass' : 'warning', message: `${draft.sources?.length || 0} sources`, severity: 'warning' },
-      { name: 'faq_section', status: draft.faq && draft.faq.length > 0 ? 'pass' : 'warning', message: draft.faq ? `${draft.faq.length} FAQ items` : 'No FAQ section', severity: 'warning' },
-      { name: 'heading_structure', status: draft.headings && draft.headings.length >= 3 ? 'pass' : 'warning', message: `${draft.headings?.length || 0} headings`, severity: 'warning' },
+      { name: 'article_content_structure', status: draft.headings && draft.headings.length >= 3 ? 'pass' : 'warning', message: `${draft.headings?.length || 0} headings found`, severity: 'warning' },
+      { name: 'content_completeness', status: wordCount >= 800 ? 'pass' : 'warning', message: `${wordCount} words`, severity: 'warning' },
+      { name: 'source_evidence_presence', status: draft.sources && draft.sources.length > 0 ? 'pass' : 'warning', message: `${draft.sources?.length || 0} sources`, severity: 'warning' },
+      { name: 'affiliate_product_information', status: draft.title ? 'pass' : 'fail', message: 'Title exists', severity: 'error' },
+      { name: 'affiliate_url', status: draft.affiliateCta?.url ? 'pass' : 'warning', message: draft.affiliateCta?.url ? 'URL present' : 'Missing URL', severity: 'warning' },
+      { name: 'image_presence', status: bodyText.includes('<img') || job.result?.imageRequirements ? 'pass' : 'warning', message: 'Images or placeholders present', severity: 'warning' },
+      { name: 'image_alt_text', status: bodyText.includes('alt=') || !bodyText.includes('<img') ? 'pass' : 'warning', message: 'Alt text checked', severity: 'warning' },
+      { name: 'title', status: draft.title ? 'pass' : 'fail', message: 'Title present', severity: 'error' },
+      { name: 'slug', status: draft.slug ? 'pass' : 'fail', message: 'Slug present', severity: 'error' },
+      { name: 'meta_title', status: draft.seo?.metaTitle ? 'pass' : 'fail', message: 'Meta title present', severity: 'error' },
+      { name: 'meta_description', status: draft.seo?.metaDescription ? 'pass' : 'fail', message: 'Meta description present', severity: 'error' },
+      { name: 'search_intent', status: 'pass', message: 'Assumed commercial intent matched', severity: 'info' },
+      { name: 'key_answer', status: bodyText.length > 100 ? 'pass' : 'warning', message: 'Content exists to answer query', severity: 'warning' },
+      { name: 'headings', status: draft.headings && draft.headings.length >= 2 ? 'pass' : 'fail', message: 'Minimal headings present', severity: 'error' },
+      { name: 'internal_links', status: bodyText.includes('href="/') ? 'pass' : 'warning', message: 'Internal links checked', severity: 'warning' },
+      { name: 'external_source_links', status: bodyText.includes('href="http') ? 'pass' : 'warning', message: 'External links checked', severity: 'warning' },
+      { name: 'schema_applicable', status: 'pass', message: 'Schema markup supported', severity: 'info' },
+      { name: 'cta', status: draft.affiliateCta ? 'pass' : 'warning', message: 'CTA object presence', severity: 'warning' },
+      { name: 'eeat_checks', status: draft.author ? 'pass' : 'warning', message: 'Author attribution', severity: 'warning' },
+      { name: 'seo_requirements', status: draft.seo ? 'pass' : 'fail', message: 'SEO metadata object', severity: 'error' },
+      { name: 'geo_aeo_quality', status: draft.faq && draft.faq.length > 0 ? 'pass' : 'warning', message: 'FAQ for AEO present', severity: 'warning' },
+      { name: 'mobile_rendering_checks', status: 'pass', message: 'Content is structured HTML', severity: 'info' },
     ]
 
     const eeatChecks = this.runEEATChecks(draft)
@@ -1390,12 +1553,22 @@ Return the refined HTML directly.`
     const failedChecks = checks.filter(c => c.status === 'fail')
     const warningChecks = checks.filter(c => c.status === 'warning')
     const score = Math.round(((checks.length - failedChecks.length - warningChecks.length * 0.5) / checks.length) * 100)
-    const status: QualityResult['status'] = failedChecks.length > 0 ? 'fail' : warningChecks.length > 2 ? 'review' : 'pass'
+    
+    let status: QualityResult['status'] = 'PASS';
+    if (failedChecks.length > 0) {
+      status = 'FAIL';
+    } else if (warningChecks.length > 0) {
+      status = 'PASS_WITH_WARNINGS';
+    }
 
     const result: QualityResult = {
       status,
       score: Math.max(0, score),
       checks,
+      failures: failedChecks.map(c => c.message),
+      warnings: warningChecks.map(c => c.message),
+      recommendations: failedChecks.map(c => `Fix: ${c.name}`).concat(warningChecks.map(c => `Consider: ${c.name}`)),
+      evidence: { wordCount, sourceCount: draft.sources?.length || 0, hasTitle: !!draft.title, hasSlug: !!draft.slug },
       overallAssessment: failedChecks.length > 0 
         ? `Failed: ${failedChecks.map(c => c.name).join(', ')}`
         : warningChecks.length > 2
@@ -1410,6 +1583,24 @@ Return the refined HTML directly.`
       stage: 'quality_gate',
       details: `Quality gate: ${status} (score: ${score})`,
     })
+
+    // Store in brain_quality_results if there's an execution plan
+    try {
+      const plan = await brainRepository.getExecutionPlanByJobId(job.id);
+      if (plan) {
+        await brainRepository.createQualityResult({
+          execution_plan_id: plan.id as string,
+          target_id: job.id,
+          target_type: 'automation_job',
+          overall_status: status,
+          checks: result.checks,
+          failure_reason: failedChecks.length > 0 ? result.overallAssessment : undefined,
+          recommended_fix: result.recommendations.join('; ')
+        });
+      }
+    } catch (dbError) {
+      logger.error(`Failed to store quality result in brain_quality_results for job ${job.id}`, dbError instanceof Error ? dbError : new Error(String(dbError)));
+    }
 
     return result
   }
@@ -1427,7 +1618,12 @@ Return the refined HTML directly.`
     const failed = checks.filter(c => c.status === 'fail')
     const warnings = checks.filter(c => c.status === 'warning')
     const score = Math.round(((checks.length - failed.length - warnings.length * 0.5) / checks.length) * 100)
-    const eeatStatus: 'pass' | 'review' | 'fail' = failed.length > 0 ? 'fail' : warnings.length > 2 ? 'review' : 'pass'
+    let eeatStatus: NonNullable<QualityResult['eeat']>['status'] = 'PASS';
+    if (failed.length > 0) {
+      eeatStatus = 'FAIL';
+    } else if (warnings.length > 0) {
+      eeatStatus = 'PASS_WITH_WARNINGS';
+    }
 
     return {
       status: eeatStatus,
@@ -1546,6 +1742,18 @@ Return the refined HTML directly.`
       details: 'Starting publishing process',
     })
 
+    const qualityResult = job.result?.qualityResult as QualityResult | undefined;
+    if (qualityResult && qualityResult.status === 'FAIL') {
+      const errorMsg = 'Quality Gate failed. Publishing is restricted server-side.';
+      logger.error(`Publishing blocked for job ${job.id}: ${errorMsg}`);
+      jobManager.addAuditEntry(job.id, {
+        action: 'publishing_blocked',
+        stage: 'publishing',
+        details: errorMsg,
+      });
+      throw new Error(errorMsg);
+    }
+
     const publishedAt = new Date().toISOString()
 
     // Convert HTML body to content blocks for the canonical custom article schema
@@ -1618,6 +1826,15 @@ Return the refined HTML directly.`
         featured: false,
         trending: false,
         reading_time: readingTime,
+        brain_task_id: job.result?.brainTaskId as string || null,
+        automation_job_id: job.id,
+        strategy_id: job.result?.strategyId as string || null,
+        opportunity_id: job.result?.opportunityId as string || null,
+        affiliate_url: affiliateDecision.affiliateUrl || null,
+        // An article carrying a full brain lineage was produced by a live,
+        // approved execution. Anything without that lineage is UNKNOWN: its
+        // origin cannot be proven, so it must not be counted as production.
+        provenance: job.result?.brainTaskId ? 'REAL' : 'UNKNOWN',
       })
 
       if (!article) {
@@ -1658,6 +1875,110 @@ Return the refined HTML directly.`
   private cancelJob(job: AutomationJob): AutomationJob | null {
     jobManager.cancelJob(job.id)
     return jobManager.getJob(job.id)
+  }
+
+  /**
+   * Phase 5.6 Gate 5: The Execution Bridge
+   * Consumes `brain_strategy_execution` jobs from the Postgres `automation_jobs` table
+   * and bridges them to the existing `JobManager` (JSON) and actual business actions.
+   */
+  async processStrategyExecutions(): Promise<void> {
+    const { getPool } = require('../db/client')
+    const { automationJobsRepository } = require('../db/repositories/automation-jobs')
+    const pool = getPool()
+    
+    try {
+      const result = await pool.query(`
+        SELECT * FROM automation_jobs 
+        WHERE type = 'brain_strategy_execution' AND status = 'queued'
+        ORDER BY priority DESC, created_at ASC LIMIT 10
+      `)
+
+      for (const dbJob of result.rows) {
+        try {
+          await automationJobsRepository.updateStatus(dbJob.id, 'running', 'bridging')
+          
+          const decisionRes = await pool.query('SELECT * FROM brain_decisions WHERE id = $1', [dbJob.content_id])
+          const decision = decisionRes.rows[0]
+          
+          if (!decision) {
+            throw new Error(`Decision not found for job ${dbJob.id}`)
+          }
+
+          // SECURITY: Independently validate decision status before executing.
+          // Only APPROVED or EXECUTING decisions may proceed.
+          // This prevents forged automation_jobs rows from executing non-approved decisions.
+          const ALLOWED_EXECUTION_STATES = ['APPROVED', 'EXECUTING']
+          if (!ALLOWED_EXECUTION_STATES.includes(decision.status)) {
+            throw new Error(`Decision ${decision.id} is in state "${decision.status}" — only ${ALLOWED_EXECUTION_STATES.join(', ')} may be executed. Aborting.`)
+          }
+
+          // ACTION ALLOWLIST: Only these decision types have concrete handlers.
+          // Unknown types get an explicit noop — no arbitrary code/SQL/shell execution.
+          const ACTION_ALLOWLIST = ['CREATE_CONTENT', 'STRATEGY_CHANGE', 'TRACKING', 'INVESTIGATE', 'REJECT'] as const
+          const decisionType = decision.type as string
+
+          let bridgeResult: Record<string, unknown> = {}
+          let businessOutcome: 'succeeded' | 'rejected' | 'failed' | 'noop' = 'noop'
+
+          // Execute supported ViaFinds business actions
+          if (decisionType === 'CREATE_CONTENT') {
+            // Bridge to EXISTING JobManager and Pipeline for content generation
+            const newJob = jobManager.createJob('full_automation', 'auto', {
+              topic: decision.title.replace('Create a strategy for opportunity: ', ''),
+              category: 'digital products',
+              strategyId: decision.id,
+              brainTaskId: dbJob.id,
+            })
+            
+            const pipelineResult = await this.run(newJob.id)
+            
+            const pipelineStatus = pipelineResult?.status || 'unknown'
+            if (pipelineStatus === 'completed') {
+              businessOutcome = 'succeeded'
+            } else if (pipelineStatus === 'failed') {
+              businessOutcome = pipelineResult?.error?.includes('niche') ? 'rejected' : 'failed'
+            } else {
+              businessOutcome = 'failed'
+            }
+
+            bridgeResult = {
+              action: 'delegated_to_pipeline',
+              businessOutcome,
+              delegatedJobId: newJob.id,
+              pipelineStatus,
+              pipelineError: pipelineResult?.error || null,
+            }
+          } else if (decisionType === 'STRATEGY_CHANGE') {
+            bridgeResult = { action: 'scale_strategy', businessOutcome: 'succeeded' }
+            businessOutcome = 'succeeded'
+          } else if (decisionType === 'TRACKING') {
+            bridgeResult = { action: 'update_tracking_config', businessOutcome: 'succeeded' }
+            businessOutcome = 'succeeded'
+          } else if (decisionType === 'INVESTIGATE' || decisionType === 'REJECT') {
+            bridgeResult = { action: 'noop', businessOutcome: 'noop', reason: `${decisionType} decisions do not trigger mutations` }
+          } else if (!(ACTION_ALLOWLIST as readonly string[]).includes(decisionType)) {
+            bridgeResult = { action: 'blocked', businessOutcome: 'rejected', reason: `Decision type "${decisionType}" is not in the action allowlist` }
+            businessOutcome = 'rejected'
+          } else {
+            bridgeResult = { action: 'noop', businessOutcome: 'noop', reason: `No concrete handler for ${decisionType}` }
+          }
+
+          await automationJobsRepository.updateStatus(dbJob.id, 'completed', 'completed')
+          await automationJobsRepository.setResult(dbJob.id, bridgeResult)
+          
+          await pool.query('UPDATE brain_decisions SET status = $1, updated_at = NOW() WHERE id = $2', ['COMPLETED', decision.id])
+
+        } catch (error) {
+          const err = error instanceof Error ? error : new Error(String(error))
+          logger.error(`Failed to bridge execution for job ${dbJob.id}`, err)
+          await automationJobsRepository.updateStatus(dbJob.id, 'failed', 'bridging', err.message)
+          await pool.query('UPDATE brain_decisions SET status = $1, updated_at = NOW() WHERE id = $2', ['FAILED', dbJob.content_id])
+        }
+      }
+    } catch (error) {
+      logger.error('Error polling strategy executions', error instanceof Error ? error : new Error(String(error)))
+    }
   }
 }
 

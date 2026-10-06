@@ -19,10 +19,17 @@ export type ArticleRow = {
   updated_at: string | null
   author_id: string | null
   category_id: string | null
+  product_id: string | null
   seo: unknown
   geo: unknown
   aeo: unknown
   search_vector: unknown
+  brain_task_id: string | null
+  automation_job_id: string | null
+  strategy_id: string | null
+  opportunity_id: string | null
+  affiliate_url: string | null
+  provenance: string | null
 }
 
 export class ArticleRepository {
@@ -131,8 +138,8 @@ export class ArticleRepository {
   async create(data: Partial<ArticleRow>): Promise<ArticleRow | null> {
     const pool = await this.getPool()
     const result = await pool.query(
-      `INSERT INTO articles (title, slug, article_type, excerpt, content, status, cover_image_url, author_id, category_id, seo, geo, aeo, published_at, featured, trending, reading_time)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      `INSERT INTO articles (title, slug, article_type, excerpt, content, status, cover_image_url, author_id, category_id, product_id, seo, geo, aeo, published_at, featured, trending, reading_time, brain_task_id, automation_job_id, strategy_id, opportunity_id, affiliate_url, provenance)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
        RETURNING *`,
       [
         data.title,
@@ -144,6 +151,7 @@ export class ArticleRepository {
         data.cover_image_url ?? null,
         data.author_id ?? null,
         data.category_id ?? null,
+        data.product_id ?? null,
         JSON.stringify((data.seo as Record<string, unknown>) ?? {}),
         JSON.stringify((data.geo as Record<string, unknown>) ?? {}),
         JSON.stringify((data.aeo as Record<string, unknown>) ?? {}),
@@ -151,6 +159,12 @@ export class ArticleRepository {
         data.featured ?? false,
         data.trending ?? false,
         data.reading_time ?? null,
+        data.brain_task_id ?? null,
+        data.automation_job_id ?? null,
+        data.strategy_id ?? null,
+        data.opportunity_id ?? null,
+        data.affiliate_url ?? null,
+        data.provenance ?? 'UNKNOWN',
       ]
     )
     return result.rows[0] || null
@@ -172,6 +186,8 @@ export class ArticleRepository {
     if (data.cover_image_url !== undefined) map.cover_image_url = data.cover_image_url
     if (data.author_id !== undefined) map.author_id = data.author_id
     if (data.category_id !== undefined) map.category_id = data.category_id
+    if (data.product_id !== undefined) map.product_id = data.product_id
+    if (data.affiliate_url !== undefined) map.affiliate_url = data.affiliate_url
     if (data.seo !== undefined) map.seo = JSON.stringify(data.seo)
     if (data.geo !== undefined) map.geo = JSON.stringify(data.geo)
     if (data.aeo !== undefined) map.aeo = JSON.stringify(data.aeo)

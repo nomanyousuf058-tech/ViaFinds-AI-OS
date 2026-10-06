@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
+import { adminOnly } from '@/lib/auth';
 import { automationPipeline } from '@/lib/automation';
 import { jobManager } from '@/lib/automation';
 import { articleRepository } from '@/lib/db/repositories';
 
 export async function GET() {
   try {
+    await adminOnly();
     const job = jobManager.createJob('article_generation', 'auto', {
       topic: 'Best AI Website Builders for Startups 2026',
       category: 'ai-tools'

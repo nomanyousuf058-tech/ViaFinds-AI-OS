@@ -1,6 +1,7 @@
 import { SearchProvider, SearchResponse, SearchResult, SearchOptions } from './SearchProvider';
-import { SerpAPIProvider } from './SerpAPIProvider';
+import { DuckDuckGoProvider } from './DuckDuckGoProvider';
 import { GoogleCustomSearchProvider } from './GoogleCustomSearchProvider';
+import { SerpAPIProvider } from './SerpAPIProvider';
 import { logger } from '@/lib/logger';
 import { DIGITAL_PRODUCTS_NICHE } from '@/config/niche';
 
@@ -14,95 +15,128 @@ export interface SearchRouterResult {
   duplicatesRemoved: number;
   researchConfidence: 'high' | 'medium' | 'low' | 'insufficient';
   providersUsed: string[];
+  providersAttempted: string[];
+  providerErrors: Array<{ provider: string; error: string }>;
   totalLatencyMs: number;
   authoritativeSources: SearchResult[];
   missingInformation: string[];
 }
 
 export class SearchRouter {
-  private primary: SearchProvider;
-  private secondary: SearchProvider;
+  /**
+   * Provider chain, most reliable first.
+   *
+   * Public HTML scrapers rate-limit aggressively and return empty result sets
+   * without erroring, so a real API provider must be tried before them. Each
+   * provider's actual outcome is recorded in the result so a caller can tell
+   * the difference between "no results exist" and "this provider failed".
+   */
+  private providers: SearchProvider[];
 
   constructor() {
-    this.primary = new SerpAPIProvider();
-    this.secondary = new GoogleCustomSearchProvider();
+    this.providers = [
+      new SerpAPIProvider(),
+      new DuckDuckGoProvider(),
+      new GoogleCustomSearchProvider(),
+    ];
   }
 
   async research(query: string, options: SearchOptions = {}): Promise<SearchRouterResult> {
     const startTime = Date.now();
     const providersUsed: string[] = [];
+    const providersAttempted: string[] = [];
+    const providerErrors: Array<{ provider: string; error: string }> = [];
+    const collected: SearchResult[] = [];
+
+    let primaryProvider = this.providers[0].name;
+    let secondaryProvider: string | undefined;
     let fallbackTriggered = false;
     let fallbackReason: string | undefined;
 
-    // Step 1: Primary provider (SerpAPI)
-    logger.info(`SearchRouter: Running primary provider ${this.primary.name} for query: "${query}"`);
-    const primaryResult = await this.primary.search(query, options);
-    providersUsed.push(this.primary.name);
+    for (const provider of this.providers) {
+      providersAttempted.push(provider.name);
 
-    if (!primaryResult.success || primaryResult.results.length === 0) {
-      logger.warn(`SearchRouter: Primary provider ${this.primary.name} failed or returned no results`);
-      fallbackTriggered = true;
-      fallbackReason = primaryResult.error || 'No results returned';
-    }
-
-    // Step 2: Evaluate if secondary provider is needed
-    const needsSecondary = this.evaluateSecondaryNeed(primaryResult, query);
-
-    let secondaryResult: SearchResponse | undefined;
-    if (needsSecondary.shouldRun) {
-      logger.info(`SearchRouter: Running secondary provider ${this.secondary.name}. Reason: ${needsSecondary.reason}`);
-      secondaryResult = await this.secondary.search(query, options);
-      providersUsed.push(this.secondary.name);
-
-      if (!secondaryResult.success) {
-        logger.warn(`SearchRouter: Secondary provider ${this.secondary.name} failed: ${secondaryResult.error}`);
+      const isConfigured = await this.isConfigured(provider);
+      if (!isConfigured.configured) {
+        providerErrors.push({ provider: provider.name, error: isConfigured.reason });
+        continue;
       }
-    } else {
-      logger.info(`SearchRouter: Skipping secondary provider. Reason: ${needsSecondary.reason}`);
+
+      const response = await provider.search(query, options);
+
+      if (!response.success) {
+        providerErrors.push({ provider: provider.name, error: response.error || 'unknown error' });
+        if (providersUsed.length === 0) {
+          fallbackTriggered = true;
+          fallbackReason = `${provider.name}: ${response.error || 'unknown error'}`;
+        }
+        continue;
+      }
+
+      if (response.results.length === 0) {
+        providerErrors.push({ provider: provider.name, error: 'returned zero results' });
+        if (providersUsed.length === 0) {
+          fallbackTriggered = true;
+          fallbackReason = `${provider.name} returned zero results`;
+        }
+        continue;
+      }
+
+      if (providersUsed.length === 0) {
+        primaryProvider = provider.name;
+      } else {
+        secondaryProvider = provider.name;
+      }
+      providersUsed.push(provider.name);
+      collected.push(...response.results);
+
+      // One working provider with enough results is enough; fall through to the
+      // next provider only when this one looks thin.
+      if (response.results.length >= 5) break;
     }
 
-    // Step 3: Combine and deduplicate results
-    const allResults = [...primaryResult.results];
-    if (secondaryResult?.success && secondaryResult.results.length > 0) {
-      allResults.push(...secondaryResult.results);
-    }
-
-    const { uniqueResults, duplicatesRemoved } = this.deduplicateResults(allResults);
-
-    // Step 4: Score and prioritize
+    const { uniqueResults, duplicatesRemoved } = this.deduplicateResults(collected);
     const scoredResults = this.scoreResults(uniqueResults, query);
     const authoritativeSources = scoredResults.filter(r => r.authoritySignal && r.authoritySignal > 0.7);
     const missingInformation = this.identifyMissingInformation(scoredResults, query);
-
-    // Step 5: Determine research confidence
     const researchConfidence = this.calculateConfidence(scoredResults, authoritativeSources.length, missingInformation);
 
     return {
-      primaryProvider: this.primary.name,
-      secondaryProvider: secondaryResult?.success ? this.secondary.name : undefined,
+      primaryProvider,
+      secondaryProvider,
       fallbackTriggered,
       fallbackReason,
-      combinedResults: allResults,
+      combinedResults: collected,
       uniqueResults: scoredResults,
       duplicatesRemoved,
       researchConfidence,
       providersUsed,
+      providersAttempted,
+      providerErrors,
       totalLatencyMs: Date.now() - startTime,
       authoritativeSources,
       missingInformation,
     };
   }
 
-  async healthCheck(): Promise<{ primary: { status: string; error?: string }; secondary: { status: string; error?: string } }> {
-    const [primaryHealth, secondaryHealth] = await Promise.all([
-      this.primary.healthCheck(),
-      this.secondary.healthCheck(),
-    ]);
+  private async isConfigured(provider: SearchProvider): Promise<{ configured: boolean; reason: string }> {
+    if (provider instanceof SerpAPIProvider && !process.env.SERPAPI_API_KEY) {
+      return { configured: false, reason: 'SERPAPI_API_KEY not configured' };
+    }
+    return { configured: true, reason: '' };
+  }
 
-    return {
-      primary: { status: primaryHealth.status, error: primaryHealth.error },
-      secondary: { status: secondaryHealth.status, error: secondaryHealth.error },
-    };
+  async healthCheck(): Promise<Record<string, { status: string; error?: string }>> {
+    const out: Record<string, { status: string; error?: string }> = {};
+    for (const provider of this.providers) {
+      try {
+        const health = await provider.healthCheck();
+        out[provider.name] = { status: health.status, error: health.error };
+      } catch (e) {
+        out[provider.name] = { status: 'error', error: e instanceof Error ? e.message : String(e) };
+      }
+    }
+    return out;
   }
 
   private evaluateSecondaryNeed(primaryResult: SearchResponse, query: string): { shouldRun: boolean; reason: string } {

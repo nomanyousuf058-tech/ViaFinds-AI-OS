@@ -59,6 +59,15 @@ export const defaultProviderConfigs: Record<AIProviderType, AIProviderConfig> = 
     disabled: process.env.MISTRAL_DISABLED === 'true',
   },
 
+  [AIProviderType.COHERE]: {
+    apiKey: process.env.COHERE_API_KEY,
+    baseUrl: process.env.COHERE_BASE_URL || 'https://api.cohere.com/v2/chat',
+    defaultModel: process.env.COHERE_MODEL || 'command-a-03-2025',
+    timeoutMs: parseInt(process.env.COHERE_TIMEOUT_MS || '120000', 10),
+    maxRetries: parseInt(process.env.COHERE_MAX_RETRIES || '2', 10),
+    disabled: process.env.COHERE_DISABLED === 'true',
+  },
+
   // Image AI
   [AIProviderType.GOOGLE_IMAGEN]: {
     apiKey: process.env.GOOGLE_IMAGEN_API_KEY,

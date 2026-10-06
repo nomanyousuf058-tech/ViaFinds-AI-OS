@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { adminOnly } from '@/lib/auth'
 import { articleRepository } from '@/lib/db/repositories'
+import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
 import type { ArticleRow } from '@/lib/db/types'
 
 export async function GET(request: Request) {
@@ -35,11 +36,29 @@ export async function POST(request: Request) {
     await adminOnly()
     const body = await request.json()
 
+    let content = body.content || []
+    let affiliateUrl: string | null = null
+
+    if (Array.isArray(content) && content.length > 0) {
+      const { processed, content: processedContent } = await affiliateLinkResolver.processArticleContent(content)
+      content = processedContent
+
+      if (processed) {
+        const goUrl = (processedContent as Array<Record<string, unknown>>).find(
+          (b) => b.type === 'cta' && typeof b.url === 'string' && b.url.startsWith('/go/')
+        )?.url as string | undefined
+
+        if (goUrl) {
+          affiliateUrl = goUrl.replace('/go/', '')
+        }
+      }
+    }
+
     const article = await articleRepository.create({
       title: body.title,
       slug: body.slug,
       excerpt: body.excerpt || null,
-      content: body.content || [],
+      content: content,
       status: body.status || 'draft',
       cover_image_url: body.cover_image_url || null,
       author_id: null,
@@ -51,6 +70,7 @@ export async function POST(request: Request) {
       featured: body.featured || false,
       trending: body.trending || false,
       reading_time: body.reading_time || null,
+      affiliate_url: affiliateUrl,
     })
 
     if (!article) {

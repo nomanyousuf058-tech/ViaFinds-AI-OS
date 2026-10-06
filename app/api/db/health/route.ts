@@ -1,25 +1,12 @@
 import { NextResponse } from 'next/server'
+import { adminOnly } from '@/lib/auth'
 import { connect, getConnectionDiagnostics } from '@/lib/db/client'
-import { runMigrations, verifyMigration } from '@/lib/db/migrate'
 
 export async function GET() {
   try {
+    await adminOnly();
     const dbConnected = await connect()
     const diagnostics = getConnectionDiagnostics()
-
-    let migrationResult
-    try {
-      migrationResult = await runMigrations()
-    } catch (migrationError) {
-      migrationResult = { success: false, error: migrationError instanceof Error ? migrationError.message : 'Migration check failed' }
-    }
-
-    let verificationResult
-    try {
-      verificationResult = await verifyMigration()
-    } catch (verifyError) {
-      verificationResult = { success: false, error: verifyError instanceof Error ? verifyError.message : 'Verification failed' }
-    }
 
     return NextResponse.json({
       database: dbConnected ? 'connected' : 'disconnected',
@@ -32,8 +19,6 @@ export async function GET() {
         passwordSet: diagnostics.passwordSet,
         sslEnabled: diagnostics.sslEnabled,
       },
-      migration: migrationResult,
-      verification: verificationResult,
       environment: {
         hasDatabaseUrl: !!process.env.DATABASE_URL,
         hasPostgresHost: !!process.env.POSTGRES_HOST,
@@ -45,6 +30,9 @@ export async function GET() {
       }
     })
   } catch (error) {
+    if (error instanceof Error && (error as Error & { status?: number }).status === 401) {
+      return NextResponse.json({ database: 'error', error: 'Unauthorized' }, { status: 401 })
+    }
     return NextResponse.json({
       database: 'error',
       error: error instanceof Error ? error.message : 'Health check failed'

@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     }
 
     if (authHeader !== `Bearer ${cronSecret}`) {
-      logger.warn('Unauthorized cron attempt', { authHeader: authHeader?.substring(0, 20) })
+      logger.warn('Unauthorized cron attempt', { hasAuthHeader: !!authHeader })
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 

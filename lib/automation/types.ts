@@ -70,12 +70,16 @@ export interface AffiliateDecision {
 }
 
 export interface QualityResult {
-  status: 'pass' | 'review' | 'fail'
+  status: 'PASS' | 'PASS_WITH_WARNINGS' | 'FAIL'
   score: number
   checks: QualityCheck[]
+  failures: string[]
+  warnings: string[]
+  recommendations: string[]
+  evidence: Record<string, unknown>
   overallAssessment: string
   eeat?: {
-    status: 'pass' | 'review' | 'fail'
+    status: 'PASS' | 'PASS_WITH_WARNINGS' | 'FAIL'
     score: number
     checks: QualityCheck[]
   }
@@ -136,6 +140,13 @@ export interface ArticleDraft {
   seo?: SEOData
   geo?: Record<string, unknown>
   aeo?: Record<string, unknown>
+  /**
+   * True when the body is a template stand-in produced because every AI
+   * provider failed. A degraded draft must never be published.
+   */
+  generationDegraded?: boolean
+  /** Why generation degraded, for the job audit trail. */
+  generationError?: string | null
 }
 
 export interface AffiliateCta {

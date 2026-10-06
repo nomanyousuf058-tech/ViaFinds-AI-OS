@@ -4,6 +4,8 @@ import { articleRepository } from '@/lib/db/repositories'
 import type { ArticleRow } from '@/lib/db/types'
 import DeleteArticleButton from '@/components/DeleteArticleButton'
 
+export const dynamic = 'force-dynamic'
+
 interface DashboardArticlesPageProps {
   searchParams: Promise<{ status?: string; q?: string; type?: string }>
 }

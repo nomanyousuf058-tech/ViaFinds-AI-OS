@@ -16,6 +16,7 @@ export type ArticleRow = {
   updated_at: string | null
   author_id: string | null
   category_id: string | null
+  product_id: string | null
   seo: unknown
   geo: unknown
   aeo: unknown
@@ -172,4 +173,58 @@ export type AdminUserRow = {
   last_login_at: string | null
   created_at: string
   updated_at: string
+}
+
+export type AffiliateLinkRow = {
+  id: string
+  product_id: string | null
+  article_id: string | null
+  network: string
+  destination_url: string
+  sub_id_1: string | null
+  sub_id_2: string | null
+  sub_id_3: string | null
+  sub_id_4: string | null
+  sub_id_5: string | null
+  short_code: string
+  created_at: string
+  updated_at: string
+}
+
+export type AffiliateClickRow = {
+  id: string
+  affiliate_link_id: string
+  article_id: string | null
+  product_id: string | null
+  ip_address: string | null
+  user_agent: string | null
+  referer: string | null
+  country: string | null
+  clicked_at: string
+}
+
+export type AffiliateConversionRow = {
+  id: string
+  affiliate_link_id: string
+  affiliate_click_id: string | null
+  article_id: string | null
+  product_id: string | null
+  network: string | null
+  order_id: string | null
+  sub_id_1: string | null
+  sub_id_2: string | null
+  sub_id_3: string | null
+  sub_id_4: string | null
+  sub_id_5: string | null
+  commission: string | null
+  currency: string | null
+  customer_country: string | null
+  conversion_type: string | null
+  converted_at: string | null
+  recorded_at: string
+  raw_data: unknown
+  provider_transaction_id: string | null
+  provider: string
+  status: string
+  event_type: string | null
 }

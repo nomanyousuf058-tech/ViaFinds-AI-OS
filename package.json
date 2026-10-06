@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint app components lib",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --selectProjects UNIT",
+    "test:unit": "jest --selectProjects UNIT",
+    "test:integration": "jest --selectProjects REAL_INTEGRATION --runInBand",
     "test:auth": "jest __tests__/auth",
     "test:automation": "tsx scripts/test-automation.ts && npm run build"
   },
@@ -17,14 +19,17 @@
     "@google/generative-ai": "^0.24.1",
     "@next/third-parties": "^16.2.12",
     "@supabase/supabase-js": "^2.112.4",
+    "@types/uuid": "^10.0.0",
     "bcryptjs": "^3.0.3",
+    "duck-duck-scrape": "^2.2.7",
     "googleapis": "^176.0.0",
     "jose": "^6.2.10",
     "jsonwebtoken": "^9.0.3",
     "next": "^16.3.2",
     "pg": "^8.23.0",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

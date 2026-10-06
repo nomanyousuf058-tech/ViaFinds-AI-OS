@@ -24,6 +24,19 @@ export type ConnectionDiagnostics = {
 
 let pool: Pool | null = null
 
+/**
+ * The managed Postgres endpoint for this project is a session-mode pooler
+ * capped at 15 simultaneous client connections, shared by every process that
+ * talks to the database (Next build workers, the server, CLI scripts). Keep the
+ * per-process pool small so the total stays under that cap; override with
+ * DB_POOL_MAX when a direct (non-pooler) connection is used.
+ */
+function resolveMaxClients(): number {
+  const configured = Number(process.env.DB_POOL_MAX);
+  if (Number.isFinite(configured) && configured > 0) return Math.floor(configured);
+  return 4;
+}
+
 function resolveConfig(): DbConfig {
   const databaseUrl = process.env.DATABASE_URL
   if (databaseUrl && databaseUrl.trim().length > 0) {
@@ -38,7 +51,7 @@ function resolveConfig(): DbConfig {
       ssl: process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false }),
       connectionTimeoutMillis: 10000,
       idleTimeoutMillis: 30000,
-      max: 10,
+      max: resolveMaxClients(),
     }
   }
 
@@ -50,7 +63,7 @@ function resolveConfig(): DbConfig {
   const isLocal = host === 'localhost' || host === '127.0.0.1'
   const ssl = process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false })
 
-  return { host, port, database, user, password, ssl, connectionTimeoutMillis: 10000, idleTimeoutMillis: 30000, max: 10 }
+  return { host, port, database, user, password, ssl, connectionTimeoutMillis: 10000, idleTimeoutMillis: 30000, max: resolveMaxClients() }
 }
 
 export function getPool(): Pool {

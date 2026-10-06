@@ -7,6 +7,7 @@ export enum AIProviderType {
   GROQ = 'groq',
   DEEPSEEK = 'deepseek',
   MISTRAL = 'mistral',
+  COHERE = 'cohere',
   GOOGLE_IMAGEN = 'google_imagen',
   BFL = 'bfl',
   IDEOGRAM = 'ideogram',
@@ -72,6 +73,15 @@ export interface AIProviderResponse {
   cost?: number; // Calculated cost
 }
 
+export enum AIModelCapability {
+  REASONING = 'REASONING',
+  CONTENT_GENERATION = 'CONTENT_GENERATION',
+  STRUCTURED_JSON = 'STRUCTURED_JSON',
+  CLASSIFICATION = 'CLASSIFICATION',
+  SUMMARIZATION = 'SUMMARIZATION',
+  EMBEDDING = 'EMBEDDING',
+}
+
 export interface AIModel {
   id: string;
   provider: AIProviderType;
@@ -82,6 +92,7 @@ export interface AIModel {
     streaming: boolean;
     functionCalling: boolean;
     vision: boolean;
+    supportedCapabilities: AIModelCapability[];
   };
   pricing?: {
     inputPer1k: number;
@@ -89,12 +100,29 @@ export interface AIModel {
   };
 }
 
+export enum AIErrorType {
+  AUTH_ERROR = 'AUTH_ERROR',
+  RATE_LIMIT = 'RATE_LIMIT',
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE',
+  TIMEOUT = 'TIMEOUT',
+  NETWORK_ERROR = 'NETWORK_ERROR',
+  INVALID_RESPONSE = 'INVALID_RESPONSE',
+  MODEL_UNAVAILABLE = 'MODEL_UNAVAILABLE',
+  UNKNOWN = 'UNKNOWN',
+}
+
 export interface ProviderHealth {
   provider: AIProviderType;
-  isAvailable: boolean;
-  lastChecked: Date;
-  latencyMs?: number;
-  error?: string;
+  model: string;
+  status: 'healthy' | 'degraded' | 'offline';
+  last_success?: Date;
+  last_failure?: Date;
+  failure_type?: AIErrorType;
+  consecutive_failures: number;
+  cooldown_until?: Date;
+  latency?: number;
+  availability: number; // 0.0 to 1.0
 }
 
 export interface PromptTemplate {

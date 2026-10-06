@@ -13,6 +13,7 @@ import { MistralProvider } from './MistralProvider';
 import { OpenAIProvider } from './OpenAIProvider';
 import { ClaudeProvider } from './ClaudeProvider';
 import { OllamaProvider } from './OllamaProvider';
+import { CohereProvider } from './CohereProvider';
 
 // Image Providers
 import { GoogleImagenProvider } from './GoogleImagenProvider';
@@ -42,7 +43,8 @@ const REQUIRES_API_KEY: Set<AIProviderType> = new Set([
   AIProviderType.GROQ,
   AIProviderType.DEEPSEEK,
   AIProviderType.MISTRAL,
-  
+  AIProviderType.COHERE,
+
   AIProviderType.GOOGLE_IMAGEN,
   AIProviderType.BFL,
   AIProviderType.IDEOGRAM,
@@ -73,6 +75,7 @@ const PROVIDER_LABELS: Record<AIProviderType, string> = {
   [AIProviderType.OPENAI]: 'OpenAI',
   [AIProviderType.CLAUDE]: 'Claude',
   [AIProviderType.OLLAMA]: 'Ollama',
+  [AIProviderType.COHERE]: 'Cohere',
   
   [AIProviderType.GOOGLE_IMAGEN]: 'Google Imagen',
   [AIProviderType.BFL]: 'FLUX (BFL)',
@@ -150,6 +153,7 @@ export class ProviderLoader {
           if (type === AIProviderType.GROQ) apiKey = process.env.GROQ_API_KEY || apiKey;
           if (type === AIProviderType.DEEPSEEK) apiKey = process.env.DEEPSEEK_API_KEY || apiKey;
           if (type === AIProviderType.MISTRAL) apiKey = process.env.MISTRAL_API_KEY || apiKey;
+          if (type === AIProviderType.COHERE) apiKey = process.env.COHERE_API_KEY || apiKey;
           return { ...base, apiKey, ...customConfigs[type] };
         };
 
@@ -162,6 +166,7 @@ export class ProviderLoader {
           ProviderFactory.createProvider(AIProviderType.OPENAI, OpenAIProvider, getConf(AIProviderType.OPENAI));
           ProviderFactory.createProvider(AIProviderType.CLAUDE, ClaudeProvider, getConf(AIProviderType.CLAUDE));
           ProviderFactory.createProvider(AIProviderType.OLLAMA, OllamaProvider, getConf(AIProviderType.OLLAMA));
+          ProviderFactory.createProvider(AIProviderType.COHERE, CohereProvider, getConf(AIProviderType.COHERE));
           
           ProviderFactory.createProvider(AIProviderType.GOOGLE_IMAGEN, GoogleImagenProvider, getConf(AIProviderType.GOOGLE_IMAGEN));
           ProviderFactory.createProvider(AIProviderType.BFL, BflProvider, getConf(AIProviderType.BFL));
@@ -220,7 +225,8 @@ export class ProviderLoader {
       AIProviderType.OPENAI,
       AIProviderType.CLAUDE,
       AIProviderType.OLLAMA,
-      
+      AIProviderType.COHERE,
+
       // Image AI
       AIProviderType.GOOGLE_IMAGEN,
       AIProviderType.BFL,

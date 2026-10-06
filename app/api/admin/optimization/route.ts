@@ -37,10 +37,10 @@ export async function POST(request: Request) {
       title: content.title,
       ...analysis,
     })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 }
+      { status: error?.status || 500 }
     )
   }
 }

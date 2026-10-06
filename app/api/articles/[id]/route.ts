@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { adminOnly } from '@/lib/auth'
 import { articleRepository } from '@/lib/db/repositories'
+import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -25,6 +26,11 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     const { id } = await params
     const body = await request.json()
 
+    const existingArticle = await articleRepository.findById(id)
+    if (!existingArticle) {
+      return NextResponse.json({ error: 'Article not found' }, { status: 404 })
+    }
+
     const updates: Record<string, unknown> = {}
     if (body.title !== undefined) updates.title = body.title
     if (body.slug !== undefined) updates.slug = body.slug
@@ -40,6 +46,26 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (body.featured !== undefined) updates.featured = body.featured
     if (body.trending !== undefined) updates.trending = body.trending
     if (body.published_at !== undefined) updates.published_at = body.published_at
+
+    if (Array.isArray(updates.content) && updates.content.length > 0) {
+      const productId = body.product_id || existingArticle.product_id
+      const { processed, content: processedContent } = await affiliateLinkResolver.processArticleContent(
+        updates.content,
+        id,
+        productId || undefined
+      )
+      updates.content = processedContent
+
+      if (processed) {
+        const goUrl = (processedContent as Array<Record<string, unknown>>).find(
+          (b) => b.type === 'cta' && typeof b.url === 'string' && b.url.startsWith('/go/')
+        )?.url as string | undefined
+
+        if (goUrl) {
+          updates.affiliate_url = goUrl.replace('/go/', '')
+        }
+      }
+    }
 
     const article = await articleRepository.update(id, updates)
     if (!article) {

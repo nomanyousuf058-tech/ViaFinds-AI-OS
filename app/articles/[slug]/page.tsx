@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { articleRepository } from '@/lib/db/repositories'
+import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
 import type { ArticleRow } from '@/lib/db/types'
 import ShareButtons from '@/components/ShareButtons'
 
@@ -234,8 +235,55 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound()
   }
 
-  const coverImage = article.cover_image_url || ''
   const content = Array.isArray(article.content) ? article.content as ContentBlock[] : []
+
+  let processedContent = content
+  let needsUpdate = false
+
+  for (const block of content) {
+    if (block.type === 'cta' && typeof block.url === 'string') {
+      if (block.url.startsWith('http') && !block.url.startsWith('/go/')) {
+        needsUpdate = true
+        break
+      }
+    }
+    if (
+      (block.type === 'bullet-list' || block.type === 'numbered-list') &&
+      Array.isArray((block as unknown as { items?: unknown[] }).items)
+    ) {
+      const items = (block as unknown as { items: Array<{ links?: LinkMark[] }> }).items
+      for (const item of items) {
+        if (Array.isArray(item.links)) {
+          for (const link of item.links) {
+            if (link.isAffiliate && link.url.startsWith('http') && !link.url.startsWith('/go/')) {
+              needsUpdate = true
+              break
+            }
+          }
+          if (needsUpdate) break
+        }
+      }
+      if (needsUpdate) break
+    }
+  }
+
+  if (needsUpdate) {
+    try {
+      const { processed, content: resolvedContent } = await affiliateLinkResolver.processArticleContent(
+        content,
+        article.id,
+        article.product_id || undefined
+      )
+      if (processed) {
+        processedContent = resolvedContent as ContentBlock[]
+        await articleRepository.update(article.id, { content: processedContent })
+      }
+    } catch (error) {
+      console.error('Failed to resolve affiliate links for article:', error)
+    }
+  }
+
+  const coverImage = article.cover_image_url || ''
   const publishedAt = article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',

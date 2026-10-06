@@ -1,6 +1,6 @@
 import { providerRegistry } from '../../providers/ProviderRegistry';
 import { defaultProviderConfigs } from '../../providers/ProviderConfig';
-import { ProviderHealth, AIProviderType } from './types';
+import { ProviderHealth, AIProviderType, AIErrorType } from './types';
 import { logger } from '../../lib/logger';
 
 /** Providers that require an API key — Ollama is local. */
@@ -60,24 +60,34 @@ export class HealthChecker {
    */
   public async checkProvider(type: AIProviderType): Promise<ProviderHealth> {
     const provider = providerRegistry.getProvider(type);
-    const health: ProviderHealth = {
+    const config = defaultProviderConfigs[type];
+    const model = config?.defaultModel || 'unknown';
+
+    const existing = this.healthStatuses.get(type);
+    const health: ProviderHealth = existing || {
       provider: type,
-      isAvailable: false,
-      lastChecked: new Date(),
+      model,
+      status: 'offline',
+      consecutive_failures: 0,
+      availability: 0,
     };
 
     // Gate: API key required but missing
     if (REQUIRES_API_KEY.has(type)) {
       const config = defaultProviderConfigs[type];
       if (!config?.apiKey) {
-        health.error = 'Missing API key';
+        health.status = 'offline';
+        health.failure_type = AIErrorType.AUTH_ERROR;
+        health.consecutive_failures += 1;
         this.healthStatuses.set(type, health);
         return health;
       }
     }
 
     if (!provider) {
-      health.error = 'Provider not registered';
+      health.status = 'offline';
+      health.failure_type = AIErrorType.MODEL_UNAVAILABLE;
+      health.consecutive_failures += 1;
       this.healthStatuses.set(type, health);
       return health;
     }
@@ -85,13 +95,24 @@ export class HealthChecker {
     try {
       const start = Date.now();
       const isHealthy = await provider.validateHealth();
-      health.latencyMs = Date.now() - start;
-      health.isAvailable = isHealthy;
-      if (!isHealthy) {
-        health.error = 'validateHealth() returned false';
+      health.latency = Date.now() - start;
+      if (isHealthy) {
+        health.status = 'healthy';
+        health.last_success = new Date();
+        health.consecutive_failures = 0;
+        health.availability = 1.0;
+        health.failure_type = undefined;
+      } else {
+        health.status = 'degraded';
+        health.last_failure = new Date();
+        health.consecutive_failures += 1;
+        health.failure_type = AIErrorType.UNKNOWN;
       }
     } catch (error) {
-      health.error = (error as Error).message;
+      health.status = 'offline';
+      health.last_failure = new Date();
+      health.consecutive_failures += 1;
+      health.failure_type = this.classifyError(error);
       logger.error(`Health check failed for ${type}`, error as Error);
     }
 
@@ -105,7 +126,81 @@ export class HealthChecker {
   
   public isAvailable(type: AIProviderType): boolean {
     const status = this.healthStatuses.get(type);
-    return status?.isAvailable || false;
+    // If no health data exists, assume available (first-time providers)
+    if (!status) return true;
+    if (status.status === 'offline') return false;
+    if (status.cooldown_until && status.cooldown_until > new Date()) return false;
+    return true;
+  }
+
+  public reportSuccess(type: AIProviderType, latencyMs: number) {
+    const config = defaultProviderConfigs[type];
+    const model = config?.defaultModel || 'unknown';
+    let health = this.healthStatuses.get(type);
+    if (!health) {
+      health = { provider: type, model, status: 'healthy', consecutive_failures: 0, availability: 1.0 };
+    }
+    health.status = 'healthy';
+    health.last_success = new Date();
+    health.consecutive_failures = 0;
+    health.latency = latencyMs;
+    health.availability = Math.min(1.0, health.availability + 0.1);
+    health.failure_type = undefined;
+    health.cooldown_until = undefined;
+    this.healthStatuses.set(type, health);
+  }
+
+  public reportFailure(type: AIProviderType, error: any) {
+    const config = defaultProviderConfigs[type];
+    const model = config?.defaultModel || 'unknown';
+    let health = this.healthStatuses.get(type);
+    if (!health) {
+      health = { provider: type, model, status: 'degraded', consecutive_failures: 0, availability: 1.0 };
+    }
+    health.last_failure = new Date();
+    health.consecutive_failures += 1;
+    health.availability = Math.max(0.0, health.availability - 0.2);
+    health.failure_type = this.classifyError(error);
+    
+    // Smart fallback: set cooldown based on error
+    if (health.failure_type === AIErrorType.AUTH_ERROR || health.failure_type === AIErrorType.INSUFFICIENT_BALANCE) {
+      health.status = 'offline';
+      // Permanent-ish error, cooldown for a long time
+      health.cooldown_until = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    } else if (health.failure_type === AIErrorType.RATE_LIMIT) {
+      health.status = 'degraded';
+      // Quota windows are measured in minutes, not seconds. A short cooldown
+      // here just burns more of the same quota through repeated retries.
+      health.cooldown_until = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+    } else if (health.failure_type === AIErrorType.SERVICE_UNAVAILABLE || health.failure_type === AIErrorType.TIMEOUT) {
+      health.status = 'degraded';
+      health.cooldown_until = new Date(Date.now() + 60 * 1000);
+    } else {
+      health.status = 'degraded';
+    }
+
+    this.healthStatuses.set(type, health);
+  }
+
+  public classifyError(error: any): AIErrorType {
+    const text = (error instanceof Error ? error.message : String(error)).toLowerCase();
+    if (text.includes('401') || text.includes('unauthorized') || text.includes('invalid key') || text.includes('billing required')) return AIErrorType.AUTH_ERROR;
+    if (text.includes('402') || text.includes('payment required') || text.includes('insufficient balance')) return AIErrorType.INSUFFICIENT_BALANCE;
+    if (text.includes('429') || text.includes('too many requests') || text.includes('rate limit')) return AIErrorType.RATE_LIMIT;
+    if (text.includes('404') || text.includes('model unavailable') || text.includes('not found')) return AIErrorType.MODEL_UNAVAILABLE;
+    if (text.includes('408') || text.includes('timeout')) return AIErrorType.TIMEOUT;
+    if (text.includes('network') || text.includes('fetch failed') || text.includes('econnrefused')) return AIErrorType.NETWORK_ERROR;
+    if (text.includes('500') || text.includes('502') || text.includes('503') || text.includes('504')) return AIErrorType.SERVICE_UNAVAILABLE;
+    if (text.includes('json') || text.includes('parse')) return AIErrorType.INVALID_RESPONSE;
+    return AIErrorType.UNKNOWN;
+  }
+
+  /**
+   * Resets all health state. Intended for test isolation only.
+   * Do not use in production — it discards accumulated health data.
+   */
+  public reset(): void {
+    this.healthStatuses.clear();
   }
 }
 
