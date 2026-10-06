@@ -423,3 +423,94 @@ will run a normal cycle and return alreadyInitialized=true.
 4. Review the 38 UNKNOWN articles (AI-generation stubs) - archived, not
    deleted, so the owner can decide whether to regenerate or discard.
 5. Ollama is not running locally; start it only if a local model is desired.
+
+---
+
+# FINAL CLEANUP SECTION (post-verified-Brain-initialization)
+
+## 1. CMS ARCHIVE CLEANUP
+
+### Article reclassification (content-based, provenance column unreliable)
+| Class | Before | After | Disposition |
+|---|---|---|---|
+| REAL | 48 | 48 | PRESERVED |
+| TEST | 6 | 0 | REMOVED (audit logged) |
+| STUB (failed-generation) | 5 | 0 | REMOVED (audit logged) |
+| AMBIGUOUS | 2 | 0 | REMOVED (audit logged) |
+| **Total** | **61** | **48** | |
+
+### Safety assertions (all passed)
+- No REAL-provenance article deleted
+- No article referenced by a tracked affiliate_link (verified against all 15 destination_urls)
+- All 13 removals logged to audit_logs as cms_article_quarantined
+
+### Final article counts
+- Active articles: 0
+- Archived/preserved REAL articles: 48
+- Total articles: 48
+- REAL affiliate links preserved: 15 (all verified pointing to REAL articles)
+- No duplicate slugs
+
+## 2. OPPORTUNITY CLEANUP
+
+| Class | Before | After |
+|---|---|---|
+| REAL (active) | 3 | 13 |
+| TEST (archived) | 1 | 1 |
+| UNKNOWN (archived) | 21 | 0 |
+| **Active total** | **25** | **13** |
+
+- 10 genuine UNKNOWN opportunities (created during verified Wake Ups with real reasoning) reclassified to REAL
+- 11 stale/superseded UNKNOWN + 1 TEST archived with audit trail
+- 7 orphaned stuck execution plans (CREATE_ARTICLE, 0 live task/learning deps) resolved to failed/ARCHIVED; their 2 quality_results retained as historical evidence
+- 2 dormant UNKNOWN strategies + 1 dormant plan archived
+
+## 3. ATTENTION STATE
+- 8 brain_approvals: all genuine (7 approved, 2 pending), all with object proposed_action
+- formatJsonField() renders them as readable title/description — NO [object Object]
+- No stale test Attention, no fake provider Attention
+
+## 4. JOB STATE
+- completed: 34
+- archived: 26 (all verified test/stale, none touched revenue)
+- queued: 0
+- failed: 0
+- Historical failures preserved (brain_runs: 4 failed wake_up + 2 completed wake_up + 2 completed cycle)
+
+## 5. BRAIN LIVE STATE (no Wake Up run)
+- brain_initialization.status = initialized (genuine)
+- firstReportId = 19ef9df4-45b5-4b83-b63f-cb5d2251f1be
+- baselineStrategyId = ab30fafa-a5d8-4bcd-9344-666831efdaa2
+- Baseline strategy active, provenance REAL
+- 7 schedules enabled
+- Idempotency verified
+- No duplicate initialization (1 row), no duplicate active strategy (1)
+
+## 6. PRODUCTION DEPLOYMENT
+- GitHub: ba92ca8 (main)
+- Vercel: dpl_FyeNPBNqyHLusTZg6F3SPFPdje31 (Ready)
+- Production alias: https://viafinds.com
+
+## 7. LIVE WEBSITE VERIFICATION
+STATUS: PENDING OWNER BROWSER CHECK
+Sandbox outbound HTTPS is blocked; the site was NOT verified in a browser.
+Owner must check: https://viafinds.com — homepage, admin login, dashboard, Content CMS,
+public article pages, sitemap, robots, canonical, structured data, mobile/desktop,
+images, internal links, 4xx/5xx.
+
+## 8. DIGISTORE24 REVENUE PATH
+STATUS: CONFIGURATION VERIFIED / REAL WEBHOOK PENDING
+- 15 REAL affiliate links verified, all pointing to REAL articles
+- /go/[short_code] click tracking verified in prior gates
+- Webhook endpoint, HMAC/signature validation, idempotency, refund handling verified in prior gates
+- 0 real conversions yet (no live traffic) — do NOT fabricate revenue
+- Owner action: connect real Digistore24 webhook URL + SHA passphrase in production env
+
+## 9. FINAL ACCEPTANCE
+
+BRAIN = LIVE
+CMS CLEANUP = COMPLETE
+LIVE WEBSITE = PENDING OWNER BROWSER CHECK
+REVENUE WEBHOOK = CONFIGURATION VERIFIED / REAL CONVERSIONS PENDING
+
+GREEN for the areas verified; PENDING for live website and real revenue traffic.
