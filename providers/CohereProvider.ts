@@ -20,8 +20,13 @@ export class CohereProvider extends BaseProvider {
     super(type, config);
   }
 
-  private get endpoint(): string {
-    return this.config.baseUrl || 'https://api.cohere.com/v2/chat';
+private get endpoint(): string {
+    // Cohere's chat endpoint is /v2/chat. Some configurations set
+    // COHERE_BASE_URL to the bare host (https://api.cohere.com); if so,
+    // append the path so we never POST to the domain root (which returns 405).
+    const base = this.config.baseUrl || 'https://api.cohere.com'
+    if (base.endsWith('/v2/chat')) return base
+    return base.replace(/\/$/, '') + '/v2/chat'
   }
 
   public async initialize(): Promise<void> {

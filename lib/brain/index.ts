@@ -435,9 +435,12 @@ export async function wakeBrain(researchQuery?: string): Promise<BrainReport & {
     if (!baseline) {
       throw new Error('Failed to create baseline strategy during Brain initialization');
     }
-    const activation = await brainRepository.activateStrategy(String(baseline.id), 'brain-initialization');
-    if (!activation.success) {
-      throw new Error(`Failed to activate baseline strategy: ${activation.error || 'unknown error'}`);
+    // Idempotent: only activate if not already active.
+    if ((baseline.status as string) !== 'active') {
+      const activation = await brainRepository.activateStrategy(String(baseline.id), 'brain-initialization');
+      if (!activation.success) {
+        throw new Error(`Failed to activate baseline strategy: ${activation.error || 'unknown error'}`);
+      }
     }
 
     // 2. Required production schedules: idempotent — only created if missing.

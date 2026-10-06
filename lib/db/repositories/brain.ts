@@ -2177,7 +2177,9 @@ export class BrainRepository {
   }): Promise<boolean> {
     try {
       const pool = await this.getDb()
-      const sets: string[] = ['status=$1', 'updated_at=NOW()']
+      // NOTE: brain_initialization has no updated_at column (see migration 015),
+      // so we must NOT reference it here or every update silently fails.
+      const sets: string[] = ['status=$1']
       const vals: unknown[] = [data.status]
       let idx = 2
       if (data.data !== undefined) { sets.push(`data=$${idx++}`); vals.push(JSON.stringify(data.data)) }
