@@ -1,0 +1,37 @@
+{
+  "correlationId": "brain-1790442652763-f54bldd",
+  "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+  "query": "Notion alternatives for creators 2026",
+  "sourceIds": [
+    "src_5db97e3059ecdf5014de",
+    "src_672afa50833af62b82ec"
+  ],
+  "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+  "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+  "planId": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+  "idempotencyKey": "plan-c5292004-ecd6-4e69-8fa5-fdf01073f6b9-fc3bfcd6-4c15-48c2-971e-1f5e14a697bb-r2",
+  "taskId": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+  "approvalId": "a00246ac-32cb-4f0b-8e79-e7f88a22db66",
+  "log": [
+    "\nPREPARE COMPLETE. Approve the request, then run: p42-production-loop execute",
+    "\nAPPROVAL COMPLETE via the real admin API.",
+    "\nEXECUTION DID NOT COMPLETE. Verification and learning are not run.",
+    "retry attempt 1: new task 377d6e3a-d1af-4d08-be75-edc5df0d2562 awaiting a fresh approval",
+    "\nAPPROVAL COMPLETE via the real admin API.",
+    "\nEXECUTION DID NOT COMPLETE. Verification and learning are not run.",
+    "retry attempt 2: new task 365ad20f-7ae8-4ecc-8fa9-eae7685a391b awaiting a fresh approval",
+    "\nAPPROVAL COMPLETE via the real admin API."
+  ],
+  "learningId": "31cf0a04-f52c-4276-a18b-2f130a3dc4e2",
+  "approvedBy": "admin@viafinds.com",
+  "approvedVia": "http://localhost:3100/api/brain/approvals/a00246ac-32cb-4f0b-8e79-e7f88a22db66",
+  "automationJobId": "job_1790482166009_sp5ry7t",
+  "articleId": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+  "qualityResultId": "b1d5bdd2-64da-4e4a-8296-69227be4c781",
+  "verificationId": "ed32d2d8-23e1-408f-8ba4-5f7b0572cc2b",
+  "learningDecision": "1 deviation(s) produced a generalizable lesson",
+  "deviations": [
+    "pre-publication quality gate returned PASS_WITH_WARNINGS (score 96)"
+  ],
+  "publicUrl": "https://viafinds.com/articles/notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh"
+}
