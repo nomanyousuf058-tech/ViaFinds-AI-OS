@@ -329,7 +329,7 @@ export async function wakeBrain(researchQuery?: string): Promise<BrainReport & {
     const run = await brainRepository.createRun({
       runType: 'cycle',
       trigger: researchQuery ? `manual:${researchQuery}` : 'manual',
-      initializationId: init.id as string,
+      initializationId: init.initialization_id as string,
     });
 
     const brain = new Brain();
@@ -356,21 +356,32 @@ export async function wakeBrain(researchQuery?: string): Promise<BrainReport & {
     }
   }
 
-  // First-time initialization
-  const initResult = await brainRepository.createInitialization({
-    triggeredAt: new Date().toISOString(),
-    trigger: researchQuery ? `manual:${researchQuery}` : 'manual',
-  });
+  let initResult: { id: string; initialization_id: string } | null = null;
 
-  if (!initResult) {
-    // Another concurrent initialization may have won the race — check again
-    const existing = await brainRepository.getInitialization();
-    if (existing && existing.status === 'initialized') {
-      const brain = new Brain();
-      const report = await brain.runFullLoop(researchQuery);
-      return { ...report, alreadyInitialized: true, runId: null };
+  if (init) {
+    // Reuse the existing failed or stuck initialization
+    initResult = { id: init.id as string, initialization_id: init.initialization_id as string };
+    await brainRepository.updateInitialization(initResult.id, {
+      status: 'initializing',
+      error: null
+    });
+  } else {
+    // First-time initialization
+    initResult = await brainRepository.createInitialization({
+      triggeredAt: new Date().toISOString(),
+      trigger: researchQuery ? `manual:${researchQuery}` : 'manual',
+    });
+
+    if (!initResult) {
+      // Another concurrent initialization may have won the race — check again
+      const existing = await brainRepository.getInitialization();
+      if (existing && existing.status === 'initialized') {
+        const brain = new Brain();
+        const report = await brain.runFullLoop(researchQuery);
+        return { ...report, alreadyInitialized: true, runId: null };
+      }
+      throw new Error('Brain initialization failed to start. Please retry.');
     }
-    throw new Error('Brain initialization failed to start. Please retry.');
   }
 
   const run = await brainRepository.createRun({

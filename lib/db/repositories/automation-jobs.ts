@@ -85,7 +85,7 @@ export class AutomationJobsRepository {
   async findAll(): Promise<AutomationJobRow[]> {
     try {
       const pool = await this.getPool()
-      const result = await pool.query('SELECT * FROM automation_jobs ORDER BY created_at DESC')
+      const result = await pool.query("SELECT * FROM automation_jobs WHERE status != 'archived' ORDER BY created_at DESC")
       return result.rows
     } catch {
       return []

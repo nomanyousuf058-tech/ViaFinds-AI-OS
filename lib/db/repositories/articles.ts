@@ -97,7 +97,7 @@ export class ArticleRepository {
 
   async countAll(): Promise<number> {
     const pool = await this.getPool()
-    const result = await pool.query<{ count: string }>(`SELECT count(*) as count FROM articles`)
+    const result = await pool.query<{ count: string }>(`SELECT count(*) as count FROM articles WHERE status != 'archived'`)
     return Number(result.rows[0]?.count || 0)
   }
 

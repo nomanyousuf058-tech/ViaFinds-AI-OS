@@ -183,7 +183,7 @@ export class BrainRepository {
   async listStrategies(): Promise<BrainStrategy[]> {
     try {
       const pool = await this.getDb()
-      const result = await pool.query(`SELECT * FROM brain_strategies ORDER BY created_at DESC`)
+      const result = await pool.query(`SELECT * FROM brain_strategies WHERE status != 'archived' ORDER BY created_at DESC`)
       return result.rows.map(row => this.mapStrategyRow(row))
     } catch { return [] }
   }
@@ -229,7 +229,7 @@ export class BrainRepository {
   async listOpportunities(limit = 50): Promise<BrainOpportunity[]> {
     try {
       const pool = await this.getDb()
-      const result = await pool.query(`SELECT * FROM brain_opportunities ORDER BY created_at DESC LIMIT $1`, [limit])
+      const result = await pool.query(`SELECT * FROM brain_opportunities WHERE status != 'archived' ORDER BY created_at DESC LIMIT $1`, [limit])
       return result.rows.map(row => this.mapOpportunityRow(row))
     } catch { return [] }
   }
@@ -273,7 +273,7 @@ export class BrainRepository {
   async listTasks(limit = 50): Promise<Record<string, unknown>[]> {
     try {
       const pool = await this.getDb()
-      const result = await pool.query(`SELECT * FROM brain_tasks ORDER BY created_at DESC LIMIT $1`, [limit])
+      const result = await pool.query(`SELECT * FROM brain_tasks WHERE status != 'archived' ORDER BY created_at DESC LIMIT $1`, [limit])
       return result.rows
     } catch { return [] }
   }
