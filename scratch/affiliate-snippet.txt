@@ -1,0 +1,35 @@
+﻿  async setVerification(id: string, status: string, reason: string | null, evidence: Record<string, unknown> | null, verifiedBy: string | null): Promise<AffiliateLinkRow | null> {
+    try {
+      const pool = await this.getPool()
+      const result = await pool.query<AffiliateLinkRow>(
+        `UPDATE affiliate_links
+         SET verification_status = $1,
+             verification_reason = $2,
+             verified_at = CASE WHEN $1 = 'verified' THEN NOW() ELSE verified_at END,
+             verified_by = $3,
+             verification_evidence = $4,
+             updated_at = NOW()
+         WHERE id = $5
+         RETURNING *`,
+        [status, reason ?? null, verifiedBy ?? null, JSON.stringify(evidence ?? {}), id]
+      )
+      return result.rows[0] || null
+    } catch {
+      return null
+    }
+  }
+
+  async findVerifiedLinkByArticle(articleId: string): Promise<AffiliateLinkRow | null> {
+    try {
+      const pool = await this.getPool()
+      const result = await pool.query<AffiliateLinkRow>(
+        `SELECT * FROM affiliate_links
+         WHERE article_id = $1 AND verification_status = 'verified'
+         ORDER BY verified_at DESC LIMIT 1`,
+        [articleId]
+      )
+      return result.rows[0] || null
+    } catch {
+      return null
+    }
+  }

@@ -20,6 +20,8 @@ export type ArticleRow = {
   author_id: string | null
   category_id: string | null
   product_id: string | null
+  affiliate_url: string | null
+  affiliate_link_id: string | null
   seo: unknown
   geo: unknown
   aeo: unknown
@@ -28,7 +30,6 @@ export type ArticleRow = {
   automation_job_id: string | null
   strategy_id: string | null
   opportunity_id: string | null
-  affiliate_url: string | null
   provenance: string | null
 }
 
@@ -138,8 +139,8 @@ export class ArticleRepository {
   async create(data: Partial<ArticleRow>): Promise<ArticleRow | null> {
     const pool = await this.getPool()
     const result = await pool.query(
-      `INSERT INTO articles (title, slug, article_type, excerpt, content, status, cover_image_url, author_id, category_id, product_id, seo, geo, aeo, published_at, featured, trending, reading_time, brain_task_id, automation_job_id, strategy_id, opportunity_id, affiliate_url, provenance)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
+      `INSERT INTO articles (title, slug, article_type, excerpt, content, status, cover_image_url, author_id, category_id, product_id, seo, geo, aeo, published_at, featured, trending, reading_time, brain_task_id, automation_job_id, strategy_id, opportunity_id, affiliate_url, affiliate_link_id, provenance)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)
        RETURNING *`,
       [
         data.title,
@@ -164,6 +165,7 @@ export class ArticleRepository {
         data.strategy_id ?? null,
         data.opportunity_id ?? null,
         data.affiliate_url ?? null,
+        data.affiliate_link_id ?? null,
         data.provenance ?? 'UNKNOWN',
       ]
     )

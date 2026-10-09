@@ -1,0 +1,1193 @@
+[
+  {
+    "id": "c6eaa242-5844-4e48-989f-71e55143129e",
+    "type": "Website Audit",
+    "title": "Website Audit",
+    "goal": "Overall ",
+    "priority": "normal",
+    "status": "failed",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {},
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-10-06T14:53:53.869Z",
+    "updated_at": "2026-10-06T14:54:14.245Z",
+    "provenance": "UNKNOWN",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "a904ea03-1084-4f49-98ad-f758b82d2d5a",
+    "type": "create_automation_job",
+    "title": "Execute: Publish Creator-Focused Notion AI Alternatives Comparison & Review Guide",
+    "goal": "Produce a research-backed article on: Notion alternatives for creators 2026",
+    "priority": "high",
+    "status": "failed",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "Notion alternatives for creators 2026",
+        "category": "creator tools",
+        "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+        "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+      }
+    },
+    "context": {
+      "planId": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+      "correlationId": "brain-1790442652763-f54bldd"
+    },
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "evidence": {
+      "quality": {
+        "score": 72,
+        "failures": [
+          "draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold)",
+          "draft.body: Draft body has only 343 words"
+        ],
+        "overallStatus": "FAIL"
+      },
+      "blockedAt": "quality_gate",
+      "jobStatus": "awaiting_approval",
+      "approvalId": "d48a1e21-3799-4bd8-bbd8-bb72af0f6339",
+      "automationJobId": "job_1790477014594_fp54xhv",
+      "qualityResultId": "fee4b996-5bc2-417f-ab82-0f766002bbd4"
+    },
+    "recommendation": "BLOCKED: pre-publication quality gate FAIL (score 72): draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold); draft.body: Draft body has only 343 words",
+    "approval_state": "approved",
+    "completed_at": "2026-09-27T02:47:31.067Z",
+    "created_at": "2026-09-27T02:40:45.615Z",
+    "updated_at": "2026-09-27T02:47:31.067Z",
+    "provenance": "REAL",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "approval_id": "d48a1e21-3799-4bd8-bbd8-bb72af0f6339",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "idempotency_key": "task-2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "claimed_at": "2026-09-27T02:43:37.147Z",
+    "claim_token": "8352c212-b690-4d0e-bce3-3d295b39ca12",
+    "claimed_by": "brain-worker-11092-789e782a",
+    "started_at": "2026-09-27T02:43:37.147Z"
+  },
+  {
+    "id": "377d6e3a-d1af-4d08-be75-edc5df0d2562",
+    "type": "create_automation_job",
+    "title": "Retry: Publish Creator-Focused Notion AI Alternatives Comparison & Review Guide",
+    "goal": "Produce a research-backed article on: Notion alternatives for creators 2026",
+    "priority": "high",
+    "status": "failed",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "Notion alternatives for creators 2026",
+        "category": "creator tools",
+        "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+        "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+      }
+    },
+    "context": {
+      "planId": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+      "retryOf": "a904ea03-1084-4f49-98ad-f758b82d2d5a",
+      "correlationId": "brain-1790442652763-f54bldd"
+    },
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "evidence": {
+      "quality": {
+        "score": 72,
+        "failures": [
+          "draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold)",
+          "draft.body: Draft body has only 343 words"
+        ],
+        "overallStatus": "FAIL"
+      },
+      "blockedAt": "quality_gate",
+      "jobStatus": "awaiting_approval",
+      "approvalId": "5df4a765-f41d-4cfb-9537-5f1cb384db70",
+      "automationJobId": "job_1790478536372_87q26lm",
+      "qualityResultId": "9e0dcc80-200c-4a1d-be71-5b9c4df28b1b"
+    },
+    "recommendation": "BLOCKED: pre-publication quality gate FAIL (score 72): draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold); draft.body: Draft body has only 343 words",
+    "approval_state": "approved",
+    "completed_at": "2026-09-27T03:22:54.927Z",
+    "created_at": "2026-09-27T03:04:53.624Z",
+    "updated_at": "2026-09-27T03:22:54.927Z",
+    "provenance": "REAL",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "approval_id": "5df4a765-f41d-4cfb-9537-5f1cb384db70",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "idempotency_key": "task-2c2b1ab5-9571-470c-acda-968f51fc7165-retry1",
+    "claimed_at": "2026-09-27T03:08:58.898Z",
+    "claim_token": "618e7458-2148-4be7-9197-1c2344cb2212",
+    "claimed_by": "brain-worker-14852-fa62a4b1",
+    "started_at": "2026-09-27T03:08:58.898Z"
+  },
+  {
+    "id": "bbde583e-32b0-47f4-aa16-67c5301c0671",
+    "type": "Create Content",
+    "title": "Phase 3.1 Real Test Article",
+    "goal": "Verify Quality Gate implementation",
+    "priority": "high",
+    "status": "archived",
+    "inputs": {
+      "topic": "Phase 3.1 Test Software Review",
+      "category": "software"
+    },
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": "approved",
+    "completed_at": null,
+    "created_at": "2026-09-24T16:38:28.926Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "83908500-8f94-4e60-b656-0ddeccd1e0bb",
+    "type": "Create Content",
+    "title": "SM Test [queued]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T16:42:55.731Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "2c7aa74e-f1d9-40ce-9036-c212ea9f9586",
+    "type": "Create Content",
+    "title": "SM Test [waiting_approval]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T16:42:58.861Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "ebf695a9-3a5b-4550-b08c-37f9c56dc3d8",
+    "type": "Create Content",
+    "title": "SM Test [completed]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T16:43:05.090Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "d3d6b9bd-e319-4c06-832a-0b3357beebc3",
+    "type": "Create Content",
+    "title": "SM Test [running]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T16:43:08.440Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "410a6a31-1ce0-4e77-ab5e-bbec85e278a0",
+    "type": "Create Content",
+    "title": "SM Test [failed]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T16:43:09.759Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "d0931932-32cd-4c9c-87c2-39848f490fa0",
+    "type": "Create Content",
+    "title": "SM Test [waiting_approval]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T16:43:10.901Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "a07718dd-07c2-4599-9800-f81ca52fe278",
+    "type": "Create Content",
+    "title": "SM Test [waiting_approval]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T16:43:12.123Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "b4b26136-d378-410a-b5c3-2f02854bb640",
+    "type": "Create Content",
+    "title": "SM Test [queued]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T17:04:25.684Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+    "type": "create_automation_job",
+    "title": "Execute: Publish Creator-Focused Notion AI Alternatives Comparison & Review Guide",
+    "goal": "Produce a research-backed article on: creator video repurposing and copywriting workflows",
+    "priority": "high",
+    "status": "failed",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "creator video repurposing and copywriting workflows",
+        "category": "creator tools",
+        "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+        "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+      }
+    },
+    "context": {
+      "planId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+      "correlationId": "brain-1790442652763-f54bldd"
+    },
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "evidence": {
+      "quality": {
+        "score": 84,
+        "failures": [
+          "draft.body: Draft body has only 356 words"
+        ],
+        "overallStatus": "FAIL"
+      },
+      "blockedAt": "quality_gate",
+      "jobStatus": "awaiting_approval",
+      "approvalId": "f92b1173-4821-4472-9ca4-e831757ddc6b",
+      "automationJobId": "job_1790444075919_ximwx6d",
+      "qualityResultId": "1c47dd43-bcaf-4093-a7f9-456d3db07212"
+    },
+    "recommendation": "BLOCKED: pre-publication quality gate FAIL (score 84): draft.body: Draft body has only 356 words",
+    "approval_state": "approved",
+    "completed_at": "2026-09-26T17:35:09.154Z",
+    "created_at": "2026-09-26T17:16:01.746Z",
+    "updated_at": "2026-09-26T17:35:09.154Z",
+    "provenance": "REAL",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "approval_id": "f92b1173-4821-4472-9ca4-e831757ddc6b",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "idempotency_key": "task-c5292004-ecd6-4e69-8fa5-fdf01073f6b9-fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "claimed_at": "2026-09-26T17:34:36.575Z",
+    "claim_token": "87d97079-f995-4b90-a967-bcba2a668d27",
+    "claimed_by": "brain-worker-18248-64d12ef9",
+    "started_at": "2026-09-26T17:34:36.575Z"
+  },
+  {
+    "id": "13114564-821a-4520-a385-e3d24cac768f",
+    "type": "create_automation_job",
+    "title": "Execute: Content Activation Strategy: 2026 AI Productivity Tool Roundups",
+    "goal": "Generate first comparison article: \"Best AI Productivity Tools for Creators 2026\"",
+    "priority": "high",
+    "status": "completed",
+    "inputs": {
+      "automationType": "content_generation",
+      "automationParams": {
+        "topic": "Best AI Productivity Tools for Creators 2026",
+        "category": "software",
+        "strategyId": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+        "description": "Generate first comparison article: \"Best AI Productivity Tools for Creators 2026\"",
+        "brainActionId": "action-1",
+        "opportunityId": "47c8b260-b546-4128-8e56-6609498d346f",
+        "brainCorrelationId": "brain-1790400791982-0e5jizl"
+      }
+    },
+    "context": {
+      "brainAction": {
+        "id": "action-1",
+        "type": "CONTENT_CREATE",
+        "status": "pending",
+        "permission": "PROPOSE",
+        "description": "Generate first comparison article: \"Best AI Productivity Tools for Creators 2026\"",
+        "dependencies": [],
+        "estimatedCost": 0.01,
+        "automationType": "content_generation",
+        "validationRules": [
+          "content_quality_check",
+          "seo_validation",
+          "affiliate_link_validation"
+        ],
+        "automationParams": {
+          "topic": "Best AI Productivity Tools for Creators 2026",
+          "category": "software",
+          "strategyId": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+          "brainActionId": "action-1",
+          "opportunityId": "47c8b260-b546-4128-8e56-6609498d346f",
+          "brainCorrelationId": "brain-1790400791982-0e5jizl"
+        },
+        "requiresApproval": true
+      },
+      "correlationId": "brain-1790400791982-0e5jizl"
+    },
+    "strategy_id": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+    "opportunity_id": "47c8b260-b546-4128-8e56-6609498d346f",
+    "evidence": {
+      "jobId": "job_1790400815358_8h2u69d",
+      "jobStatus": "awaiting_approval"
+    },
+    "recommendation": "Automation job job_1790400815358_8h2u69d completed with status awaiting_approval",
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-26T05:33:29.706Z",
+    "updated_at": "2026-09-26T05:54:37.584Z",
+    "provenance": "REAL",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "d72d32d9-d7c2-42a7-9d90-7948f5bc3d6f",
+    "type": "create_automation_job",
+    "title": "Retry: Publish Creator-Focused Notion AI Alternatives Comparison & Review Guide",
+    "goal": "Produce a research-backed article on: creator video repurposing and copywriting workflows",
+    "priority": "high",
+    "status": "failed",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "creator video repurposing and copywriting workflows",
+        "category": "creator tools",
+        "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+        "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+      }
+    },
+    "context": {
+      "planId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+      "retryOf": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+      "correlationId": "brain-1790442652763-f54bldd"
+    },
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "evidence": {
+      "quality": {
+        "score": 84,
+        "failures": [
+          "draft.body: Draft body has only 356 words"
+        ],
+        "overallStatus": "FAIL"
+      },
+      "blockedAt": "quality_gate",
+      "jobStatus": "awaiting_approval",
+      "approvalId": "01a42cbd-b0aa-4c3e-95b7-6a5eb4bfd0a2",
+      "automationJobId": "job_1790473887911_teod04g",
+      "qualityResultId": "4ad17197-31dd-4a3e-a2ba-4ae80d07f2ae"
+    },
+    "recommendation": "BLOCKED: pre-publication quality gate FAIL (score 84): draft.body: Draft body has only 356 words",
+    "approval_state": "approved",
+    "completed_at": "2026-09-27T01:52:07.323Z",
+    "created_at": "2026-09-27T01:48:53.005Z",
+    "updated_at": "2026-09-27T01:52:07.323Z",
+    "provenance": "REAL",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "approval_id": "01a42cbd-b0aa-4c3e-95b7-6a5eb4bfd0a2",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "idempotency_key": "task-c5292004-ecd6-4e69-8fa5-fdf01073f6b9-fc3bfcd6-4c15-48c2-971e-1f5e14a697bb-retry2",
+    "claimed_at": "2026-09-27T01:51:30.480Z",
+    "claim_token": "118f5731-b31f-462c-89dd-722202b7c571",
+    "claimed_by": "brain-worker-15748-fb966e57",
+    "started_at": "2026-09-27T01:51:30.480Z"
+  },
+  {
+    "id": "91ede107-3897-4436-aaa0-d4f4f7a5e10d",
+    "type": "create_automation_job",
+    "title": "Retry: Publish Creator-Focused Notion AI Alternatives Comparison & Review Guide",
+    "goal": "Produce a research-backed article on: creator video repurposing and copywriting workflows",
+    "priority": "high",
+    "status": "failed",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "creator video repurposing and copywriting workflows",
+        "category": "creator tools",
+        "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+        "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+      }
+    },
+    "context": {
+      "planId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+      "retryOf": "d72d32d9-d7c2-42a7-9d90-7948f5bc3d6f",
+      "correlationId": "brain-1790442652763-f54bldd"
+    },
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "evidence": {
+      "blockedAt": "publishing",
+      "jobStatus": "completed",
+      "approvalId": "430cffb5-5529-4fe7-ada9-cabb5cb1df1a",
+      "automationJobId": "job_1790475097680_otldju7",
+      "qualityResultId": "d0ae9e08-8fc8-4e2a-88cf-4bb7d1dddc4f"
+    },
+    "recommendation": "Publishing did not complete (status=completed)",
+    "approval_state": "approved",
+    "completed_at": "2026-09-27T02:13:53.097Z",
+    "created_at": "2026-09-27T02:07:04.286Z",
+    "updated_at": "2026-09-27T02:13:53.097Z",
+    "provenance": "REAL",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "approval_id": "430cffb5-5529-4fe7-ada9-cabb5cb1df1a",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "idempotency_key": "task-c5292004-ecd6-4e69-8fa5-fdf01073f6b9-fc3bfcd6-4c15-48c2-971e-1f5e14a697bb-retry3",
+    "claimed_at": "2026-09-27T02:11:40.142Z",
+    "claim_token": "793ba218-c986-4132-bfa8-d6b77c41241c",
+    "claimed_by": "brain-worker-16412-3fca416c",
+    "started_at": "2026-09-27T02:11:40.142Z"
+  },
+  {
+    "id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+    "type": "create_automation_job",
+    "title": "Retry: Publish Creator-Focused Notion AI Alternatives Comparison & Review Guide",
+    "goal": "Produce a research-backed article on: Notion alternatives for creators 2026",
+    "priority": "high",
+    "status": "completed",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "Notion alternatives for creators 2026",
+        "category": "creator tools",
+        "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+        "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+      }
+    },
+    "context": {
+      "planId": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+      "retryOf": "377d6e3a-d1af-4d08-be75-edc5df0d2562",
+      "correlationId": "brain-1790442652763-f54bldd"
+    },
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "evidence": {
+      "slug": "",
+      "quality": {
+        "prePublication": {
+          "score": 96,
+          "status": "PASS_WITH_WARNINGS"
+        },
+        "postPublication": {
+          "score": 100,
+          "status": "PASS"
+        }
+      },
+      "articleId": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+      "approvalId": "a00246ac-32cb-4f0b-8e79-e7f88a22db66",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "automationJobId": "job_1790482166009_sp5ry7t",
+      "qualityResultId": "b1d5bdd2-64da-4e4a-8296-69227be4c781",
+      "approvalDecidedAt": "2026-09-27T04:08:23.563Z",
+      "approvalDecidedBy": "admin@viafinds.com",
+      "prePublicationQualityResultId": "a7ebe8d3-800f-493a-9270-91e1b9458453"
+    },
+    "recommendation": "Published article eb7cbbcc-916b-4780-8154-127233d6dc4a from automation job job_1790482166009_sp5ry7t under approval a00246ac-32cb-4f0b-8e79-e7f88a22db66",
+    "approval_state": "approved",
+    "completed_at": "2026-09-27T04:10:57.764Z",
+    "created_at": "2026-09-27T04:06:26.109Z",
+    "updated_at": "2026-09-27T04:10:57.764Z",
+    "provenance": "REAL",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "approval_id": "a00246ac-32cb-4f0b-8e79-e7f88a22db66",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "idempotency_key": "task-2c2b1ab5-9571-470c-acda-968f51fc7165-retry2",
+    "claimed_at": "2026-09-27T04:09:28.460Z",
+    "claim_token": "0ec7fbc7-b15d-469b-a36d-ca704dec10ae",
+    "claimed_by": "brain-worker-10960-9da7a2d8",
+    "started_at": "2026-09-27T04:09:28.460Z"
+  },
+  {
+    "id": "15f252ef-1e64-4117-aa5c-5acfa3960029",
+    "type": "Create Content",
+    "title": "SM Test [waiting_approval]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T17:04:29.476Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "dc2881b5-f369-45cf-bf6e-8765eddc1fa3",
+    "type": "Create Content",
+    "title": "SM Test [completed]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T17:04:33.426Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "e197c70d-c1da-453c-bd99-bbfc616dd812",
+    "type": "Create Content",
+    "title": "SM Test [running]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T17:04:34.805Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "b486530a-c40f-485b-a37d-564a3b0d4eab",
+    "type": "Create Content",
+    "title": "SM Test [failed]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T17:04:36.165Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "56a8044c-e57e-4a4c-b1d4-4e56af36aee3",
+    "type": "Create Content",
+    "title": "SM Test [waiting_approval]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T17:04:37.473Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "80befb92-c7a4-4cbf-b732-196f99875aac",
+    "type": "Create Content",
+    "title": "SM Test [waiting_approval]",
+    "goal": "Test",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {},
+    "context": {},
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": null,
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-24T17:04:38.836Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "05d695de-e017-429e-bdeb-2153b588e82c",
+    "type": "create_automation_job",
+    "title": "Retry: Publish Creator-Focused Notion AI Alternatives Comparison & Review Guide",
+    "goal": "Produce a research-backed article on: creator video repurposing and copywriting workflows",
+    "priority": "high",
+    "status": "awaiting_approval",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "creator video repurposing and copywriting workflows",
+        "category": "creator tools",
+        "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+        "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+      }
+    },
+    "context": {
+      "planId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+      "retryOf": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+      "correlationId": "brain-1790442652763-f54bldd"
+    },
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "evidence": {
+      "blockedAt": "approval_verification",
+      "approvalId": "79ab7e79-6a87-4e3c-88cc-3ddb5bbb9704",
+      "blockedAtIso": "2026-10-03T13:12:53.400Z",
+      "approvalVerification": {
+        "allowed": false,
+        "reasons": [
+          "Approval 79ab7e79-6a87-4e3c-88cc-3ddb5bbb9704 status is \"pending\", not \"approved\""
+        ]
+      }
+    },
+    "recommendation": "BLOCKED: approval verification failed — Approval 79ab7e79-6a87-4e3c-88cc-3ddb5bbb9704 status is \"pending\", not \"approved\"",
+    "approval_state": "approved",
+    "completed_at": null,
+    "created_at": "2026-09-27T01:31:08.996Z",
+    "updated_at": "2026-10-06T23:27:47.581Z",
+    "provenance": "REAL",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "approval_id": "79ab7e79-6a87-4e3c-88cc-3ddb5bbb9704",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "idempotency_key": "task-c5292004-ecd6-4e69-8fa5-fdf01073f6b9-fc3bfcd6-4c15-48c2-971e-1f5e14a697bb-retry1",
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": "2026-10-03T04:35:14.547Z"
+  },
+  {
+    "id": "48dba51b-2115-49a4-97b1-c1b566092f34",
+    "type": "create_automation_job",
+    "title": "Test: Generate article about digital products",
+    "goal": "Create an article about AI-powered productivity tools",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "AI-powered productivity tools for developers",
+        "category": "software",
+        "strategyId": null,
+        "description": "Test article generation via brain task worker"
+      }
+    },
+    "context": {
+      "test": true
+    },
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "jobId": "job_1790396927300_groubmt",
+      "archived": true,
+      "jobStatus": "awaiting_approval"
+    },
+    "recommendation": "Automation job job_1790396927300_groubmt completed with status awaiting_approval",
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-26T04:28:50.562Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "13c778ee-4840-46e7-ac79-d583dc36a37d",
+    "type": "create_automation_job",
+    "title": "Test: Traceability verification",
+    "goal": "Verify article traceability fields are populated",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "Phase 4.1 Traceability Test Article",
+        "category": "software",
+        "description": "Test article to verify traceability fields"
+      }
+    },
+    "context": {
+      "test": true
+    },
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "jobId": "job_1790398852084_dd5v17b",
+      "archived": true,
+      "jobStatus": "failed"
+    },
+    "recommendation": "Automation job job_1790398852084_dd5v17b completed with status failed",
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-26T05:00:55.760Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "003ffe22-d158-4da6-96ca-e3c54baa7a17",
+    "type": "create_automation_job",
+    "title": "Test: Traceability verification",
+    "goal": "Verify article traceability fields are populated",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "AI-powered productivity software review",
+        "category": "software",
+        "description": "Test article to verify traceability fields"
+      }
+    },
+    "context": {
+      "test": true
+    },
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "jobId": "job_1790398930656_yjokz9z",
+      "archived": true,
+      "jobStatus": "awaiting_approval"
+    },
+    "recommendation": "Automation job job_1790398930656_yjokz9z completed with status awaiting_approval",
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-26T05:02:13.379Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "426a9e93-a31b-4b05-b1b9-826a806ef5cc",
+    "type": "create_automation_job",
+    "title": "Test: Traceability verification (dry_run)",
+    "goal": "Verify article traceability fields are populated in dry_run",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "mode": "dry_run",
+        "topic": "AI-powered productivity software review",
+        "category": "software",
+        "description": "Test article to verify traceability fields"
+      }
+    },
+    "context": {
+      "test": true
+    },
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "jobId": "job_1790399103145_qpp1r5t",
+      "archived": true,
+      "jobStatus": "awaiting_approval"
+    },
+    "recommendation": "Automation job job_1790399103145_qpp1r5t completed with status awaiting_approval",
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-26T05:05:06.120Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "3bf4bba7-57cd-4c73-ad27-af457ce4e963",
+    "type": "create_automation_job",
+    "title": "Test: Traceability chain verification",
+    "goal": "Verify traceability fields flow through pipeline",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "mode": "dry_run",
+        "topic": "AI-powered productivity software review",
+        "category": "software",
+        "description": "Test article to verify traceability chain"
+      }
+    },
+    "context": {
+      "test": true
+    },
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "jobId": "job_1790399255331_t8pypzl",
+      "archived": true,
+      "jobStatus": "awaiting_approval"
+    },
+    "recommendation": "Automation job job_1790399255331_t8pypzl completed with status awaiting_approval",
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-26T05:07:38.610Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "e538bea0-ba8c-409d-8af1-5e03f8707250",
+    "type": "create_automation_job",
+    "title": "Test: Traceability chain verification",
+    "goal": "Verify traceability fields flow through pipeline",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "mode": "dry_run",
+        "topic": "AI-powered productivity software review",
+        "category": "software",
+        "description": "Test article to verify traceability chain"
+      }
+    },
+    "context": {
+      "test": true
+    },
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "jobId": "job_1790399508235_47xe8rl",
+      "archived": true,
+      "jobStatus": "awaiting_approval"
+    },
+    "recommendation": "Automation job job_1790399508235_47xe8rl completed with status awaiting_approval",
+    "approval_state": null,
+    "completed_at": null,
+    "created_at": "2026-09-26T05:11:51.736Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": null,
+    "claim_token": null,
+    "claimed_by": null,
+    "started_at": null
+  },
+  {
+    "id": "5c5450c3-5e48-4818-992a-e8749e6541b3",
+    "type": "create_automation_job",
+    "title": "Test: Traceability verification",
+    "goal": "Verify article traceability fields are populated",
+    "priority": "normal",
+    "status": "archived",
+    "inputs": {
+      "automationType": "generate_content",
+      "automationParams": {
+        "topic": "Phase 4.1 Traceability Test Article",
+        "category": "software",
+        "strategyId": "test-strategy-id",
+        "description": "Test article to verify traceability fields",
+        "opportunityId": "test-opportunity-id"
+      }
+    },
+    "context": {
+      "test": true
+    },
+    "strategy_id": null,
+    "opportunity_id": null,
+    "evidence": {
+      "archived": true
+    },
+    "recommendation": "BLOCKED: task has no correlation_id and cannot be traced",
+    "approval_state": "pending",
+    "completed_at": "2026-10-03T04:35:17.812Z",
+    "created_at": "2026-09-26T04:59:36.921Z",
+    "updated_at": "2026-10-06T10:35:14.354Z",
+    "provenance": "TEST",
+    "execution_plan_id": null,
+    "approval_id": null,
+    "correlation_id": null,
+    "idempotency_key": null,
+    "claimed_at": "2026-10-03T04:35:16.956Z",
+    "claim_token": "a7099f14-fa7d-43b9-89b5-ed494447e938",
+    "claimed_by": "brain-worker-10896-c6289839",
+    "started_at": "2026-10-03T04:35:16.956Z"
+  }
+]

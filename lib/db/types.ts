@@ -189,6 +189,11 @@ export type AffiliateLinkRow = {
   short_code: string
   created_at: string
   updated_at: string
+  verification_status: string
+  verification_reason: string | null
+  verified_at: string | null
+  verified_by: string | null
+  verification_evidence: Record<string, unknown> | null
 }
 
 export type AffiliateClickRow = {

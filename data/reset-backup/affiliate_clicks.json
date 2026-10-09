@@ -1,0 +1,68 @@
+[
+  {
+    "id": "c80553dc-3ab2-43fc-a189-31dff944e68d",
+    "affiliate_link_id": "d262f0b1-23a0-4de3-90fd-6d24974cec6d",
+    "article_id": "75ab6ab6-9a92-4e76-9c40-ec28c1fa1528",
+    "product_id": null,
+    "ip_address": "216.73.217.32",
+    "user_agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ClaudeBot/1.0; +claudebot@anthropic.com)",
+    "referer": null,
+    "country": null,
+    "clicked_at": "2026-10-07T22:44:43.362Z"
+  },
+  {
+    "id": "01dd88b2-0c90-4b6d-8ace-82bcf7e7f8af",
+    "affiliate_link_id": "18cae6d7-d4d0-4f84-a237-eb7cfac40b97",
+    "article_id": "7e07ff0e-4530-4cf1-805c-d2a527607a7b",
+    "product_id": null,
+    "ip_address": "66.249.66.100",
+    "user_agent": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.8010.52 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+    "referer": null,
+    "country": null,
+    "clicked_at": "2026-10-08T00:01:24.482Z"
+  },
+  {
+    "id": "9eed4a3f-e17f-493d-9051-93ce6e934094",
+    "affiliate_link_id": "d262f0b1-23a0-4de3-90fd-6d24974cec6d",
+    "article_id": "75ab6ab6-9a92-4e76-9c40-ec28c1fa1528",
+    "product_id": null,
+    "ip_address": "::1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+    "referer": "http://localhost:3000/articles/saas-launchpad-50-high-conversion-webflow-templates-breakdown-analysis-rnlx5a",
+    "country": null,
+    "clicked_at": "2026-10-08T04:06:40.932Z"
+  },
+  {
+    "id": "54b5f1d9-551d-4268-b106-1d965879dc35",
+    "affiliate_link_id": "18cae6d7-d4d0-4f84-a237-eb7cfac40b97",
+    "article_id": "7e07ff0e-4530-4cf1-805c-d2a527607a7b",
+    "product_id": null,
+    "ip_address": "47.79.207.155",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+    "referer": "https://www.google.com/",
+    "country": null,
+    "clicked_at": "2026-10-08T09:09:46.395Z"
+  },
+  {
+    "id": "fe5642df-1616-4578-876e-f56a4f5529cb",
+    "affiliate_link_id": "18cae6d7-d4d0-4f84-a237-eb7cfac40b97",
+    "article_id": "7e07ff0e-4530-4cf1-805c-d2a527607a7b",
+    "product_id": null,
+    "ip_address": "47.79.200.131",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+    "referer": "https://www.google.com/",
+    "country": null,
+    "clicked_at": "2026-10-08T09:13:38.020Z"
+  },
+  {
+    "id": "6296fec6-396f-467a-93ba-427afb57adca",
+    "affiliate_link_id": "d262f0b1-23a0-4de3-90fd-6d24974cec6d",
+    "article_id": "75ab6ab6-9a92-4e76-9c40-ec28c1fa1528",
+    "product_id": null,
+    "ip_address": "216.73.217.32",
+    "user_agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ClaudeBot/1.0; +claudebot@anthropic.com)",
+    "referer": null,
+    "country": null,
+    "clicked_at": "2026-10-08T23:54:08.430Z"
+  }
+]

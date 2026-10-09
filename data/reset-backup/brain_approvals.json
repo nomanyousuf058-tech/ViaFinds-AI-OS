@@ -1,0 +1,308 @@
+[
+  {
+    "id": "ca904ba8-e74f-4b01-b79b-30b03e903be3",
+    "task_id": "13114564-821a-4520-a385-e3d24cac768f",
+    "strategy_id": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+    "execution_plan_id": "a153e91c-056d-450c-ad4e-cf479dd24f87",
+    "proposed_action": {
+      "id": "a153e91c-056d-450c-ad4e-cf479dd24f87",
+      "type": "execution_plan",
+      "description": "Execute Content Activation Strategy: 2026 AI Productivity Tool Roundups"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "strategyId": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+      "requestedAt": "2026-09-26T05:33:25.220Z",
+      "correlationId": "brain-1790400791982-0e5jizl",
+      "opportunityId": "47c8b260-b546-4128-8e56-6609498d346f"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin",
+    "decided_at": "2026-09-26T05:33:31.814Z",
+    "reason": "Approved for production execution",
+    "created_at": "2026-09-26T05:33:31.814Z",
+    "updated_at": "2026-09-26T05:54:37.584Z",
+    "provenance": "REAL",
+    "status": "pending",
+    "correlation_id": null,
+    "required_permission": null,
+    "consumed_at": null,
+    "consumed_by_task": null,
+    "target_automation": null,
+    "decided_by_user_id": null
+  },
+  {
+    "id": "f92b1173-4821-4472-9ca4-e831757ddc6b",
+    "task_id": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "proposed_action": {
+      "topic": "creator video repurposing and copywriting workflows",
+      "category": "creator tools",
+      "description": "Produce a research-backed article on: creator video repurposing and copywriting workflows"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "sourceIds": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "confidence": "Low",
+      "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+      "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+      "executionPlanId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin@viafinds.com",
+    "decided_at": "2026-09-26T17:33:57.817Z",
+    "reason": "Evidence-grounded strategy from persisted source records; execution plan targets the existing AutomationPipeline only.",
+    "created_at": "2026-09-26T17:16:04.914Z",
+    "updated_at": "2026-09-26T17:34:39.688Z",
+    "provenance": "REAL",
+    "status": "approved",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "required_permission": "EXECUTE",
+    "consumed_at": "2026-09-26T17:34:39.688Z",
+    "consumed_by_task": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+    "target_automation": "AutomationPipeline.runDirect + runPublishDraft",
+    "decided_by_user_id": "fc47c690-8f95-43ce-85b9-213e1d3d7562"
+  },
+  {
+    "id": "79ab7e79-6a87-4e3c-88cc-3ddb5bbb9704",
+    "task_id": "05d695de-e017-429e-bdeb-2153b588e82c",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "proposed_action": {
+      "topic": "creator video repurposing and copywriting workflows",
+      "category": "creator tools",
+      "description": "Produce a research-backed article on: creator video repurposing and copywriting workflows"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "retryOf": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+      "sourceIds": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+      "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+      "executionPlanId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin@viafinds.com",
+    "decided_at": "2026-10-06T23:27:47.148Z",
+    "reason": "Decided via Attention Center",
+    "created_at": "2026-09-27T01:31:12.190Z",
+    "updated_at": "2026-10-06T23:27:47.148Z",
+    "provenance": "REAL",
+    "status": "approved",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "required_permission": "EXECUTE",
+    "consumed_at": null,
+    "consumed_by_task": null,
+    "target_automation": "AutomationPipeline.runDirect + runPublishDraft",
+    "decided_by_user_id": "8db92716-57b3-4d52-94bd-6f6b292f6742"
+  },
+  {
+    "id": "01a42cbd-b0aa-4c3e-95b7-6a5eb4bfd0a2",
+    "task_id": "d72d32d9-d7c2-42a7-9d90-7948f5bc3d6f",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "proposed_action": {
+      "topic": "creator video repurposing and copywriting workflows",
+      "category": "creator tools",
+      "description": "Produce a research-backed article on: creator video repurposing and copywriting workflows"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "retryOf": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+      "sourceIds": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+      "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+      "executionPlanId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin@viafinds.com",
+    "decided_at": "2026-09-27T01:50:25.671Z",
+    "reason": "Evidence-grounded strategy from persisted source records; execution plan targets the existing AutomationPipeline only.",
+    "created_at": "2026-09-27T01:48:57.189Z",
+    "updated_at": "2026-09-27T01:51:33.312Z",
+    "provenance": "REAL",
+    "status": "approved",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "required_permission": "EXECUTE",
+    "consumed_at": "2026-09-27T01:51:33.312Z",
+    "consumed_by_task": "d72d32d9-d7c2-42a7-9d90-7948f5bc3d6f",
+    "target_automation": "AutomationPipeline.runDirect + runPublishDraft",
+    "decided_by_user_id": "fc47c690-8f95-43ce-85b9-213e1d3d7562"
+  },
+  {
+    "id": "430cffb5-5529-4fe7-ada9-cabb5cb1df1a",
+    "task_id": "91ede107-3897-4436-aaa0-d4f4f7a5e10d",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "proposed_action": {
+      "topic": "creator video repurposing and copywriting workflows",
+      "category": "creator tools",
+      "description": "Produce a research-backed article on: creator video repurposing and copywriting workflows"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "retryOf": "d72d32d9-d7c2-42a7-9d90-7948f5bc3d6f",
+      "sourceIds": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+      "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+      "executionPlanId": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin@viafinds.com",
+    "decided_at": "2026-09-27T02:10:44.733Z",
+    "reason": "Evidence-grounded strategy from persisted source records; execution plan targets the existing AutomationPipeline only.",
+    "created_at": "2026-09-27T02:07:06.782Z",
+    "updated_at": "2026-09-27T02:11:43.121Z",
+    "provenance": "REAL",
+    "status": "approved",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "required_permission": "EXECUTE",
+    "consumed_at": "2026-09-27T02:11:43.121Z",
+    "consumed_by_task": "91ede107-3897-4436-aaa0-d4f4f7a5e10d",
+    "target_automation": "AutomationPipeline.runDirect + runPublishDraft",
+    "decided_by_user_id": "fc47c690-8f95-43ce-85b9-213e1d3d7562"
+  },
+  {
+    "id": "d48a1e21-3799-4bd8-bbd8-bb72af0f6339",
+    "task_id": "a904ea03-1084-4f49-98ad-f758b82d2d5a",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "proposed_action": {
+      "topic": "Notion alternatives for creators 2026",
+      "category": "creator tools",
+      "description": "Produce a research-backed article on: Notion alternatives for creators 2026"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "sourceIds": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "confidence": "Low",
+      "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+      "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+      "executionPlanId": "2c2b1ab5-9571-470c-acda-968f51fc7165"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin@viafinds.com",
+    "decided_at": "2026-09-27T02:42:38.998Z",
+    "reason": "Evidence-grounded strategy from persisted source records; execution plan targets the existing AutomationPipeline only.",
+    "created_at": "2026-09-27T02:40:51.071Z",
+    "updated_at": "2026-09-27T02:43:40.003Z",
+    "provenance": "REAL",
+    "status": "approved",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "required_permission": "EXECUTE",
+    "consumed_at": "2026-09-27T02:43:40.003Z",
+    "consumed_by_task": "a904ea03-1084-4f49-98ad-f758b82d2d5a",
+    "target_automation": "AutomationPipeline.runDirect + runPublishDraft",
+    "decided_by_user_id": "fc47c690-8f95-43ce-85b9-213e1d3d7562"
+  },
+  {
+    "id": "5df4a765-f41d-4cfb-9537-5f1cb384db70",
+    "task_id": "377d6e3a-d1af-4d08-be75-edc5df0d2562",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "proposed_action": {
+      "topic": "Notion alternatives for creators 2026",
+      "category": "creator tools",
+      "description": "Produce a research-backed article on: Notion alternatives for creators 2026"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "retryOf": "a904ea03-1084-4f49-98ad-f758b82d2d5a",
+      "sourceIds": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+      "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+      "executionPlanId": "2c2b1ab5-9571-470c-acda-968f51fc7165"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin@viafinds.com",
+    "decided_at": "2026-09-27T03:08:00.877Z",
+    "reason": "Evidence-grounded strategy from persisted source records; execution plan targets the existing AutomationPipeline only.",
+    "created_at": "2026-09-27T03:04:57.038Z",
+    "updated_at": "2026-09-27T03:09:01.843Z",
+    "provenance": "REAL",
+    "status": "approved",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "required_permission": "EXECUTE",
+    "consumed_at": "2026-09-27T03:09:01.843Z",
+    "consumed_by_task": "377d6e3a-d1af-4d08-be75-edc5df0d2562",
+    "target_automation": "AutomationPipeline.runDirect + runPublishDraft",
+    "decided_by_user_id": "fc47c690-8f95-43ce-85b9-213e1d3d7562"
+  },
+  {
+    "id": "a00246ac-32cb-4f0b-8e79-e7f88a22db66",
+    "task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "proposed_action": {
+      "topic": "Notion alternatives for creators 2026",
+      "category": "creator tools",
+      "description": "Produce a research-backed article on: Notion alternatives for creators 2026"
+    },
+    "requested_permission": "EXECUTE",
+    "evidence": {
+      "retryOf": "377d6e3a-d1af-4d08-be75-edc5df0d2562",
+      "sourceIds": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "researchId": "395b01a9-3617-4426-a753-941380701a7a",
+      "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+      "correlationId": "brain-1790442652763-f54bldd",
+      "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+      "executionPlanId": "2c2b1ab5-9571-470c-acda-968f51fc7165"
+    },
+    "requested_by": "brain",
+    "decision": "approved",
+    "decided_by": "admin@viafinds.com",
+    "decided_at": "2026-09-27T04:08:23.563Z",
+    "reason": "Evidence-grounded strategy from persisted source records; execution plan targets the existing AutomationPipeline only.",
+    "created_at": "2026-09-27T04:06:29.807Z",
+    "updated_at": "2026-09-27T08:40:47.652Z",
+    "provenance": "REAL",
+    "status": "approved",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "required_permission": "EXECUTE",
+    "consumed_at": "2026-09-27T04:09:31.446Z",
+    "consumed_by_task": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+    "target_automation": "AutomationPipeline.runDirect + runPublishDraft",
+    "decided_by_user_id": "fc47c690-8f95-43ce-85b9-213e1d3d7562"
+  }
+]

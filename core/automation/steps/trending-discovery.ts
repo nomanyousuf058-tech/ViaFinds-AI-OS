@@ -35,12 +35,19 @@ export class TrendingDiscoveryStep {
           trendingProducts.push({
             id: `serp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
             name: item.title || 'Unknown Product',
-            searchVolume: Math.floor(Math.random() * 50000) + 1000,
-            trendDirection: Math.random() > 0.3 ? 'up' : 'stable',
-            estimatedCommission: Math.floor(Math.random() * 30) + 5,
+            // SerpAPI exposes no search-volume metric for arbitrary
+            // product names. Marking this UNKNOWN prevents fabricated
+            // business metrics from reaching production output.
+            searchVolume: null,
+            searchVolumeEstimate: null,
+            trendDirection: null,
+            estimatedCommission: null,
+            estimatedCommissionEstimate: null,
             partnerAvailability: [],
             categoryMatch: null,
-            confidence: 0.7,
+            confidence: 0.5,
+            dataQuality: 'unknown',
+            evidence: { source: 'serpapi', raw: item.link },
           });
         }
         result.data.sourcesUsed.push('serpapi');
@@ -58,12 +65,16 @@ export class TrendingDiscoveryStep {
           trendingProducts.push({
             id: `serper-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
             name: item.title || 'Unknown Product',
-            searchVolume: Math.floor(Math.random() * 50000) + 1000,
-            trendDirection: Math.random() > 0.3 ? 'up' : 'stable',
-            estimatedCommission: Math.floor(Math.random() * 30) + 5,
+            searchVolume: null,
+            searchVolumeEstimate: null,
+            trendDirection: null,
+            estimatedCommission: null,
+            estimatedCommissionEstimate: null,
             partnerAvailability: [],
             categoryMatch: null,
-            confidence: 0.65,
+            confidence: 0.5,
+            dataQuality: 'unknown',
+            evidence: { source: 'serper', raw: item.link },
           });
         }
         result.data.sourcesUsed.push('serper');
@@ -82,12 +93,18 @@ export class TrendingDiscoveryStep {
           trendingProducts.push({
             id: product.id || `digi-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
             name: product.name,
-            searchVolume: Math.floor(Math.random() * 10000) + 500,
-            trendDirection: 'up',
-            estimatedCommission: parseFloat(product.commission) || 10,
+            searchVolume: null,
+            searchVolumeEstimate: null,
+            trendDirection: null,
+            // The provider returns the real commission; we never
+            // invent one when the field is absent.
+            estimatedCommission: product.commission != null ? parseFloat(String(product.commission)) : null,
+            estimatedCommissionEstimate: null,
             partnerAvailability: ['digistore24'],
             categoryMatch: null,
             confidence: 0.8,
+            dataQuality: product.commission != null ? 'provider' : 'partial',
+            evidence: { source: 'digistore24', productId: product.id },
           });
         }
         result.data.sourcesUsed.push('digistore24');
@@ -102,7 +119,14 @@ export class TrendingDiscoveryStep {
       }
     }
 
-    trendingProducts.sort((a, b) => b.searchVolume - a.searchVolume);
+    trendingProducts.sort((a, b) => {
+      const av = a.searchVolume as number | null;
+      const bv = b.searchVolume as number | null;
+      if (av === null && bv === null) return a.name.localeCompare(b.name);
+      if (av === null) return 1;
+      if (bv === null) return -1;
+      return bv - av;
+    });
     result.data.trendingProducts = trendingProducts;
     result.data.totalFound = trendingProducts.length;
 

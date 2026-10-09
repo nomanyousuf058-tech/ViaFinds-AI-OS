@@ -95,6 +95,8 @@ CREATE TABLE IF NOT EXISTS articles (
   author_id UUID REFERENCES authors(id) ON DELETE SET NULL,
   category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
   product_id UUID REFERENCES products(id) ON DELETE SET NULL,
+  affiliate_url TEXT,
+  affiliate_link_id UUID REFERENCES affiliate_links(id) ON DELETE SET NULL,
   seo JSONB DEFAULT '{}',
   geo JSONB DEFAULT '{}',
   aeo JSONB DEFAULT '{}'
@@ -534,6 +536,15 @@ CREATE TABLE IF NOT EXISTS affiliate_links (
   sub_id_4 TEXT,
   sub_id_5 TEXT,
   short_code VARCHAR(255) UNIQUE NOT NULL,
+  -- Migration 023: explicit verification state. A link may only back a
+  -- published article when verification_status = 'verified'. Legacy
+  -- rows default to 'pending' and are never silently promoted.
+  verification_status VARCHAR(50) NOT NULL DEFAULT 'pending'
+    CHECK (verification_status IN ('pending', 'verified', 'invalid', 'manual_required')),
+  verification_reason TEXT,
+  verified_at TIMESTAMPTZ,
+  verified_by TEXT,
+  verification_evidence JSONB DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -541,6 +552,7 @@ CREATE TABLE IF NOT EXISTS affiliate_links (
 CREATE INDEX IF NOT EXISTS idx_affiliate_links_product ON affiliate_links(product_id);
 CREATE INDEX IF NOT EXISTS idx_affiliate_links_article ON affiliate_links(article_id);
 CREATE INDEX IF NOT EXISTS idx_affiliate_links_network ON affiliate_links(network);
+CREATE INDEX IF NOT EXISTS idx_affiliate_links_verification_status ON affiliate_links(verification_status);
 
 CREATE TABLE IF NOT EXISTS affiliate_clicks (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

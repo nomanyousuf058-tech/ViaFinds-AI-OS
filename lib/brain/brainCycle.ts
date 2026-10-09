@@ -211,6 +211,18 @@ export class BrainCycle {
     }, observations, failures);
     phases.push(schedulePhase);
 
+    // Phase 8: Evidence-driven priority layer.
+    // The fixed phases above observe; this phase decides WHAT to do next
+    // based on the evidence collected, rather than running a hardcoded
+    // calendar. Each finding produces a typed, prioritised task that the
+    // existing task/approval/strategy architecture can consume.
+    const evidencePhase = await this.runPhase('evidence_prioritisation', async () => {
+      const tasks = await this.prioritiseFromEvidence(results, observations, failures)
+      return { tasksGenerated: tasks.length, tasks }
+    }, observations, failures)
+    phases.push(evidencePhase)
+    if (evidencePhase.result) results.evidence_tasks = evidencePhase.result
+
     // Determine overall status
     const failedPhases = phases.filter(p => !p.success);
     const status: BrainCycleResult['status'] =
@@ -337,6 +349,86 @@ export class BrainCycle {
       startedAt,
       completedAt: new Date().toISOString(),
     };
+  }
+
+  /**
+   * Evidence-driven priority layer.
+   *
+   * The fixed phases above observe the system. This method turns the
+   * collected evidence into typed, prioritised work items using the
+   * existing brain_schedules / brain_runs / tasks / approvals /
+   * opportunities / strategy architecture. It never invents facts: an
+   * unknown metric stays unknown and produces a data-collection task
+   * rather than a conclusion.
+   */
+  private async prioritiseFromEvidence(
+    results: Record<string, unknown>,
+    observations: string[],
+    failures: string[]
+  ): Promise<Array<Record<string, unknown>>> {
+    const tasks: Array<Record<string, unknown>> = []
+
+    // 1. Database failure → immediate technical investigation.
+    const failedPhases = failures.filter((f) => !f.startsWith('evidence'))
+    if (failedPhases.length > 0) {
+      tasks.push({
+        type: 'INVESTIGATE',
+        priority: 'high',
+        reason: `A Brain cycle phase failed: ${failedPhases.slice(0, 3).join('; ')}`,
+        evidence: failedPhases,
+        expectedOutcome: 'Root cause identified and the failing phase restored or removed.',
+      })
+    }
+
+    // 2. Partner / provider failure → provider investigation.
+    const partnerResult = results.partners as Record<string, unknown> | undefined
+    if (partnerResult && typeof partnerResult.stale === 'number' && (partnerResult.stale as number) > 0) {
+      tasks.push({
+        type: 'INVESTIGATE',
+        priority: 'high',
+        reason: `${partnerResult.stale} partner(s) need re-verification`,
+        evidence: partnerResult,
+        expectedOutcome: 'Stale partners re-verified or removed from the active registry.',
+      })
+    }
+
+    // 3. Traffic but no affiliate clicks → conversion analysis.
+    const revenueResult = results.revenue as Record<string, unknown> | undefined
+    if (revenueResult && (revenueResult.recentArticlesCount as number) > 0) {
+      tasks.push({
+        type: 'TRACKING',
+        priority: 'medium',
+        reason: 'Articles are present but no conversion evidence was observed',
+        evidence: revenueResult,
+        expectedOutcome: 'Conversion tracking verified or a data-collection task created for the missing signal.',
+      })
+    }
+
+    // 4. Strong article performance → related-content opportunity.
+    const learningResult = results.learning as Record<string, unknown> | undefined
+    if (learningResult && (learningResult.reusableLearnings as number) > 0) {
+      tasks.push({
+        type: 'CREATE_CONTENT',
+        priority: 'low',
+        reason: 'Reusable learnings are available for strategy refinement',
+        evidence: learningResult,
+        expectedOutcome: 'A related-content opportunity is created from the strongest learning.',
+      })
+    }
+
+    // 5. Insufficient data → data collection, never a fabricated conclusion.
+    const healthResult = results.health as Record<string, unknown> | undefined
+    if (healthResult && (healthResult.articles as number) === 0) {
+      tasks.push({
+        type: 'INVESTIGATE',
+        priority: 'medium',
+        reason: 'No articles exist yet; data collection is required before conclusions can be drawn',
+        evidence: healthResult,
+        expectedOutcome: 'A research task is created to collect real product and market data.',
+      })
+    }
+
+    return tasks
   }
 
   private async runPhase(

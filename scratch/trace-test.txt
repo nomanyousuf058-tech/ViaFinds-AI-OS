@@ -1,0 +1,57 @@
+﻿  console.log
+    ◇ injected env (593) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+      at _log (node_modules/dotenv/lib/main.js:131:11)
+
+node.exe : FAIL REAL_INTEGRATION tests/integration/brain/traceability.test.ts (18.274 s)
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL REAL_INTEG...t.ts (18.274 s):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  ● strategy → plan → task → approval → job → article lineage › published an article whose row is traceable to that 
+whole chain
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "published"
+    Received: "archived"
+
+    [0m [90m 167 |[39m     expect(article)[33m.[39mtoBeDefined()[33m;[39m
+     [90m 168 |[39m     expect(article[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 169 |[39m     
+expect(article[33m.[39mstatus)[33m.[39mtoBe([32m'published'[39m)[33m;[39m
+     [90m     |[39m                            [31m[1m^[22m[39m
+     [90m 170 |[39m     expect(article[33m.[39mpublished_at)[33m.[39mtoBeTruthy()[33m;[39m
+     [90m 171 |[39m     expect(article[33m.[39mbrain_task_id)[33m.[39mtoBe(state[33m.[39mtaskId)[33m;[39m
+     [90m 172 |[39m     
+expect(article[33m.[39mautomation_job_id)[33m.[39mtoBe(state[33m.[39mautomationJobId)[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:169:28)
+
+  ● strategy → plan → task → approval → job → article lineage › persisted a verification and a learning record for the 
+same correlation
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "REAL"
+    Received: "REAL_PRESERVED"
+
+    [0m [90m 201 |[39m     )[33m;[39m
+     [90m 202 |[39m     expect(learnings[33m.[39mlength)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 203 |[39m     
+expect(learnings[[35m0[39m][33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 204 |[39m   })[33m;[39m
+     [90m 205 |[39m
+     [90m 206 |[39m   it([32m'does not claim an analytics observation it never made'[39m[33m,[39m 
+[36masync[39m () [33m=>[39m {[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:203:37)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 17 passed, 19 total
+Snapshots:   0 total
+Time:        19.112 s
+Ran all test suites matching tests/integration/brain/traceability.test.ts.

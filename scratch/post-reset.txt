@@ -1,0 +1,2728 @@
+﻿node.exe : FAIL REAL_INTEGRATION tests/integration/brain/applyEvolutionRegression.test.ts (9.555 s)
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL REAL_INTEG...st.ts (9.555 s):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  ● Console
+
+    console.log
+      ◇ injected env (593) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+      at _log (node_modules/dotenv/lib/main.js:131:11)
+
+    console.error
+      BrainRepository.createStrategyV2: error: new row for relation "brain_strategies" violates check constraint 
+"chk_brain_strategies_status"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\applyEvolutionRegression.test.ts:52:19) {
+        length: 664,
+        severity: 'ERROR',
+        code: '23514',
+        detail: 'Failing row contains (c0c8a741-b622-4d60-a9bf-830deff8a6b4, REGRESSION Test V1, Initial state, null, 
+null, 1, [], ACTIVE, 2026-10-09 06:05:41.981526+00, 2026-10-09 06:05:41.981526+00, null, Testing, {"test": true}, 
+null, null, null, null, [], null, [], t, TEST, null, null, [], [], CONTENT_STRATEGY, Test applyEvolution regression, 
+MODERATE_EVIDENCE, [], [], [], [], [], [], [], [], ["opp-reg-1"], [], [], [], null, 1, OBSERVING, "FRESH", [], null).',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'chk_brain_strategies_status',
+        file: 'execMain.c',
+        line: '2033',
+        routine: 'ExecConstraints'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/applyEvolutionRegression.test.ts:52:19)
+
+    console.error
+      BrainRepository.createStrategyV2: error: new row for relation "brain_strategies" violates check constraint 
+"chk_brain_strategies_status"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\applyEvolutionRegression.test.ts:143:19) {
+        length: 620,
+        severity: 'ERROR',
+        code: '23514',
+        detail: 'Failing row contains (6b382153-8d78-487a-9cf9-3be0f37e845b, REGRESSION Test V1b, Initial, null, null, 
+1, [], ACTIVE, 2026-10-09 06:05:43.542035+00, 2026-10-09 06:05:43.542035+00, null, Testing, {}, null, null, null, 
+null, [], null, [], t, TEST, null, null, [], [], CONTENT_STRATEGY, Test rejection, MODERATE_EVIDENCE, [], [], [], [], 
+[], [], [], [], [], [], [], [], null, 1, OBSERVING, "FRESH", [], null).',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'chk_brain_strategies_status',
+        file: 'execMain.c',
+        line: '2033',
+        routine: 'ExecConstraints'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/applyEvolutionRegression.test.ts:143:19)
+
+  ● applyEvolution regression (v1.type → v1.strategy_type) › creates V2 via applyEvolution using strategy_type (not 
+type)
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 82 |[39m       approvalRequired[33m:[39m [36mfalse[39m[33m,[39m
+     [90m 83 |[39m     })
+    [31m[1m>[22m[39m[90m 84 |[39m     testStrategyId [33m=[39m v1Res[33m![39m[33m.[39mid
+     [90m    |[39m                             [31m[1m^[22m[39m
+     [90m 85 |[39m
+     [90m 86 |[39m     [90m// 2. Create an APPROVED evolution proposal[39m
+     [90m 87 |[39m     [36mconst[39m propRes [33m=[39m [36mawait[39m 
+brainRepo[33m.[39mcreateStrategyEvolution({[0m
+
+      at Object.<anonymous> (tests/integration/brain/applyEvolutionRegression.test.ts:84:29)
+
+  ● applyEvolution regression (v1.type → v1.strategy_type) › rejects applyEvolution when proposal is not APPROVED
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 173 |[39m       approvalRequired[33m:[39m [36mfalse[39m[33m,[39m
+     [90m 174 |[39m     })
+    [31m[1m>[22m[39m[90m 175 |[39m     [36mconst[39m stratId [33m=[39m v1Res[33m![39m[33m.[39mid
+     [90m     |[39m                            [31m[1m^[22m[39m
+     [90m 176 |[39m
+     [90m 177 |[39m     [36mconst[39m propRes [33m=[39m [36mawait[39m 
+brainRepo[33m.[39mcreateStrategyEvolution({
+     [90m 178 |[39m       strategyId[33m:[39m stratId[33m,[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/applyEvolutionRegression.test.ts:175:28)
+
+FAIL REAL_INTEGRATION tests/integration/brain/strategyEvolutionLifecycle.test.ts (7.586 s)
+  ● Console
+
+    console.log
+      ◇ injected env (593) from .env.local // tip: ◈ secrets for agents [www.dotenvx.com]
+
+      at _log (node_modules/dotenv/lib/main.js:131:11)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionLifecycle.test.ts:67:22) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionLifecycle.test.ts:67:22)
+
+  ● StrategyEvolution Lifecycle End-to-End › proves the complete evolution lifecycle
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m  98 |[39m     })
+     [90m  99 |[39m
+    [31m[1m>[22m[39m[90m 100 |[39m     testStrategyId [33m=[39m stratRes[33m.[39mid
+     [90m     |[39m                               [31m[1m^[22m[39m
+     [90m 101 |[39m
+     [90m 102 |[39m     [90m// Verify V1 exists before evolution[39m
+     [90m 103 |[39m     expect(testStrategyId)[33m.[39mtoBeDefined()[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionLifecycle.test.ts:100:31)
+
+FAIL REAL_INTEGRATION tests/integration/brain/traceability.test.ts (20.122 s)
+  ● Console
+
+    console.log
+      ◇ injected env (593) from .env.local // tip: ◈ encrypted .env [www.dotenvx.com]
+
+      at _log (node_modules/dotenv/lib/main.js:131:11)
+
+  ● real research evidence › records the opportunity against that research run and its own sources
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 74 |[39m     )[33m;[39m
+     [90m 75 |[39m
+    [31m[1m>[22m[39m[90m 76 |[39m     expect(opportunity)[33m.[39mtoBeDefined()[33m;[39m
+     [90m    |[39m                         [31m[1m^[22m[39m
+     [90m 77 |[39m     expect(opportunity[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 78 |[39m     
+expect(opportunity[33m.[39mresearch_id)[33m.[39mtoBe(state[33m.[39mresearchId)[33m;[39m
+     [90m 79 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:76:25)
+
+  ● strategy → plan → task → approval → job → article lineage › resolves the full chain by following foreign keys from 
+the plan
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 94 |[39m     )[33m;[39m
+     [90m 95 |[39m
+    [31m[1m>[22m[39m[90m 96 |[39m     expect(plan)[33m.[39mtoBeDefined()[33m;[39m
+     [90m    |[39m                  [31m[1m^[22m[39m
+     [90m 97 |[39m     expect(plan[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 98 |[39m     expect(plan[33m.[39mstatus)[33m.[39mtoBe([32m'completed'[39m)[33m;[39m
+     [90m 99 |[39m     
+expect(plan[33m.[39mopportunity_id)[33m.[39mtoBe(state[33m.[39mopportunityId)[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:96:18)
+
+  ● strategy → plan → task → approval → job → article lineage › binds the task to the plan and records a real claim
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 110 |[39m     )[33m;[39m
+     [90m 111 |[39m
+    [31m[1m>[22m[39m[90m 112 |[39m     expect(task)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                  [31m[1m^[22m[39m
+     [90m 113 |[39m     expect(task[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 114 |[39m     expect(task[33m.[39mstatus)[33m.[39mtoBe([32m'completed'[39m)[33m;[39m
+     [90m 115 |[39m     
+expect(task[33m.[39mexecution_plan_id)[33m.[39mtoBe(state[33m.[39mplanId)[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:112:18)
+
+  ● strategy → plan → task → approval → job → article lineage › records a real admin decision and a single consumption 
+of that approval
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 127 |[39m     )[33m;[39m
+     [90m 128 |[39m
+    [31m[1m>[22m[39m[90m 129 |[39m     expect(approval)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                      [31m[1m^[22m[39m
+     [90m 130 |[39m     expect(approval[33m.[39mstatus)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 131 |[39m     expect(approval[33m.[39mdecision)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 132 |[39m     expect(approval[33m.[39mdecided_by)[33m.[39mtoBeTruthy()[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:129:22)
+
+  ● strategy → plan → task → approval → job → article lineage › requested a permission that the policy marks 
+approval_required
+
+    TypeError: Cannot read properties of undefined (reading 'requested_permission')
+
+    [0m [90m 141 |[39m       [state[33m.[39mapprovalId]
+     [90m 142 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 143 |[39m     expect([33mObject[39m[33m.[39mkeys([33mDEFAULT_PERMISSION_POLICY[39m
+))[33m.[39mtoContain(approval[33m.[39mrequested_permission)[33m;[39m
+     [90m     |[39m                                                                       [31m[1m^[22m[39m
+     [90m 144 |[39m     expect([33mDEFAULT_PERMISSION_POLICY[39m[approval[33m.[39mrequested_permission 
+[36mas[39m [33mPermission[39m])[33m.[39mtoBe([32m'approval_required'[39m)[33m;[39m
+     [90m 145 |[39m   })[33m;[39m
+     [90m 146 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:143:71)
+
+  ● strategy → plan → task → approval → job → article lineage › published an article whose row is traceable to that 
+whole chain
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 165 |[39m     )[33m;[39m
+     [90m 166 |[39m
+    [31m[1m>[22m[39m[90m 167 |[39m     expect(article)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 168 |[39m     expect(article[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 169 |[39m     expect(article[33m.[39mstatus)[33m.[39mtoBe([32m'published'[39m)[33m;[39m
+     [90m 170 |[39m     expect(article[33m.[39mpublished_at)[33m.[39mtoBeTruthy()[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:167:21)
+
+  ● strategy → plan → task → approval → job → article lineage › persisted a quality result that did not fail
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    [0m [90m 184 |[39m     )[33m;[39m
+     [90m 185 |[39m
+    [31m[1m>[22m[39m[90m 186 |[39m     
+expect(results[33m.[39mlength)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m     |[39m                            [31m[1m^[22m[39m
+     [90m 187 |[39m     expect(results[results[33m.[39mlength [33m-[39m 
+[35m1[39m][33m.[39moverall_status)[33m.[39mnot[33m.[39mtoBe([32m'FAIL'[39m)[33m;[39m
+     [90m 188 |[39m     expect(results[33m.[39msome((r) [33m=>[39m r[33m.[39mtarget_type [33m===[39m 
+[32m'article'[39m [33m&&[39m r[33m.[39moverall_status [33m===[39m 
+[32m'PASS'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 189 |[39m   })[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:186:28)
+
+  ● strategy → plan → task → approval → job → article lineage › persisted a verification and a learning record for the 
+same correlation
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    [0m [90m 194 |[39m       [state[33m.[39marticleId]
+     [90m 195 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 196 |[39m     
+expect(verifications[33m.[39mlength)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m     |[39m                                  [31m[1m^[22m[39m
+     [90m 197 |[39m
+     [90m 198 |[39m     [36mconst[39m learnings [33m=[39m [36mawait[39m q(
+     [90m 199 |[39m       [32m`SELECT id, source, lesson, success, confidence, provenance FROM brain_learnings 
+WHERE correlation_id=$1`[39m[33m,[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:196:34)
+
+  ● strategy → plan → task → approval → job → article lineage › does not claim an analytics observation it never made
+
+    TypeError: Cannot read properties of undefined (reading 'available_observations')
+
+    [0m [90m 210 |[39m     )[33m;[39m
+     [90m 211 |[39m
+    [31m[1m>[22m[39m[90m 212 |[39m     [36mconst[39m observations [33m=[39m 
+(verification[33m.[39mavailable_observations [36mas[39m [33mArray[39m[33m<[39m{ name[33m:[39m 
+string[33m;[39m available[33m?[39m[33m:[39m boolean }[33m>[39m) [33m||[39m [][33m;[39m
+     [90m     |[39m                                        [31m[1m^[22m[39m
+     [90m 213 |[39m     [36mconst[39m limitations [33m=[39m (verification[33m.[39mlimitations [36mas[39m 
+string[]) [33m||[39m [][33m;[39m
+     [90m 214 |[39m
+     [90m 215 |[39m     [36mif[39m (verification[33m.[39mstatus [33m===[39m [32m'NOT_VERIFIABLE'[39m) {[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:212:40)
+
+  ● immutability guarantees enforced by the database › refuses to rewrite a settled approval
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 257 |[39m       [state[33m.[39mapprovalId]
+     [90m 258 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 259 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 260 |[39m     expect(row[33m.[39mstatus)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 261 |[39m   })[33m;[39m
+     [90m 262 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:259:21)
+
+  ● immutability guarantees enforced by the database › refuses to re-decide a consumed approval
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 267 |[39m       [state[33m.[39mapprovalId]
+     [90m 268 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 269 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 270 |[39m     expect(row[33m.[39mdecision)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 271 |[39m   })[33m;[39m
+     [90m 272 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:269:21)
+
+  ● immutability guarantees enforced by the database › refuses to re-point an approval at a different task
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 277 |[39m       [state[33m.[39mapprovalId[33m,[39m 
+[32m'00000000-0000-4000-8000-000000000000'[39m]
+     [90m 278 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 279 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 280 |[39m     expect(row[33m.[39mconsumed_by_task)[33m.[39mtoBe(state[33m.[39mtaskId)[33m;[39m
+     [90m 281 |[39m   })[33m;[39m
+     [90m 282 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:279:21)
+
+  ● immutability guarantees enforced by the database › refuses to re-parent a published article onto a different 
+execution
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 287 |[39m       [state[33m.[39marticleId]
+     [90m 288 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 289 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 290 |[39m     expect(row[33m.[39mstrategy_id)[33m.[39mtoBe(state[33m.[39mstrategyId)[33m;[39m
+     [90m 291 |[39m   })[33m;[39m
+     [90m 292 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:289:21)
+
+  ● immutability guarantees enforced by the database › refuses to relabel REAL production provenance
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 297 |[39m       [state[33m.[39marticleId]
+     [90m 298 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 299 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 300 |[39m     expect(row[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 301 |[39m   })[33m;[39m
+     [90m 302 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:299:21)
+
+  ● immutability guarantees enforced by the database › refuses to erase the publication timestamp of a published 
+article
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 307 |[39m       [state[33m.[39marticleId]
+     [90m 308 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 309 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 310 |[39m     expect(row[33m.[39mpublished_at)[33m.[39mtoBeTruthy()[33m;[39m
+     [90m 311 |[39m   })[33m;[39m
+     [90m 312 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:309:21)
+
+  ● immutability guarantees enforced by the database › refuses to swap the authorising approval of a completed task
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 317 |[39m       [state[33m.[39mtaskId]
+     [90m 318 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 319 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 320 |[39m     expect(row[33m.[39mapproval_id)[33m.[39mtoBe(state[33m.[39mapprovalId)[33m;[39m
+     [90m 321 |[39m   })[33m;[39m
+     [90m 322 |[39m })[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:319:21)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:09.969Z","level":"info","message":"Processing job test-3 (Attempt 
+2/4)"}".
+
+    [0m [90m 47 |[39m       [36mconst[39m payload[33m:[39m [33mBaseLogPayload[39m [33m=[39m { 
+timestamp[33m:[39m [36mnew[39m [33mDate[39m()[33m.[39mtoISOString()[33m,[39m level[33m:[39m 
+[32m'info'[39m[33m,[39m message[33m,[39m context }[33m;[39m
+     [90m 48 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 49 |[39m       console[33m.[39mlog(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 50 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 51 |[39m     }
+     [90m 52 |[39m   }[0m
+
+      at console.log (node_modules/@jest/console/build/index.js:147:10)
+      at Logger.info (lib/logger/index.ts:49:15)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:72:14)
+      at Timeout._onTimeout (core/generation/queue/GenerationQueue.ts:104:29)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:10.114Z","level":"error","message":"Job test-3 threw an error: 
+API Error","errorName":"UnknownError"}".
+
+    [0m [90m 81 |[39m       }[33m;[39m
+     [90m 82 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 83 |[39m       console[33m.[39merror(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 84 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 85 |[39m     }
+     [90m 86 |[39m   }[0m
+
+      at console.error (node_modules/@jest/console/build/index.js:124:10)
+      at Logger.error (lib/logger/index.ts:83:15)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:93:14)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:10.189Z","level":"info","message":"Retrying job test-3 (Retry 
+2/3)"}".
+
+    [0m [90m 47 |[39m       [36mconst[39m payload[33m:[39m [33mBaseLogPayload[39m [33m=[39m { 
+timestamp[33m:[39m [36mnew[39m [33mDate[39m()[33m.[39mtoISOString()[33m,[39m level[33m:[39m 
+[32m'info'[39m[33m,[39m message[33m,[39m context }[33m;[39m
+     [90m 48 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 49 |[39m       console[33m.[39mlog(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 50 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 51 |[39m     }
+     [90m 52 |[39m   }[0m
+
+      at console.log (node_modules/@jest/console/build/index.js:147:10)
+      at Logger.info (lib/logger/index.ts:49:15)
+      at GenerationQueue.handleFailure (core/generation/queue/GenerationQueue.ts:102:14)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:94:18)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:14.220Z","level":"info","message":"Processing job test-3 (Attempt 
+3/4)"}".
+
+    [0m [90m 47 |[39m       [36mconst[39m payload[33m:[39m [33mBaseLogPayload[39m [33m=[39m { 
+timestamp[33m:[39m [36mnew[39m [33mDate[39m()[33m.[39mtoISOString()[33m,[39m level[33m:[39m 
+[32m'info'[39m[33m,[39m message[33m,[39m context }[33m;[39m
+     [90m 48 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 49 |[39m       console[33m.[39mlog(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 50 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 51 |[39m     }
+     [90m 52 |[39m   }[0m
+
+      at console.log (node_modules/@jest/console/build/index.js:147:10)
+      at Logger.info (lib/logger/index.ts:49:15)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:72:14)
+      at Timeout._onTimeout (core/generation/queue/GenerationQueue.ts:104:29)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:14.227Z","level":"error","message":"Job test-3 threw an error: 
+API Error","errorName":"UnknownError"}".
+
+    [0m [90m 81 |[39m       }[33m;[39m
+     [90m 82 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 83 |[39m       console[33m.[39merror(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 84 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 85 |[39m     }
+     [90m 86 |[39m   }[0m
+
+      at console.error (node_modules/@jest/console/build/index.js:124:10)
+      at Logger.error (lib/logger/index.ts:83:15)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:93:14)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:14.271Z","level":"info","message":"Retrying job test-3 (Retry 
+3/3)"}".
+
+    [0m [90m 47 |[39m       [36mconst[39m payload[33m:[39m [33mBaseLogPayload[39m [33m=[39m { 
+timestamp[33m:[39m [36mnew[39m [33mDate[39m()[33m.[39mtoISOString()[33m,[39m level[33m:[39m 
+[32m'info'[39m[33m,[39m message[33m,[39m context }[33m;[39m
+     [90m 48 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 49 |[39m       console[33m.[39mlog(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 50 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 51 |[39m     }
+     [90m 52 |[39m   }[0m
+
+      at console.log (node_modules/@jest/console/build/index.js:147:10)
+      at Logger.info (lib/logger/index.ts:49:15)
+      at GenerationQueue.handleFailure (core/generation/queue/GenerationQueue.ts:102:14)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:94:18)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:20.373Z","level":"info","message":"Processing job test-3 (Attempt 
+4/4)"}".
+
+    [0m [90m 47 |[39m       [36mconst[39m payload[33m:[39m [33mBaseLogPayload[39m [33m=[39m { 
+timestamp[33m:[39m [36mnew[39m [33mDate[39m()[33m.[39mtoISOString()[33m,[39m level[33m:[39m 
+[32m'info'[39m[33m,[39m message[33m,[39m context }[33m;[39m
+     [90m 48 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 49 |[39m       console[33m.[39mlog(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 50 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 51 |[39m     }
+     [90m 52 |[39m   }[0m
+
+      at console.log (node_modules/@jest/console/build/index.js:147:10)
+      at Logger.info (lib/logger/index.ts:49:15)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:72:14)
+      at Timeout._onTimeout (core/generation/queue/GenerationQueue.ts:104:29)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:20.429Z","level":"error","message":"Job test-3 threw an error: 
+API Error","errorName":"UnknownError"}".
+
+    [0m [90m 81 |[39m       }[33m;[39m
+     [90m 82 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 83 |[39m       console[33m.[39merror(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 84 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 85 |[39m     }
+     [90m 86 |[39m   }[0m
+
+      at console.error (node_modules/@jest/console/build/index.js:124:10)
+      at Logger.error (lib/logger/index.ts:83:15)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:93:14)
+
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "{"timestamp":"2026-10-09T06:06:20.481Z","level":"error","message":"Job test-3 failed permanently 
+after 3 retries","errorName":"UnknownError"}".
+
+    [0m [90m 81 |[39m       }[33m;[39m
+     [90m 82 |[39m       [36mconst[39m formatted [33m=[39m 
+[36mthis[39m[33m.[39mformatMessage(payload)[33m;[39m
+    [31m[1m>[22m[39m[90m 83 |[39m       console[33m.[39merror(formatted)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 84 |[39m       [36mthis[39m[33m.[39mappendLogToFile(formatted)[33m;[39m
+     [90m 85 |[39m     }
+     [90m 86 |[39m   }[0m
+
+      at console.error (node_modules/@jest/console/build/index.js:124:10)
+      at Logger.error (lib/logger/index.ts:83:15)
+      at GenerationQueue.handleFailure (core/generation/queue/GenerationQueue.ts:106:14)
+      at GenerationQueue.processJob (core/generation/queue/GenerationQueue.ts:94:18)
+
+FAIL REAL_INTEGRATION tests/integration/brain/strategyEvolutionMatrix.test.ts (52.387 s)
+  ● Console
+
+    console.log
+      ◇ injected env (593) from .env.local // tip: ◈ encrypted .env [www.dotenvx.com]
+
+      at _log (node_modules/dotenv/lib/main.js:131:11)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:54:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:54:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:65:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:65:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:75:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:75:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:86:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:86:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:97:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:97:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:105:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:105:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:113:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:113:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:121:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:121:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:129:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:129:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:137:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:137:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:150:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:150:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:158:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:158:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:172:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:172:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:188:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:188:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:206:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:206:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:223:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:223:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:248:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:248:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:265:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:265:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:276:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:276:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:286:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:286:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:299:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:299:18)
+
+    console.error
+      BrainRepository.createStrategyV2: error: duplicate key value violates unique constraint 
+"idx_brain_strategies_single_active"
+          at F:\ViaFinds-AI-OS\node_modules\pg-pool\index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at BrainRepository.createStrategyV2 (F:\ViaFinds-AI-OS\lib\db\repositories\brain.ts:673:22)
+          at Object.<anonymous> (F:\ViaFinds-AI-OS\tests\integration\brain\strategyEvolutionMatrix.test.ts:354:18) {
+        length: 243,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key ((true))=(t) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'brain_strategies',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'idx_brain_strategies_single_active',
+        file: 'nbtinsert.c',
+        line: '666',
+        routine: '_bt_check_unique'
+      }
+
+    [0m [90m 695 |[39m       [36mreturn[39m result[33m.[39mrows[[35m0[39m] [33m||[39m [36mnull[39m
+     [90m 696 |[39m     } [36mcatch[39m (e) {
+    [31m[1m>[22m[39m[90m 697 |[39m       
+console[33m.[39merror([32m'BrainRepository.createStrategyV2:'[39m[33m,[39m e)
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 698 |[39m       [36mreturn[39m [36mnull[39m
+     [90m 699 |[39m     }
+     [90m 700 |[39m   }[0m
+
+      at BrainRepository.createStrategyV2 (lib/db/repositories/brain.ts:697:15)
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:354:18)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › NEW_EVIDENCE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 53 |[39m     it([32m'NEW_EVIDENCE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 54 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 55 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m    |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 56 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 57 |[39m         snapshot[33m:[39m { sensors[33m:[39m { traffic[33m:[39m [32m'ACTIVE'[39m } 
+}[33m,[39m
+     [90m 58 |[39m         researchRuns[33m:[39m [{ id[33m:[39m [32m'run-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m }] [90m// Provide research evidence[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:55:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › STRATEGY_STALE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 65 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+     [90m 66 |[39m       [90m// Manually backdate created_at to make it stale[39m
+    [31m[1m>[22m[39m[90m 67 |[39m       [36mawait[39m getPool()[33m.[39mquery([32m'UPDATE brain_strategies 
+SET created_at = NOW() - INTERVAL \'40 days\' WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid])
+     [90m    |[39m                                                                                                   
+                      [31m[1m^[22m[39m
+     [90m 68 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m getPool()[33m.[39mquery([32m'SELECT * 
+FROM brain_strategies WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m 69 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} } }
+     [90m 70 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:67:121)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › OPPORTUNITY_EXPIRED
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 74 |[39m     it([32m'OPPORTUNITY_EXPIRED'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 75 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 76 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m    |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 77 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 78 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 79 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m [32m'STALE'[39m }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:76:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › CONFLICT_DETECTED
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 85 |[39m     it([32m'CONFLICT_DETECTED'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 86 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 87 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m    |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 88 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 89 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 90 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m conflict_flags[33m:[39m [[32m'conflict'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:87:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › EXECUTION_DEVIATION
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m  96 |[39m     it([32m'EXECUTION_DEVIATION'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m  97 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m  98 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m  99 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+executions[33m:[39m [{ status[33m:[39m [32m'failed'[39m }[33m,[39m { status[33m:[39m [32m'failed'[39m }] }
+     [90m 100 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 101 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'EXECUTION_DEVIATION'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:98:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › QUALITY_DEVIATION
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 104 |[39m     it([32m'QUALITY_DEVIATION'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 105 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 106 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 107 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+qualityResults[33m:[39m [{ status[33m:[39m [32m'FAIL'[39m }[33m,[39m { status[33m:[39m [32m'FAIL'[39m }] }
+     [90m 108 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 109 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'QUALITY_DEVIATION'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:106:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › BUSINESS_OUTCOME
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 112 |[39m     it([32m'BUSINESS_OUTCOME'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 113 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 114 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 115 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m { 
+traffic[33m:[39m [32m'UNAVAILABLE'[39m } }[33m,[39m verifications[33m:[39m [{ status[33m:[39m 
+[32m'NOT_VERIFIABLE'[39m }] }
+     [90m 116 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 117 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'BUSINESS_OUTCOME'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:114:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › CAPABILITY_CHANGE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 120 |[39m     it([32m'CAPABILITY_CHANGE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 121 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 122 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 123 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m { 
+revenue[33m:[39m [32m'UNAVAILABLE'[39m } } }
+     [90m 124 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 125 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'CAPABILITY_CHANGE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:122:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › PRODUCT_AVAILABILITY_CHANGE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 128 |[39m     it([32m'PRODUCT_AVAILABILITY_CHANGE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 129 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 130 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 131 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m { 
+product_availability[33m:[39m [32m'UNAVAILABLE'[39m } } }
+     [90m 132 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 133 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'PRODUCT_AVAILABILITY_CHANGE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:130:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › REUSABLE_LEARNING
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 136 |[39m     it([32m'REUSABLE_LEARNING'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 137 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 138 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 139 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+learnings[33m:[39m [{ reusable[33m:[39m [36mtrue[39m[33m,[39m id[33m:[39m [32m'l1'[39m }[33m,[39m { 
+reusable[33m:[39m [36mtrue[39m[33m,[39m id[33m:[39m [32m'l2'[39m }] }
+     [90m 140 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 141 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'REUSABLE_LEARNING'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:138:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Reusable Learning Safety › Single execution lesson does not cause broad 
+evolution
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 149 |[39m     it([32m'Single execution lesson does not cause broad evolution'[39m[33m,[39m 
+[36masync[39m () [33m=>[39m {
+     [90m 150 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 151 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 152 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+learnings[33m:[39m [{ reusable[33m:[39m [36mtrue[39m[33m,[39m id[33m:[39m [32m'l1'[39m }] }
+     [90m 153 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 154 |[39m       
+expect(proposals[[35m0[39m][33m.[39mevolution_type)[33m.[39mtoBe([32m'NO_CHANGE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:151:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Reusable Learning Safety › UNKNOWN learning provenance cannot become 
+REAL
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 157 |[39m     it([32m'UNKNOWN learning provenance cannot become REAL'[39m[33m,[39m [36masync[39m 
+() [33m=>[39m {
+     [90m 158 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 159 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 160 |[39m       [90m// Learnings without proven REAL provenance shouldn't trigger REAL strategy changes 
+(tested via opportunity provenance filtering)[39m
+     [90m 161 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m provenance[33m:[39m 
+[32m'UNKNOWN'[39m[33m,[39m evidence_strength[33m:[39m [32m'STRONGLY_SUPPORTED'[39m }] }
+     [90m 162 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:159:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Unknown Opportunity Protection › UNKNOWN opportunity is excluded from 
+evolution trigger
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 171 |[39m     it([32m'UNKNOWN opportunity is excluded from evolution trigger'[39m[33m,[39m 
+[36masync[39m () [33m=>[39m {
+     [90m 172 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 173 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 174 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 175 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 176 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'UNKNOWN'[39m[33m,[39m evidence_strength[33m:[39m [32m'STRONGLY_SUPPORTED'[39m }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:173:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Business Data Unavailable › conversion/revenue UNAVAILABLE evaluates to 
+NOT_VERIFIABLE, not FAILURE/PAUSE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 187 |[39m     it([32m'conversion/revenue UNAVAILABLE evaluates to NOT_VERIFIABLE, not 
+FAILURE/PAUSE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 188 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 189 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 190 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 191 |[39m         snapshot[33m:[39m { sensors[33m:[39m { conversion[33m:[39m 
+[32m'UNAVAILABLE'[39m[33m,[39m revenue[33m:[39m [32m'UNAVAILABLE'[39m[33m,[39m traffic[33m:[39m 
+[32m'UNAVAILABLE'[39m } }[33m,[39m
+     [90m 192 |[39m         verifications[33m:[39m [{ status[33m:[39m [32m'NOT_VERIFIABLE'[39m }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:189:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Product Availability › DIGISTORE_CREDENTIALS_MISSING triggers product 
+availability change, not NOT_FOUND
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 205 |[39m     it([32m'DIGISTORE_CREDENTIALS_MISSING triggers product availability change, not 
+NOT_FOUND'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 206 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 207 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 208 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 209 |[39m         snapshot[33m:[39m { sensors[33m:[39m { product_availability[33m:[39m 
+[32m'DIGISTORE_CREDENTIALS_MISSING'[39m } }
+     [90m 210 |[39m       }[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:207:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Duplicate / Idempotency › deduplicates identical evaluations at the 
+database layer (if unique constraints exist)
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 222 |[39m       [36mconst[39m pool [33m=[39m getPool()
+     [90m 223 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 224 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+pool[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                            
+[31m[1m^[22m[39m
+     [90m 225 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 226 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 227 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:224:92)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Conflict Detection › incompatible_capability triggers REVIEW_REQUIRED 
+without automatic mutation
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 247 |[39m     it([32m'incompatible_capability triggers REVIEW_REQUIRED without automatic 
+mutation'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 248 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 249 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 250 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 251 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 252 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m conflict_flags[33m:[39m [[32m'incompatible_capability'[39m] 
+}][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:249:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Confidence, Freshness & Provenance › strong evidence yields high 
+confidence
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 264 |[39m     it([32m'strong evidence yields high confidence'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 265 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 266 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 267 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 268 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 269 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m[33m,[39m 
+[32m'src-2'[39m[33m,[39m [32m'src-3'[39m[33m,[39m [32m'src-4'[39m] }] [90m// multiple sources[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:266:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Confidence, Freshness & Provenance › stale evidence does not mark as 
+failure merely because old
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 275 |[39m     it([32m'stale evidence does not mark as failure merely because old'[39m[33m,[39m 
+[36masync[39m () [33m=>[39m {
+     [90m 276 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 277 |[39m       [36mawait[39m getPool()[33m.[39mquery([32m'UPDATE brain_strategies 
+SET created_at = NOW() - INTERVAL \'40 days\' WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid])
+     [90m     |[39m                                                                                                  
+                       [31m[1m^[22m[39m
+     [90m 278 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m getPool()[33m.[39mquery([32m'SELECT 
+* FROM brain_strategies WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m 279 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} } }
+     [90m 280 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:277:121)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Confidence, Freshness & Provenance › FIXTURE provenance is preserved
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 285 |[39m     it([32m'FIXTURE provenance is preserved'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 286 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy([32m'FIXTURE'[39m)
+    [31m[1m>[22m[39m[90m 287 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 288 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+executions[33m:[39m [{ status[33m:[39m [32m'failed'[39m }[33m,[39m { status[33m:[39m [32m'failed'[39m }] }
+     [90m 289 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 290 |[39m       expect(proposals[[35m0[39m][33m.[39mprovenance)[33m.[39mtoBe([32m'FIXTURE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:287:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › SUPERSEDE and RETIRE › SUPERSEDE integration lifecycle
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 298 |[39m     it([32m'SUPERSEDE integration lifecycle'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 299 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 300 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 301 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 302 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 303 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:300:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › SUPERSEDE and RETIRE › RETIRE integration lifecycle
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 353 |[39m     it([32m'RETIRE integration lifecycle'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 354 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 355 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 356 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 357 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 358 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:355:97)
+
+A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due 
+to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure 
+that .unref() was called on them.
+Summary of all failing tests
+FAIL tests/integration/brain/applyEvolutionRegression.test.ts (9.555 s)
+  ● applyEvolution regression (v1.type → v1.strategy_type) › creates V2 via applyEvolution using strategy_type (not 
+type)
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 82 |[39m       approvalRequired[33m:[39m [36mfalse[39m[33m,[39m
+     [90m 83 |[39m     })
+    [31m[1m>[22m[39m[90m 84 |[39m     testStrategyId [33m=[39m v1Res[33m![39m[33m.[39mid
+     [90m    |[39m                             [31m[1m^[22m[39m
+     [90m 85 |[39m
+     [90m 86 |[39m     [90m// 2. Create an APPROVED evolution proposal[39m
+     [90m 87 |[39m     [36mconst[39m propRes [33m=[39m [36mawait[39m 
+brainRepo[33m.[39mcreateStrategyEvolution({[0m
+
+      at Object.<anonymous> (tests/integration/brain/applyEvolutionRegression.test.ts:84:29)
+
+  ● applyEvolution regression (v1.type → v1.strategy_type) › rejects applyEvolution when proposal is not APPROVED
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 173 |[39m       approvalRequired[33m:[39m [36mfalse[39m[33m,[39m
+     [90m 174 |[39m     })
+    [31m[1m>[22m[39m[90m 175 |[39m     [36mconst[39m stratId [33m=[39m v1Res[33m![39m[33m.[39mid
+     [90m     |[39m                            [31m[1m^[22m[39m
+     [90m 176 |[39m
+     [90m 177 |[39m     [36mconst[39m propRes [33m=[39m [36mawait[39m 
+brainRepo[33m.[39mcreateStrategyEvolution({
+     [90m 178 |[39m       strategyId[33m:[39m stratId[33m,[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/applyEvolutionRegression.test.ts:175:28)
+
+FAIL tests/integration/brain/strategyEvolutionLifecycle.test.ts (7.586 s)
+  ● StrategyEvolution Lifecycle End-to-End › proves the complete evolution lifecycle
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m  98 |[39m     })
+     [90m  99 |[39m
+    [31m[1m>[22m[39m[90m 100 |[39m     testStrategyId [33m=[39m stratRes[33m.[39mid
+     [90m     |[39m                               [31m[1m^[22m[39m
+     [90m 101 |[39m
+     [90m 102 |[39m     [90m// Verify V1 exists before evolution[39m
+     [90m 103 |[39m     expect(testStrategyId)[33m.[39mtoBeDefined()[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionLifecycle.test.ts:100:31)
+
+FAIL tests/integration/brain/traceability.test.ts (20.122 s)
+  ● real research evidence › records the opportunity against that research run and its own sources
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 74 |[39m     )[33m;[39m
+     [90m 75 |[39m
+    [31m[1m>[22m[39m[90m 76 |[39m     expect(opportunity)[33m.[39mtoBeDefined()[33m;[39m
+     [90m    |[39m                         [31m[1m^[22m[39m
+     [90m 77 |[39m     expect(opportunity[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 78 |[39m     
+expect(opportunity[33m.[39mresearch_id)[33m.[39mtoBe(state[33m.[39mresearchId)[33m;[39m
+     [90m 79 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:76:25)
+
+  ● strategy → plan → task → approval → job → article lineage › resolves the full chain by following foreign keys from 
+the plan
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 94 |[39m     )[33m;[39m
+     [90m 95 |[39m
+    [31m[1m>[22m[39m[90m 96 |[39m     expect(plan)[33m.[39mtoBeDefined()[33m;[39m
+     [90m    |[39m                  [31m[1m^[22m[39m
+     [90m 97 |[39m     expect(plan[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 98 |[39m     expect(plan[33m.[39mstatus)[33m.[39mtoBe([32m'completed'[39m)[33m;[39m
+     [90m 99 |[39m     
+expect(plan[33m.[39mopportunity_id)[33m.[39mtoBe(state[33m.[39mopportunityId)[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:96:18)
+
+  ● strategy → plan → task → approval → job → article lineage › binds the task to the plan and records a real claim
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 110 |[39m     )[33m;[39m
+     [90m 111 |[39m
+    [31m[1m>[22m[39m[90m 112 |[39m     expect(task)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                  [31m[1m^[22m[39m
+     [90m 113 |[39m     expect(task[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 114 |[39m     expect(task[33m.[39mstatus)[33m.[39mtoBe([32m'completed'[39m)[33m;[39m
+     [90m 115 |[39m     
+expect(task[33m.[39mexecution_plan_id)[33m.[39mtoBe(state[33m.[39mplanId)[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:112:18)
+
+  ● strategy → plan → task → approval → job → article lineage › records a real admin decision and a single consumption 
+of that approval
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 127 |[39m     )[33m;[39m
+     [90m 128 |[39m
+    [31m[1m>[22m[39m[90m 129 |[39m     expect(approval)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                      [31m[1m^[22m[39m
+     [90m 130 |[39m     expect(approval[33m.[39mstatus)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 131 |[39m     expect(approval[33m.[39mdecision)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 132 |[39m     expect(approval[33m.[39mdecided_by)[33m.[39mtoBeTruthy()[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:129:22)
+
+  ● strategy → plan → task → approval → job → article lineage › requested a permission that the policy marks 
+approval_required
+
+    TypeError: Cannot read properties of undefined (reading 'requested_permission')
+
+    [0m [90m 141 |[39m       [state[33m.[39mapprovalId]
+     [90m 142 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 143 |[39m     expect([33mObject[39m[33m.[39mkeys([33mDEFAULT_PERMISSION_POLICY[39m
+))[33m.[39mtoContain(approval[33m.[39mrequested_permission)[33m;[39m
+     [90m     |[39m                                                                       [31m[1m^[22m[39m
+     [90m 144 |[39m     expect([33mDEFAULT_PERMISSION_POLICY[39m[approval[33m.[39mrequested_permission 
+[36mas[39m [33mPermission[39m])[33m.[39mtoBe([32m'approval_required'[39m)[33m;[39m
+     [90m 145 |[39m   })[33m;[39m
+     [90m 146 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:143:71)
+
+  ● strategy → plan → task → approval → job → article lineage › published an article whose row is traceable to that 
+whole chain
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 165 |[39m     )[33m;[39m
+     [90m 166 |[39m
+    [31m[1m>[22m[39m[90m 167 |[39m     expect(article)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 168 |[39m     expect(article[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 169 |[39m     expect(article[33m.[39mstatus)[33m.[39mtoBe([32m'published'[39m)[33m;[39m
+     [90m 170 |[39m     expect(article[33m.[39mpublished_at)[33m.[39mtoBeTruthy()[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:167:21)
+
+  ● strategy → plan → task → approval → job → article lineage › persisted a quality result that did not fail
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    [0m [90m 184 |[39m     )[33m;[39m
+     [90m 185 |[39m
+    [31m[1m>[22m[39m[90m 186 |[39m     
+expect(results[33m.[39mlength)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m     |[39m                            [31m[1m^[22m[39m
+     [90m 187 |[39m     expect(results[results[33m.[39mlength [33m-[39m 
+[35m1[39m][33m.[39moverall_status)[33m.[39mnot[33m.[39mtoBe([32m'FAIL'[39m)[33m;[39m
+     [90m 188 |[39m     expect(results[33m.[39msome((r) [33m=>[39m r[33m.[39mtarget_type [33m===[39m 
+[32m'article'[39m [33m&&[39m r[33m.[39moverall_status [33m===[39m 
+[32m'PASS'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 189 |[39m   })[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:186:28)
+
+  ● strategy → plan → task → approval → job → article lineage › persisted a verification and a learning record for the 
+same correlation
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    [0m [90m 194 |[39m       [state[33m.[39marticleId]
+     [90m 195 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 196 |[39m     
+expect(verifications[33m.[39mlength)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m     |[39m                                  [31m[1m^[22m[39m
+     [90m 197 |[39m
+     [90m 198 |[39m     [36mconst[39m learnings [33m=[39m [36mawait[39m q(
+     [90m 199 |[39m       [32m`SELECT id, source, lesson, success, confidence, provenance FROM brain_learnings 
+WHERE correlation_id=$1`[39m[33m,[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:196:34)
+
+  ● strategy → plan → task → approval → job → article lineage › does not claim an analytics observation it never made
+
+    TypeError: Cannot read properties of undefined (reading 'available_observations')
+
+    [0m [90m 210 |[39m     )[33m;[39m
+     [90m 211 |[39m
+    [31m[1m>[22m[39m[90m 212 |[39m     [36mconst[39m observations [33m=[39m 
+(verification[33m.[39mavailable_observations [36mas[39m [33mArray[39m[33m<[39m{ name[33m:[39m 
+string[33m;[39m available[33m?[39m[33m:[39m boolean }[33m>[39m) [33m||[39m [][33m;[39m
+     [90m     |[39m                                        [31m[1m^[22m[39m
+     [90m 213 |[39m     [36mconst[39m limitations [33m=[39m (verification[33m.[39mlimitations [36mas[39m 
+string[]) [33m||[39m [][33m;[39m
+     [90m 214 |[39m
+     [90m 215 |[39m     [36mif[39m (verification[33m.[39mstatus [33m===[39m [32m'NOT_VERIFIABLE'[39m) {[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:212:40)
+
+  ● immutability guarantees enforced by the database › refuses to rewrite a settled approval
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 257 |[39m       [state[33m.[39mapprovalId]
+     [90m 258 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 259 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 260 |[39m     expect(row[33m.[39mstatus)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 261 |[39m   })[33m;[39m
+     [90m 262 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:259:21)
+
+  ● immutability guarantees enforced by the database › refuses to re-decide a consumed approval
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 267 |[39m       [state[33m.[39mapprovalId]
+     [90m 268 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 269 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 270 |[39m     expect(row[33m.[39mdecision)[33m.[39mtoBe([32m'approved'[39m)[33m;[39m
+     [90m 271 |[39m   })[33m;[39m
+     [90m 272 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:269:21)
+
+  ● immutability guarantees enforced by the database › refuses to re-point an approval at a different task
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 277 |[39m       [state[33m.[39mapprovalId[33m,[39m 
+[32m'00000000-0000-4000-8000-000000000000'[39m]
+     [90m 278 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 279 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 280 |[39m     expect(row[33m.[39mconsumed_by_task)[33m.[39mtoBe(state[33m.[39mtaskId)[33m;[39m
+     [90m 281 |[39m   })[33m;[39m
+     [90m 282 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:279:21)
+
+  ● immutability guarantees enforced by the database › refuses to re-parent a published article onto a different 
+execution
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 287 |[39m       [state[33m.[39marticleId]
+     [90m 288 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 289 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 290 |[39m     expect(row[33m.[39mstrategy_id)[33m.[39mtoBe(state[33m.[39mstrategyId)[33m;[39m
+     [90m 291 |[39m   })[33m;[39m
+     [90m 292 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:289:21)
+
+  ● immutability guarantees enforced by the database › refuses to relabel REAL production provenance
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 297 |[39m       [state[33m.[39marticleId]
+     [90m 298 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 299 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 300 |[39m     expect(row[33m.[39mprovenance)[33m.[39mtoBe([32m'REAL'[39m)[33m;[39m
+     [90m 301 |[39m   })[33m;[39m
+     [90m 302 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:299:21)
+
+  ● immutability guarantees enforced by the database › refuses to erase the publication timestamp of a published 
+article
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 307 |[39m       [state[33m.[39marticleId]
+     [90m 308 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 309 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 310 |[39m     expect(row[33m.[39mpublished_at)[33m.[39mtoBeTruthy()[33m;[39m
+     [90m 311 |[39m   })[33m;[39m
+     [90m 312 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:309:21)
+
+  ● immutability guarantees enforced by the database › refuses to swap the authorising approval of a completed task
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 317 |[39m       [state[33m.[39mtaskId]
+     [90m 318 |[39m     )[33m;[39m
+    [31m[1m>[22m[39m[90m 319 |[39m     expect(blocked)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 320 |[39m     expect(row[33m.[39mapproval_id)[33m.[39mtoBe(state[33m.[39mapprovalId)[33m;[39m
+     [90m 321 |[39m   })[33m;[39m
+     [90m 322 |[39m })[33m;[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/traceability.test.ts:319:21)
+
+FAIL tests/integration/brain/strategyEvolutionMatrix.test.ts (52.387 s)
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › NEW_EVIDENCE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 53 |[39m     it([32m'NEW_EVIDENCE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 54 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 55 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m    |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 56 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 57 |[39m         snapshot[33m:[39m { sensors[33m:[39m { traffic[33m:[39m [32m'ACTIVE'[39m } 
+}[33m,[39m
+     [90m 58 |[39m         researchRuns[33m:[39m [{ id[33m:[39m [32m'run-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m }] [90m// Provide research evidence[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:55:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › STRATEGY_STALE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 65 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+     [90m 66 |[39m       [90m// Manually backdate created_at to make it stale[39m
+    [31m[1m>[22m[39m[90m 67 |[39m       [36mawait[39m getPool()[33m.[39mquery([32m'UPDATE brain_strategies 
+SET created_at = NOW() - INTERVAL \'40 days\' WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid])
+     [90m    |[39m                                                                                                   
+                      [31m[1m^[22m[39m
+     [90m 68 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m getPool()[33m.[39mquery([32m'SELECT * 
+FROM brain_strategies WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m 69 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} } }
+     [90m 70 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:67:121)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › OPPORTUNITY_EXPIRED
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 74 |[39m     it([32m'OPPORTUNITY_EXPIRED'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 75 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 76 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m    |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 77 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 78 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 79 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m [32m'STALE'[39m }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:76:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › CONFLICT_DETECTED
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 85 |[39m     it([32m'CONFLICT_DETECTED'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 86 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 87 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m    |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 88 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 89 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 90 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m conflict_flags[33m:[39m [[32m'conflict'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:87:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › EXECUTION_DEVIATION
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m  96 |[39m     it([32m'EXECUTION_DEVIATION'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m  97 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m  98 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m  99 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+executions[33m:[39m [{ status[33m:[39m [32m'failed'[39m }[33m,[39m { status[33m:[39m [32m'failed'[39m }] }
+     [90m 100 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 101 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'EXECUTION_DEVIATION'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:98:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › QUALITY_DEVIATION
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 104 |[39m     it([32m'QUALITY_DEVIATION'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 105 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 106 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 107 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+qualityResults[33m:[39m [{ status[33m:[39m [32m'FAIL'[39m }[33m,[39m { status[33m:[39m [32m'FAIL'[39m }] }
+     [90m 108 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 109 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'QUALITY_DEVIATION'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:106:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › BUSINESS_OUTCOME
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 112 |[39m     it([32m'BUSINESS_OUTCOME'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 113 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 114 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 115 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m { 
+traffic[33m:[39m [32m'UNAVAILABLE'[39m } }[33m,[39m verifications[33m:[39m [{ status[33m:[39m 
+[32m'NOT_VERIFIABLE'[39m }] }
+     [90m 116 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 117 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'BUSINESS_OUTCOME'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:114:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › CAPABILITY_CHANGE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 120 |[39m     it([32m'CAPABILITY_CHANGE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 121 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 122 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 123 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m { 
+revenue[33m:[39m [32m'UNAVAILABLE'[39m } } }
+     [90m 124 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 125 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'CAPABILITY_CHANGE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:122:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › PRODUCT_AVAILABILITY_CHANGE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 128 |[39m     it([32m'PRODUCT_AVAILABILITY_CHANGE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 129 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 130 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 131 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m { 
+product_availability[33m:[39m [32m'UNAVAILABLE'[39m } } }
+     [90m 132 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 133 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'PRODUCT_AVAILABILITY_CHANGE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:130:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › 1. Triggers Matrix › REUSABLE_LEARNING
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 136 |[39m     it([32m'REUSABLE_LEARNING'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 137 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 138 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 139 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+learnings[33m:[39m [{ reusable[33m:[39m [36mtrue[39m[33m,[39m id[33m:[39m [32m'l1'[39m }[33m,[39m { 
+reusable[33m:[39m [36mtrue[39m[33m,[39m id[33m:[39m [32m'l2'[39m }] }
+     [90m 140 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 141 |[39m       
+expect(proposals[[35m0[39m][33m.[39mtrigger_type)[33m.[39mtoBe([32m'REUSABLE_LEARNING'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:138:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Reusable Learning Safety › Single execution lesson does not cause broad 
+evolution
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 149 |[39m     it([32m'Single execution lesson does not cause broad evolution'[39m[33m,[39m 
+[36masync[39m () [33m=>[39m {
+     [90m 150 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 151 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 152 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+learnings[33m:[39m [{ reusable[33m:[39m [36mtrue[39m[33m,[39m id[33m:[39m [32m'l1'[39m }] }
+     [90m 153 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 154 |[39m       
+expect(proposals[[35m0[39m][33m.[39mevolution_type)[33m.[39mtoBe([32m'NO_CHANGE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:151:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Reusable Learning Safety › UNKNOWN learning provenance cannot become 
+REAL
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 157 |[39m     it([32m'UNKNOWN learning provenance cannot become REAL'[39m[33m,[39m [36masync[39m 
+() [33m=>[39m {
+     [90m 158 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 159 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 160 |[39m       [90m// Learnings without proven REAL provenance shouldn't trigger REAL strategy changes 
+(tested via opportunity provenance filtering)[39m
+     [90m 161 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m provenance[33m:[39m 
+[32m'UNKNOWN'[39m[33m,[39m evidence_strength[33m:[39m [32m'STRONGLY_SUPPORTED'[39m }] }
+     [90m 162 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:159:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Unknown Opportunity Protection › UNKNOWN opportunity is excluded from 
+evolution trigger
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 171 |[39m     it([32m'UNKNOWN opportunity is excluded from evolution trigger'[39m[33m,[39m 
+[36masync[39m () [33m=>[39m {
+     [90m 172 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 173 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 174 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 175 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 176 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'UNKNOWN'[39m[33m,[39m evidence_strength[33m:[39m [32m'STRONGLY_SUPPORTED'[39m }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:173:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Business Data Unavailable › conversion/revenue UNAVAILABLE evaluates to 
+NOT_VERIFIABLE, not FAILURE/PAUSE
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 187 |[39m     it([32m'conversion/revenue UNAVAILABLE evaluates to NOT_VERIFIABLE, not 
+FAILURE/PAUSE'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 188 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 189 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 190 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 191 |[39m         snapshot[33m:[39m { sensors[33m:[39m { conversion[33m:[39m 
+[32m'UNAVAILABLE'[39m[33m,[39m revenue[33m:[39m [32m'UNAVAILABLE'[39m[33m,[39m traffic[33m:[39m 
+[32m'UNAVAILABLE'[39m } }[33m,[39m
+     [90m 192 |[39m         verifications[33m:[39m [{ status[33m:[39m [32m'NOT_VERIFIABLE'[39m }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:189:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Product Availability › DIGISTORE_CREDENTIALS_MISSING triggers product 
+availability change, not NOT_FOUND
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 205 |[39m     it([32m'DIGISTORE_CREDENTIALS_MISSING triggers product availability change, not 
+NOT_FOUND'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 206 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 207 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 208 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 209 |[39m         snapshot[33m:[39m { sensors[33m:[39m { product_availability[33m:[39m 
+[32m'DIGISTORE_CREDENTIALS_MISSING'[39m } }
+     [90m 210 |[39m       }[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:207:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Duplicate / Idempotency › deduplicates identical evaluations at the 
+database layer (if unique constraints exist)
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 222 |[39m       [36mconst[39m pool [33m=[39m getPool()
+     [90m 223 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 224 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+pool[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                            
+[31m[1m^[22m[39m
+     [90m 225 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 226 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 227 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:224:92)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Conflict Detection › incompatible_capability triggers REVIEW_REQUIRED 
+without automatic mutation
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 247 |[39m     it([32m'incompatible_capability triggers REVIEW_REQUIRED without automatic 
+mutation'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 248 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 249 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 250 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 251 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 252 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m conflict_flags[33m:[39m [[32m'incompatible_capability'[39m] 
+}][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:249:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Confidence, Freshness & Provenance › strong evidence yields high 
+confidence
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 264 |[39m     it([32m'strong evidence yields high confidence'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 265 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 266 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 267 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 268 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 269 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m[33m,[39m 
+[32m'src-2'[39m[33m,[39m [32m'src-3'[39m[33m,[39m [32m'src-4'[39m] }] [90m// multiple sources[39m[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:266:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Confidence, Freshness & Provenance › stale evidence does not mark as 
+failure merely because old
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 275 |[39m     it([32m'stale evidence does not mark as failure merely because old'[39m[33m,[39m 
+[36masync[39m () [33m=>[39m {
+     [90m 276 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 277 |[39m       [36mawait[39m getPool()[33m.[39mquery([32m'UPDATE brain_strategies 
+SET created_at = NOW() - INTERVAL \'40 days\' WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid])
+     [90m     |[39m                                                                                                  
+                       [31m[1m^[22m[39m
+     [90m 278 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m getPool()[33m.[39mquery([32m'SELECT 
+* FROM brain_strategies WHERE id = $1'[39m[33m,[39m [v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m 279 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} } }
+     [90m 280 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:277:121)
+
+  ● Phase 5.5 Acceptance Matrix Verification › Confidence, Freshness & Provenance › FIXTURE provenance is preserved
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 285 |[39m     it([32m'FIXTURE provenance is preserved'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 286 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy([32m'FIXTURE'[39m)
+    [31m[1m>[22m[39m[90m 287 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 288 |[39m       [36mconst[39m ctx [33m=[39m { snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m 
+executions[33m:[39m [{ status[33m:[39m [32m'failed'[39m }[33m,[39m { status[33m:[39m [32m'failed'[39m }] }
+     [90m 289 |[39m       [36mconst[39m proposals [33m=[39m [36mawait[39m 
+engine[33m.[39mevaluate(rawV1[33m,[39m ctx)
+     [90m 290 |[39m       expect(proposals[[35m0[39m][33m.[39mprovenance)[33m.[39mtoBe([32m'FIXTURE'[39m)[0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:287:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › SUPERSEDE and RETIRE › SUPERSEDE integration lifecycle
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 298 |[39m     it([32m'SUPERSEDE integration lifecycle'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 299 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 300 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 301 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 302 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 303 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:300:97)
+
+  ● Phase 5.5 Acceptance Matrix Verification › SUPERSEDE and RETIRE › RETIRE integration lifecycle
+
+    TypeError: Cannot read properties of null (reading 'id')
+
+    [0m [90m 353 |[39m     it([32m'RETIRE integration lifecycle'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 354 |[39m       [36mconst[39m v1 [33m=[39m [36mawait[39m createTestStrategy()
+    [31m[1m>[22m[39m[90m 355 |[39m       [36mconst[39m rawV1 [33m=[39m ([36mawait[39m 
+getPool()[33m.[39mquery([32m'SELECT * FROM brain_strategies WHERE id = $1'[39m[33m,[39m 
+[v1[33m![39m[33m.[39mid]))[33m.[39mrows[[35m0[39m]
+     [90m     |[39m                                                                                                 
+[31m[1m^[22m[39m
+     [90m 356 |[39m       [36mconst[39m ctx [33m=[39m {
+     [90m 357 |[39m         snapshot[33m:[39m { sensors[33m:[39m {} }[33m,[39m
+     [90m 358 |[39m         opportunities[33m:[39m [{ id[33m:[39m [32m'opp-matrix-1'[39m[33m,[39m 
+provenance[33m:[39m [32m'REAL'[39m[33m,[39m evidence_strength[33m:[39m 
+[32m'STRONGLY_SUPPORTED'[39m[33m,[39m source_ids[33m:[39m [[32m'src-1'[39m] }][0m
+
+      at Object.<anonymous> (tests/integration/brain/strategyEvolutionMatrix.test.ts:355:97)
+
+
+Test Suites: 4 failed, 36 passed, 40 total
+Tests:       41 failed, 376 passed, 417 total
+Snapshots:   0 total
+Time:        60.87 s
+Ran all test suites in 2 projects.

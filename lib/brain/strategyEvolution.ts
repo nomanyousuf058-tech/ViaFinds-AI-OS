@@ -326,7 +326,7 @@ async applyEvolution(proposalId: string, adminUserId: string): Promise<any> {
         title: v1.title,
         type: v1.strategy_type,
         objective: v1.objective,
-        status: proposal.evolution_type === 'PAUSE' ? 'PAUSED' : (proposal.evolution_type === 'RETIRE' ? 'COMPLETED' : 'ACTIVE'),
+        status: proposal.evolution_type === 'PAUSE' ? 'PAUSED' : (proposal.evolution_type === 'RETIRE' ? 'COMPLETED' : 'active'),
         description: v1.description,
         rationale: v1.rationale + `\n[EVOLVED via ${proposal.id}]: ${JSON.stringify(proposal.proposed_changes)}`,
         evidence: v1.evidence,
@@ -358,7 +358,7 @@ async applyEvolution(proposalId: string, adminUserId: string): Promise<any> {
       await pool.query('UPDATE brain_strategy_evolution SET status = $1 WHERE id = $2', ['APPLIED', proposal.id])
       
       // Do not mutate V1.
-      const resolvedStatus = proposal.evolution_type === 'PAUSE' ? 'PAUSED' : (proposal.evolution_type === 'RETIRE' ? 'COMPLETED' : 'ACTIVE')
+      const resolvedStatus = proposal.evolution_type === 'PAUSE' ? 'PAUSED' : (proposal.evolution_type === 'RETIRE' ? 'COMPLETED' : 'active')
       return { ...v2, version: proposal.proposed_version, parent_strategy_id: v1.id, provenance: proposal.provenance || v1.provenance, status: resolvedStatus, rationale: v1.rationale + `\n[EVOLVED via ${proposal.id}]: ${JSON.stringify(proposal.proposed_changes)}` }
     }
 

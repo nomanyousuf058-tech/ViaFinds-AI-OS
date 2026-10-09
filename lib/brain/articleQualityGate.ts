@@ -162,15 +162,53 @@ export class ArticleQualityGate {
     if (status !== 'published') {
       push('publication.state', 'FAIL', 'error', `Article status is "${status}", not "published"`);
     } else if (!article.published_at) {
-      push('publication.state', 'WARNING', 'warning', 'status=published but published_at is NULL');
+      push('publication.state', 'FAIL', 'error', 'status=published but published_at is NULL');
     } else {
       push('publication.state', 'PASS', 'info', `published at ${article.published_at}`);
     }
 
-    if (!article.cover_image_url) {
+    // ── Cover image ──
+    // A published article that carries a brain lineage is product/
+    // affiliate content and REQUIRES a cover image. A missing image is
+    // a hard FAIL, never a warning. Non-lineaged articles are not
+    // governed by this rule.
+    const hasLineage = !!(article.brain_task_id || article.automation_job_id);
+    if (hasLineage) {
+      if (!article.cover_image_url) {
+        push('media.cover_image', 'FAIL', 'error', 'Cover image is required for this article but no image URL was produced. Generate an image or supply one manually before publishing.');
+      } else {
+        const raw = article.cover_image_url as string
+        let imageOk = false
+        try {
+          const parsed = new URL(raw)
+          imageOk = parsed.protocol === 'http:' || parsed.protocol === 'https:'
+        } catch {
+          imageOk = false
+        }
+        if (!imageOk) {
+          push('media.cover_image', 'FAIL', 'error', `Cover image URL is invalid: ${raw}`);
+        } else {
+          push('media.cover_image', 'PASS', 'info', 'cover image present');
+        }
+      }
+    } else if (!article.cover_image_url) {
       push('media.cover_image', 'WARNING', 'warning', 'No cover image');
     } else {
       push('media.cover_image', 'PASS', 'info', 'cover image present');
+    }
+
+    // ── Verified affiliate link ──
+    // For product/affiliate content, the article must reference a
+    // VERIFIED affiliate_links row. A raw URL in articles.affiliate_url
+    // is not sufficient.
+    if (hasLineage && article.affiliate_url) {
+      if (!article.affiliate_link_id) {
+        push('affiliate.verified_link', 'FAIL', 'error', 'Article references an affiliate URL but no verified affiliate_links row. The link must be verified before publication.');
+      } else {
+        push('affiliate.verified_link', 'PASS', 'info', 'Article references a verified affiliate link');
+      }
+    } else if (hasLineage && !article.affiliate_url) {
+      push('affiliate.verified_link', 'WARNING', 'warning', 'No affiliate_url on this article; monetisation for this execution is unproven');
     }
 
     return this.finalize(checks, {

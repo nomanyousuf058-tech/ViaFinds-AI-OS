@@ -31,14 +31,20 @@ export interface AuditIssue {
 }
 
 export interface TrendingProduct {
-  id: string;
-  name: string;
-  searchVolume: number;
-  trendDirection: 'up' | 'down' | 'stable';
-  estimatedCommission: number;
-  partnerAvailability: string[];
-  categoryMatch: string | null;
-  confidence: number;
+  id: string
+  name: string
+  // All metrics are nullable. A null means UNKNOWN — the system never
+  // fabricates a realistic-looking value to fill the gap.
+  searchVolume: number | null
+  searchVolumeEstimate?: number | null
+  trendDirection: 'up' | 'down' | 'stable' | null
+  estimatedCommission: number | null
+  estimatedCommissionEstimate?: number | null
+  partnerAvailability: string[]
+  categoryMatch: string | null
+  confidence: number
+  dataQuality?: 'unknown' | 'partial' | 'provider' | 'estimated'
+  evidence?: Record<string, unknown>
 }
 
 export interface PartnerProduct {

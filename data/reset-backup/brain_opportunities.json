@@ -1,0 +1,1997 @@
+[
+  {
+    "id": "53f7c794-8fed-4e64-af2f-18514c4b78e7",
+    "title": "Untitled Opportunity",
+    "type": "content",
+    "description": "",
+    "evidence": {},
+    "source": "Brain Analysis",
+    "confidence": "Medium",
+    "potential_impact": "Medium",
+    "effort": "Medium",
+    "risk": "Low",
+    "recommended_action": "",
+    "status": "archived",
+    "created_at": "2026-09-25T16:51:44.813Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": null,
+    "structured_observation": {},
+    "evaluation": {},
+    "brain_reasoning": null,
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "ca719535-e57e-43aa-9a24-ba2bb0634f32",
+    "title": "Untitled Opportunity",
+    "type": "content",
+    "description": "",
+    "evidence": {},
+    "source": "Brain Analysis",
+    "confidence": "Medium",
+    "potential_impact": "Medium",
+    "effort": "Medium",
+    "risk": "Low",
+    "recommended_action": "",
+    "status": "archived",
+    "created_at": "2026-09-25T16:51:45.283Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": null,
+    "structured_observation": {},
+    "evaluation": {},
+    "brain_reasoning": null,
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "3604bb2c-940c-4dd8-8dfc-4c1b5a233a0b",
+    "title": "Untitled Opportunity",
+    "type": "content",
+    "description": "",
+    "evidence": {},
+    "source": "Brain Analysis",
+    "confidence": "Medium",
+    "potential_impact": "Medium",
+    "effort": "Medium",
+    "risk": "Low",
+    "recommended_action": "",
+    "status": "archived",
+    "created_at": "2026-09-25T16:51:45.785Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": null,
+    "structured_observation": {},
+    "evaluation": {},
+    "brain_reasoning": null,
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "49d5fdf5-6974-44cd-bdeb-71db4821fc03",
+    "title": "Untitled Opportunity",
+    "type": "content",
+    "description": "",
+    "evidence": {},
+    "source": "Brain Analysis",
+    "confidence": "Medium",
+    "potential_impact": "Medium",
+    "effort": "Medium",
+    "risk": "Low",
+    "recommended_action": "",
+    "status": "archived",
+    "created_at": "2026-09-25T16:51:46.204Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": null,
+    "structured_observation": {},
+    "evaluation": {},
+    "brain_reasoning": null,
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "8cdb98dd-5a05-4911-99db-b963a2b012ba",
+    "title": "Configure Revenue and Analytics Tracking Infrastructure",
+    "type": null,
+    "description": "Revenue tracking and analytics services are currently unconfigured, preventing performance analysis and ROI measurement across content assets.",
+    "evidence": {},
+    "source": "{\"url\":\"internal://system/context\",\"title\":\"ViaFinds System Context\",\"type\":\"internal\",\"retrievedAt\":\"2026-09-26T05:24:47.618Z\",\"snippet\":\"analytics.status: NOT CONFIGURED, revenue.status: NOT CONFIGURED, revenue.connected: false\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-09-26T05:25:23.453Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "missing_capability",
+    "structured_observation": {
+      "source": "ViaFinds System Context",
+      "confidence": "High",
+      "observedFact": "ViaFinds context indicates `analytics.status: 'NOT CONFIGURED'` and `revenue.status: 'NOT CONFIGURED'` (connected: false).",
+      "brainInference": "Without analytics and revenue integration, ViaFinds cannot track user conversion, page performance, or evaluate the effectiveness of published articles.",
+      "recommendation": "Configure revenue tracking and analytics services within the Next.js / Supabase application stack.",
+      "externalEvidence": "N/A (Internal system configuration state)",
+      "opportunityCategory": "missing_capability"
+    },
+    "evaluation": {
+      "risks": [
+        "Operating blind without performance metrics"
+      ],
+      "effort": "Low",
+      "impact": "High",
+      "evidence": [
+        "Internal system state: analytics.status = NOT CONFIGURED",
+        "Internal system state: revenue.status = NOT CONFIGURED"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "API keys/configuration for analytics and revenue tracking services"
+      ],
+      "expectedOutcome": "Full visibility into traffic, conversion rates, and revenue performance per article."
+    },
+    "brain_reasoning": "A core business limitation listed is 'Revenue tracking not configured'. Connecting tracking is foundational for strategic decision making.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "65b22049-b56a-4bfc-aeaf-69a2c6ce6c0f",
+    "title": "Publish 2026 AI Productivity Tool Roundups Targeting High-Intent Keywords",
+    "type": null,
+    "description": "ViaFinds has 45 draft articles and only 10 published articles. Competitors (Nexos AI, The Digital Project Manager, Software Advice) are actively ranking for \"2026 AI productivity tools\" keywords with comprehensive roundups. This represents an immediate traffic opportunity by processing and publishing existing drafts targeting high-intent commercial keywords.",
+    "evidence": {},
+    "source": "{\"url\":\"https://nexos.ai/blog/best-ai-productivity-tools/\",\"title\":\"Best AI productivity tools in 2026 (28 updated picks)\",\"snippet\":\"Nexos AI publishes updated 2026 roundup of 28 AI productivity tools with categories, pricing, and use cases.\",\"type\":\"search\",\"retrievedAt\":\"2026-09-26T05:31:41.177Z\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-09-26T05:31:48.182Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "Brain Analysis",
+      "confidence": "High",
+      "observedFact": "ViaFinds has 45 draft articles and only 10 published articles in Phase 3.2.",
+      "brainInference": "High search interest for 2026 AI productivity tool roundups represents an immediate traffic opportunity that can be captured by processing and publishing existing drafts.",
+      "recommendation": "Execute human editorial review on the 45 queued drafts, focusing first on high-intent AI productivity roundups and comparison guides.",
+      "sourceMetadata": {
+        "url": "https://nexos.ai/blog/best-ai-productivity-tools/",
+        "type": "search",
+        "title": "Best AI productivity tools in 2026 (28 updated picks)",
+        "snippet": "Nexos AI publishes updated 2026 roundup of 28 AI productivity tools with categories, pricing, and use cases.",
+        "retrievedAt": "2026-09-26T05:31:41.177Z"
+      },
+      "externalEvidence": "Competitors like Nexos AI (https://nexos.ai/blog/best-ai-productivity-tools/) and The Digital Project Manager (https://thedigitalprojectmanager.com/best-ai-productivity-tools/) are actively ranking with titles such as \"Best AI productivity tools in 2026 (28 updated picks)\" and \"10 Best AI Productivity Tools Reviewed in 2026\".",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "Content may be outdated if drafts are old",
+        "Competitor content already established"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "https://nexos.ai/blog/best-ai-productivity-tools/",
+        "https://thedigitalprojectmanager.com/best-ai-productivity-tools/",
+        "https://softwareadvice.com/productivity/software-comparison/"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Editorial review capacity",
+        "Content publishing pipeline"
+      ],
+      "expectedOutcome": "Publish 10-15 high-quality AI productivity roundups within 30 days, targeting 5K+ monthly organic traffic"
+    },
+    "brain_reasoning": "Real search data confirms competitors are capturing high-intent \"2026 AI productivity tools\" traffic. ViaFinds has unpublished draft inventory that can be activated with editorial review. This is a concrete, evidence-backed opportunity with measurable traffic potential.",
+    "strategy_id": "7b0aee52-f01a-47dc-be01-20e6ae85e717",
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "47c8b260-b546-4128-8e56-6609498d346f",
+    "title": "Publish 2026 AI Productivity Tool Roundups Targeting High-Intent Keywords",
+    "type": null,
+    "description": "ViaFinds has 45 draft articles and only 10 published articles. Competitors (Nexos AI, The Digital Project Manager, Software Advice) are actively ranking for \"2026 AI productivity tools\" keywords with comprehensive roundups. This represents an immediate traffic opportunity by processing and publishing existing drafts targeting high-intent commercial keywords.",
+    "evidence": {},
+    "source": "{\"url\":\"https://nexos.ai/blog/best-ai-productivity-tools/\",\"title\":\"Best AI productivity tools in 2026 (28 updated picks)\",\"snippet\":\"Nexos AI publishes updated 2026 roundup of 28 AI productivity tools with categories, pricing, and use cases.\",\"type\":\"search\",\"retrievedAt\":\"2026-09-26T05:33:11.982Z\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "strategy_created",
+    "created_at": "2026-09-26T05:33:20.297Z",
+    "updated_at": "2026-09-26T05:54:37.584Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "Brain Analysis",
+      "confidence": "High",
+      "observedFact": "ViaFinds has 45 draft articles and only 10 published articles in Phase 3.2.",
+      "brainInference": "High search interest for 2026 AI productivity tool roundups represents an immediate traffic opportunity that can be captured by processing and publishing existing drafts.",
+      "recommendation": "Execute human editorial review on the 45 queued drafts, focusing first on high-intent AI productivity roundups and comparison guides.",
+      "sourceMetadata": {
+        "url": "https://nexos.ai/blog/best-ai-productivity-tools/",
+        "type": "search",
+        "title": "Best AI productivity tools in 2026 (28 updated picks)",
+        "snippet": "Nexos AI publishes updated 2026 roundup of 28 AI productivity tools with categories, pricing, and use cases.",
+        "retrievedAt": "2026-09-26T05:33:11.982Z"
+      },
+      "externalEvidence": "Competitors like Nexos AI (https://nexos.ai/blog/best-ai-productivity-tools/) and The Digital Project Manager (https://thedigitalprojectmanager.com/best-ai-productivity-tools/) are actively ranking with titles such as \"Best AI productivity tools in 2026 (28 updated picks)\" and \"10 Best AI Productivity Tools Reviewed in 2026\".",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "Content may be outdated if drafts are old",
+        "Competitor content already established"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "https://nexos.ai/blog/best-ai-productivity-tools/",
+        "https://thedigitalprojectmanager.com/best-ai-productivity-tools/",
+        "https://softwareadvice.com/productivity/software-comparison/"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Editorial review capacity",
+        "Content publishing pipeline"
+      ],
+      "expectedOutcome": "Publish 10-15 high-quality AI productivity roundups within 30 days, targeting 5K+ monthly organic traffic"
+    },
+    "brain_reasoning": "Real search data confirms competitors are capturing high-intent \"2026 AI productivity tools\" traffic. ViaFinds has unpublished draft inventory that can be activated with editorial review. This is a concrete, evidence-backed opportunity with measurable traffic potential.",
+    "strategy_id": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "cdb8be68-fd17-4fad-ac1a-c4d425ba43e3",
+    "title": "Create a Creator-Focused Notion AI Alternatives Comparison Guide",
+    "type": "content",
+    "description": "ViaFinds can publish an affiliate-optimized review and comparison guide targeting creators searching for Notion AI alternatives and content repurposing tools in 2026. By reviewing niche creator tools alongside mainstream productivity SaaS, ViaFinds can capture high-intent creator traffic and convert it into affiliate commission.",
+    "evidence": {
+      "query": "Notion alternatives for creators 2026",
+      "source_ids": [
+        "src_5db97e3059ecdf5014de",
+        "src_9a75b3c45df143d37a85"
+      ],
+      "research_id": "51c531b5-3c51-4ff6-b7dc-744a1510cef5",
+      "retrieved_at": "2026-09-26T16:59:09.647Z",
+      "providers_used": [
+        "SerpAPI"
+      ],
+      "external_evidence": [
+        {
+          "claim": "Freedom Threads is framed as a top Notion AI alternative for creators that converts YouTube video content.",
+          "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+          "source_id": "src_5db97e3059ecdf5014de",
+          "quote_verified": true
+        },
+        {
+          "claim": "Coda, ClickUp, and Obsidian are key competitors in alternative tool comparisons.",
+          "quote": "Top 7 Notion alternatives: Quick comparison ; Coda, Structured team docs ; ClickUp, Project-heavy teams ; Obsidian, Personal knowledge systems.",
+          "source_id": "src_9a75b3c45df143d37a85",
+          "quote_verified": true
+        }
+      ]
+    },
+    "source": "[{\"source_id\":\"src_5db97e3059ecdf5014de\",\"url\":\"https://www.freedomthreads.ai/blog/best-notion-ai-alternatives\",\"title\":\"4 Best Notion AI Alternatives for Viral Content (2026)\",\"provider\":\"SerpAPI\",\"retrieved_at\":\"2026-09-26T16:59:09.647Z\"},{\"source_id\":\"src_9a75b3c45df143d37a85\",\"url\":\"https://www.hyperwriteai.com/articles/notion-alternatives\",\"title\":\"7 Best Notion Alternatives for Faster Work in 2026\",\"provider\":\"SerpAPI\",\"retrieved_at\":\"2026-09-26T16:59:09.648Z\"}]",
+    "confidence": "Low",
+    "potential_impact": "High",
+    "effort": "Medium",
+    "risk": "Traffic generated will not monetize directly via SaaS affiliate referrals.",
+    "recommended_action": "Publish an in-depth editorial comparison article comparing creator AI tools like Freedom Threads against traditional alternatives like ClickUp and Coda.",
+    "status": "detected",
+    "created_at": "2026-09-26T16:59:37.697Z",
+    "updated_at": "2026-09-26T16:59:37.697Z",
+    "category": "content",
+    "structured_observation": {
+      "source_ids": [
+        "src_5db97e3059ecdf5014de",
+        "src_9a75b3c45df143d37a85"
+      ],
+      "assumptions": [
+        {
+          "assumption": "Tools such as Freedom Threads, ClickUp, and Coda provide accessible, monetizable affiliate programs.",
+          "why_needed": "Essential for fulfilling ViaFinds' editorial affiliate revenue model.",
+          "risk_if_wrong": "Traffic generated will not monetize directly via SaaS affiliate referrals."
+        }
+      ],
+      "recommendation": [
+        {
+          "action": "Publish an in-depth editorial comparison article comparing creator AI tools like Freedom Threads against traditional alternatives like ClickUp and Coda.",
+          "rationale": "Directly leverages ViaFinds' editorial review model to generate affiliate monetization from SaaS content creators.",
+          "source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_9a75b3c45df143d37a85"
+          ]
+        }
+      ],
+      "brain_inference": [
+        {
+          "impact": "High",
+          "statement": "Creator-specific Notion AI alternative keywords offer higher conversion potential for affiliate revenue than broad enterprise tool roundups.",
+          "basis_source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_9a75b3c45df143d37a85"
+          ]
+        }
+      ],
+      "external_evidence": [
+        {
+          "claim": "Freedom Threads is framed as a top Notion AI alternative for creators that converts YouTube video content.",
+          "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+          "source_id": "src_5db97e3059ecdf5014de",
+          "quote_verified": true
+        },
+        {
+          "claim": "Coda, ClickUp, and Obsidian are key competitors in alternative tool comparisons.",
+          "quote": "Top 7 Notion alternatives: Quick comparison ; Coda, Structured team docs ; ClickUp, Project-heavy teams ; Obsidian, Personal knowledge systems.",
+          "source_id": "src_9a75b3c45df143d37a85",
+          "quote_verified": true
+        }
+      ],
+      "missing_information": []
+    },
+    "evaluation": {
+      "risks": [
+        "Traffic generated will not monetize directly via SaaS affiliate referrals."
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "src_5db97e3059ecdf5014de: Freedom Threads is framed as a top Notion AI alternative for creators that converts YouTube video content.",
+        "src_9a75b3c45df143d37a85: Coda, ClickUp, and Obsidian are key competitors in alternative tool comparisons."
+      ],
+      "confidence": "Low",
+      "dependencies": [
+        "Essential for fulfilling ViaFinds' editorial affiliate revenue model."
+      ],
+      "expectedOutcome": "Publish an in-depth editorial comparison article comparing creator AI tools like Freedom Threads against traditional alternatives like ClickUp and Coda.",
+      "confidence_score": 0.36
+    },
+    "brain_reasoning": "Derived from 2 externally verified claim(s) across 2 persisted source record(s). Research confidence from live provider(s) SerpAPI: low. Impact \"High\" is a brain inference, not an external measurement.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": "brain-1790441948279-39qmphk",
+    "research_id": "51c531b5-3c51-4ff6-b7dc-744a1510cef5",
+    "source_ids": [
+      "src_5db97e3059ecdf5014de",
+      "src_9a75b3c45df143d37a85"
+    ],
+    "assumptions": [
+      {
+        "assumption": "Tools such as Freedom Threads, ClickUp, and Coda provide accessible, monetizable affiliate programs.",
+        "why_needed": "Essential for fulfilling ViaFinds' editorial affiliate revenue model.",
+        "risk_if_wrong": "Traffic generated will not monetize directly via SaaS affiliate referrals."
+      }
+    ],
+    "evidence_classification": {
+      "source_ids": [
+        "src_5db97e3059ecdf5014de",
+        "src_9a75b3c45df143d37a85"
+      ],
+      "assumptions": [
+        {
+          "assumption": "Tools such as Freedom Threads, ClickUp, and Coda provide accessible, monetizable affiliate programs.",
+          "why_needed": "Essential for fulfilling ViaFinds' editorial affiliate revenue model.",
+          "risk_if_wrong": "Traffic generated will not monetize directly via SaaS affiliate referrals."
+        }
+      ],
+      "recommendation": [
+        {
+          "action": "Publish an in-depth editorial comparison article comparing creator AI tools like Freedom Threads against traditional alternatives like ClickUp and Coda.",
+          "rationale": "Directly leverages ViaFinds' editorial review model to generate affiliate monetization from SaaS content creators.",
+          "source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_9a75b3c45df143d37a85"
+          ]
+        }
+      ],
+      "brain_inference": [
+        {
+          "impact": "High",
+          "statement": "Creator-specific Notion AI alternative keywords offer higher conversion potential for affiliate revenue than broad enterprise tool roundups.",
+          "basis_source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_9a75b3c45df143d37a85"
+          ]
+        }
+      ],
+      "external_evidence": [
+        {
+          "claim": "Freedom Threads is framed as a top Notion AI alternative for creators that converts YouTube video content.",
+          "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+          "source_id": "src_5db97e3059ecdf5014de",
+          "quote_verified": true
+        },
+        {
+          "claim": "Coda, ClickUp, and Obsidian are key competitors in alternative tool comparisons.",
+          "quote": "Top 7 Notion alternatives: Quick comparison ; Coda, Structured team docs ; ClickUp, Project-heavy teams ; Obsidian, Personal knowledge systems.",
+          "source_id": "src_9a75b3c45df143d37a85",
+          "quote_verified": true
+        }
+      ],
+      "missing_information": []
+    },
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "title": "Creator-Focused Notion AI Alternatives Comparison Guide",
+    "type": "content",
+    "description": "ViaFinds can publish targeted editorial comparison content focused on creator-specific Notion AI alternatives that offer automated video repurposing and AI copywriting. This allows ViaFinds to capture high-intent search traffic from creators and monetize through SaaS affiliate links.",
+    "evidence": {
+      "query": "Notion alternatives for creators 2026",
+      "source_ids": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "research_id": "395b01a9-3617-4426-a753-941380701a7a",
+      "retrieved_at": "2026-09-26T17:10:53.643Z",
+      "providers_used": [
+        "SerpAPI"
+      ],
+      "external_evidence": [
+        {
+          "claim": "Freedom Threads is identified as a Notion AI alternative for creators that converts YouTube videos into copy.",
+          "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+          "source_id": "src_5db97e3059ecdf5014de",
+          "quote_verified": true
+        },
+        {
+          "claim": "Simplified is listed as a top Notion AI alternative in 2026.",
+          "quote": "Top 8 Available Notion AI Alternatives in 2026 · 1. Simplified",
+          "source_id": "src_672afa50833af62b82ec",
+          "quote_verified": true
+        }
+      ]
+    },
+    "source": "[{\"source_id\":\"src_5db97e3059ecdf5014de\",\"url\":\"https://www.freedomthreads.ai/blog/best-notion-ai-alternatives\",\"title\":\"4 Best Notion AI Alternatives for Viral Content (2026)\",\"provider\":\"SerpAPI\",\"retrieved_at\":\"2026-09-26T17:10:53.643Z\"},{\"source_id\":\"src_672afa50833af62b82ec\",\"url\":\"https://simplified.com/blog/ai-writing/notion-ai-alternatives\",\"title\":\"8 Free Notion AI Alternatives To Consider In 2026\",\"provider\":\"SerpAPI\",\"retrieved_at\":\"2026-09-26T17:10:53.646Z\"}]",
+    "confidence": "Low",
+    "potential_impact": "High",
+    "effort": "Medium",
+    "risk": "Low",
+    "recommended_action": "Produce an in-depth round-up and review article comparing Notion AI with niche creator tools like Freedom Threads and Simplified for content repurposing.",
+    "status": "executed",
+    "created_at": "2026-09-26T17:12:42.168Z",
+    "updated_at": "2026-09-27T04:10:58.903Z",
+    "category": "content",
+    "structured_observation": {
+      "source_ids": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "assumptions": [
+        {
+          "assumption": "Tools like Freedom Threads and Simplified maintain active affiliate programs accessible to publishers.",
+          "why_needed": "Affiliate programs are required to monetize organic editorial traffic effectively under ViaFinds' primary business model.",
+          "risk_if_wrong": "Monetization would rely solely on secondary channels like digital product cross-sells or display ads."
+        }
+      ],
+      "recommendation": [
+        {
+          "action": "Produce an in-depth round-up and review article comparing Notion AI with niche creator tools like Freedom Threads and Simplified for content repurposing.",
+          "rationale": "Capturing niche creator intent drives higher affiliate conversion rates than broad project management comparisons.",
+          "source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_672afa50833af62b82ec"
+          ]
+        }
+      ],
+      "brain_inference": [
+        {
+          "impact": "High",
+          "statement": "Creator workflows prioritizing automated content repurposing present a distinct keyword angle compared to general business doc software lists.",
+          "basis_source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_672afa50833af62b82ec"
+          ]
+        },
+        {
+          "impact": "High",
+          "statement": "Reviewing specialized viral content and AI writing tools directly aligns with ViaFinds' affiliate revenue model for SaaS and creator tools.",
+          "basis_source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_672afa50833af62b82ec"
+          ]
+        }
+      ],
+      "external_evidence": [
+        {
+          "claim": "Freedom Threads is identified as a Notion AI alternative for creators that converts YouTube videos into copy.",
+          "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+          "source_id": "src_5db97e3059ecdf5014de",
+          "quote_verified": true
+        },
+        {
+          "claim": "Simplified is listed as a top Notion AI alternative in 2026.",
+          "quote": "Top 8 Available Notion AI Alternatives in 2026 · 1. Simplified",
+          "source_id": "src_672afa50833af62b82ec",
+          "quote_verified": true
+        }
+      ],
+      "missing_information": []
+    },
+    "evaluation": {
+      "risks": [
+        "Monetization would rely solely on secondary channels like digital product cross-sells or display ads."
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "src_5db97e3059ecdf5014de: Freedom Threads is identified as a Notion AI alternative for creators that converts YouTube videos into copy.",
+        "src_672afa50833af62b82ec: Simplified is listed as a top Notion AI alternative in 2026."
+      ],
+      "confidence": "Low",
+      "dependencies": [
+        "Affiliate programs are required to monetize organic editorial traffic effectively under ViaFinds' primary business model."
+      ],
+      "expectedOutcome": "Produce an in-depth round-up and review article comparing Notion AI with niche creator tools like Freedom Threads and Simplified for content repurposing.",
+      "confidence_score": 0.36
+    },
+    "brain_reasoning": "Derived from 2 externally verified claim(s) across 2 persisted source record(s). Research confidence from live provider(s) SerpAPI: low. Impact \"High\" is a brain inference, not an external measurement.",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "provenance": "REAL",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "research_id": "395b01a9-3617-4426-a753-941380701a7a",
+    "source_ids": [
+      "src_5db97e3059ecdf5014de",
+      "src_672afa50833af62b82ec"
+    ],
+    "assumptions": [
+      {
+        "assumption": "Tools like Freedom Threads and Simplified maintain active affiliate programs accessible to publishers.",
+        "why_needed": "Affiliate programs are required to monetize organic editorial traffic effectively under ViaFinds' primary business model.",
+        "risk_if_wrong": "Monetization would rely solely on secondary channels like digital product cross-sells or display ads."
+      }
+    ],
+    "evidence_classification": {
+      "source_ids": [
+        "src_5db97e3059ecdf5014de",
+        "src_672afa50833af62b82ec"
+      ],
+      "assumptions": [
+        {
+          "assumption": "Tools like Freedom Threads and Simplified maintain active affiliate programs accessible to publishers.",
+          "why_needed": "Affiliate programs are required to monetize organic editorial traffic effectively under ViaFinds' primary business model.",
+          "risk_if_wrong": "Monetization would rely solely on secondary channels like digital product cross-sells or display ads."
+        }
+      ],
+      "recommendation": [
+        {
+          "action": "Produce an in-depth round-up and review article comparing Notion AI with niche creator tools like Freedom Threads and Simplified for content repurposing.",
+          "rationale": "Capturing niche creator intent drives higher affiliate conversion rates than broad project management comparisons.",
+          "source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_672afa50833af62b82ec"
+          ]
+        }
+      ],
+      "brain_inference": [
+        {
+          "impact": "High",
+          "statement": "Creator workflows prioritizing automated content repurposing present a distinct keyword angle compared to general business doc software lists.",
+          "basis_source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_672afa50833af62b82ec"
+          ]
+        },
+        {
+          "impact": "High",
+          "statement": "Reviewing specialized viral content and AI writing tools directly aligns with ViaFinds' affiliate revenue model for SaaS and creator tools.",
+          "basis_source_ids": [
+            "src_5db97e3059ecdf5014de",
+            "src_672afa50833af62b82ec"
+          ]
+        }
+      ],
+      "external_evidence": [
+        {
+          "claim": "Freedom Threads is identified as a Notion AI alternative for creators that converts YouTube videos into copy.",
+          "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+          "source_id": "src_5db97e3059ecdf5014de",
+          "quote_verified": true
+        },
+        {
+          "claim": "Simplified is listed as a top Notion AI alternative in 2026.",
+          "quote": "Top 8 Available Notion AI Alternatives in 2026 · 1. Simplified",
+          "source_id": "src_672afa50833af62b82ec",
+          "quote_verified": true
+        }
+      ],
+      "missing_information": []
+    },
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "1877e9df-68c6-4915-8a8d-e045cb16699c",
+    "title": "Evolution Test Opp",
+    "type": "content",
+    "description": "Test opportunity for evolution lifecycle",
+    "evidence": {},
+    "source": null,
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-10-01T13:05:31.475Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": null,
+    "structured_observation": {},
+    "evaluation": {},
+    "brain_reasoning": null,
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "TEST",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [
+      "src-test-1"
+    ],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": "CONTENT_OPPORTUNITY",
+    "evidence_strength": "SUPPORTED",
+    "evidence_refs": [],
+    "research_ids": [
+      "research-test-1"
+    ],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "852dbb09-493b-409d-b64c-e2315b276083",
+    "title": "Content Strategy: 'Routine-Based Recovery' Editorial Pillar",
+    "type": null,
+    "description": "High search interest exists around 'structured daily routines' and 'habit building' in recovery. We have 61 draft articles; these should be prioritized for development to capture this high-relevance intent.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery\",\"title\":\"The importance of a structured daily routine in recovery\",\"type\":\"search\",\"retrievedAt\":\"2026-10-06T21:58:45.090Z\",\"snippet\":\"A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:59:01.063Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "SerpAPI",
+      "confidence": "Medium",
+      "observedFact": "High density of external content linking 'structured daily routines' to 'sleep quality' and 'emotional stability' in recovery.",
+      "brainInference": "There is a clear content-market fit for wellness/recovery products that assist with routine tracking, providing a direct affiliate monetization angle.",
+      "recommendation": "Update editorial queue to prioritize 5-10 articles focused on 'Recovery Routines' and integrate affiliate links for planners, journals, or habit-tracking apps.",
+      "externalEvidence": "RobinRecovery.com reports: 'A steady routine helps regulate sleep patterns... which improves sleep quality and emotional stability.'",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "Competing with established recovery blogs"
+      ],
+      "effort": "Low",
+      "impact": "Medium",
+      "evidence": [
+        "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery"
+      ],
+      "confidence": "Medium",
+      "dependencies": [
+        "Human editorial approval"
+      ],
+      "expectedOutcome": "Generate high-intent traffic for recovery-themed affiliate products."
+    },
+    "brain_reasoning": "Leveraging existing research trends allows for strategic content alignment, increasing the likelihood of conversion for future affiliate products.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "0ade4ca9-4d34-42db-9427-a97992a7d0bd",
+    "title": "Enable Revenue Tracking for Affiliate Monetization",
+    "type": null,
+    "description": "Revenue tracking is currently NOT CONFIGURED, preventing the measurement of affiliate performance.",
+    "evidence": {},
+    "source": "{\"url\":\"internal_context\",\"title\":\"ViaFinds System Context\",\"type\":\"internal\",\"retrievedAt\":\"2026-10-06T21:59:48.752Z\",\"snippet\":\"revenue: { status: 'NOT CONFIGURED', connected: false }\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:59:58.305Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "revenue",
+    "structured_observation": {
+      "source": "Brain Analysis",
+      "confidence": "High",
+      "observedFact": "The system context explicitly states revenue status is 'NOT CONFIGURED' and 'connected: false'.",
+      "brainInference": "Even if content is published, the business model cannot function or be optimized without tracking mechanisms for affiliate commissions.",
+      "recommendation": "Configure internal revenue tracking and API integration to establish a baseline for affiliate performance data.",
+      "externalEvidence": "System context: revenue.status = 'NOT CONFIGURED'",
+      "opportunityCategory": "revenue"
+    },
+    "evaluation": {
+      "risks": [
+        "Potential for data mismatch if APIs aren't standardized"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "System Context: revenue section"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Technical setup of monetization tools"
+      ],
+      "expectedOutcome": "Visibility into earnings and performance-based content optimization."
+    },
+    "brain_reasoning": "Monetization is the primary business model. Without configured tracking, the current 61 draft articles cannot be effectively monetized or evaluated for ROI.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "ba53845b-bca9-41a1-b8c5-b03105a1cd46",
+    "title": "Establish Revenue Infrastructure",
+    "type": null,
+    "description": "ViaFinds currently has unconfigured revenue and affiliate tracking, rendering monetization impossible despite having 61 drafted articles.",
+    "evidence": {},
+    "source": "{\"url\":\"internal://system-context\",\"title\":\"ViaFinds System Context Analysis\",\"type\":\"internal\",\"retrievedAt\":\"2026-10-06T21:46:25.584Z\",\"snippet\":\"Revenue status NOT CONFIGURED; totalReferences 0\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:46:41.132Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "revenue",
+    "structured_observation": {
+      "source": "ViaFinds System Diagnostics",
+      "confidence": "High",
+      "observedFact": "Revenue and affiliate systems are reported as 'NOT CONFIGURED' and '0' references respectively.",
+      "brainInference": "The business model relies on affiliate monetization, yet the technical foundation is currently dormant. Enabling this is the highest priority 'blocking' task.",
+      "recommendation": "Initiate integration of primary affiliate partners (Amazon Associates, etc.) and configure tracking pixels/API hooks to map drafted content to monetization streams.",
+      "externalEvidence": "System context: 'revenue': {'status': 'NOT CONFIGURED', 'connected': false}, 'affiliates': {'totalReferences': 0}",
+      "opportunityCategory": "revenue"
+    },
+    "evaluation": {
+      "risks": [
+        "Potential for data leakage if incorrectly configured"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "System Context: revenue/affiliates status"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Human approval for third-party service connections"
+      ],
+      "expectedOutcome": "Conversion of 61 draft articles into revenue-generating assets."
+    },
+    "brain_reasoning": "Monetization cannot occur without plumbing. Since 61 articles exist as drafts, the revenue engine is the single point of failure.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "b2d970f5-c359-4e7a-973e-481129efb362",
+    "title": "Content Strategy: Recovery Routine Optimization",
+    "type": null,
+    "description": "High-intent search volume exists regarding 'routine' and 'structured recovery' which aligns perfectly with editorial content potential.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery\",\"title\":\"The importance of a structured daily routine in recovery\",\"type\":\"search\",\"retrievedAt\":\"2026-10-06T21:46:25.584Z\",\"snippet\":\"A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:46:41.432Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "SerpAPI / RobinRecovery",
+      "confidence": "Medium",
+      "observedFact": "Multiple authoritative sources define the necessity of 'structured daily routines' in addiction recovery for emotional stability.",
+      "brainInference": "ViaFinds can leverage its 61 drafted articles by focusing on 'Routine Planning' tools or digital habit trackers, which are high-value affiliate categories.",
+      "recommendation": "Review the 61 drafted articles for existing coverage of daily routines; if absent, update editorial roadmap to include 'Recovery Routine' templates as a core product.",
+      "externalEvidence": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "Subject matter sensitivity requires high accuracy"
+      ],
+      "effort": "Low",
+      "impact": "Medium",
+      "evidence": [
+        "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery"
+      ],
+      "confidence": "Medium",
+      "dependencies": [
+        "Human editorial approval for drafting/publishing"
+      ],
+      "expectedOutcome": "Targeted traffic for recovery-focused long-tail search queries."
+    },
+    "brain_reasoning": "The research highlights that 'routine' is a key pain point for the target demographic; ViaFinds' editorial-to-affiliate model is well-suited to provide solutions (products/guides) for this.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "b79ad292-c06b-467a-a1cc-06c286cff49a",
+    "title": "Establish Revenue Infrastructure",
+    "type": null,
+    "description": "ViaFinds current state shows revenue as 'NOT CONFIGURED' and 'connected: false'. Monetization cannot scale or be measured without integrating payment/affiliate tracking APIs.",
+    "evidence": {},
+    "source": "{\"url\":\"internal://system-context\",\"title\":\"ViaFinds System Context\",\"type\":\"internal\",\"retrievedAt\":\"2026-10-06T21:52:28.899Z\",\"snippet\":\"revenue: { status: NOT CONFIGURED, connected: false }\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:52:46.204Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "revenue",
+    "structured_observation": {
+      "source": "System Configuration Audit",
+      "confidence": "High",
+      "observedFact": "Revenue system status is 'NOT CONFIGURED' and integration is false.",
+      "brainInference": "The business model relies on affiliate and owned product monetization, which is currently non-functional due to lack of configuration.",
+      "recommendation": "Prioritize integration of Stripe or equivalent payment gateways and affiliate tracking software (e.g., Impact, PartnerStack) to enable Phase 3.2 operational goals.",
+      "externalEvidence": "Internal system context: 'revenue': {'status': 'NOT CONFIGURED', 'connected': false}",
+      "opportunityCategory": "revenue"
+    },
+    "evaluation": {
+      "risks": [
+        "Revenue leakage until resolved"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "System Context: Revenue/Integration status"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Technical setup"
+      ],
+      "expectedOutcome": "Enabled tracking and monetization capability."
+    },
+    "brain_reasoning": "Monetization is the primary business model. Without configured infrastructure, all editorial content traffic will result in zero revenue.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "c84bc66b-c9a8-4daa-a8b2-9956f81bbf40",
+    "title": "Content Strategy Alignment: Structured Recovery Routines",
+    "type": null,
+    "description": "Leverage research on the efficacy of 'structured routines' in recovery to inform the 61 drafted articles, as high-authority content emphasizes habit building and sleep regulation.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery\",\"title\":\"The importance of a structured daily routine in recovery\",\"type\":\"search\",\"retrievedAt\":\"2026-10-06T21:52:28.901Z\",\"snippet\":\"A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:52:46.530Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "SerpAPI Research",
+      "confidence": "Medium",
+      "observedFact": "Multiple authoritative sources highlight the necessity of structured routines (sleep, morning habits, pacing) for successful recovery.",
+      "brainInference": "Content creators should target keywords related to 'recovery routines' and 'sobriety productivity' to capture audience interest in evidence-backed daily habits.",
+      "recommendation": "Batch-edit the 61 drafted articles to include practical, routine-based frameworks that align with the identified high-performing niche of 'recovery structure'.",
+      "externalEvidence": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "Content requires human approval per Phase 3 constraints"
+      ],
+      "effort": "Low",
+      "impact": "Medium",
+      "evidence": [
+        "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery"
+      ],
+      "confidence": "Medium",
+      "dependencies": [
+        "Editorial workflow"
+      ],
+      "expectedOutcome": "Higher relevance score for organic traffic."
+    },
+    "brain_reasoning": "With 61 articles currently in draft, there is a significant opportunity to optimize the content focus toward identified high-interest search trends to improve organic visibility.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "691ef19e-a97e-4683-b697-3c372aa46ee9",
+    "title": "Establish Revenue Tracking Infrastructure",
+    "type": null,
+    "description": "ViaFinds is currently unable to track, measure, or optimize its business model due to the revenue module being 'NOT CONFIGURED'. This prevents any ROI analysis on content performance.",
+    "evidence": {},
+    "source": "{\"url\":\"internal://system-context\",\"title\":\"ViaFinds System Status Report\",\"type\":\"internal\",\"retrievedAt\":\"2026-10-06T21:54:05.243Z\",\"snippet\":\"revenue: { status: NOT CONFIGURED, connected: false }\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:54:21.063Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "revenue",
+    "structured_observation": {
+      "source": "Internal System Audit",
+      "confidence": "High",
+      "observedFact": "The revenue system is status 'NOT CONFIGURED' and connected is 'false'.",
+      "brainInference": "The business cannot validate if its 'Editorial content + affiliate monetization' model is working without data.",
+      "recommendation": "Prioritize the integration of an affiliate/revenue dashboard (e.g., Impact, PartnerStack, or GA4 conversion tracking) to enable data-driven editorial decisions.",
+      "externalEvidence": "System context: {'revenue': {'status': 'NOT CONFIGURED', 'connected': false}}",
+      "opportunityCategory": "revenue"
+    },
+    "evaluation": {
+      "risks": [
+        "Data discrepancy between providers"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "System Context: revenue section"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Technical integration"
+      ],
+      "expectedOutcome": "Visibility into effective conversion channels and actionable revenue data."
+    },
+    "brain_reasoning": "Monetization through affiliates requires attribution tracking. Without it, the business model is functionally broken.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "b792d298-d39f-4bb1-857a-71c92c427e27",
+    "title": "Content Strategy Gap: 'Recovery Routines' Pillar",
+    "type": null,
+    "description": "There is a significant density of search intent regarding 'structured routines' and 'recovery habits'. ViaFinds has 61 drafted articles that can be aligned with this high-relevance topic.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery\",\"title\":\"The importance of a structured daily routine in recovery\",\"type\":\"search\",\"retrievedAt\":\"2026-10-06T21:54:05.246Z\",\"snippet\":\"A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:54:21.336Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "SerpAPI Analysis",
+      "confidence": "Medium",
+      "observedFact": "Multiple authoritative sources define 'structured daily routines' as a core component of addiction recovery and emotional stability.",
+      "brainInference": "There is a clear content-market fit for providing 'Recovery Routine' templates or planners, which maps well to the 'owned digital products' revenue stream.",
+      "recommendation": "Review the 61 drafted articles to see if a subset can be curated into a 'Recovery Routine' content pillar, potentially supporting the future launch of a digital product like a 'Recovery Planner'.",
+      "externalEvidence": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "Over-saturation of content topics"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+        "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/"
+      ],
+      "confidence": "Medium",
+      "dependencies": [
+        "Human editorial approval"
+      ],
+      "expectedOutcome": "Increased organic search relevance for recovery-related queries and potential digital product funnel."
+    },
+    "brain_reasoning": "Existing content assets are unutilized. Aligning them with high-intent search results provides immediate value.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "31a64be2-050e-4661-9716-99d485847a92",
+    "title": "Configure Revenue Tracking for Affiliate Monetization",
+    "type": null,
+    "description": "The system lacks any revenue tracking or integration. Since the business model relies on affiliate links and owned products, revenue visibility is a foundational requirement for Phase 3 progression.",
+    "evidence": {},
+    "source": "{\"url\":\"internal://system-context\",\"title\":\"ViaFinds System Context\",\"type\":\"internal\",\"retrievedAt\":\"2026-10-06T21:58:45.090Z\",\"snippet\":\"revenue: { status: 'NOT CONFIGURED', connected: false }\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:59:00.795Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "revenue",
+    "structured_observation": {
+      "source": "System Context",
+      "confidence": "High",
+      "observedFact": "Revenue status is 'NOT CONFIGURED' and connected is 'false'.",
+      "brainInference": "The business model is currently paralyzed regarding its primary financial objective (monetization) due to missing infrastructure.",
+      "recommendation": "Prioritize integration of affiliate network APIs (e.g., Impact, PartnerStack) and a financial dashboard component to enable performance monitoring.",
+      "externalEvidence": "System context indicates 0 connected services and 0 revenue tracking capability.",
+      "opportunityCategory": "revenue"
+    },
+    "evaluation": {
+      "risks": [
+        "Potential for data silos if not integrated correctly"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "System Context: revenue.status = NOT CONFIGURED"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Technical configuration of integration services"
+      ],
+      "expectedOutcome": "Establish a baseline for tracking affiliate conversion and product sales."
+    },
+    "brain_reasoning": "Monetization cannot scale or be optimized if the system cannot verify or attribute incoming revenue to content efforts.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "f28e4f5f-6e2b-49eb-b389-2a6f9689c3ef",
+    "title": "Develop Content Pillar: Structured Daily Routines for Recovery",
+    "type": null,
+    "description": "High-intent search traffic exists for 'structured routines' and 'sobriety productivity'. Research shows these topics are high-authority content drivers.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery\",\"title\":\"The importance of a structured daily routine in recovery\",\"type\":\"search\",\"retrievedAt\":\"2026-10-06T21:59:48.752Z\",\"snippet\":\"A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "detected",
+    "created_at": "2026-10-06T21:59:58.719Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "Brain Analysis",
+      "confidence": "Medium",
+      "observedFact": "Multiple authoritative sources (RobinRecovery, BeachHouseRehab) emphasize the role of structured routines in emotional stability and sobriety.",
+      "brainInference": "There is a content gap for actionable, structured routines that ViaFinds can fill with affiliate-integrated guides.",
+      "recommendation": "Convert one of the 61 draft articles into a 'Daily Routine Planner for Recovery' to align with observed search trends.",
+      "externalEvidence": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "High competition in recovery niche"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery"
+      ],
+      "confidence": "Medium",
+      "dependencies": [
+        "Human editorial approval"
+      ],
+      "expectedOutcome": "Improved search visibility and relevance for health-conscious users."
+    },
+    "brain_reasoning": "The research query identified 'recovery' and 'routine' as key themes. Aligning content with these proven high-engagement topics maximizes the effectiveness of the 61 existing drafts.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "REAL",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "0eb354a6-5e86-4906-ab86-560af390893e",
+    "title": "Publish 2026 AI Productivity Tool Roundups Targeting High-Intent Keywords",
+    "type": null,
+    "description": "ViaFinds has 45 draft articles and only 10 published articles. Competitors (Nexos AI, The Digital Project Manager, Software Advice) are actively ranking for \"2026 AI productivity tools\" keywords with comprehensive roundups. This represents an immediate traffic opportunity by processing and publishing existing drafts targeting high-intent commercial keywords.",
+    "evidence": {},
+    "source": "{\"url\":\"https://nexos.ai/blog/best-ai-productivity-tools/\",\"title\":\"Best AI productivity tools in 2026 (28 updated picks)\",\"snippet\":\"Nexos AI publishes updated 2026 roundup of 28 AI productivity tools with categories, pricing, and use cases.\",\"type\":\"search\",\"retrievedAt\":\"2026-09-26T05:30:38.937Z\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-09-26T05:30:46.324Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "content",
+    "structured_observation": {
+      "source": "Brain Analysis",
+      "confidence": "High",
+      "observedFact": "ViaFinds has 45 draft articles and only 10 published articles in Phase 3.2.",
+      "brainInference": "High search interest for 2026 AI productivity tool roundups represents an immediate traffic opportunity that can be captured by processing and publishing existing drafts.",
+      "recommendation": "Execute human editorial review on the 45 queued drafts, focusing first on high-intent AI productivity roundups and comparison guides.",
+      "sourceMetadata": {
+        "url": "https://nexos.ai/blog/best-ai-productivity-tools/",
+        "type": "search",
+        "title": "Best AI productivity tools in 2026 (28 updated picks)",
+        "snippet": "Nexos AI publishes updated 2026 roundup of 28 AI productivity tools with categories, pricing, and use cases.",
+        "retrievedAt": "2026-09-26T05:30:38.937Z"
+      },
+      "externalEvidence": "Competitors like Nexos AI (https://nexos.ai/blog/best-ai-productivity-tools/) and The Digital Project Manager (https://thedigitalprojectmanager.com/best-ai-productivity-tools/) are actively ranking with titles such as \"Best AI productivity tools in 2026 (28 updated picks)\" and \"10 Best AI Productivity Tools Reviewed in 2026\".",
+      "opportunityCategory": "content"
+    },
+    "evaluation": {
+      "risks": [
+        "Content may be outdated if drafts are old",
+        "Competitor content already established"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "https://nexos.ai/blog/best-ai-productivity-tools/",
+        "https://thedigitalprojectmanager.com/best-ai-productivity-tools/",
+        "https://softwareadvice.com/productivity/software-comparison/"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Editorial review capacity",
+        "Content publishing pipeline"
+      ],
+      "expectedOutcome": "Publish 10-15 high-quality AI productivity roundups within 30 days, targeting 5K+ monthly organic traffic"
+    },
+    "brain_reasoning": "Real search data confirms competitors are capturing high-intent \"2026 AI productivity tools\" traffic. ViaFinds has unpublished draft inventory that can be activated with editorial review. This is a concrete, evidence-backed opportunity with measurable traffic potential.",
+    "strategy_id": "0dab0e7c-e618-49a3-b15f-800771beb5fe",
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "2eff2eb3-1b41-4b0a-8499-b0194b976352",
+    "title": "Transition Content Strategy to Generative Engine Optimization (GEO) and Conversational Search",
+    "type": null,
+    "description": "Adapt draft and published content frameworks from traditional keyword targeting to Generative Engine Optimization (GEO) and conversational structures to capture search visibility in AI discovery engines.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.nextbigcreative.com/beyond-the-algorithm-the-2026-digital-marketing-trends-your-business-cannot-afford-to-ignore/\",\"title\":\"The 2026 Digital Marketing Trends Your Business Cannot ...\",\"type\":\"trend\",\"retrievedAt\":\"2026-10-03T02:56:04.772Z\",\"snippet\":\"1. The Era of Generative Engine Optimization (GEO) · From “Keywords” to “Conversations” ; 2. Personalization Over Automation: Beating AI Fatigue.\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-10-03T02:56:55.905Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "seo_search",
+    "structured_observation": {
+      "source": "https://www.nextbigcreative.com/beyond-the-algorithm-the-2026-digital-marketing-trends-your-business-cannot-afford-to-ignore/",
+      "confidence": "High",
+      "observedFact": "ViaFinds has 16 published articles and 45 drafts created via automated content pipelines, while 2026 industry research highlights a major shift toward Generative Engine Optimization (GEO) and conversational search models over traditional keyword density.",
+      "brainInference": "Draft articles generated by standard automation pipelines risk low search visibility and reader fatigue if they rely on legacy keyword tactics rather than conversational, GEO-friendly answer blocks.",
+      "recommendation": "Update automation prompts and content templates to include Q&A sections, concise summary blocks, and conversational dialogue structures before publishing the 45 pending drafts.",
+      "externalEvidence": "NextBigCreative 2026 Trend Report states: '1. The Era of Generative Engine Optimization (GEO) · From “Keywords” to “Conversations” ; 2. Personalization Over Automation: Beating AI Fatigue.'",
+      "opportunityCategory": "seo_search"
+    },
+    "evaluation": {
+      "risks": [
+        "Slight delay in publishing queued draft jobs during prompt optimization"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "https://www.nextbigcreative.com/beyond-the-algorithm-the-2026-digital-marketing-trends-your-business-cannot-afford-to-ignore/"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Human approval for prompt/template updates",
+        "Automation pipeline job configuration"
+      ],
+      "expectedOutcome": "Improved indexing in AI discovery engines and higher reader engagement across all 61 articles."
+    },
+    "brain_reasoning": "ViaFinds relies on content traffic for affiliate and product conversions. Aligning content with 2026 GEO standards directly impacts organic discovery and traffic quality.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "4b41972b-8747-44c2-8d6a-5ca1290a1724",
+    "title": "Develop Specialized AI Workflow Digital Products to Resolve 'Zero Products' Gap",
+    "type": null,
+    "description": "Create tactical AI agent workflow playbooks to establish ViaFinds' owned digital product monetization pillar, avoiding generic consumer templates.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.startus-insights.com/innovators-guide/digital-transformation-trends/\",\"title\":\"Top 10 Digital Transformation Trends in 2026\",\"type\":\"trend\",\"retrievedAt\":\"2026-10-03T02:56:04.772Z\",\"snippet\":\"Digital transformation in 2026 is about rewiring how work gets done. AI agents, low-code platforms, cloud-edge architectures, and more move from ...\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-10-03T02:56:56.330Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "product",
+    "structured_observation": {
+      "source": "https://www.startus-insights.com/innovators-guide/digital-transformation-trends/",
+      "confidence": "High",
+      "observedFact": "ViaFinds context shows totalProducts is 0 despite 'owned digital products' being a core monetization pillar. Market research indicates strong enterprise/consumer demand for AI agent workflows alongside failure in generic digital downloads.",
+      "brainInference": "Creating standard digital planners will lead to poor conversion, whereas actionable digital guides focused on AI agents and workflow automation capitalize on verified market demand.",
+      "recommendation": "Package an 'AI Agent Workflow Playbook' as ViaFinds Product #1, offering step-by-step guides for automating business workflows.",
+      "externalEvidence": "StartUs Insights reports: 'Digital transformation in 2026 is about rewiring how work gets done. AI agents, low-code platforms...'. Reddit passive income research notes: 'I spent months making digital products that nobody wanted. Fitness planners. Budget trackers. Morning routine PDFs.'",
+      "opportunityCategory": "product"
+    },
+    "evaluation": {
+      "risks": [
+        "Requires accurate content curation to ensure actionable value"
+      ],
+      "effort": "Medium",
+      "impact": "High",
+      "evidence": [
+        "https://www.startus-insights.com/innovators-guide/digital-transformation-trends/",
+        "https://www.reddit.com/r/passive_income/comments/1tn47e6/before_making_any_new_digital_product_i_now_check/"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Human editorial approval",
+        "Product delivery setup in Next.js/Supabase"
+      ],
+      "expectedOutcome": "Initial product offering created, enabling non-affiliate direct digital product revenue."
+    },
+    "brain_reasoning": "ViaFinds currently relies entirely on content without any active products (totalProducts: 0). launching a specialized digital product unlocks a primary business model objective.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "e38ac16d-c89f-4afd-8995-a6d2d7bdfabe",
+    "title": "Configure Revenue Tracking and Analytics System Infrastructure",
+    "type": null,
+    "description": "Establish analytics tracking and revenue service integrations to enable performance monitoring and conversion measurement across articles and monetization channels.",
+    "evidence": {},
+    "source": "{\"url\":\"https://www.jumpfly.com/blog/ai-in-online-advertising-5-key-trends-from-may-2026/\",\"title\":\"AI in Online Advertising: 5 Key Trends from May 2026\",\"type\":\"analytics\",\"retrievedAt\":\"2026-10-03T02:56:04.772Z\",\"snippet\":\"1. Google Marketing Live 2026: Ads Move Inside the AI Conversation ; 2. OpenAI Opens Its Ad Platform: ChatGPT Is Now a Real Advertising Channel.\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-10-03T02:56:56.704Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "missing_capability",
+    "structured_observation": {
+      "source": "Internal System Context / https://www.jumpfly.com/blog/ai-in-online-advertising-5-key-trends-from-may-2026/",
+      "confidence": "High",
+      "observedFact": "System context diagnostics report analytics.status is 'NOT CONFIGURED' and revenue.status is 'NOT CONFIGURED' (connected: false).",
+      "brainInference": "ViaFinds is operating blindly without conversion, user behavior, or revenue attribution metrics, preventing optimized decision-making.",
+      "recommendation": "Configure analytics event tracking and connect revenue APIs (e.g., affiliate networks, Stripe) within the Next.js / Supabase backend.",
+      "externalEvidence": "Internal system state confirms 0 configured integration services out of 0 total services, while 2026 advertising research emphasizes shifting platform measurement models ('OpenAI Opens Its Ad Platform: ChatGPT Is Now a Real Advertising Channel').",
+      "opportunityCategory": "missing_capability"
+    },
+    "evaluation": {
+      "risks": [
+        "None; essential operational prerequisite"
+      ],
+      "effort": "Low",
+      "impact": "High",
+      "evidence": [
+        "Internal System Status: analytics.status = NOT CONFIGURED",
+        "Internal System Status: revenue.status = NOT CONFIGURED"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Developer/Human configuration of analytics tokens and keys"
+      ],
+      "expectedOutcome": "Full visibility into content performance, traffic sources, and conversion metrics."
+    },
+    "brain_reasoning": "Tracking revenue and visitor analytics is a foundational operational requirement for an editorial affiliate and product engine.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  },
+  {
+    "id": "cca1c3f3-ac50-494f-9365-b9dfcf59f033",
+    "title": "Inject Targeted AI and Digital Transformation Affiliate References into 45 Unbound Drafts",
+    "type": null,
+    "description": "Integrate affiliate tracking links and tool recommendations across the 45 draft articles prior to human approval and publishing.",
+    "evidence": {},
+    "source": "{\"url\":\"https://helionex.net/top-digital-transformation-trends-in-2026/\",\"title\":\"Top Digital Transformation Trends in 2026\",\"type\":\"trend\",\"retrievedAt\":\"2026-10-03T02:56:04.772Z\",\"snippet\":\"The top digital transformation trends in 2026 include AI-led transformation, agentic AI, cloud modernization, cyber security, automation, data-driven decision- ...\"}",
+    "confidence": null,
+    "potential_impact": null,
+    "effort": null,
+    "risk": null,
+    "recommended_action": null,
+    "status": "archived",
+    "created_at": "2026-10-03T02:56:57.099Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "category": "affiliate",
+    "structured_observation": {
+      "source": "https://helionex.net/top-digital-transformation-trends-in-2026/",
+      "confidence": "High",
+      "observedFact": "ViaFinds affiliates context indicates totalReferences is 0 across 61 total articles (45 drafts, 16 published). Research shows high market interest in AI-led transformation, cloud modernization, and automation tools.",
+      "brainInference": "Publishing draft articles without affiliate link references wastes existing editorial inventory and yields zero monetization upon publication.",
+      "recommendation": "Scan all 45 draft articles for software and AI tool mentions, automatically inserting approved affiliate tracking links before triggering Phase 3 human approval.",
+      "externalEvidence": "Helionex research states: 'The top digital transformation trends in 2026 include AI-led transformation, agentic AI, cloud modernization, cyber security, automation, data-driven decision- ...'",
+      "opportunityCategory": "affiliate"
+    },
+    "evaluation": {
+      "risks": [
+        "Links must remain relevant to avoid degraded editorial experience"
+      ],
+      "effort": "Low",
+      "impact": "Medium",
+      "evidence": [
+        "Internal Context: affiliates.totalReferences = 0",
+        "https://helionex.net/top-digital-transformation-trends-in-2026/"
+      ],
+      "confidence": "High",
+      "dependencies": [
+        "Affiliate partner program links",
+        "Human review during Phase 3 workflow"
+      ],
+      "expectedOutcome": "Immediate monetization coverage across all newly published articles."
+    },
+    "brain_reasoning": "Monetization via affiliate links is a primary business model objective. Zero affiliate references across 61 articles represents an uncapitalized asset.",
+    "strategy_id": null,
+    "execution_plan_id": null,
+    "provenance": "UNKNOWN",
+    "correlation_id": null,
+    "research_id": null,
+    "source_ids": [],
+    "assumptions": [],
+    "evidence_classification": {},
+    "opportunity_type": null,
+    "evidence_strength": null,
+    "evidence_refs": [],
+    "research_ids": [],
+    "article_ids": [],
+    "product_ids": [],
+    "strategy_ids": [],
+    "decision_ids": [],
+    "observed_signals": [],
+    "unknowns": [],
+    "unavailable_data": [],
+    "constraints": [],
+    "risks": [],
+    "potential_actions": [],
+    "success_conditions": [],
+    "failure_conditions": [],
+    "freshness": {},
+    "deduplication_key": null,
+    "parent_opportunity_id": null,
+    "version": 1,
+    "product_availability": null,
+    "validation_status": null
+  }
+]

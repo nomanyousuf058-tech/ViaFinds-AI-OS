@@ -26,6 +26,12 @@ function isAllowedAffiliateDomain(url: string): boolean {
 export class AutomationPipeline {
   private stopSignal = false
 
+  private getDs24Provider(apiKey: string): { discoverProducts(q: string, limit: number): Promise<Array<{ id: string; name: string }>>; validateProduct(id: string | number): Promise<{ id: string; name: string } | null> } | null {
+    if (!apiKey) return null
+    const { Digistore24Provider } = require('@/providers/affiliate/Digistore24Provider')
+    return new Digistore24Provider(apiKey) as unknown as { discoverProducts(q: string, limit: number): Promise<Array<{ id: string; name: string }>>; validateProduct(id: string | number): Promise<{ id: string; name: string } | null> }
+  }
+
   constructor() {}
 
   /**
@@ -122,7 +128,7 @@ export class AutomationPipeline {
       jobManager.setJobResult(jobId, { selectedProduct: product })
 
       // 2. Affiliate Analysis
-      const productCandidates = [{ productId: product.id || 123456, name: product.name, description: product.description || '' }]
+      const productCandidates = [{ productId: product.id || null, name: product.name, description: product.description || '' }]
       jobManager.setJobResult(jobId, { research: { productCandidates, category, topic } as Record<string, unknown> })
       const _affiliateDecision = await this.runAffiliateAnalysis(job)
       if (this.stopSignal) return this.cancelJob(job)
@@ -494,7 +500,11 @@ Focus specifically on finding a unique, high-quality product in or related to th
 
 Respond with JSON containing:
 - productName: the recommended product name
-- productId: a realistic product ID number
+- provider: the marketplace name (e.g. "digistore24")
+- searchTerms: array of search terms to find this product on the marketplace
+- productId: null (NEVER invent a product ID - the system resolves the real ID from the provider)
+- verified: false (NEVER claim a product is verified - the system verifies it separately)
+- evidence: array of sources or observations supporting the recommendation
 - category: product category
 - commissionRate: percentage (e.g., 50)
 - description: what the product does
@@ -504,94 +514,70 @@ Respond with JSON containing:
 - articleTypeReasoning: why this article type fits`
 
         const response = await aiRouter.route({
-          systemPrompt: `You are a marketplace analyst for ${partner}. Respond with valid JSON only.`,
+          systemPrompt: `You are a marketplace analyst for ${partner}. You recommend products but NEVER invent product IDs, affiliate IDs, or affiliate URLs. Respond with valid JSON only.`,
           userPrompt: discoveryPrompt,
           responseType: AIResponseType.JSON,
         })
         bestProduct = this.safeParseJson(response.content)
         logger.info('LLM product discovery succeeded', { productName: bestProduct.productName })
       } catch (discoveryErr) {
-        logger.warn('Auto partner product discovery failed via LLM, applying smart diverse fallback', { error: discoveryErr instanceof Error ? discoveryErr.message : String(discoveryErr) })
-        
-        // Curated list of diverse, high-converting digital products
-        const diverseProducts = [
-          { productName: 'Creator Funnel Builder', category: 'software', desc: 'A drag-and-drop sales funnel builder optimized for course creators and digital product sellers.' },
-          { productName: 'SaaS Analytics Suite', category: 'software', desc: 'Advanced retention and churn tracking metrics dashboard for bootstrapped SaaS founders.' },
-          { productName: 'Automated Email Marketing Pro', category: 'marketing', desc: 'Pre-built automation workflows and high-converting email templates for e-commerce.' },
-          { productName: 'Digital Asset Management Hub', category: 'productivity', desc: 'Cloud-based tagging and organization system for remote design teams.' },
-          { productName: 'AI Content Studio Pro', category: 'software', desc: 'An AI-powered content creation suite for digital marketers.' },
-          { productName: 'Mastering Facebook Ads Course', category: 'course', desc: 'Step-by-step video curriculum to scale ad campaigns profitably.' },
-          { productName: 'Freelance Copywriting Blueprint', category: 'ebook', desc: 'Comprehensive guide to landing high-ticket clients and writing copy that converts.' },
-          { productName: 'Ultimate Notion Productivity Template', category: 'template', desc: 'A fully integrated life and business management workspace built in Notion.' },
-          { productName: 'Membership Site Accelerator', category: 'membership', desc: 'Everything needed to launch and scale a recurring revenue membership community.' },
-          { productName: 'Fitness Coaching App Starter Kit', category: 'health', desc: 'White-label app templates for personal trainers to manage clients online.' }
-        ]
-
-        // Fetch existing titles to prevent duplicate fallback selection
-        const existingArticles = await articleRepository.findAllTitles();
-        const existingTitles = existingArticles.map(a => a.title.toLowerCase());
-
-        // Filter out any products we've already written about
-        const availableProducts = diverseProducts.filter(p => {
-          return !existingTitles.some(title => title.includes(p.productName.toLowerCase()));
-        });
-
-        if (availableProducts.length === 0) {
-           throw new Error('All fallback products have already been published. Please add more diverse products to the fallback list or fix the LLM provider.');
-        }
-
-        // Randomly select one of the available fresh products
-        const selected = availableProducts[Math.floor(Math.random() * availableProducts.length)];
-        
-        bestProduct = {
-          productName: selected.productName,
-          productId: Math.floor(100000 + Math.random() * 900000), // Random ID
-          category: selected.category,
-          commissionRate: 50,
-          description: selected.desc,
-          reasoning: 'Fallback product selected to ensure high quality and prevent duplicate content.',
-          estimatedMonthlySearches: 5000 + Math.floor(Math.random() * 5000),
-          articleType: 'review',
-          articleTypeReasoning: 'Reviews convert best for high-ticket digital products.',
-        }
-        
-        logger.info('Applied smart diverse fallback successfully', { selectedProduct: bestProduct.productName });
+        // LLM discovery failed. There is NO fallback product list — a
+        // fabricated product ID must never be substituted. The job
+        // fails closed instead of publishing with an invented product.
+        logger.error('Auto partner product discovery failed and no verified product is available', discoveryErr instanceof Error ? discoveryErr : new Error(String(discoveryErr)))
+        throw new Error('Product discovery failed: no verified product is available. Cannot continue without a real, verified Digistore24 product.')
       }
 
       const productName = bestProduct.productName as string || 'Digital Product'
-      const productId = bestProduct.productId as number || 999999
       const articleType = bestProduct.articleType as string || 'review'
 
       // Build the affiliate link — use dedicated env var for affiliate ID
       const apiKey = process.env.Digistore24_API_KEY || ''
-      const affiliateId = process.env.DIGISTORE24_AFFILIATE_ID || apiKey.split('-')[0] || 'AFFILIATE'
-      let affiliateUrl = ''
-      if (partner === 'digistore24') {
-        // Validate that the product is actually live before generating a hop-link
-        let validatedProductId = productId
-        try {
-          const { Digistore24Provider } = await import('@/providers/affiliate/Digistore24Provider')
-          const provider = new Digistore24Provider(apiKey)
-          const validated = await provider.validateProduct(productId)
-          if (validated) {
-            validatedProductId = Number(validated.id) || productId
-            logger.info('Digistore24 product validated as live', { productId: validatedProductId, name: validated.name })
-          } else {
-            logger.warn(`Digistore24 product ${productId} could not be validated as live — link may be dead`, { productId })
-            jobManager.addAuditEntry(job.id, {
-              action: 'product_validation_warning',
-              stage: 'discovered',
-              details: `Product ID ${productId} could not be validated as active on Digistore24. The generated link may point to an unavailable product.`,
-            })
-          }
-        } catch (valErr) {
-          logger.warn('Digistore24 product validation skipped due to error', { error: valErr instanceof Error ? valErr.message : String(valErr) })
-        }
-        // Correct Digistore24 hop-link format: https://www.digistore24.com/redir/PRODUCT_ID/AFFILIATE_ID
-        affiliateUrl = `https://www.digistore24.com/redir/${validatedProductId}/${affiliateId}`
-      } else {
-        affiliateUrl = `https://${partner}.com/product/${productId}?aff=${affiliateId}`
+      const affiliateId = process.env.DIGISTORE24_AFFILIATE_ID || apiKey.split('-')[0] || ''
+      if (!affiliateId) {
+        throw new Error('DIGISTORE24_AFFILIATE_ID is not configured. Cannot build a verified affiliate hop-link.')
       }
+
+      // HARD BLOCK: resolve a real product ID from the provider.
+      // The LLM is forbidden from supplying one; we search the
+      // marketplace by name and take the authoritative ID from the
+      // provider response. If the product cannot be found, STOP.
+      const { productVerification } = await import('@/lib/brain/productVerification')
+      const searchTerms: string[] = Array.isArray(bestProduct.searchTerms) ? (bestProduct.searchTerms as string[]) : [productName]
+      const provider = this.getDs24Provider(apiKey)
+      if (!provider) {
+        throw new Error('Digistore24 API key is not configured. Cannot verify a product.')
+      }
+
+      let resolvedProduct: Awaited<ReturnType<typeof productVerification.verifyProduct>> | null = null
+      for (const term of searchTerms) {
+        try {
+          const products = await provider.discoverProducts(term, 5)
+          const match = products.find((p) => p.name.toLowerCase().includes(productName.toLowerCase()))
+            || products.find((p) => productName.toLowerCase().includes(p.name.toLowerCase()))
+            || products[0]
+          if (match) {
+            resolvedProduct = await productVerification.verifyProduct(match.id)
+            break
+          }
+        } catch (searchErr) {
+          logger.warn(`Digistore24 product search failed for term "${term}"`, { error: searchErr instanceof Error ? searchErr.message : String(searchErr) })
+        }
+      }
+
+      if (!resolvedProduct || !resolvedProduct.verified) {
+        jobManager.addAuditEntry(job.id, {
+          action: 'product_unverified',
+          stage: 'discovered',
+          details: `No verified Digistore24 product found for "${productName}". Publication blocked.`,
+        })
+        throw new Error(`No verified Digistore24 product found for "${productName}". Cannot build an affiliate link. Publication blocked.`)
+      }
+
+      const verifiedProductId = resolvedProduct.productId
+      const affiliateUrl = `https://www.digistore24.com/redir/${verifiedProductId}/${affiliateId}`
+
+      logger.info('Digistore24 product verified from provider data', { productId: verifiedProductId, name: resolvedProduct.productName })
 
       jobManager.setJobResult(jobId, {
         partnerDiscovery: bestProduct,
@@ -1672,33 +1658,41 @@ Return the refined HTML directly.`
       confidence = 'high'
       dataAvailable = true
       
-      const candidate = productCandidates[0] as { productId?: number }
-      let productId = candidate?.productId || Math.floor(Math.random() * 100000) + 100000
+      const candidate = productCandidates[0] as { productId?: string | number | null; name?: string }
 
-      // Validate that the product is live before generating the hop-link
-      if (apiKey) {
-        try {
-          const { Digistore24Provider } = await import('@/providers/affiliate/Digistore24Provider')
-          const provider = new Digistore24Provider(apiKey)
-          const validated = await provider.validateProduct(productId)
-          if (validated) {
-            productId = Number(validated.id) || productId
-            logger.info('Affiliate analysis: Digistore24 product validated as live', { productId })
-          } else {
-            logger.warn(`Affiliate analysis: Digistore24 product ${productId} is inactive or not found`)
-            jobManager.addAuditEntry(job.id, {
-              action: 'affiliate_product_inactive',
-              stage: 'affiliate_analysis',
-              details: `Product ID ${productId} is inactive or not found on Digistore24. Link may be dead.`,
-            })
-          }
-        } catch (valErr) {
-          logger.warn('Digistore24 product validation skipped in affiliate analysis', { error: valErr instanceof Error ? valErr.message : String(valErr) })
+      // HARD BLOCK: a product ID may only come from verified provider
+      // data. We never invent one, never fall back to a random number,
+      // and never continue if the product cannot be verified.
+      const { productVerification } = await import('@/lib/brain/productVerification')
+      let verifiedProductId: string | null = null
+      let verifiedProductName: string | null = null
+
+      if (candidate?.productId) {
+        const verification = await productVerification.verifyProduct(candidate.productId)
+        if (verification.verified) {
+          verifiedProductId = verification.productId
+          verifiedProductName = verification.productName
+          logger.info('Affiliate analysis: Digistore24 product verified as live', { productId: verifiedProductId })
+        } else {
+          logger.error(`Affiliate analysis: Digistore24 product ${candidate.productId} is inactive or not found — publication blocked`, undefined, { reason: verification.reason })
+          jobManager.addAuditEntry(job.id, {
+            action: 'affiliate_product_inactive',
+            stage: 'affiliate_analysis',
+            details: `Product ID ${candidate.productId} is inactive or not found on Digistore24. Publication blocked.`,
+          })
+          throw new Error(`Product verification failed: ${verification.reason}`)
         }
+      } else {
+        throw new Error('Product candidate has no product ID. Only verified provider product IDs are permitted. Publication blocked.')
+      }
+
+      const affiliateId = process.env.DIGISTORE24_AFFILIATE_ID || apiKey.split('-')[0] || ''
+      if (!affiliateId) {
+        throw new Error('DIGISTORE24_AFFILIATE_ID is not configured. Cannot build a verified affiliate hop-link.')
       }
 
       // Correct Digistore24 hop-link format (no /AUTO suffix)
-      affiliateUrl = `https://www.digistore24.com/redir/${productId}/${affiliateId}`
+      affiliateUrl = `https://www.digistore24.com/redir/${verifiedProductId}/${affiliateId}`
       commissionInfo = 'Commission verified via Digistore24'
     } else if (configuredAffiliateProviders.length > 0) {
       recommendedPartner = configuredAffiliateProviders[0]
@@ -1809,6 +1803,32 @@ Return the refined HTML directly.`
       const partnerImage = (job.result?.productInfo as Record<string, unknown>)?.scrapedProductImage as string || undefined;
       const imageUrl = await aiRouter.routeImage(`${draft.title} ${draft.category || 'product'}`, partnerImage);
 
+      // HARD BLOCK: a required cover image must be present and valid.
+      // Image generation failure, provider unavailability, or a null /
+      // placeholder URL all terminate publication.
+      if (!imageUrl || typeof imageUrl !== 'string' || imageUrl.trim() === '') {
+        throw new Error('Cover image generation failed: no image URL was produced. Publication blocked.')
+      }
+      try {
+        const parsed = new URL(imageUrl)
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+          throw new Error(`Invalid image URL protocol: ${parsed.protocol}`)
+        }
+      } catch {
+        throw new Error(`Invalid image URL: ${imageUrl}`)
+      }
+
+      // HARD BLOCK: every article with a brain lineage must reference a
+      // VERIFIED affiliate link. A raw URL in the article row is not
+      // sufficient — the link must exist in affiliate_links with
+      // verification_status = 'verified'.
+      const traceability = job.result as Record<string, unknown>
+      const hasLineage = !!(traceability.brainTaskId || traceability.strategyId || traceability.opportunityId)
+      const articleAffiliateUrl = affiliateDecision.affiliateUrl || null
+      const verifiedLink = hasLineage && articleAffiliateUrl
+        ? await this.resolveVerifiedAffiliateLink(job.id, articleAffiliateUrl, traceability)
+        : null
+
       const article = await articleRepository.create({
         title: draft.title,
         slug: draft.slug,
@@ -1830,11 +1850,12 @@ Return the refined HTML directly.`
         automation_job_id: job.id,
         strategy_id: job.result?.strategyId as string || null,
         opportunity_id: job.result?.opportunityId as string || null,
-        affiliate_url: affiliateDecision.affiliateUrl || null,
-        // An article carrying a full brain lineage was produced by a live,
-        // approved execution. Anything without that lineage is UNKNOWN: its
-        // origin cannot be proven, so it must not be counted as production.
-        provenance: job.result?.brainTaskId ? 'REAL' : 'UNKNOWN',
+        affiliate_url: articleAffiliateUrl,
+        affiliate_link_id: verifiedLink?.linkId || null,
+        // REAL requires verified business evidence. Without a verified
+        // affiliate link (for product/affiliate content) the article is
+        // UNKNOWN and must not be counted as production.
+        provenance: hasLineage && verifiedLink ? 'REAL' : 'UNKNOWN',
       })
 
       if (!article) {
@@ -1875,6 +1896,64 @@ Return the refined HTML directly.`
   private cancelJob(job: AutomationJob): AutomationJob | null {
     jobManager.cancelJob(job.id)
     return jobManager.getJob(job.id)
+  }
+
+  /**
+   * Resolve an article's affiliate URL to a VERIFIED affiliate_links row.
+   * Returns the verified row, or throws if the link cannot be verified.
+   * A raw URL in the article row is never sufficient on its own.
+   */
+  private async resolveVerifiedAffiliateLink(
+    jobId: string,
+    destinationUrl: string,
+    traceability: { brainTaskId?: string; strategyId?: string; opportunityId?: string }
+  ): Promise<{ linkId: string; shortCode: string; destinationUrl: string } | null> {
+    const { productVerification } = await import('@/lib/brain/productVerification')
+    const verification = await productVerification.verifyAffiliateUrl(destinationUrl)
+    if (!verification.verified) {
+      jobManager.addAuditEntry(jobId, {
+        action: 'affiliate_link_unverified',
+        stage: 'publishing',
+        details: `Affiliate link could not be verified: ${verification.reason}. Publication blocked.`,
+      })
+      throw new Error(`Affiliate link verification failed: ${verification.reason}. Publication blocked.`)
+    }
+
+    const { affiliateRepository } = await import('@/lib/db/repositories/affiliate')
+    const existing = await affiliateRepository.findLinkByDestination(destinationUrl)
+    if (existing) {
+      if (existing.verification_status !== 'verified') {
+        await affiliateRepository.setVerification(
+          existing.id,
+          'verified',
+          null,
+          { ...verification.evidence, resolvedAt: new Date().toISOString() },
+          'product_verification_engine'
+        )
+      }
+      return { linkId: existing.id, shortCode: existing.short_code, destinationUrl: existing.destination_url }
+    }
+
+    // Create + verify the link row so the DB trigger can enforce the
+    // verified-affiliate-link publication gate.
+    const shortCode = `vf_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
+    const created = await affiliateRepository.createLink({
+      network: verification.network,
+      destinationUrl: verification.destinationUrl,
+      productId: verification.productId ?? undefined,
+      shortCode,
+    })
+    if (!created) {
+      throw new Error('Failed to persist verified affiliate link. Publication blocked.')
+    }
+    await affiliateRepository.setVerification(
+      created.id,
+      'verified',
+      null,
+      { ...verification.evidence, resolvedAt: new Date().toISOString() },
+      'product_verification_engine'
+    )
+    return { linkId: created.id, shortCode: created.short_code, destinationUrl: created.destination_url }
   }
 
   /**

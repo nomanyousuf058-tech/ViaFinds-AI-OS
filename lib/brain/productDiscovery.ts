@@ -8,15 +8,16 @@ import {
   generateCorrelationId,
   makeCostDecision,
 } from './types';
+import { productVerification } from './productVerification';
 
 /** Product Discovery Engine - Finds and validates digital products */
 export class ProductDiscoveryEngine {
   private correlationId: string;
-  
+
   constructor(correlationId?: string) {
     this.correlationId = correlationId || generateCorrelationId();
   }
-  
+
   async discoverProducts(
     opportunity: BrainOpportunity,
     context: Partial<BrainContext>
@@ -57,10 +58,38 @@ export class ProductDiscoveryEngine {
   }
   
   async validateProduct(productId: string): Promise<ProductDiscoveryResult | null> {
-    // The repository doesn't have getProductDiscoveryById or updateProductDiscovery
-    // This would need new repository methods
-    console.warn('validateProduct not fully implemented - missing repository methods');
-    return null;
+    // ONE authoritative verification path. This is a thin compatibility
+    // wrapper over productVerification.ts — the single engine that
+    // resolves a product ID against the live Digistore24 provider.
+    // The previous stub returned null unconditionally, which let an
+    // unverified product flow through publication.
+    const result = await productVerification.verifyProduct(productId)
+    if (!result.verified) return null
+    return {
+      id: result.productId,
+      opportunityId: '',
+      productName: result.productName,
+      productType: 'course',
+      sourceUrl: '',
+      platform: result.provider,
+      price: (result.evidence.price as number) || 0,
+      commissionRate: (result.evidence.commission as number) || 0,
+      gravity: undefined,
+      rating: undefined,
+      reviewCount: undefined,
+      keywords: [],
+      trafficEstimate: undefined,
+      competitionLevel: undefined,
+      affiliateProgram: result.provider,
+      validationStatus: 'validated',
+      validationEvidence: result.evidence,
+      recommendedAction: 'promote',
+      existingProducts: [],
+      partnerAvailability: [{ network: result.provider, available: true, credentialsConfigured: true, productsFound: 1 }],
+      alternativeNetworks: [],
+      manualFallbackNeeded: false,
+      evaluation: { fit: 'High', reasoning: 'Verified against live Digistore24 provider', recommendedAction: 'partner_integration' },
+    }
   }
   
   private async runValidationChecks(product: ProductDiscoveryResult): Promise<{ status: string; evidence: any }> {

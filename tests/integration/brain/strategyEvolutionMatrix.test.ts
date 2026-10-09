@@ -35,7 +35,7 @@ describe('Phase 5.5 Acceptance Matrix Verification', () => {
   async function createTestStrategy(prov: string = 'TEST', createdAtOffsetMs: number = 0) {
     return brainRepo.createStrategyV2({
       title: 'Matrix Test Strategy', type: 'CONTENT_STRATEGY', objective: 'Matrix verification',
-      status: 'ACTIVE', description: 'Matrix', rationale: 'Matrix',
+      status: 'active', description: 'Matrix', rationale: 'Matrix',
       evidence: { test: true }, evidenceRefs: [], assumptions: [], unknowns: [],
       unavailableData: [], risks: [], constraints: [], expectedObservations: [],
       successConditions: [], failureConditions: [], opportunityIds: ['opp-matrix-1'],
@@ -347,7 +347,7 @@ describe('Phase 5.5 Acceptance Matrix Verification', () => {
       
       const v1Check = await getPool().query('SELECT * FROM brain_strategies WHERE id = $1', [v1!.id])
       expect(v1Check.rows[0].version).toBe(1)
-      expect(v1Check.rows[0].status).toBe('ACTIVE')
+      expect(v1Check.rows[0].status).toBe('active')
     }, 15000)
     
     it('RETIRE integration lifecycle', async () => {
@@ -401,7 +401,7 @@ describe('Phase 5.5 Acceptance Matrix Verification', () => {
       
       const v1Check = await getPool().query('SELECT * FROM brain_strategies WHERE id = $1', [v1!.id])
       expect(v1Check.rows[0].version).toBe(1)
-      expect(v1Check.rows[0].status).toBe('ACTIVE')
+      expect(v1Check.rows[0].status).toBe('active')
     }, 15000)
   })
 })

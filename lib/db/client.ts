@@ -32,9 +32,24 @@ let pool: Pool | null = null
  * DB_POOL_MAX when a direct (non-pooler) connection is used.
  */
 function resolveMaxClients(): number {
-  const configured = Number(process.env.DB_POOL_MAX);
-  if (Number.isFinite(configured) && configured > 0) return Math.floor(configured);
-  return 4;
+  const configured = Number(process.env.DB_POOL_MAX)
+  if (Number.isFinite(configured) && configured > 0) return Math.floor(configured)
+  // Conservative production default. The managed Supabase session pooler
+  // is capped at 15 simultaneous client connections shared by every
+  // process that talks to the database (Next.js server, build workers,
+  // cron, CLI scripts). A per-process pool of 2 keeps the total well
+  // under that cap even when several processes run at once. This is
+  // NOT a timeout increase — it is a connection-budget reduction.
+  return 2
+}
+
+function resolveConnectionTimeoutMillis(): number {
+  const configured = Number(process.env.DB_CONNECTION_TIMEOUT_MS)
+  if (Number.isFinite(configured) && configured > 0) return Math.floor(configured)
+  // Fail fast on a saturated pooler instead of hanging for 10s. A
+  // 5s timeout surfaces the failure to the caller immediately so it can
+  // retry or degrade, rather than turning every request into a hang.
+  return 5000
 }
 
 function resolveConfig(): DbConfig {
@@ -49,7 +64,7 @@ function resolveConfig(): DbConfig {
       user: url.username,
       password: url.password,
       ssl: process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false }),
-      connectionTimeoutMillis: 10000,
+      connectionTimeoutMillis: resolveConnectionTimeoutMillis(),
       idleTimeoutMillis: 30000,
       max: resolveMaxClients(),
     }
@@ -63,7 +78,7 @@ function resolveConfig(): DbConfig {
   const isLocal = host === 'localhost' || host === '127.0.0.1'
   const ssl = process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false })
 
-  return { host, port, database, user, password, ssl, connectionTimeoutMillis: 10000, idleTimeoutMillis: 30000, max: resolveMaxClients() }
+  return { host, port, database, user, password, ssl, connectionTimeoutMillis: resolveConnectionTimeoutMillis(), idleTimeoutMillis: 30000, max: resolveMaxClients() }
 }
 
 export function getPool(): Pool {
@@ -75,6 +90,17 @@ export function getPool(): Pool {
     })
   }
   return pool
+}
+
+export function isPoolInitialized(): boolean {
+  return pool !== null
+}
+
+export function resetPoolForTesting(): void {
+  if (pool) {
+    void pool.end().catch(() => {})
+  }
+  pool = null
 }
 
 export function getConnectionDiagnostics(): ConnectionDiagnostics {

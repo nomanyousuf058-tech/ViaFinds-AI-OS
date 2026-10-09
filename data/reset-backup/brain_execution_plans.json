@@ -1,0 +1,627 @@
+[
+  {
+    "id": "a153e91c-056d-450c-ad4e-cf479dd24f87",
+    "task_id": null,
+    "strategy_id": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+    "execution_type": "content_generation",
+    "target": null,
+    "inputs": {},
+    "expected_output": null,
+    "quality_requirements": [],
+    "rollback_plan": "Manual rollback via automation dashboard",
+    "status": "approved",
+    "automation_job_id": null,
+    "created_at": "2026-09-26T05:33:27.671Z",
+    "updated_at": "2026-09-26T05:33:32.124Z",
+    "opportunity_id": "47c8b260-b546-4128-8e56-6609498d346f",
+    "objective": "Execution plan for Content Activation Strategy: 2026 AI Productivity Tool Roundups",
+    "actions": [
+      {
+        "id": "action-1",
+        "type": "CONTENT_CREATE",
+        "status": "pending",
+        "permission": "PROPOSE",
+        "description": "Generate first comparison article: \"Best AI Productivity Tools for Creators 2026\"",
+        "dependencies": [],
+        "estimatedCost": 0.01,
+        "automationType": "content_generation",
+        "validationRules": [
+          "content_quality_check",
+          "seo_validation",
+          "affiliate_link_validation"
+        ],
+        "automationParams": {
+          "topic": "Best AI Productivity Tools for Creators 2026",
+          "category": "software",
+          "strategyId": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+          "brainActionId": "action-1",
+          "opportunityId": "47c8b260-b546-4128-8e56-6609498d346f",
+          "brainCorrelationId": "brain-1790400791982-0e5jizl"
+        },
+        "requiresApproval": true
+      },
+      {
+        "id": "action-2",
+        "type": "AFFILIATE_INTEGRATION",
+        "status": "pending",
+        "permission": "MODIFY",
+        "description": "Integrate Digistore24 affiliate links for recommended tools",
+        "dependencies": [
+          "action-1"
+        ],
+        "estimatedCost": 0.001,
+        "automationType": "affiliate_integration",
+        "validationRules": [
+          "affiliate_link_validation"
+        ],
+        "automationParams": {
+          "strategyId": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+          "brainActionId": "action-2",
+          "opportunityId": "47c8b260-b546-4128-8e56-6609498d346f",
+          "brainCorrelationId": "brain-1790400791982-0e5jizl"
+        },
+        "requiresApproval": true
+      },
+      {
+        "id": "action-3",
+        "type": "CONTENT_PUBLISH",
+        "status": "pending",
+        "permission": "PUBLISH",
+        "description": "Publish article to CMS with SEO metadata and schema",
+        "dependencies": [
+          "action-1",
+          "action-2"
+        ],
+        "estimatedCost": 0.001,
+        "automationType": "content_publishing",
+        "validationRules": [
+          "seo_validation",
+          "schema_validation"
+        ],
+        "automationParams": {
+          "strategyId": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+          "brainActionId": "action-3",
+          "opportunityId": "47c8b260-b546-4128-8e56-6609498d346f",
+          "brainCorrelationId": "brain-1790400791982-0e5jizl"
+        },
+        "requiresApproval": true
+      }
+    ],
+    "required_permissions": [
+      "PROPOSE",
+      "MODIFY",
+      "PUBLISH"
+    ],
+    "evidence": [],
+    "expected_outcome": "15 published articles, 50+ keyword rankings, 5K+ monthly sessions, $500+ monthly affiliate revenue",
+    "verification_plan": "Quality gate + verification loop",
+    "correlation_id": "brain-1790400791982-0e5jizl",
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "REAL",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "e827ccf4-0676-428c-b7f0-e0246ecd38fb",
+    "task_id": "bbde583e-32b0-47f4-aa16-67c5301c0671",
+    "strategy_id": null,
+    "execution_type": "CREATE_ARTICLE",
+    "target": "Existing Automation Pipeline",
+    "inputs": {
+      "topic": "Phase 3.1 Test Software Review",
+      "category": "software"
+    },
+    "expected_output": null,
+    "quality_requirements": [],
+    "rollback_plan": null,
+    "status": "failed",
+    "automation_job_id": "job_1790267907815_x52n120",
+    "created_at": "2026-09-24T16:38:29.468Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": null,
+    "objective": null,
+    "actions": [],
+    "required_permissions": [],
+    "evidence": [],
+    "expected_outcome": null,
+    "verification_plan": null,
+    "correlation_id": null,
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "ca8e6948-373e-427c-b9d4-198f7d7960d6",
+    "task_id": "83908500-8f94-4e60-b656-0ddeccd1e0bb",
+    "strategy_id": null,
+    "execution_type": "CREATE_ARTICLE",
+    "target": "Pipeline",
+    "inputs": {
+      "topic": "Test"
+    },
+    "expected_output": "Article",
+    "quality_requirements": [],
+    "rollback_plan": null,
+    "status": "failed",
+    "automation_job_id": "c4a78a17-f792-4251-aa69-8e9ed5ca79d1",
+    "created_at": "2026-09-24T16:42:57.178Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": null,
+    "objective": null,
+    "actions": [],
+    "required_permissions": [],
+    "evidence": [],
+    "expected_outcome": null,
+    "verification_plan": null,
+    "correlation_id": null,
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "509cac39-03b4-45ef-a0c8-3977ceb5edc2",
+    "task_id": "2c7aa74e-f1d9-40ce-9036-c212ea9f9586",
+    "strategy_id": null,
+    "execution_type": "CREATE_ARTICLE",
+    "target": "Pipeline",
+    "inputs": {
+      "topic": "Test"
+    },
+    "expected_output": "Article",
+    "quality_requirements": [],
+    "rollback_plan": null,
+    "status": "failed",
+    "automation_job_id": "2b2e2d9d-66e5-4bef-a259-2d568ac31720",
+    "created_at": "2026-09-24T16:43:02.429Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": null,
+    "objective": null,
+    "actions": [],
+    "required_permissions": [],
+    "evidence": [],
+    "expected_outcome": null,
+    "verification_plan": null,
+    "correlation_id": null,
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "c9a824d5-fbd4-4492-a395-5432da629212",
+    "task_id": "a07718dd-07c2-4599-9800-f81ca52fe278",
+    "strategy_id": null,
+    "execution_type": "CREATE_ARTICLE",
+    "target": "Pipeline",
+    "inputs": {
+      "topic": "Dup"
+    },
+    "expected_output": "Article",
+    "quality_requirements": [],
+    "rollback_plan": null,
+    "status": "failed",
+    "automation_job_id": "b1f69ca1-00e8-4fbd-8d5f-4c274b600e34",
+    "created_at": "2026-09-24T16:43:13.268Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": null,
+    "objective": null,
+    "actions": [],
+    "required_permissions": [],
+    "evidence": [],
+    "expected_outcome": null,
+    "verification_plan": null,
+    "correlation_id": null,
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "f2c402a8-dfe9-4bc6-bff4-9915cc5dbd9a",
+    "task_id": "b4b26136-d378-410a-b5c3-2f02854bb640",
+    "strategy_id": null,
+    "execution_type": "CREATE_ARTICLE",
+    "target": "Pipeline",
+    "inputs": {
+      "topic": "Test"
+    },
+    "expected_output": "Article",
+    "quality_requirements": [],
+    "rollback_plan": null,
+    "status": "failed",
+    "automation_job_id": "045d812f-dfb8-4246-b6c8-41b66734dd24",
+    "created_at": "2026-09-24T17:04:27.130Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": null,
+    "objective": null,
+    "actions": [],
+    "required_permissions": [],
+    "evidence": [],
+    "expected_outcome": null,
+    "verification_plan": null,
+    "correlation_id": null,
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "08c4e44f-a764-4f08-90e6-eca699e26a21",
+    "task_id": "15f252ef-1e64-4117-aa5c-5acfa3960029",
+    "strategy_id": null,
+    "execution_type": "CREATE_ARTICLE",
+    "target": "Pipeline",
+    "inputs": {
+      "topic": "Test"
+    },
+    "expected_output": "Article",
+    "quality_requirements": [],
+    "rollback_plan": null,
+    "status": "failed",
+    "automation_job_id": "97cf80d6-6de6-4c1c-86d0-72988fad60e3",
+    "created_at": "2026-09-24T17:04:30.997Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": null,
+    "objective": null,
+    "actions": [],
+    "required_permissions": [],
+    "evidence": [],
+    "expected_outcome": null,
+    "verification_plan": null,
+    "correlation_id": null,
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "7e0f0da4-f717-4cb7-96ea-352fc5e23900",
+    "task_id": "80befb92-c7a4-4cbf-b732-196f99875aac",
+    "strategy_id": null,
+    "execution_type": "CREATE_ARTICLE",
+    "target": "Pipeline",
+    "inputs": {
+      "topic": "Dup"
+    },
+    "expected_output": "Article",
+    "quality_requirements": [],
+    "rollback_plan": null,
+    "status": "failed",
+    "automation_job_id": "697197ca-fcf8-456e-bb88-47a5213a2f4e",
+    "created_at": "2026-09-24T17:04:40.333Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": null,
+    "objective": null,
+    "actions": [],
+    "required_permissions": [],
+    "evidence": [],
+    "expected_outcome": null,
+    "verification_plan": null,
+    "correlation_id": null,
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "8db133fc-d753-4d13-a37c-8e571da7a723",
+    "task_id": null,
+    "strategy_id": "7b0aee52-f01a-47dc-be01-20e6ae85e717",
+    "execution_type": "content_generation",
+    "target": null,
+    "inputs": {},
+    "expected_output": null,
+    "quality_requirements": [],
+    "rollback_plan": "Manual rollback via automation dashboard",
+    "status": "archived",
+    "automation_job_id": null,
+    "created_at": "2026-09-26T05:31:54.930Z",
+    "updated_at": "2026-10-06T23:00:40.570Z",
+    "opportunity_id": "65b22049-b56a-4bfc-aeaf-69a2c6ce6c0f",
+    "objective": "Execution plan for Content Activation Strategy: 2026 AI Productivity Tool Roundups",
+    "actions": [
+      {
+        "id": "action-1",
+        "type": "CONTENT_CREATE",
+        "status": "pending",
+        "permission": "PROPOSE",
+        "description": "Generate first comparison article: \"Best AI Productivity Tools for Creators 2026\"",
+        "dependencies": [],
+        "estimatedCost": 0.01,
+        "automationType": "content_generation",
+        "validationRules": [
+          "content_quality_check",
+          "seo_validation",
+          "affiliate_link_validation"
+        ],
+        "automationParams": {
+          "topic": "Best AI Productivity Tools for Creators 2026",
+          "category": "software",
+          "strategyId": "7b0aee52-f01a-47dc-be01-20e6ae85e717",
+          "brainActionId": "action-1",
+          "opportunityId": "65b22049-b56a-4bfc-aeaf-69a2c6ce6c0f",
+          "brainCorrelationId": "brain-1790400701177-loeg1xe"
+        },
+        "requiresApproval": true
+      },
+      {
+        "id": "action-2",
+        "type": "AFFILIATE_INTEGRATION",
+        "status": "pending",
+        "permission": "MODIFY",
+        "description": "Integrate Digistore24 affiliate links for recommended tools",
+        "dependencies": [
+          "action-1"
+        ],
+        "estimatedCost": 0.001,
+        "automationType": "affiliate_integration",
+        "validationRules": [
+          "affiliate_link_validation"
+        ],
+        "automationParams": {
+          "strategyId": "7b0aee52-f01a-47dc-be01-20e6ae85e717",
+          "brainActionId": "action-2",
+          "opportunityId": "65b22049-b56a-4bfc-aeaf-69a2c6ce6c0f",
+          "brainCorrelationId": "brain-1790400701177-loeg1xe"
+        },
+        "requiresApproval": true
+      },
+      {
+        "id": "action-3",
+        "type": "CONTENT_PUBLISH",
+        "status": "pending",
+        "permission": "PUBLISH",
+        "description": "Publish article to CMS with SEO metadata and schema",
+        "dependencies": [
+          "action-1",
+          "action-2"
+        ],
+        "estimatedCost": 0.001,
+        "automationType": "content_publishing",
+        "validationRules": [
+          "seo_validation",
+          "schema_validation"
+        ],
+        "automationParams": {
+          "strategyId": "7b0aee52-f01a-47dc-be01-20e6ae85e717",
+          "brainActionId": "action-3",
+          "opportunityId": "65b22049-b56a-4bfc-aeaf-69a2c6ce6c0f",
+          "brainCorrelationId": "brain-1790400701177-loeg1xe"
+        },
+        "requiresApproval": true
+      }
+    ],
+    "required_permissions": [
+      "PROPOSE",
+      "MODIFY",
+      "PUBLISH"
+    ],
+    "evidence": [],
+    "expected_outcome": "15 published articles, 50+ keyword rankings, 5K+ monthly sessions, $500+ monthly affiliate revenue",
+    "verification_plan": "Quality gate + verification loop",
+    "correlation_id": "brain-1790400701177-loeg1xe",
+    "started_at": null,
+    "completed_at": null,
+    "provenance": "ARCHIVED",
+    "approval_required": true,
+    "target_automation": null,
+    "idempotency_key": null,
+    "brain_task_id": null
+  },
+  {
+    "id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "task_id": null,
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_type": "AutomationPipeline.runDirect",
+    "target": "generate_content",
+    "inputs": {},
+    "expected_output": null,
+    "quality_requirements": [],
+    "rollback_plan": "Unpublish the article (status=archived) and cancel the automation job; no source records are mutated.",
+    "status": "completed",
+    "automation_job_id": "job_1790482166009_sp5ry7t",
+    "created_at": "2026-09-27T02:40:43.940Z",
+    "updated_at": "2026-09-27T04:10:58.144Z",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "objective": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+    "actions": [
+      {
+        "id": "action-1-generate-content",
+        "type": "CONTENT_CREATE",
+        "permission": "EXECUTE",
+        "description": "Produce a research-backed article on: Notion alternatives for creators 2026",
+        "automationType": "generate_content",
+        "validationRules": [
+          "quality_gate_not_fail",
+          "article_traceability_complete",
+          "public_url_http_200"
+        ],
+        "automationParams": {
+          "topic": "Notion alternatives for creators 2026",
+          "category": "creator tools",
+          "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+          "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+          "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+          "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+        },
+        "requiresApproval": true
+      },
+      {
+        "id": "action-2-publish-draft",
+        "type": "CONTENT_PUBLISH",
+        "permission": "PUBLISH",
+        "description": "Publish the generated draft for: Notion alternatives for creators 2026 (only after the quality gate does not fail)",
+        "automationType": "publish_content",
+        "validationRules": [
+          "quality_result_present",
+          "quality_result_not_fail"
+        ],
+        "automationParams": {
+          "dependsOn": "action-1-generate-content",
+          "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+          "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9"
+        },
+        "requiresApproval": true
+      }
+    ],
+    "required_permissions": [
+      "EXECUTE",
+      "PUBLISH"
+    ],
+    "evidence": [
+      {
+        "source_ids": [
+          "src_5db97e3059ecdf5014de",
+          "src_672afa50833af62b82ec"
+        ],
+        "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "opportunity_external_evidence": [
+          {
+            "claim": "Freedom Threads is identified as a Notion AI alternative for creators that converts YouTube videos into copy.",
+            "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+            "source_id": "src_5db97e3059ecdf5014de",
+            "quote_verified": true
+          },
+          {
+            "claim": "Simplified is listed as a top Notion AI alternative in 2026.",
+            "quote": "Top 8 Available Notion AI Alternatives in 2026 · 1. Simplified",
+            "source_id": "src_672afa50833af62b82ec",
+            "quote_verified": true
+          }
+        ]
+      }
+    ],
+    "expected_outcome": "A live, indexable review article published on ViaFinds containing structural comparison tables, optimized meta tags, and monetized referral links for featured software tools.",
+    "verification_plan": "Direct database reads of articles + brain_quality_results + brain_verifications + an HTTP GET of the public URL.",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "started_at": "2026-09-27T04:09:25.411Z",
+    "completed_at": "2026-09-27T04:10:51.077Z",
+    "provenance": "REAL",
+    "approval_required": true,
+    "target_automation": "AutomationPipeline.runDirect",
+    "idempotency_key": "plan-c5292004-ecd6-4e69-8fa5-fdf01073f6b9-fc3bfcd6-4c15-48c2-971e-1f5e14a697bb-r2",
+    "brain_task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b"
+  },
+  {
+    "id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "task_id": null,
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "execution_type": "AutomationPipeline.runDirect",
+    "target": "generate_content",
+    "inputs": {},
+    "expected_output": null,
+    "quality_requirements": [],
+    "rollback_plan": "Unpublish the article (status=archived) and cancel the automation job; no source records are mutated.",
+    "status": "approved",
+    "automation_job_id": "job_1790475097680_otldju7",
+    "created_at": "2026-09-26T17:16:00.412Z",
+    "updated_at": "2026-10-06T23:27:47.794Z",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "objective": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+    "actions": [
+      {
+        "id": "action-1-generate-content",
+        "type": "CONTENT_CREATE",
+        "permission": "EXECUTE",
+        "description": "Produce a research-backed article on: creator video repurposing and copywriting workflows",
+        "automationType": "generate_content",
+        "validationRules": [
+          "quality_gate_not_fail",
+          "article_traceability_complete",
+          "public_url_http_200"
+        ],
+        "automationParams": {
+          "topic": "creator video repurposing and copywriting workflows",
+          "category": "creator tools",
+          "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+          "description": "Produce and publish an in-depth review article comparing Notion AI with Freedom Threads and Simplified for creator video repurposing and copywriting workflows.",
+          "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+          "contentApproach": "Editorial comparison format structured around creator productivity. Section outline: 1. Why General Workspace AI Lacks Specialized Creator Workflows; 2. Evaluation Criteria for Creator AI Tools; 3. In-Depth Review: Freedom Threads (YouTube Video-to-Text Repurposing); 4. In-Depth Review: Simplified (Multi-Channel Copywriting and Content Creation); 5. Direct Feature & Workflow Comparison Matrix; 6. Final Verdict: Selecting the Right Tool for Your Content Stack."
+        },
+        "requiresApproval": true
+      },
+      {
+        "id": "action-2-publish-draft",
+        "type": "CONTENT_PUBLISH",
+        "permission": "PUBLISH",
+        "description": "Publish the generated draft for: creator video repurposing and copywriting workflows (only after the quality gate does not fail)",
+        "automationType": "publish_content",
+        "validationRules": [
+          "quality_result_present",
+          "quality_result_not_fail"
+        ],
+        "automationParams": {
+          "dependsOn": "action-1-generate-content",
+          "strategyId": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+          "opportunityId": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9"
+        },
+        "requiresApproval": true
+      }
+    ],
+    "required_permissions": [
+      "EXECUTE",
+      "PUBLISH"
+    ],
+    "evidence": [
+      {
+        "source_ids": [
+          "src_5db97e3059ecdf5014de",
+          "src_672afa50833af62b82ec"
+        ],
+        "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "opportunity_external_evidence": [
+          {
+            "claim": "Freedom Threads is identified as a Notion AI alternative for creators that converts YouTube videos into copy.",
+            "quote": "The best alternative to Notion AI for most creators is Freedom Threads — because it doesn't just write copy, it turns a YouTube video into ...",
+            "source_id": "src_5db97e3059ecdf5014de",
+            "quote_verified": true
+          },
+          {
+            "claim": "Simplified is listed as a top Notion AI alternative in 2026.",
+            "quote": "Top 8 Available Notion AI Alternatives in 2026 · 1. Simplified",
+            "source_id": "src_672afa50833af62b82ec",
+            "quote_verified": true
+          }
+        ]
+      }
+    ],
+    "expected_outcome": "A live, indexable review article published on ViaFinds containing structural comparison tables, optimized meta tags, and monetized referral links for featured software tools.",
+    "verification_plan": "Direct database reads of articles + brain_quality_results + brain_verifications + an HTTP GET of the public URL.",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "started_at": "2026-09-27T02:11:37.123Z",
+    "completed_at": "2026-09-27T02:13:45.950Z",
+    "provenance": "REAL",
+    "approval_required": true,
+    "target_automation": "AutomationPipeline.runDirect",
+    "idempotency_key": "plan-c5292004-ecd6-4e69-8fa5-fdf01073f6b9-fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "brain_task_id": "91ede107-3897-4436-aaa0-d4f4f7a5e10d"
+  }
+]

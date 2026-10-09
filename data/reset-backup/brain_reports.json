@@ -1,0 +1,2568 @@
+[
+  {
+    "id": "3cf8905e-581d-4ff7-8763-060b4573b9d9",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [
+      {
+        "title": "Monetize Existing Published Content",
+        "impact": "Immediate potential revenue generation from existing traffic.",
+        "actionable": true,
+        "description": "Retroactively audit the 9 published articles to embed relevant affiliate links and call-to-actions once monetization tracking is configured."
+      },
+      {
+        "title": "Clear Content Queue to Drive SEO Traffic",
+        "impact": "Multiplies published inventory by 5x, boosting organic search visibility.",
+        "actionable": true,
+        "description": "Review, edit, and publish the 45 draft articles to increase site footprint and capture organic search demand."
+      },
+      {
+        "title": "Launch Initial Owned Digital Product",
+        "impact": "Establishes first-party product sales with 100% margin capture.",
+        "actionable": true,
+        "description": "Design a high-margin digital download (e.g., guide, checklist, or template) aligned with editorial niche topics to introduce owned product revenue."
+      },
+      {
+        "title": "Fix Research Pipeline Bug to Enable Automated Insights",
+        "impact": "Restores research confidence and improves quality of upcoming article drafts.",
+        "actionable": true,
+        "description": "Resolve the JS error in the research provider to allow reliable research query execution during content draft generation."
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Connect and configure Analytics and Revenue Tracking integrations.",
+        "priority": "P0",
+        "rationale": "Without analytics and revenue tracking, optimization decisions cannot be data-driven."
+      },
+      {
+        "action": "Initiate human review process for 45 draft articles and 7 queued automation jobs.",
+        "priority": "P1",
+        "rationale": "Clearing the publication queue maximizes organic reach and leverages generated work."
+      },
+      {
+        "action": "Fix the string evaluation bug ('Cannot read properties of undefined (reading replace)') in the research engine module.",
+        "priority": "P1",
+        "rationale": "Ensures automated content research yields authoritative and accurate results."
+      },
+      {
+        "action": "Develop an affiliate link management matrix and digital product concept pipeline.",
+        "priority": "P2",
+        "rationale": "Fulfills the core dual-monetization strategy required by the Phase 3 business model."
+      }
+    ],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-09-25T16:50:49.466Z",
+    "status": "completed",
+    "context": {
+      "seo": {
+        "status": "DuckDuckGo Provider Active",
+        "connected": true
+      },
+      "content": {
+        "draftArticles": 45,
+        "totalArticles": 54,
+        "publishedArticles": 9
+      },
+      "project": {
+        "name": "ViaFinds AI OS",
+        "version": "Phase 3.2",
+        "repository": "ViaFinds"
+      },
+      "revenue": {
+        "status": "NOT CONFIGURED",
+        "connected": false
+      },
+      "business": {
+        "model": "Editorial content + affiliate monetization + owned digital products",
+        "knownConstraints": [
+          "Phase 3: Controlled execution with human approval required"
+        ],
+        "primaryMonetization": "Affiliate Links + Owned Products"
+      },
+      "failures": {
+        "recentErrors": 0
+      },
+      "products": {
+        "totalProducts": 0
+      },
+      "research": {
+        "providersUsed": [
+          "DuckDuckGo Search",
+          "Google Custom Search"
+        ],
+        "uniqueResults": [],
+        "fallbackReason": "Cannot read properties of undefined (reading 'replace')",
+        "totalLatencyMs": 2185,
+        "combinedResults": [],
+        "primaryProvider": "DuckDuckGo Search",
+        "duplicatesRemoved": 0,
+        "fallbackTriggered": true,
+        "missingInformation": [
+          "Additional authoritative sources"
+        ],
+        "researchConfidence": "insufficient",
+        "authoritativeSources": []
+      },
+      "analytics": {
+        "status": "NOT CONFIGURED"
+      },
+      "affiliates": {
+        "totalReferences": 0
+      },
+      "automation": {
+        "totalJobs": 7,
+        "failedJobs": 0,
+        "queuedJobs": 7
+      },
+      "technology": {
+        "database": "PostgreSQL (Supabase)",
+        "framework": "Next.js / React"
+      },
+      "limitations": [
+        "Execution requires explicit human approval",
+        "Cannot edit source code",
+        "Cannot spend budget automatically",
+        "Cannot bypass Automation Pipeline",
+        "Revenue tracking not configured"
+      ],
+      "integrations": {
+        "totalServices": 0,
+        "configuredServices": 0
+      },
+      "recent_activity": {
+        "lastPublished": "2026-09-25T08:11:05.388Z"
+      },
+      "existing_strategy": {
+        "type": "Manual Publishing",
+        "description": "Human editorial oversight with AI-assisted content generation via Automation pipeline."
+      }
+    },
+    "observations": [
+      {
+        "fact": "Monetization tracking, affiliate references, and owned digital products are completely unconfigured or non-existent.",
+        "type": "fact",
+        "source": "revenue, products, affiliates context sections",
+        "evidence": "revenue.status = 'NOT CONFIGURED', revenue.connected = false, products.totalProducts = 0, affiliates.totalReferences = 0.",
+        "inference": "The platform is currently publishing content without generating revenue or tracking potential conversions, despite the business model targeting both affiliate monetization and digital products.",
+        "confidence": "High",
+        "recommendation": "Configure revenue tracking integrations and begin adding affiliate links and owned product offers to published and draft content."
+      },
+      {
+        "fact": "There are 45 draft articles and 7 queued automation jobs awaiting processing or publication.",
+        "type": "fact",
+        "source": "content and automation context sections",
+        "evidence": "content.draftArticles = 45, content.publishedArticles = 9, automation.queuedJobs = 7.",
+        "inference": "A human editorial approval bottleneck exists, leaving 83% of total content unpublished and automated tasks pending.",
+        "confidence": "High",
+        "recommendation": "Implement a structured human editorial workflow to review, approve, and publish the backlog of 45 drafts and process queued automation jobs."
+      },
+      {
+        "fact": "Analytics status is NOT CONFIGURED.",
+        "type": "fact",
+        "source": "analytics context section",
+        "evidence": "analytics.status = 'NOT CONFIGURED'.",
+        "inference": "There is no visibility into traffic, user engagement, or content performance for the 9 currently published articles.",
+        "confidence": "High",
+        "recommendation": "Set up an analytics integration (e.g., Google Analytics or Plausible) to track page views and user behavior."
+      },
+      {
+        "fact": "Research provider execution encountered a string manipulation runtime error causing insufficient research confidence.",
+        "type": "fact",
+        "source": "research context section",
+        "evidence": "research.fallbackTriggered = true, research.fallbackReason = 'Cannot read properties of undefined (reading 'replace')', research.researchConfidence = 'insufficient', research.combinedResults = [].",
+        "inference": "A code-level bug in string processing triggers fallbacks and prevents successful automated research retrieval.",
+        "confidence": "High",
+        "recommendation": "Submit a developer issue to handle undefined strings safely in the research search response parser."
+      }
+    ],
+    "error": null,
+    "started_at": "2026-09-25T16:50:49.466Z",
+    "completed_at": "2026-09-25T16:51:36.476Z",
+    "updated_at": "2026-09-25T16:51:36.476Z",
+    "correlation_id": null
+  },
+  {
+    "id": "7f969679-7e33-45ff-8d97-a60987efdb72",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [
+      {
+        "id": "OPP-001",
+        "title": "Clear Content and Automation Backlog via Batch Approval",
+        "effort": "Low",
+        "impact": "High",
+        "description": "Process the 7 queued automation jobs and review 45 draft articles for immediate publication to expand organic indexation footprint.",
+        "actionableSteps": [
+          "Present top 10 highest-scoring draft articles to human operator for single-click approval.",
+          "Execute the 7 queued automation jobs under Phase 3 controlled execution."
+        ]
+      },
+      {
+        "id": "OPP-002",
+        "title": "Establish Baseline Monetization Telemetry",
+        "effort": "Medium",
+        "impact": "High",
+        "description": "Connect revenue tracking and analytics providers to enable conversion attribution for affiliate links and owned products.",
+        "actionableSteps": [
+          "Configure Analytics integration within Next.js framework.",
+          "Set up revenue tracking hook/database schema in Supabase."
+        ]
+      },
+      {
+        "id": "OPP-003",
+        "title": "First-Wave Affiliate Integration into Published Content",
+        "effort": "Low",
+        "impact": "Medium",
+        "description": "Scan the 16 published articles for commercial intent keywords and associate 5-10 relevant affiliate references.",
+        "actionableSteps": [
+          "Extract entity topics from published articles.",
+          "Add affiliate partner links matching these topics into the affiliates database."
+        ]
+      },
+      {
+        "id": "OPP-004",
+        "title": "Build First Owned 'AI Agent / GEO' Digital Product Asset",
+        "effort": "Medium",
+        "impact": "High",
+        "description": "Create a high-value digital product targeting 2026 trends (e.g., Agentic AI Workflow Guide or GEO Strategy Kit) to kickstart owned revenue.",
+        "actionableSteps": [
+          "Draft product outline focused on Generative Engine Optimization or AI Workflows.",
+          "Register product record in the products table with checkout redirection."
+        ]
+      }
+    ],
+    "recommendations": [
+      {
+        "title": "Connect Revenue & Analytics Tracking",
+        "details": "System cannot optimize monetization without tracking. Request human permission to configure analytics services and revenue webhook endpoints in the platform.",
+        "category": "System Integration",
+        "priority": 1,
+        "requiresHumanApproval": true
+      },
+      {
+        "title": "Batch Review and Publish Draft Pipeline",
+        "details": "Review 45 drafts and run 7 queued automation jobs to increment published article count beyond 16.",
+        "category": "Content & Operations",
+        "priority": 2,
+        "requiresHumanApproval": true
+      },
+      {
+        "title": "Populate Affiliate Links & Map to Published Articles",
+        "details": "Create initial affiliate reference dataset and embed tracked links within the 16 live published articles.",
+        "category": "Monetization Strategy",
+        "priority": 3,
+        "requiresHumanApproval": true
+      },
+      {
+        "title": "Define & Launch Owned Digital Product (GEO / AI Workflow Template)",
+        "details": "Capitalize on 2026 market demand by packaging an advanced AI prompt / workflow product, avoiding low-value static PDFs.",
+        "category": "Product Development",
+        "priority": 4,
+        "requiresHumanApproval": true
+      }
+    ],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-03T02:55:59.637Z",
+    "status": "completed",
+    "context": {
+      "seo": {
+        "status": "DuckDuckGo Provider Active",
+        "connected": true
+      },
+      "content": {
+        "draftArticles": 45,
+        "totalArticles": 61,
+        "publishedArticles": 16
+      },
+      "project": {
+        "name": "ViaFinds AI OS",
+        "version": "Phase 3.2",
+        "repository": "ViaFinds"
+      },
+      "revenue": {
+        "status": "NOT CONFIGURED",
+        "connected": false
+      },
+      "business": {
+        "model": "Editorial content + affiliate monetization + owned digital products",
+        "knownConstraints": [
+          "Phase 3: Controlled execution with human approval required"
+        ],
+        "primaryMonetization": "Affiliate Links + Owned Products"
+      },
+      "failures": {
+        "recentErrors": 0
+      },
+      "products": {
+        "totalProducts": 0
+      },
+      "research": {
+        "providersUsed": [
+          "SerpAPI"
+        ],
+        "uniqueResults": [
+          {
+            "url": "https://www.nextbigcreative.com/beyond-the-algorithm-the-2026-digital-marketing-trends-your-business-cannot-afford-to-ignore/",
+            "query": "digital product trends 2026",
+            "title": "The 2026 Digital Marketing Trends Your Business Cannot ...",
+            "domain": "www.nextbigcreative.com",
+            "snippet": "1. The Era of Generative Engine Optimization (GEO) · From “Keywords” to “Conversations” ; 2. Personalization Over Automation: Beating AI Fatigue.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 1,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.startus-insights.com/innovators-guide/digital-transformation-trends/",
+            "query": "digital product trends 2026",
+            "title": "Top 10 Digital Transformation Trends in 2026",
+            "domain": "www.startus-insights.com",
+            "snippet": "Digital transformation in 2026 is about rewiring how work gets done. AI agents, low-code platforms, cloud-edge architectures, and more move from ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 1,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.coderio.com/blog/innovation/digital-transformation-2026-trends-defining-how-organizations-execute/",
+            "query": "digital product trends 2026",
+            "title": "Digital Transformation 2026: 6 Trends Shaping Execution",
+            "domain": "www.coderio.com",
+            "snippet": "The 6 digital transformation trends defining 2026: redesigning workflows around AI, modernizing legacy systems, and governing data",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 1,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.reddit.com/r/passive_income/comments/1tn47e6/before_making_any_new_digital_product_i_now_check/",
+            "query": "digital product trends 2026",
+            "title": "Before making any new digital product, I now check these 3 ...",
+            "domain": "www.reddit.com",
+            "snippet": "I spent months making digital products that nobody wanted. Fitness planners. Budget trackers. Morning routine PDFs.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "community",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 1,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://helionex.net/top-digital-transformation-trends-in-2026/",
+            "query": "digital product trends 2026",
+            "title": "Top Digital Transformation Trends in 2026",
+            "domain": "helionex.net",
+            "snippet": "The top digital transformation trends in 2026 include AI-led transformation, agentic AI, cloud modernization, cyber security, automation, data-driven decision- ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 1,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.esko.com/en/blog/smart-packaging-why-digital-product-passports-are-the-next-big-shift",
+            "query": "digital product trends 2026",
+            "title": "Smart Packaging: Why Digital Product Passports are the ...",
+            "domain": "www.esko.com",
+            "snippet": "20% of industry professionals ranked smart packaging among the top technologies set to impact packaging by 2026—behind only automation and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.92,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.jumpfly.com/blog/ai-in-online-advertising-5-key-trends-from-may-2026/",
+            "query": "digital product trends 2026",
+            "title": "AI in Online Advertising: 5 Key Trends from May 2026",
+            "domain": "www.jumpfly.com",
+            "snippet": "1. Google Marketing Live 2026: Ads Move Inside the AI Conversation ; 2. OpenAI Opens Its Ad Platform: ChatGPT Is Now a Real Advertising Channel.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.92,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.linkedin.com/posts/bernardmarr_the-10-consumer-tech-trends-of-2026-you-can-activity-7391360827804512256-Tz3u",
+            "query": "digital product trends 2026",
+            "title": "The 10 Biggest Consumer Technology Trends Of 2026",
+            "domain": "www.linkedin.com",
+            "snippet": "Facebook and high-resolution cameras) has democratized services like e-commerce and remote health, especially in rural areas where fixed ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.8500000000000001,
+            "authoritySignal": 0.5
+          }
+        ],
+        "providerErrors": [],
+        "totalLatencyMs": 6409,
+        "combinedResults": [
+          {
+            "url": "https://www.nextbigcreative.com/beyond-the-algorithm-the-2026-digital-marketing-trends-your-business-cannot-afford-to-ignore/",
+            "query": "digital product trends 2026",
+            "title": "The 2026 Digital Marketing Trends Your Business Cannot ...",
+            "domain": "www.nextbigcreative.com",
+            "snippet": "1. The Era of Generative Engine Optimization (GEO) · From “Keywords” to “Conversations” ; 2. Personalization Over Automation: Beating AI Fatigue.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.7999999999999999,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.linkedin.com/posts/bernardmarr_the-10-consumer-tech-trends-of-2026-you-can-activity-7391360827804512256-Tz3u",
+            "query": "digital product trends 2026",
+            "title": "The 10 Biggest Consumer Technology Trends Of 2026",
+            "domain": "www.linkedin.com",
+            "snippet": "Facebook and high-resolution cameras) has democratized services like e-commerce and remote health, especially in rural areas where fixed ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.7,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.esko.com/en/blog/smart-packaging-why-digital-product-passports-are-the-next-big-shift",
+            "query": "digital product trends 2026",
+            "title": "Smart Packaging: Why Digital Product Passports are the ...",
+            "domain": "www.esko.com",
+            "snippet": "20% of industry professionals ranked smart packaging among the top technologies set to impact packaging by 2026—behind only automation and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.75,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.startus-insights.com/innovators-guide/digital-transformation-trends/",
+            "query": "digital product trends 2026",
+            "title": "Top 10 Digital Transformation Trends in 2026",
+            "domain": "www.startus-insights.com",
+            "snippet": "Digital transformation in 2026 is about rewiring how work gets done. AI agents, low-code platforms, cloud-edge architectures, and more move from ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.9,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.coderio.com/blog/innovation/digital-transformation-2026-trends-defining-how-organizations-execute/",
+            "query": "digital product trends 2026",
+            "title": "Digital Transformation 2026: 6 Trends Shaping Execution",
+            "domain": "www.coderio.com",
+            "snippet": "The 6 digital transformation trends defining 2026: redesigning workflows around AI, modernizing legacy systems, and governing data",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.9500000000000001,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.reddit.com/r/passive_income/comments/1tn47e6/before_making_any_new_digital_product_i_now_check/",
+            "query": "digital product trends 2026",
+            "title": "Before making any new digital product, I now check these 3 ...",
+            "domain": "www.reddit.com",
+            "snippet": "I spent months making digital products that nobody wanted. Fitness planners. Budget trackers. Morning routine PDFs.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "community",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.8,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.jumpfly.com/blog/ai-in-online-advertising-5-key-trends-from-may-2026/",
+            "query": "digital product trends 2026",
+            "title": "AI in Online Advertising: 5 Key Trends from May 2026",
+            "domain": "www.jumpfly.com",
+            "snippet": "1. Google Marketing Live 2026: Ads Move Inside the AI Conversation ; 2. OpenAI Opens Its Ad Platform: ChatGPT Is Now a Real Advertising Channel.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.75,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://helionex.net/top-digital-transformation-trends-in-2026/",
+            "query": "digital product trends 2026",
+            "title": "Top Digital Transformation Trends in 2026",
+            "domain": "helionex.net",
+            "snippet": "The top digital transformation trends in 2026 include AI-led transformation, agentic AI, cloud modernization, cyber security, automation, data-driven decision- ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-03T02:56:04.772Z",
+            "relevanceScore": 0.9500000000000001,
+            "authoritySignal": 0.5
+          }
+        ],
+        "primaryProvider": "SerpAPI",
+        "duplicatesRemoved": 0,
+        "fallbackTriggered": false,
+        "missingInformation": [],
+        "providersAttempted": [
+          "SerpAPI"
+        ],
+        "researchConfidence": "low",
+        "authoritativeSources": []
+      },
+      "analytics": {
+        "status": "NOT CONFIGURED"
+      },
+      "affiliates": {
+        "totalReferences": 0
+      },
+      "automation": {
+        "totalJobs": 7,
+        "failedJobs": 0,
+        "queuedJobs": 7
+      },
+      "technology": {
+        "database": "PostgreSQL (Supabase)",
+        "framework": "Next.js / React"
+      },
+      "limitations": [
+        "Execution requires explicit human approval",
+        "Cannot edit source code",
+        "Cannot spend budget automatically",
+        "Cannot bypass Automation Pipeline",
+        "Revenue tracking not configured"
+      ],
+      "integrations": {
+        "totalServices": 0,
+        "configuredServices": 0
+      },
+      "recent_activity": {
+        "lastPublished": "2026-10-02T08:11:45.663Z"
+      },
+      "existing_strategy": {
+        "type": "Manual Publishing",
+        "description": "Human editorial oversight with AI-assisted content generation via Automation pipeline."
+      }
+    },
+    "observations": [
+      {
+        "fact": "Analytics and revenue tracking systems are currently not configured.",
+        "type": "fact",
+        "source": "analytics / revenue context",
+        "evidence": "analytics.status is 'NOT CONFIGURED' and revenue.connected is false.",
+        "inference": "The OS cannot evaluate article ROI, user conversion rates, or monetization efficacy across published content.",
+        "confidence": "High",
+        "recommendation": "Configure analytics and connect revenue tracking integrations before scaling content publishing or product launches."
+      },
+      {
+        "fact": "There are 45 draft articles and 7 queued automation jobs waiting with 0 recent failures.",
+        "type": "fact",
+        "source": "content / automation context",
+        "evidence": "content.draftArticles is 45, content.publishedArticles is 16, automation.queuedJobs is 7, automation.failedJobs is 0.",
+        "inference": "A significant content pipeline backlog exists, stalled at the human approval phase required by Phase 3 constraints.",
+        "confidence": "High",
+        "recommendation": "Initiate human review of the 45 drafts and approval of the 7 queued jobs to maintain publishing cadence."
+      },
+      {
+        "fact": "Monetization inventory is currently zero across both digital products and affiliate references.",
+        "type": "fact",
+        "source": "products / affiliates context",
+        "evidence": "products.totalProducts is 0 and affiliates.totalReferences is 0.",
+        "inference": "The site is generating zero direct or indirect revenue despite having 16 published articles.",
+        "confidence": "High",
+        "recommendation": "Identify existing published articles suitable for affiliate link injection and begin defining the first owned digital product."
+      },
+      {
+        "fact": "Market research shows saturation and fatigue around simple static digital products (e.g., PDFs, basic budget trackers) and a shift toward Agentic AI and GEO in 2026.",
+        "type": "fact",
+        "source": "research.uniqueResults",
+        "evidence": "Research snippets show failure with 'Fitness planners. Budget trackers. Morning routine PDFs' alongside high relevance scores for 'Generative Engine Optimization (GEO)' and 'agentic AI'.",
+        "inference": "Developing basic static templates or PDFs as owned digital products will yield low conversion; digital products must offer actionable AI workflows, prompts, or dynamic tools.",
+        "confidence": "Medium",
+        "recommendation": "Focus owned digital product strategy on interactive AI prompt packs, workflow automation guides, or GEO optimization toolkits rather than simple PDF downloads."
+      }
+    ],
+    "error": null,
+    "started_at": "2026-10-03T02:55:59.637Z",
+    "completed_at": "2026-10-03T02:56:57.505Z",
+    "updated_at": "2026-10-03T02:56:57.505Z",
+    "correlation_id": null
+  },
+  {
+    "id": "c21f2a77-d871-4b2f-a79a-a917acd25362",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [],
+    "recommendations": [],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-06T14:07:02.551Z",
+    "status": "failed",
+    "context": {},
+    "observations": [],
+    "error": "Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nFailed\nReason: Groq API returned error status 401: {\"error\":{\"message\":\"Invalid API Key\",\"type\":\"invalid_request_error\",\"code\":\"invalid_api_key\"}}\n\n\nMistral:\nFailed\nReason: Mistral API returned error status 400: {\"object\":\"error\",\"message\":\"Invalid model: 1\",\"type\":\"invalid_model\",\"param\":null,\"code\":\"1500\",\"raw_status_code\":400}\n\nDeepSeek:\nFailed\nReason: DeepSeek API returned error status 402: {\"error\":{\"message\":\"Insufficient Balance (request_id: 138b3265-0bc9-4dd6-8c95-9f13eeeba057)\",\"type\":\"unknown_error\",\"param\":null,\"code\":\"invalid_request_error\"}}\n\nOpenRouter:\nFailed\nReason: OpenRouter API returned error status 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}\n\nGemini:\nFailed\nReason: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\n\nCohere:\nFailed\nReason: Cohere API returned error status 405: \n\nOpenAI:\nFailed\nReason: OpenAI API returned error status 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-********************************************************************************************************************************************************3GcA. You can find your API key at https://platform.openai.com/account/api-keys.\",\n    \"type\": \"invalid_request_error\",\n    \"code\": \"invalid_api_key\",\n    \"param\": null\n  },\n  \"status\": 401\n}\n\nClaude:\nFailed\nReason: Claude API returned error status 401: {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"API key is invalid.\"},\"request_id\":null}",
+    "started_at": "2026-10-06T14:07:02.551Z",
+    "completed_at": "2026-10-06T14:07:06.713Z",
+    "updated_at": "2026-10-06T14:07:06.713Z",
+    "correlation_id": null
+  },
+  {
+    "id": "d3f179e1-ec89-4af8-ab5b-09d4c069ae15",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [],
+    "recommendations": [],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-06T21:40:26.739Z",
+    "status": "failed",
+    "context": {},
+    "observations": [],
+    "error": "Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: Ollama API returned error status 404: {\"error\":{\"message\":\"model 'llama3:latest' not found\",\"type\":\"not_found_error\",\"param\":null,\"code\":null}}\n\n\nGroq:\nSkipped\nReason: provider is on cooldown or offline due to recent errors\n\nMistral:\nSkipped\nReason: provider is on cooldown or offline due to recent errors\n\nDeepSeek:\nSkipped\nReason: provider is on cooldown or offline due to recent errors\n\nOpenRouter:\nSkipped\nReason: provider is on cooldown or offline due to recent errors\n\nGemini:\nFailed\nReason: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\n\nCohere:\nFailed\nReason: Cohere API returned error status 405: \n\nOpenAI:\nFailed\nReason: OpenAI API returned error status 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-********************************************************************************************************************************************************3GcA. You can find your API key at https://platform.openai.com/account/api-keys.\",\n    \"type\": \"invalid_request_error\",\n    \"code\": \"invalid_api_key\",\n    \"param\": null\n  },\n  \"status\": 401\n}\n\nClaude:\nFailed\nReason: Claude API returned error status 401: {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"API key is invalid.\"},\"request_id\":null}",
+    "started_at": "2026-10-06T21:40:26.739Z",
+    "completed_at": "2026-10-06T21:41:20.451Z",
+    "updated_at": "2026-10-06T21:41:20.451Z",
+    "correlation_id": null
+  },
+  {
+    "id": "61bcf5ab-b01c-4e6b-acc7-680a0bf19b97",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [
+      {
+        "id": "OPP-001",
+        "title": "Develop 'Recovery Routine' Digital Product",
+        "action": "Create a downloadable planner or habit tracker template to capitalize on the researched interest in daily structure.",
+        "priority": "High"
+      },
+      {
+        "id": "OPP-002",
+        "title": "Activate Affiliate Monetization",
+        "action": "Audit the 61 draft articles to identify natural placement points for affiliate links related to mindfulness, health, and organizational tools.",
+        "priority": "Medium"
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Configure analytics and revenue tracking services immediately.",
+        "rationale": "Without these, we cannot validate the effectiveness of our content strategy or ROI on affiliate efforts."
+      },
+      {
+        "action": "Initiate human approval workflow for the first batch of articles.",
+        "rationale": "With 61 drafts ready, moving into the publication phase is necessary to begin gathering performance data."
+      },
+      {
+        "action": "Bridge Research to Content.",
+        "rationale": "Use the high-scoring 'recovery routine' research findings to refine the metadata and SEO focus of the first set of published drafts."
+      }
+    ],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-06T21:46:24.026Z",
+    "status": "completed",
+    "context": {
+      "seo": {
+        "status": "DuckDuckGo Provider Active",
+        "connected": true
+      },
+      "content": {
+        "draftArticles": 61,
+        "totalArticles": 61,
+        "publishedArticles": 0
+      },
+      "project": {
+        "name": "ViaFinds AI OS",
+        "version": "Phase 3.2",
+        "repository": "ViaFinds"
+      },
+      "revenue": {
+        "status": "NOT CONFIGURED",
+        "connected": false
+      },
+      "business": {
+        "model": "Editorial content + affiliate monetization + owned digital products",
+        "knownConstraints": [
+          "Phase 3: Controlled execution with human approval required"
+        ],
+        "primaryMonetization": "Affiliate Links + Owned Products"
+      },
+      "failures": {
+        "recentErrors": 0
+      },
+      "products": {
+        "totalProducts": 0
+      },
+      "research": {
+        "providersUsed": [
+          "SerpAPI"
+        ],
+        "uniqueResults": [
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.88,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.582Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.583Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.583Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.77,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.7000000000000001,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:46:25.583Z",
+            "relevanceScore": 0.6900000000000001,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.64,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.55,
+            "authoritySignal": 0.5
+          }
+        ],
+        "providerErrors": [],
+        "totalLatencyMs": 673,
+        "combinedResults": [
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.582Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:46:25.583Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.583Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.583Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:46:25.584Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.4
+          }
+        ],
+        "primaryProvider": "SerpAPI",
+        "duplicatesRemoved": 0,
+        "fallbackTriggered": false,
+        "missingInformation": [],
+        "providersAttempted": [
+          "SerpAPI"
+        ],
+        "researchConfidence": "low",
+        "authoritativeSources": []
+      },
+      "analytics": {
+        "status": "NOT CONFIGURED"
+      },
+      "affiliates": {
+        "totalReferences": 0
+      },
+      "automation": {
+        "totalJobs": 60,
+        "failedJobs": 0,
+        "queuedJobs": 0
+      },
+      "technology": {
+        "database": "PostgreSQL (Supabase)",
+        "framework": "Next.js / React"
+      },
+      "limitations": [
+        "Execution requires explicit human approval",
+        "Cannot edit source code",
+        "Cannot spend budget automatically",
+        "Cannot bypass Automation Pipeline",
+        "Revenue tracking not configured"
+      ],
+      "integrations": {
+        "totalServices": 0,
+        "configuredServices": 0
+      },
+      "recent_activity": {},
+      "existing_strategy": {
+        "type": "Manual Publishing",
+        "description": "Human editorial oversight with AI-assisted content generation via Automation pipeline."
+      }
+    },
+    "observations": [
+      {
+        "fact": "The content repository contains 61 draft articles with zero published.",
+        "type": "fact",
+        "source": "System Context",
+        "evidence": "content: { totalArticles: 61, publishedArticles: 0 }",
+        "inference": "The system is currently in a pre-launch state with a significant backlog of content.",
+        "confidence": "High",
+        "recommendation": "Begin an editorial review process to select and polish the highest-quality draft for initial publication."
+      },
+      {
+        "fact": "Revenue and analytics systems are not configured.",
+        "type": "fact",
+        "source": "System Context",
+        "evidence": "revenue: { status: 'NOT CONFIGURED' }, analytics: { status: 'NOT CONFIGURED' }",
+        "inference": "The system lacks the feedback loops required to measure the performance of affiliate links or digital product sales.",
+        "confidence": "High",
+        "recommendation": "Prioritize the integration of Google Analytics and a revenue tracking dashboard to enable data-driven decision-making."
+      },
+      {
+        "fact": "Research indicates high interest in structured routines for addiction recovery.",
+        "type": "fact",
+        "source": "SerpAPI Research Results",
+        "evidence": "Research findings include titles like 'The importance of a structured daily routine in recovery' (relevance 0.88).",
+        "inference": "There is a viable niche for content regarding 'Recovery Routines' which could serve as a bridge to affiliate products (e.g., planners, habit trackers) or owned digital content.",
+        "confidence": "Medium",
+        "recommendation": "Target the 'recovery routine' theme for the first batch of published articles."
+      }
+    ],
+    "error": null,
+    "started_at": "2026-10-06T21:46:24.026Z",
+    "completed_at": "2026-10-06T21:46:41.715Z",
+    "updated_at": "2026-10-06T21:46:41.715Z",
+    "correlation_id": null
+  },
+  {
+    "id": "9d706eb3-cafe-42c3-9f51-130d60456976",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [
+      {
+        "action": "Develop a 'Recovery Routine' digital planner as an owned product.",
+        "justification": "Research confirms high user interest in structure and habit building, which is highly compatible with a digital downloadable product."
+      },
+      {
+        "action": "Select affiliate partners based on 'Healthy Habit' support tools.",
+        "justification": "Content regarding morning routines and sobriety productivity allows for natural placement of affiliate links for sleep, fitness, and organizational apps."
+      }
+    ],
+    "recommendations": [
+      {
+        "task": "Configure Analytics and Revenue providers to enable performance data tracking.",
+        "reason": "You cannot optimize monetization or evaluate the success of the 61 draft articles without baseline performance data.",
+        "priority": "Critical"
+      },
+      {
+        "task": "Submit the first batch of 5 reviewed articles for human approval.",
+        "reason": "The pipeline is blocked; moving content from draft to published is necessary to test the current infrastructure.",
+        "priority": "High"
+      },
+      {
+        "task": "Implement a product-linking workflow in the automation pipeline.",
+        "reason": "To fulfill the business model of 'Affiliate Links + Owned Products', each article requires a standardized section for both types of monetization.",
+        "priority": "Medium"
+      }
+    ],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-06T21:52:27.354Z",
+    "status": "completed",
+    "context": {
+      "seo": {
+        "status": "DuckDuckGo Provider Active",
+        "connected": true
+      },
+      "content": {
+        "draftArticles": 61,
+        "totalArticles": 61,
+        "publishedArticles": 0
+      },
+      "project": {
+        "name": "ViaFinds AI OS",
+        "version": "Phase 3.2",
+        "repository": "ViaFinds"
+      },
+      "revenue": {
+        "status": "NOT CONFIGURED",
+        "connected": false
+      },
+      "business": {
+        "model": "Editorial content + affiliate monetization + owned digital products",
+        "knownConstraints": [
+          "Phase 3: Controlled execution with human approval required"
+        ],
+        "primaryMonetization": "Affiliate Links + Owned Products"
+      },
+      "failures": {
+        "recentErrors": 0
+      },
+      "products": {
+        "totalProducts": 0
+      },
+      "research": {
+        "providersUsed": [
+          "SerpAPI"
+        ],
+        "uniqueResults": [
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.88,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.899Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:52:28.902Z",
+            "relevanceScore": 0.77,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.902Z",
+            "relevanceScore": 0.7000000000000001,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.6900000000000001,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:52:28.902Z",
+            "relevanceScore": 0.64,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.55,
+            "authoritySignal": 0.5
+          }
+        ],
+        "providerErrors": [],
+        "totalLatencyMs": 656,
+        "combinedResults": [
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.899Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.901Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:52:28.902Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:52:28.902Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:52:28.902Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.4
+          }
+        ],
+        "primaryProvider": "SerpAPI",
+        "duplicatesRemoved": 0,
+        "fallbackTriggered": false,
+        "missingInformation": [],
+        "providersAttempted": [
+          "SerpAPI"
+        ],
+        "researchConfidence": "low",
+        "authoritativeSources": []
+      },
+      "analytics": {
+        "status": "NOT CONFIGURED"
+      },
+      "affiliates": {
+        "totalReferences": 0
+      },
+      "automation": {
+        "totalJobs": 60,
+        "failedJobs": 0,
+        "queuedJobs": 0
+      },
+      "technology": {
+        "database": "PostgreSQL (Supabase)",
+        "framework": "Next.js / React"
+      },
+      "limitations": [
+        "Execution requires explicit human approval",
+        "Cannot edit source code",
+        "Cannot spend budget automatically",
+        "Cannot bypass Automation Pipeline",
+        "Revenue tracking not configured"
+      ],
+      "integrations": {
+        "totalServices": 0,
+        "configuredServices": 0
+      },
+      "recent_activity": {},
+      "existing_strategy": {
+        "type": "Manual Publishing",
+        "description": "Human editorial oversight with AI-assisted content generation via Automation pipeline."
+      }
+    },
+    "observations": [
+      {
+        "fact": "System is in Phase 3 with 61 draft articles and zero published articles.",
+        "type": "fact",
+        "source": "System Context",
+        "evidence": "content: { totalArticles: 61, publishedArticles: 0 }",
+        "inference": "The content library is populated but waiting for the final human-approval stage of the pipeline.",
+        "confidence": "High",
+        "recommendation": "Begin a scheduled review process for the top 5 highest-relevance articles to trigger the first wave of publishing."
+      },
+      {
+        "fact": "Revenue and Analytics modules are unconfigured.",
+        "type": "fact",
+        "source": "System Context",
+        "evidence": "revenue: { status: 'NOT CONFIGURED' }, analytics: { status: 'NOT CONFIGURED' }",
+        "inference": "The platform currently has no visibility into conversion success or traffic patterns, hindering monetization optimization.",
+        "confidence": "High",
+        "recommendation": "Prioritize integration of analytics and revenue tracking services immediately to move out of the 'NOT CONFIGURED' state."
+      },
+      {
+        "fact": "Research data indicates a cluster of high-relevance topics around 'Routine in Recovery'.",
+        "type": "fact",
+        "source": "SerpAPI Research Results",
+        "evidence": "research.uniqueResults: 'The importance of a structured daily routine in recovery' (relevance: 0.88)",
+        "inference": "There is a strong demand for content bridging the gap between structured recovery and productivity, providing an opportunity for both affiliate recommendations (e.g., planners, sleep aids) and owned digital products (e.g., recovery habit trackers).",
+        "confidence": "Medium",
+        "recommendation": "Align the editorial calendar for the next 5 drafts to focus on 'Recovery Routine' themes."
+      }
+    ],
+    "error": null,
+    "started_at": "2026-10-06T21:52:27.354Z",
+    "completed_at": "2026-10-06T21:52:46.818Z",
+    "updated_at": "2026-10-06T21:52:46.818Z",
+    "correlation_id": null
+  },
+  {
+    "id": "a21f6432-17f6-416f-8af9-05a1734b4506",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [
+      {
+        "action": "Create a downloadable planner or routine-builder tool based on the identified need for structure in recovery.",
+        "alignment": "Owned digital products strategy.",
+        "opportunity": "Develop a 'Recovery Productivity' digital product."
+      },
+      {
+        "action": "Source affiliate programs for journals, productivity apps, or therapeutic resource subscriptions to include in relevant articles.",
+        "alignment": "Affiliate monetization strategy.",
+        "opportunity": "Affiliate integration for recovery support tools."
+      }
+    ],
+    "recommendations": [
+      "Connect revenue tracking services to the Supabase database to enable performance monitoring.",
+      "Perform a human-led QA review of the 61 drafted articles to ensure they align with the identified high-relevance research topics.",
+      "Configure external integration services to allow the Automation pipeline to output to live environments.",
+      "Formalize a 'Product Launch' milestone to move from content-only to a hybrid product-affiliate monetization model."
+    ],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-06T21:54:03.883Z",
+    "status": "completed",
+    "context": {
+      "seo": {
+        "status": "DuckDuckGo Provider Active",
+        "connected": true
+      },
+      "content": {
+        "draftArticles": 61,
+        "totalArticles": 61,
+        "publishedArticles": 0
+      },
+      "project": {
+        "name": "ViaFinds AI OS",
+        "version": "Phase 3.2",
+        "repository": "ViaFinds"
+      },
+      "revenue": {
+        "status": "NOT CONFIGURED",
+        "connected": false
+      },
+      "business": {
+        "model": "Editorial content + affiliate monetization + owned digital products",
+        "knownConstraints": [
+          "Phase 3: Controlled execution with human approval required"
+        ],
+        "primaryMonetization": "Affiliate Links + Owned Products"
+      },
+      "failures": {
+        "recentErrors": 0
+      },
+      "products": {
+        "totalProducts": 0
+      },
+      "research": {
+        "providersUsed": [
+          "SerpAPI"
+        ],
+        "uniqueResults": [
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.88,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.243Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.77,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.7000000000000001,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.6900000000000001,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.64,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.55,
+            "authoritySignal": 0.5
+          }
+        ],
+        "providerErrors": [],
+        "totalLatencyMs": 536,
+        "combinedResults": [
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.243Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:54:05.246Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.4
+          }
+        ],
+        "primaryProvider": "SerpAPI",
+        "duplicatesRemoved": 0,
+        "fallbackTriggered": false,
+        "missingInformation": [],
+        "providersAttempted": [
+          "SerpAPI"
+        ],
+        "researchConfidence": "low",
+        "authoritativeSources": []
+      },
+      "analytics": {
+        "status": "NOT CONFIGURED"
+      },
+      "affiliates": {
+        "totalReferences": 0
+      },
+      "automation": {
+        "totalJobs": 60,
+        "failedJobs": 0,
+        "queuedJobs": 0
+      },
+      "technology": {
+        "database": "PostgreSQL (Supabase)",
+        "framework": "Next.js / React"
+      },
+      "limitations": [
+        "Execution requires explicit human approval",
+        "Cannot edit source code",
+        "Cannot spend budget automatically",
+        "Cannot bypass Automation Pipeline",
+        "Revenue tracking not configured"
+      ],
+      "integrations": {
+        "totalServices": 0,
+        "configuredServices": 0
+      },
+      "recent_activity": {},
+      "existing_strategy": {
+        "type": "Manual Publishing",
+        "description": "Human editorial oversight with AI-assisted content generation via Automation pipeline."
+      }
+    },
+    "observations": [
+      {
+        "fact": "All 61 articles currently in the system are drafts; zero articles are published.",
+        "type": "fact",
+        "source": "content",
+        "evidence": "content.publishedArticles: 0, content.draftArticles: 61",
+        "inference": "The system is currently in a pre-launch content accumulation state.",
+        "confidence": "High",
+        "recommendation": "Initiate an editorial review workflow for the first batch of drafts to move toward publication."
+      },
+      {
+        "fact": "Revenue tracking and analytics services are not configured.",
+        "type": "fact",
+        "source": "analytics, revenue",
+        "evidence": "analytics.status: NOT CONFIGURED, revenue.status: NOT CONFIGURED",
+        "inference": "The platform currently lacks the visibility required to validate affiliate monetization efficacy.",
+        "confidence": "High",
+        "recommendation": "Prioritize integration of analytics (e.g., Google Analytics or custom dashboard) and revenue tracking APIs."
+      },
+      {
+        "fact": "Search results show a strong thematic overlap between 'structured routine' and 'sobriety/recovery' success.",
+        "type": "fact",
+        "source": "research",
+        "evidence": "research.uniqueResults containing titles like 'The importance of a structured daily routine in recovery'.",
+        "inference": "Content targeting the intersection of 'recovery' and 'productivity/routines' has high relevance for an audience seeking actionable lifestyle advice.",
+        "confidence": "Medium",
+        "recommendation": "Use these research findings to anchor the editorial focus of the first set of published articles."
+      }
+    ],
+    "error": null,
+    "started_at": "2026-10-06T21:54:03.883Z",
+    "completed_at": "2026-10-06T21:54:21.601Z",
+    "updated_at": "2026-10-06T21:54:21.601Z",
+    "correlation_id": null
+  },
+  {
+    "id": "19ef9df4-45b5-4b83-b63f-cb5d2251f1be",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [
+      {
+        "actionable": true,
+        "description": "Create a digital, downloadable recovery journal or habit-tracking template based on the identified high-relevance search topics.",
+        "opportunity": "Owned Digital Product Development"
+      },
+      {
+        "actionable": true,
+        "description": "Identify relevant wellness/recovery products to integrate into the existing 61 draft articles as affiliate links.",
+        "opportunity": "Affiliate Monetization Integration"
+      },
+      {
+        "actionable": true,
+        "description": "Use the high-relevance search results to optimize the metadata and internal linking structure of the 61 existing draft articles.",
+        "opportunity": "Automated SEO Pipeline Enhancement"
+      }
+    ],
+    "recommendations": [
+      "Configure Google Analytics and verify API connectivity for revenue services to enable data-driven decision making.",
+      "Perform a human-led audit of the 61 drafted articles to ensure they align with the identified 'Recovery Routine' search intent before moving to production.",
+      "Prioritize the development of one owned digital product to complement affiliate revenue, leveraging the high-authority 'structured routine' topic cluster.",
+      "Transition from 'Manual Publishing' to a hybrid model where the Automation pipeline handles routine updates, provided human oversight is maintained as per Phase 3 constraints."
+    ],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-06T21:58:43.465Z",
+    "status": "completed",
+    "context": {
+      "seo": {
+        "status": "DuckDuckGo Provider Active",
+        "connected": true
+      },
+      "content": {
+        "draftArticles": 61,
+        "totalArticles": 61,
+        "publishedArticles": 0
+      },
+      "project": {
+        "name": "ViaFinds AI OS",
+        "version": "Phase 3.2",
+        "repository": "ViaFinds"
+      },
+      "revenue": {
+        "status": "NOT CONFIGURED",
+        "connected": false
+      },
+      "business": {
+        "model": "Editorial content + affiliate monetization + owned digital products",
+        "knownConstraints": [
+          "Phase 3: Controlled execution with human approval required"
+        ],
+        "primaryMonetization": "Affiliate Links + Owned Products"
+      },
+      "failures": {
+        "recentErrors": 0
+      },
+      "products": {
+        "totalProducts": 0
+      },
+      "research": {
+        "providersUsed": [
+          "SerpAPI"
+        ],
+        "uniqueResults": [
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.88,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.088Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.77,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.7000000000000001,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.6900000000000001,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.64,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.55,
+            "authoritySignal": 0.5
+          }
+        ],
+        "providerErrors": [],
+        "totalLatencyMs": 802,
+        "combinedResults": [
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.088Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.089Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:58:45.090Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.4
+          }
+        ],
+        "primaryProvider": "SerpAPI",
+        "duplicatesRemoved": 0,
+        "fallbackTriggered": false,
+        "missingInformation": [],
+        "providersAttempted": [
+          "SerpAPI"
+        ],
+        "researchConfidence": "low",
+        "authoritativeSources": []
+      },
+      "analytics": {
+        "status": "NOT CONFIGURED"
+      },
+      "affiliates": {
+        "totalReferences": 0
+      },
+      "automation": {
+        "totalJobs": 60,
+        "failedJobs": 0,
+        "queuedJobs": 0
+      },
+      "technology": {
+        "database": "PostgreSQL (Supabase)",
+        "framework": "Next.js / React"
+      },
+      "limitations": [
+        "Execution requires explicit human approval",
+        "Cannot edit source code",
+        "Cannot spend budget automatically",
+        "Cannot bypass Automation Pipeline",
+        "Revenue tracking not configured"
+      ],
+      "integrations": {
+        "totalServices": 0,
+        "configuredServices": 0
+      },
+      "recent_activity": {},
+      "existing_strategy": {
+        "type": "Manual Publishing",
+        "description": "Human editorial oversight with AI-assisted content generation via Automation pipeline."
+      }
+    },
+    "observations": [
+      {
+        "fact": "The system currently holds 61 draft articles with zero published content.",
+        "type": "fact",
+        "source": "content",
+        "evidence": "content object states publishedArticles: 0, draftArticles: 61.",
+        "inference": "The content pipeline is fully populated but awaiting a manual trigger for the first phase of publication.",
+        "confidence": "High",
+        "recommendation": "Initiate a manual review of the first batch of draft articles to prepare for publication."
+      },
+      {
+        "fact": "Revenue and analytics infrastructure are currently unconfigured.",
+        "type": "fact",
+        "source": "analytics, revenue",
+        "evidence": "analytics.status: NOT CONFIGURED, revenue.status: NOT CONFIGURED.",
+        "inference": "The business model relies on affiliate and product monetization, but there is no feedback loop for measuring success or calculating ROI.",
+        "confidence": "High",
+        "recommendation": "Prioritize the integration of Google Analytics and a chosen revenue tracking service (e.g., Stripe/Affiliate networks) as a Phase 3 blocker."
+      },
+      {
+        "fact": "Research indicates high interest in 'structured routines' for recovery niches.",
+        "type": "fact",
+        "source": "research",
+        "evidence": "Multiple SERP results focus on routines, daily schedules, and habit building for sobriety.",
+        "inference": "This provides a clear content-market fit for a digital product (e.g., a 'Recovery Routine Planner' or 'Digital Habit Tracker').",
+        "confidence": "Medium",
+        "recommendation": "Use the draft articles to seed a landing page for an owned digital product related to recovery habits."
+      }
+    ],
+    "error": null,
+    "started_at": "2026-10-06T21:58:43.465Z",
+    "completed_at": "2026-10-06T21:59:01.355Z",
+    "updated_at": "2026-10-06T21:59:01.355Z",
+    "correlation_id": null
+  },
+  {
+    "id": "29bc5dc2-f388-4f28-b616-278fcf89bc51",
+    "analysis": {},
+    "summary": null,
+    "opportunities": [
+      {
+        "priority": "High",
+        "actionable": true,
+        "description": "Develop an owned digital product focused on 'Sober Routine Frameworks' based on the high-relevance research findings regarding recovery structure."
+      },
+      {
+        "priority": "Medium",
+        "actionable": true,
+        "description": "Implement an affiliate monetization strategy targeting recovery-ready workplace resources or mental health organizational tools."
+      },
+      {
+        "priority": "High",
+        "actionable": true,
+        "description": "Utilize the 61 existing draft articles to establish a 'controlled release' schedule, ensuring human editorial approval for each."
+      }
+    ],
+    "recommendations": [
+      "Connect revenue tracking and analytics services to enable Phase 3 monitoring.",
+      "Perform a human editorial audit on the top-performing research-aligned draft articles to prepare for the first push to publication.",
+      "Diversify the SerpAPI integration by incorporating a secondary search provider to increase research confidence scores.",
+      "Draft a formal 'Owned Product' roadmap that leverages the 'Structured Daily Routine' research findings into a lead-magnet or digital guide."
+    ],
+    "data_sources": [],
+    "raw_data": {},
+    "created_at": "2026-10-06T21:59:46.331Z",
+    "status": "completed",
+    "context": {
+      "seo": {
+        "status": "DuckDuckGo Provider Active",
+        "connected": true
+      },
+      "content": {
+        "draftArticles": 61,
+        "totalArticles": 61,
+        "publishedArticles": 0
+      },
+      "project": {
+        "name": "ViaFinds AI OS",
+        "version": "Phase 3.2",
+        "repository": "ViaFinds"
+      },
+      "revenue": {
+        "status": "NOT CONFIGURED",
+        "connected": false
+      },
+      "business": {
+        "model": "Editorial content + affiliate monetization + owned digital products",
+        "knownConstraints": [
+          "Phase 3: Controlled execution with human approval required"
+        ],
+        "primaryMonetization": "Affiliate Links + Owned Products"
+      },
+      "failures": {
+        "recentErrors": 0
+      },
+      "products": {
+        "totalProducts": 0
+      },
+      "research": {
+        "providersUsed": [
+          "SerpAPI"
+        ],
+        "uniqueResults": [
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.88,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.78,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.77,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.7000000000000001,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.6900000000000001,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.64,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.55,
+            "authoritySignal": 0.5
+          }
+        ],
+        "providerErrors": [],
+        "totalLatencyMs": 429,
+        "combinedResults": [
+          {
+            "url": "https://www.facebook.com/61558505211396/posts/your-brain-is-making-thousands-of-decisions-every-dayin-recovery-that-mental-loa/122324593142283507/",
+            "query": "controlled production recovery wake",
+            "title": "How simple routines support recovery and healthy choices",
+            "domain": "www.facebook.com",
+            "snippet": "Your brain is making thousands of decisions every day. In recovery, that mental load can make healthy choices feel harder than they should.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://olympicbehavioralhealth.com/rehab-blog/addiction-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Stages of Addiction Recovery",
+            "domain": "olympicbehavioralhealth.com",
+            "snippet": "Standard programs last 30 days, but 60-90 days produce better outcomes for severe addiction. Outpatient treatment allows living at home while attending therapy ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://www.facebook.com/woodlakecenter/videos/building-a-sober-routine-daily-habits-for-recovery/1358142061952834/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Sober Routine: Daily Habits for Recovery",
+            "domain": "www.facebook.com",
+            "snippet": "They share tips on incorporating healthy habits, setting goals, and staying accountable during the recovery process.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.beachhouserehabcenter.com/how-to-find-work-life-balance-when-youre-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "How to Find Work-Life Balance When You Are in Recovery",
+            "domain": "www.beachhouserehabcenter.com",
+            "snippet": "A key aspect of finding work-life balance when you're in recovery is pacing. Put some space between recovery-oriented tasks and activities and ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.valiantliving.com/2019/09/18/ways-to-increase-your-productivity-in-sobriety/",
+            "query": "controlled production recovery wake",
+            "title": "Ways to Increase Your Productivity in Sobriety",
+            "domain": "www.valiantliving.com",
+            "snippet": "Drug in the morning because they are more rested after a night's sleep which positively affects their cognitive functioning, reaction time, ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.robinrecovery.com/post/the-importance-of-a-structured-daily-routine-in-recovery",
+            "query": "controlled production recovery wake",
+            "title": "The importance of a structured daily routine in recovery",
+            "domain": "www.robinrecovery.com",
+            "snippet": "A steady routine helps regulate sleep patterns by encouraging consistent bedtimes and wake-up times, which improves sleep quality and emotional stability.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://realrecoveryfl.com/sobriety-blog/have-a-great-day-embrace-your-daily-schedule/",
+            "query": "controlled production recovery wake",
+            "title": "Have a Great Day: Embrace Your Daily Schedule",
+            "domain": "realrecoveryfl.com",
+            "snippet": "Doing some quick meditation or breathing exercises, counting backward, or taking a short walk are all actions you can take to help you change ...",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.5,
+            "authoritySignal": 0.4
+          },
+          {
+            "url": "https://sober.com/cognitive-restructuring-builds-a-victory-mindset-in-recovery/",
+            "query": "controlled production recovery wake",
+            "title": "Cognitive Restructuring Builds a Victory Mindset in Recovery",
+            "domain": "sober.com",
+            "snippet": "Cognitive restructuring is a skill for how to stay sober long term by changing the story you tell yourself to build a victory mindset.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "blog",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.6,
+            "authoritySignal": 0.5
+          },
+          {
+            "url": "https://www.pelagohealth.com/blog/building-a-recovery-ready-workplace-a-strategic-approach-for-national-recovery-month/",
+            "query": "controlled production recovery wake",
+            "title": "Building a Recovery-Ready Workplace: a Strategic ...",
+            "domain": "www.pelagohealth.com",
+            "snippet": "These policies help create safe and healthy work environments, reduce stigma, and promote addiction treatment and recovery support services.",
+            "provider": "SerpAPI",
+            "resultType": "organic",
+            "sourceType": "news",
+            "retrievedAt": "2026-10-06T21:59:48.752Z",
+            "relevanceScore": 0.65,
+            "authoritySignal": 0.4
+          }
+        ],
+        "primaryProvider": "SerpAPI",
+        "duplicatesRemoved": 0,
+        "fallbackTriggered": false,
+        "missingInformation": [],
+        "providersAttempted": [
+          "SerpAPI"
+        ],
+        "researchConfidence": "low",
+        "authoritativeSources": []
+      },
+      "analytics": {
+        "status": "NOT CONFIGURED"
+      },
+      "affiliates": {
+        "totalReferences": 0
+      },
+      "automation": {
+        "totalJobs": 60,
+        "failedJobs": 0,
+        "queuedJobs": 0
+      },
+      "technology": {
+        "database": "PostgreSQL (Supabase)",
+        "framework": "Next.js / React"
+      },
+      "limitations": [
+        "Execution requires explicit human approval",
+        "Cannot edit source code",
+        "Cannot spend budget automatically",
+        "Cannot bypass Automation Pipeline",
+        "Revenue tracking not configured"
+      ],
+      "integrations": {
+        "totalServices": 0,
+        "configuredServices": 0
+      },
+      "recent_activity": {},
+      "existing_strategy": {
+        "type": "Manual Publishing",
+        "description": "Human editorial oversight with AI-assisted content generation via Automation pipeline."
+      }
+    },
+    "observations": [
+      {
+        "fact": "All 61 articles in the system are currently in draft status with zero published.",
+        "type": "fact",
+        "source": "content",
+        "evidence": "content.publishedArticles: 0, content.draftArticles: 61",
+        "inference": "The system is currently in a pre-launch content development phase, despite having high-volume draft capacity.",
+        "confidence": "High",
+        "recommendation": "Initiate the editorial review process for the first batch of drafts to move toward production."
+      },
+      {
+        "fact": "Business analytics and revenue tracking are not configured.",
+        "type": "fact",
+        "source": "analytics, revenue",
+        "evidence": "analytics.status: NOT CONFIGURED, revenue.status: NOT CONFIGURED",
+        "inference": "The system cannot measure the success of the affiliate or owned-product strategies until these integrations are completed.",
+        "confidence": "High",
+        "recommendation": "Prioritize the connection of analytics and revenue APIs to enable data-driven content refinement."
+      },
+      {
+        "fact": "The research module shows low confidence and relies exclusively on one provider (SerpAPI).",
+        "type": "fact",
+        "source": "research",
+        "evidence": "research.researchConfidence: low, research.providersUsed: ['SerpAPI']",
+        "inference": "Reliance on a single provider may be skewing results towards specific, potentially less authoritative sources.",
+        "confidence": "Medium",
+        "recommendation": "Diversify the research pipeline by adding additional search providers or API sources."
+      }
+    ],
+    "error": null,
+    "started_at": "2026-10-06T21:59:46.331Z",
+    "completed_at": "2026-10-06T21:59:59.112Z",
+    "updated_at": "2026-10-06T21:59:59.112Z",
+    "correlation_id": null
+  }
+]

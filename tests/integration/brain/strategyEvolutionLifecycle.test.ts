@@ -43,7 +43,7 @@ describe('StrategyEvolution Lifecycle End-to-End', () => {
       title: 'TEST Strategy V1',
       type: 'CONTENT_STRATEGY',
       objective: 'Test evolution',
-      status: 'ACTIVE',
+      status: 'active',
       description: 'Initial state',
       rationale: 'Testing',
       evidence: { test: true },

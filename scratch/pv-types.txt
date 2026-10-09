@@ -1,0 +1,29 @@
+﻿export interface VerifiedProduct {
+  verified: true
+  productId: string
+  productName: string
+  provider: string
+  evidence: Record<string, unknown>
+}
+export interface UnverifiedProduct {
+  verified: false
+  reason: string
+  productId?: string
+}
+export type ProductVerification = VerifiedProduct | UnverifiedProduct
+export interface VerifiedAffiliateLink {
+  verified: true
+  linkId: string
+  shortCode: string
+  destinationUrl: string
+  network: string
+  productId: string | null
+  productName: string | null
+  evidence: Record<string, unknown>
+}
+export interface UnverifiedAffiliateLink {
+  verified: false
+  reason: string
+  destinationUrl?: string
+}
+export type AffiliateLinkVerification = VerifiedAffiliateLink | UnverifiedAffiliateLink

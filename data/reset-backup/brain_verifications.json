@@ -1,0 +1,301 @@
+[
+  {
+    "id": "f6ea099d-de0e-4d6c-9e1e-12c3011c7ddf",
+    "target_id": "50a0a693-e622-43a8-a641-a0d68c6a2907",
+    "target_type": "article",
+    "before_state": {
+      "status": "draft"
+    },
+    "after_state": {
+      "status": "published",
+      "publicUrl": "https://viafinds.com/best-ai-productivity-tools-for-creators-2026-breakdown-analysis-ipolzh",
+      "traceability": {
+        "jobId": "job_1790400815358_8h2u69d",
+        "planId": "a153e91c-056d-450c-ad4e-cf479dd24f87",
+        "taskId": "13114564-821a-4520-a385-e3d24cac768f",
+        "strategyId": "a7973938-40fa-4bd2-8821-22ee23e12b5a",
+        "opportunityId": "47c8b260-b546-4128-8e56-6609498d346f"
+      }
+    },
+    "status": "NOT_VERIFIABLE",
+    "summary": "Article published successfully with full traceability. Public URL accessibility cannot be verified (GA4/Search Console APIs not enabled). Content traceability: opportunity->strategy->plan->approval->task->job->article chain complete.",
+    "created_at": "2026-09-26T05:42:32.910Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "correlation_id": null,
+    "expected_conditions": [],
+    "available_observations": [],
+    "limitations": [],
+    "verified_at": "2026-09-26T16:42:29.796Z"
+  },
+  {
+    "id": "4c188c24-7a4d-4885-b911-23f9141f38cd",
+    "target_id": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+    "target_type": "article",
+    "before_state": {
+      "expected": [
+        "HTTP 200 for the public URL",
+        "Article body content is served to an unauthenticated client",
+        "Article is reachable at its slug",
+        "Strategy expectation: Article is publicly reachable and carries the full execution lineage",
+        "Traffic / impressions / conversions / revenue observed from live integrations"
+      ]
+    },
+    "after_state": {
+      "httpStatus": null,
+      "observations": [
+        {
+          "kind": "database",
+          "name": "database.article_row",
+          "value": {
+            "slug": "notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh",
+            "status": "published",
+            "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+            "published_at": "2026-09-27T04:10:45.615Z",
+            "affiliate_url": "https://www.digistore24.com/redir/137597/1727525",
+            "brain_task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+            "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+            "automation_job_id": "job_1790482166009_sp5ry7t"
+          },
+          "detail": "Article row read directly from PostgreSQL",
+          "available": true
+        }
+      ],
+      "unavailableProbes": [
+        {
+          "kind": "live_http",
+          "name": "live_http.undefined",
+          "detail": "Request failed: Failed to parse URL from undefined",
+          "available": false
+        },
+        {
+          "kind": "ga4",
+          "name": "ga4.sessions_7d",
+          "detail": "GA4 returned no usable summary (integration not operational)",
+          "available": false
+        },
+        {
+          "kind": "search_console",
+          "name": "search_console.rows_7d",
+          "detail": "Search Console returned no rows (integration not operational or property has no data)",
+          "available": false
+        },
+        {
+          "kind": "affiliate_network",
+          "name": "affiliate_network.clicks_and_payouts",
+          "detail": "No Digistore24 reporting/API integration exists in this codebase; clicks, conversions and payouts cannot be observed",
+          "available": false
+        }
+      ]
+    },
+    "status": "NOT_VERIFIABLE",
+    "summary": "Public URL returned HTTP n/a. No analytics integration returned traffic, impression, conversion or revenue data, so the business outcome is NOT_VERIFIABLE from this environment. Limitations: Public URL could not be fetched: Request failed: Failed to parse URL from undefined | GA4: GA4 returned no usable summary (integration not operational) | Google Search Console: Search Console returned no rows (integration not operational or property has no data) | No affiliate network reporting integration exists, so clicks, conversions and payouts are unobservable. | Article was published 0.0h ago; search indexing and organic traffic have not had time to occur.",
+    "created_at": "2026-09-27T04:11:01.684Z",
+    "provenance": "REAL",
+    "article_id": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "expected_conditions": [
+      "HTTP 200 for the public URL",
+      "Article body content is served to an unauthenticated client",
+      "Article is reachable at its slug",
+      "Strategy expectation: Article is publicly reachable and carries the full execution lineage",
+      "Traffic / impressions / conversions / revenue observed from live integrations"
+    ],
+    "available_observations": [
+      {
+        "kind": "database",
+        "name": "database.article_row",
+        "value": {
+          "slug": "notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh",
+          "status": "published",
+          "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+          "published_at": "2026-09-27T04:10:45.615Z",
+          "affiliate_url": "https://www.digistore24.com/redir/137597/1727525",
+          "brain_task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+          "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+          "automation_job_id": "job_1790482166009_sp5ry7t"
+        },
+        "detail": "Article row read directly from PostgreSQL",
+        "available": true
+      },
+      {
+        "kind": "live_http",
+        "name": "live_http.undefined",
+        "detail": "Request failed: Failed to parse URL from undefined",
+        "available": false
+      },
+      {
+        "kind": "ga4",
+        "name": "ga4.sessions_7d",
+        "detail": "GA4 returned no usable summary (integration not operational)",
+        "available": false
+      },
+      {
+        "kind": "search_console",
+        "name": "search_console.rows_7d",
+        "detail": "Search Console returned no rows (integration not operational or property has no data)",
+        "available": false
+      },
+      {
+        "kind": "affiliate_network",
+        "name": "affiliate_network.clicks_and_payouts",
+        "detail": "No Digistore24 reporting/API integration exists in this codebase; clicks, conversions and payouts cannot be observed",
+        "available": false
+      }
+    ],
+    "limitations": [
+      "Public URL could not be fetched: Request failed: Failed to parse URL from undefined",
+      "GA4: GA4 returned no usable summary (integration not operational)",
+      "Google Search Console: Search Console returned no rows (integration not operational or property has no data)",
+      "No affiliate network reporting integration exists, so clicks, conversions and payouts are unobservable.",
+      "Article was published 0.0h ago; search indexing and organic traffic have not had time to occur."
+    ],
+    "verified_at": "2026-09-27T04:11:01.684Z"
+  },
+  {
+    "id": "ed32d2d8-23e1-408f-8ba4-5f7b0572cc2b",
+    "target_id": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+    "target_type": "article",
+    "before_state": {
+      "expected": [
+        "HTTP 200 for the public URL",
+        "Article body content is served to an unauthenticated client",
+        "Article is reachable at its slug",
+        "Strategy expectation: Article is publicly reachable and carries the full execution lineage",
+        "Traffic / impressions / conversions / revenue observed from live integrations"
+      ]
+    },
+    "after_state": {
+      "publicUrl": "https://viafinds.com/articles/notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh",
+      "httpStatus": 200,
+      "observations": [
+        {
+          "kind": "live_http",
+          "name": "live_http.https://viafinds.com/articles/notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh",
+          "value": {
+            "hasCta": true,
+            "hasJsonLd": true,
+            "latencyMs": 5742,
+            "statusCode": 200,
+            "contentType": "text/html; charset=utf-8",
+            "hasCanonical": true,
+            "contentLength": 58967,
+            "isNotFoundPage": false,
+            "hasAffiliateLink": true
+          },
+          "detail": "Live HTTP GET returned 200 with 58967 bytes",
+          "available": true
+        },
+        {
+          "kind": "database",
+          "name": "database.article_row",
+          "value": {
+            "slug": "notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh",
+            "status": "published",
+            "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+            "published_at": "2026-09-27T04:10:45.615Z",
+            "affiliate_url": "https://www.digistore24.com/redir/137597/1727525",
+            "brain_task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+            "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+            "automation_job_id": "job_1790482166009_sp5ry7t"
+          },
+          "detail": "Article row read directly from PostgreSQL",
+          "available": true
+        }
+      ],
+      "unavailableProbes": [
+        {
+          "kind": "ga4",
+          "name": "ga4.sessions_7d",
+          "detail": "GA4 returned no usable summary (integration not operational)",
+          "available": false
+        },
+        {
+          "kind": "search_console",
+          "name": "search_console.rows_7d",
+          "detail": "Search Console returned no rows (integration not operational or property has no data)",
+          "available": false
+        },
+        {
+          "kind": "affiliate_network",
+          "name": "affiliate_network.clicks_and_payouts",
+          "detail": "No Digistore24 reporting/API integration exists in this codebase; clicks, conversions and payouts cannot be observed",
+          "available": false
+        }
+      ]
+    },
+    "status": "NOT_VERIFIABLE",
+    "summary": "Public URL returned HTTP 200. No analytics integration returned traffic, impression, conversion or revenue data, so the business outcome is NOT_VERIFIABLE from this environment. Limitations: GA4: GA4 returned no usable summary (integration not operational) | Google Search Console: Search Console returned no rows (integration not operational or property has no data) | No affiliate network reporting integration exists, so clicks, conversions and payouts are unobservable. | Article was published 0.1h ago; search indexing and organic traffic have not had time to occur.",
+    "created_at": "2026-09-27T04:17:25.078Z",
+    "provenance": "REAL",
+    "article_id": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "expected_conditions": [
+      "HTTP 200 for the public URL",
+      "Article body content is served to an unauthenticated client",
+      "Article is reachable at its slug",
+      "Strategy expectation: Article is publicly reachable and carries the full execution lineage",
+      "Traffic / impressions / conversions / revenue observed from live integrations"
+    ],
+    "available_observations": [
+      {
+        "kind": "live_http",
+        "name": "live_http.https://viafinds.com/articles/notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh",
+        "value": {
+          "hasCta": true,
+          "hasJsonLd": true,
+          "latencyMs": 5742,
+          "statusCode": 200,
+          "contentType": "text/html; charset=utf-8",
+          "hasCanonical": true,
+          "contentLength": 58967,
+          "isNotFoundPage": false,
+          "hasAffiliateLink": true
+        },
+        "detail": "Live HTTP GET returned 200 with 58967 bytes",
+        "available": true
+      },
+      {
+        "kind": "database",
+        "name": "database.article_row",
+        "value": {
+          "slug": "notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh",
+          "status": "published",
+          "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+          "published_at": "2026-09-27T04:10:45.615Z",
+          "affiliate_url": "https://www.digistore24.com/redir/137597/1727525",
+          "brain_task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+          "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+          "automation_job_id": "job_1790482166009_sp5ry7t"
+        },
+        "detail": "Article row read directly from PostgreSQL",
+        "available": true
+      },
+      {
+        "kind": "ga4",
+        "name": "ga4.sessions_7d",
+        "detail": "GA4 returned no usable summary (integration not operational)",
+        "available": false
+      },
+      {
+        "kind": "search_console",
+        "name": "search_console.rows_7d",
+        "detail": "Search Console returned no rows (integration not operational or property has no data)",
+        "available": false
+      },
+      {
+        "kind": "affiliate_network",
+        "name": "affiliate_network.clicks_and_payouts",
+        "detail": "No Digistore24 reporting/API integration exists in this codebase; clicks, conversions and payouts cannot be observed",
+        "available": false
+      }
+    ],
+    "limitations": [
+      "GA4: GA4 returned no usable summary (integration not operational)",
+      "Google Search Console: Search Console returned no rows (integration not operational or property has no data)",
+      "No affiliate network reporting integration exists, so clicks, conversions and payouts are unobservable.",
+      "Article was published 0.1h ago; search indexing and organic traffic have not had time to occur."
+    ],
+    "verified_at": "2026-09-27T04:17:25.078Z"
+  }
+]

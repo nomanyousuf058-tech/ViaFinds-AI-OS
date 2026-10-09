@@ -1,0 +1,928 @@
+[
+  {
+    "id": "83c7518e-7230-41b0-81c8-d4133bedd35a",
+    "execution_plan_id": "e827ccf4-0676-428c-b7f0-e0246ecd38fb",
+    "target_id": "job_1790267907815_x52n120",
+    "target_type": "automation_job",
+    "overall_status": "FAIL",
+    "checks": [
+      {
+        "name": "article_content_structure",
+        "status": "warning",
+        "message": "0 headings found",
+        "severity": "warning"
+      },
+      {
+        "name": "content_completeness",
+        "status": "warning",
+        "message": "4 words",
+        "severity": "warning"
+      },
+      {
+        "name": "source_evidence_presence",
+        "status": "warning",
+        "message": "0 sources",
+        "severity": "warning"
+      },
+      {
+        "name": "affiliate_product_information",
+        "status": "fail",
+        "message": "Title exists",
+        "severity": "error"
+      },
+      {
+        "name": "affiliate_url",
+        "status": "warning",
+        "message": "Missing URL",
+        "severity": "warning"
+      },
+      {
+        "name": "image_presence",
+        "status": "warning",
+        "message": "Images or placeholders present",
+        "severity": "warning"
+      },
+      {
+        "name": "image_alt_text",
+        "status": "pass",
+        "message": "Alt text checked",
+        "severity": "warning"
+      },
+      {
+        "name": "title",
+        "status": "fail",
+        "message": "Title present",
+        "severity": "error"
+      },
+      {
+        "name": "slug",
+        "status": "fail",
+        "message": "Slug present",
+        "severity": "error"
+      },
+      {
+        "name": "meta_title",
+        "status": "fail",
+        "message": "Meta title present",
+        "severity": "error"
+      },
+      {
+        "name": "meta_description",
+        "status": "fail",
+        "message": "Meta description present",
+        "severity": "error"
+      },
+      {
+        "name": "search_intent",
+        "status": "pass",
+        "message": "Assumed commercial intent matched",
+        "severity": "info"
+      },
+      {
+        "name": "key_answer",
+        "status": "warning",
+        "message": "Content exists to answer query",
+        "severity": "warning"
+      },
+      {
+        "name": "headings",
+        "status": "fail",
+        "message": "Minimal headings present",
+        "severity": "error"
+      },
+      {
+        "name": "internal_links",
+        "status": "warning",
+        "message": "Internal links checked",
+        "severity": "warning"
+      },
+      {
+        "name": "external_source_links",
+        "status": "warning",
+        "message": "External links checked",
+        "severity": "warning"
+      },
+      {
+        "name": "schema_applicable",
+        "status": "pass",
+        "message": "Schema markup supported",
+        "severity": "info"
+      },
+      {
+        "name": "cta",
+        "status": "warning",
+        "message": "CTA object presence",
+        "severity": "warning"
+      },
+      {
+        "name": "eeat_checks",
+        "status": "warning",
+        "message": "Author attribution",
+        "severity": "warning"
+      },
+      {
+        "name": "seo_requirements",
+        "status": "fail",
+        "message": "SEO metadata object",
+        "severity": "error"
+      },
+      {
+        "name": "geo_aeo_quality",
+        "status": "warning",
+        "message": "FAQ for AEO present",
+        "severity": "warning"
+      },
+      {
+        "name": "mobile_rendering_checks",
+        "status": "pass",
+        "message": "Content is structured HTML",
+        "severity": "info"
+      }
+    ],
+    "failure_reason": "Failed: affiliate_product_information, title, slug, meta_title, meta_description, headings, seo_requirements",
+    "recommended_fix": "Fix: affiliate_product_information; Fix: title; Fix: slug; Fix: meta_title; Fix: meta_description; Fix: headings; Fix: seo_requirements; Consider: article_content_structure; Consider: content_completeness; Consider: source_evidence_presence; Consider: affiliate_url; Consider: image_presence; Consider: key_answer; Consider: internal_links; Consider: external_source_links; Consider: cta; Consider: eeat_checks; Consider: geo_aeo_quality",
+    "created_at": "2026-09-24T16:38:30.393Z",
+    "provenance": "UNKNOWN",
+    "article_id": null,
+    "brain_task_id": null,
+    "automation_job_id": null,
+    "strategy_id": null,
+    "opportunity_id": null,
+    "correlation_id": null,
+    "score": null,
+    "warnings": [],
+    "failures": [],
+    "published": false,
+    "publication_blocked_reason": null
+  },
+  {
+    "id": "6cc22674-25c9-4ddd-a1aa-9de36a920761",
+    "execution_plan_id": "e827ccf4-0676-428c-b7f0-e0246ecd38fb",
+    "target_id": "job_1790267907815_x52n120",
+    "target_type": "automation_job",
+    "overall_status": "PASS",
+    "checks": [
+      {
+        "name": "article_content_structure",
+        "status": "pass",
+        "message": "3 headings found",
+        "severity": "warning"
+      },
+      {
+        "name": "content_completeness",
+        "status": "pass",
+        "message": "1144 words",
+        "severity": "warning"
+      },
+      {
+        "name": "source_evidence_presence",
+        "status": "pass",
+        "message": "2 sources",
+        "severity": "warning"
+      },
+      {
+        "name": "affiliate_product_information",
+        "status": "pass",
+        "message": "Title exists",
+        "severity": "error"
+      },
+      {
+        "name": "affiliate_url",
+        "status": "pass",
+        "message": "URL present",
+        "severity": "warning"
+      },
+      {
+        "name": "image_presence",
+        "status": "pass",
+        "message": "Images or placeholders present",
+        "severity": "warning"
+      },
+      {
+        "name": "image_alt_text",
+        "status": "pass",
+        "message": "Alt text checked",
+        "severity": "warning"
+      },
+      {
+        "name": "title",
+        "status": "pass",
+        "message": "Title present",
+        "severity": "error"
+      },
+      {
+        "name": "slug",
+        "status": "pass",
+        "message": "Slug present",
+        "severity": "error"
+      },
+      {
+        "name": "meta_title",
+        "status": "pass",
+        "message": "Meta title present",
+        "severity": "error"
+      },
+      {
+        "name": "meta_description",
+        "status": "pass",
+        "message": "Meta description present",
+        "severity": "error"
+      },
+      {
+        "name": "search_intent",
+        "status": "pass",
+        "message": "Assumed commercial intent matched",
+        "severity": "info"
+      },
+      {
+        "name": "key_answer",
+        "status": "pass",
+        "message": "Content exists to answer query",
+        "severity": "warning"
+      },
+      {
+        "name": "headings",
+        "status": "pass",
+        "message": "Minimal headings present",
+        "severity": "error"
+      },
+      {
+        "name": "internal_links",
+        "status": "pass",
+        "message": "Internal links checked",
+        "severity": "warning"
+      },
+      {
+        "name": "external_source_links",
+        "status": "pass",
+        "message": "External links checked",
+        "severity": "warning"
+      },
+      {
+        "name": "schema_applicable",
+        "status": "pass",
+        "message": "Schema markup supported",
+        "severity": "info"
+      },
+      {
+        "name": "cta",
+        "status": "pass",
+        "message": "CTA object presence",
+        "severity": "warning"
+      },
+      {
+        "name": "eeat_checks",
+        "status": "pass",
+        "message": "Author attribution",
+        "severity": "warning"
+      },
+      {
+        "name": "seo_requirements",
+        "status": "pass",
+        "message": "SEO metadata object",
+        "severity": "error"
+      },
+      {
+        "name": "geo_aeo_quality",
+        "status": "pass",
+        "message": "FAQ for AEO present",
+        "severity": "warning"
+      },
+      {
+        "name": "mobile_rendering_checks",
+        "status": "pass",
+        "message": "Content is structured HTML",
+        "severity": "info"
+      }
+    ],
+    "failure_reason": null,
+    "recommended_fix": null,
+    "created_at": "2026-09-24T16:38:31.389Z",
+    "provenance": "UNKNOWN",
+    "article_id": null,
+    "brain_task_id": null,
+    "automation_job_id": null,
+    "strategy_id": null,
+    "opportunity_id": null,
+    "correlation_id": null,
+    "score": null,
+    "warnings": [],
+    "failures": [],
+    "published": false,
+    "publication_blocked_reason": null
+  },
+  {
+    "id": "700ebcad-ca7a-4319-8b3d-b36a3066e20c",
+    "execution_plan_id": "a153e91c-056d-450c-ad4e-cf479dd24f87",
+    "target_id": "50a0a693-e622-43a8-a641-a0d68c6a2907",
+    "target_type": "article",
+    "overall_status": "FAIL",
+    "checks": [
+      {
+        "name": "2 actions not completed",
+        "status": "FAIL",
+        "details": "2 actions not completed"
+      },
+      {
+        "name": "Action action-3 ran before dependency action-2 completed",
+        "status": "FAIL",
+        "details": "Action action-3 ran before dependency action-2 completed"
+      }
+    ],
+    "failure_reason": "2 actions not completed; Action action-3 ran before dependency action-2 completed",
+    "recommended_fix": null,
+    "created_at": "2026-09-26T05:36:58.987Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "brain_task_id": null,
+    "automation_job_id": null,
+    "strategy_id": null,
+    "opportunity_id": null,
+    "correlation_id": null,
+    "score": null,
+    "warnings": [],
+    "failures": [],
+    "published": false,
+    "publication_blocked_reason": null
+  },
+  {
+    "id": "1c47dd43-bcaf-4093-a7f9-456d3db07212",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "target_id": "job_1790444075919_ximwx6d",
+    "target_type": "draft_prepublication",
+    "overall_status": "FAIL",
+    "checks": [
+      {
+        "name": "draft.title",
+        "status": "PASS",
+        "message": "Draft title is 72 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.slug",
+        "status": "PASS",
+        "message": "Draft slug is \"creator-video-repurposing-and-copywriting-workflows-breakdown-analysis-qz5vzi\"",
+        "severity": "info"
+      },
+      {
+        "name": "draft.body",
+        "status": "FAIL",
+        "message": "Draft body has only 356 words",
+        "severity": "error"
+      },
+      {
+        "name": "draft.structure",
+        "status": "PASS",
+        "message": "Draft has 16 headings",
+        "severity": "info"
+      },
+      {
+        "name": "draft.excerpt",
+        "status": "PASS",
+        "message": "Draft excerpt is 156 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_title",
+        "status": "PASS",
+        "message": "metaTitle present",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_description",
+        "status": "PASS",
+        "message": "metaDescription present",
+        "severity": "info"
+      },
+      {
+        "name": "pipeline.quality_gate",
+        "status": "WARNING",
+        "message": "Pipeline quality gate status is \"PASS_WITH_WARNINGS\"",
+        "severity": "warning"
+      }
+    ],
+    "failure_reason": "draft.body: Draft body has only 356 words",
+    "recommended_fix": "Resolve the failing checks and re-run the quality gate; publication stays blocked until the gate does not fail.",
+    "created_at": "2026-09-26T17:35:07.108Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "brain_task_id": "82a0968e-cd55-4218-98e4-2dcb430d6c4c",
+    "automation_job_id": "job_1790444075919_ximwx6d",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "score": 84,
+    "warnings": [
+      "pipeline.quality_gate: Pipeline quality gate status is \"PASS_WITH_WARNINGS\""
+    ],
+    "failures": [
+      "draft.body: Draft body has only 356 words"
+    ],
+    "published": false,
+    "publication_blocked_reason": "Quality gate failed before publication"
+  },
+  {
+    "id": "4ad17197-31dd-4a3e-a2ba-4ae80d07f2ae",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "target_id": "job_1790473887911_teod04g",
+    "target_type": "draft_prepublication",
+    "overall_status": "FAIL",
+    "checks": [
+      {
+        "name": "draft.title",
+        "status": "PASS",
+        "message": "Draft title is 72 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.slug",
+        "status": "PASS",
+        "message": "Draft slug is \"creator-video-repurposing-and-copywriting-workflows-breakdown-analysis-mo0an6\"",
+        "severity": "info"
+      },
+      {
+        "name": "draft.body",
+        "status": "FAIL",
+        "message": "Draft body has only 356 words",
+        "severity": "error"
+      },
+      {
+        "name": "draft.structure",
+        "status": "PASS",
+        "message": "Draft has 16 headings",
+        "severity": "info"
+      },
+      {
+        "name": "draft.excerpt",
+        "status": "PASS",
+        "message": "Draft excerpt is 156 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_title",
+        "status": "PASS",
+        "message": "metaTitle present",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_description",
+        "status": "PASS",
+        "message": "metaDescription present",
+        "severity": "info"
+      },
+      {
+        "name": "pipeline.quality_gate",
+        "status": "WARNING",
+        "message": "Pipeline quality gate status is \"PASS_WITH_WARNINGS\"",
+        "severity": "warning"
+      }
+    ],
+    "failure_reason": "draft.body: Draft body has only 356 words",
+    "recommended_fix": "Resolve the failing checks and re-run the quality gate; publication stays blocked until the gate does not fail.",
+    "created_at": "2026-09-27T01:52:06.374Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "brain_task_id": "d72d32d9-d7c2-42a7-9d90-7948f5bc3d6f",
+    "automation_job_id": "job_1790473887911_teod04g",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "score": 84,
+    "warnings": [
+      "pipeline.quality_gate: Pipeline quality gate status is \"PASS_WITH_WARNINGS\""
+    ],
+    "failures": [
+      "draft.body: Draft body has only 356 words"
+    ],
+    "published": false,
+    "publication_blocked_reason": "Quality gate failed before publication"
+  },
+  {
+    "id": "d0ae9e08-8fc8-4e2a-88cf-4bb7d1dddc4f",
+    "execution_plan_id": "1b0c5cd1-2a1c-455b-aa44-82d8e7c94da2",
+    "target_id": "job_1790475097680_otldju7",
+    "target_type": "draft_prepublication",
+    "overall_status": "PASS_WITH_WARNINGS",
+    "checks": [
+      {
+        "name": "draft.title",
+        "status": "PASS",
+        "message": "Draft title is 72 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.slug",
+        "status": "PASS",
+        "message": "Draft slug is \"creator-video-repurposing-and-copywriting-workflows-breakdown-analysis-hkw8v9\"",
+        "severity": "info"
+      },
+      {
+        "name": "draft.body",
+        "status": "PASS",
+        "message": "Draft body has 1056 words",
+        "severity": "info"
+      },
+      {
+        "name": "draft.structure",
+        "status": "PASS",
+        "message": "Draft has 13 headings",
+        "severity": "info"
+      },
+      {
+        "name": "draft.excerpt",
+        "status": "PASS",
+        "message": "Draft excerpt is 153 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_title",
+        "status": "PASS",
+        "message": "metaTitle present",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_description",
+        "status": "PASS",
+        "message": "metaDescription present",
+        "severity": "info"
+      },
+      {
+        "name": "pipeline.quality_gate",
+        "status": "WARNING",
+        "message": "Pipeline quality gate status is \"PASS_WITH_WARNINGS\"",
+        "severity": "warning"
+      }
+    ],
+    "failure_reason": null,
+    "recommended_fix": "Address the warnings before scaling this content pattern.",
+    "created_at": "2026-09-27T02:13:48.719Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "brain_task_id": "91ede107-3897-4436-aaa0-d4f4f7a5e10d",
+    "automation_job_id": "job_1790475097680_otldju7",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "score": 96,
+    "warnings": [
+      "pipeline.quality_gate: Pipeline quality gate status is \"PASS_WITH_WARNINGS\""
+    ],
+    "failures": [],
+    "published": false,
+    "publication_blocked_reason": null
+  },
+  {
+    "id": "fee4b996-5bc2-417f-ab82-0f766002bbd4",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "target_id": "job_1790477014594_fp54xhv",
+    "target_type": "draft_prepublication",
+    "overall_status": "FAIL",
+    "checks": [
+      {
+        "name": "draft.provenance",
+        "status": "FAIL",
+        "message": "Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold)",
+        "severity": "error"
+      },
+      {
+        "name": "draft.title",
+        "status": "PASS",
+        "message": "Draft title is 58 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.slug",
+        "status": "PASS",
+        "message": "Draft slug is \"notion-alternatives-for-creators-2026-breakdown-analysis-tbu42j\"",
+        "severity": "info"
+      },
+      {
+        "name": "draft.body",
+        "status": "FAIL",
+        "message": "Draft body has only 343 words",
+        "severity": "error"
+      },
+      {
+        "name": "draft.structure",
+        "status": "PASS",
+        "message": "Draft has 16 headings",
+        "severity": "info"
+      },
+      {
+        "name": "draft.excerpt",
+        "status": "PASS",
+        "message": "Draft excerpt is 155 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_title",
+        "status": "PASS",
+        "message": "metaTitle present",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_description",
+        "status": "PASS",
+        "message": "metaDescription present",
+        "severity": "info"
+      },
+      {
+        "name": "pipeline.quality_gate",
+        "status": "WARNING",
+        "message": "Pipeline quality gate status is \"PASS_WITH_WARNINGS\"",
+        "severity": "warning"
+      }
+    ],
+    "failure_reason": "draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold); draft.body: Draft body has only 343 words",
+    "recommended_fix": "Resolve the failing checks and re-run the quality gate; publication stays blocked until the gate does not fail.",
+    "created_at": "2026-09-27T02:47:29.915Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "brain_task_id": "a904ea03-1084-4f49-98ad-f758b82d2d5a",
+    "automation_job_id": "job_1790477014594_fp54xhv",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "score": 72,
+    "warnings": [
+      "pipeline.quality_gate: Pipeline quality gate status is \"PASS_WITH_WARNINGS\""
+    ],
+    "failures": [
+      "draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold)",
+      "draft.body: Draft body has only 343 words"
+    ],
+    "published": false,
+    "publication_blocked_reason": "Quality gate failed before publication"
+  },
+  {
+    "id": "9e0dcc80-200c-4a1d-be71-5b9c4df28b1b",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "target_id": "job_1790478536372_87q26lm",
+    "target_type": "draft_prepublication",
+    "overall_status": "FAIL",
+    "checks": [
+      {
+        "name": "draft.provenance",
+        "status": "FAIL",
+        "message": "Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold)",
+        "severity": "error"
+      },
+      {
+        "name": "draft.title",
+        "status": "PASS",
+        "message": "Draft title is 58 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.slug",
+        "status": "PASS",
+        "message": "Draft slug is \"notion-alternatives-for-creators-2026-breakdown-analysis-jmqaip\"",
+        "severity": "info"
+      },
+      {
+        "name": "draft.body",
+        "status": "FAIL",
+        "message": "Draft body has only 343 words",
+        "severity": "error"
+      },
+      {
+        "name": "draft.structure",
+        "status": "PASS",
+        "message": "Draft has 16 headings",
+        "severity": "info"
+      },
+      {
+        "name": "draft.excerpt",
+        "status": "PASS",
+        "message": "Draft excerpt is 155 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_title",
+        "status": "PASS",
+        "message": "metaTitle present",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_description",
+        "status": "PASS",
+        "message": "metaDescription present",
+        "severity": "info"
+      },
+      {
+        "name": "pipeline.quality_gate",
+        "status": "WARNING",
+        "message": "Pipeline quality gate status is \"PASS_WITH_WARNINGS\"",
+        "severity": "warning"
+      }
+    ],
+    "failure_reason": "draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold); draft.body: Draft body has only 343 words",
+    "recommended_fix": "Resolve the failing checks and re-run the quality gate; publication stays blocked until the gate does not fail.",
+    "created_at": "2026-09-27T03:22:54.027Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "brain_task_id": "377d6e3a-d1af-4d08-be75-edc5df0d2562",
+    "automation_job_id": "job_1790478536372_87q26lm",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "score": 72,
+    "warnings": [
+      "pipeline.quality_gate: Pipeline quality gate status is \"PASS_WITH_WARNINGS\""
+    ],
+    "failures": [
+      "draft.provenance: Content generation failed and the body is a template stand-in, not model output (Pipeline failed:\nAll providers failed to generate a response.\n\nProvider report:\n\nOllama:\nFailed\nReason: fetch failed\n\nGroq:\nSkipped\nReason: provider is on coold)",
+      "draft.body: Draft body has only 343 words"
+    ],
+    "published": false,
+    "publication_blocked_reason": "Quality gate failed before publication"
+  },
+  {
+    "id": "a7ebe8d3-800f-493a-9270-91e1b9458453",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "target_id": "job_1790482166009_sp5ry7t",
+    "target_type": "draft_prepublication",
+    "overall_status": "PASS_WITH_WARNINGS",
+    "checks": [
+      {
+        "name": "draft.title",
+        "status": "PASS",
+        "message": "Draft title is 58 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.slug",
+        "status": "PASS",
+        "message": "Draft slug is \"notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh\"",
+        "severity": "info"
+      },
+      {
+        "name": "draft.body",
+        "status": "PASS",
+        "message": "Draft body has 844 words",
+        "severity": "info"
+      },
+      {
+        "name": "draft.structure",
+        "status": "PASS",
+        "message": "Draft has 17 headings",
+        "severity": "info"
+      },
+      {
+        "name": "draft.excerpt",
+        "status": "PASS",
+        "message": "Draft excerpt is 150 chars",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_title",
+        "status": "PASS",
+        "message": "metaTitle present",
+        "severity": "info"
+      },
+      {
+        "name": "draft.seo.meta_description",
+        "status": "PASS",
+        "message": "metaDescription present",
+        "severity": "info"
+      },
+      {
+        "name": "pipeline.quality_gate",
+        "status": "WARNING",
+        "message": "Pipeline quality gate status is \"PASS_WITH_WARNINGS\"",
+        "severity": "warning"
+      }
+    ],
+    "failure_reason": null,
+    "recommended_fix": "Address the warnings before scaling this content pattern.",
+    "created_at": "2026-09-27T04:10:52.050Z",
+    "provenance": "REAL",
+    "article_id": null,
+    "brain_task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+    "automation_job_id": "job_1790482166009_sp5ry7t",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "score": 96,
+    "warnings": [
+      "pipeline.quality_gate: Pipeline quality gate status is \"PASS_WITH_WARNINGS\""
+    ],
+    "failures": [],
+    "published": false,
+    "publication_blocked_reason": null
+  },
+  {
+    "id": "b1d5bdd2-64da-4e4a-8296-69227be4c781",
+    "execution_plan_id": "2c2b1ab5-9571-470c-acda-968f51fc7165",
+    "target_id": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+    "target_type": "article",
+    "overall_status": "PASS",
+    "checks": [
+      {
+        "name": "article_exists",
+        "status": "PASS",
+        "message": "Article eb7cbbcc-916b-4780-8154-127233d6dc4a exists",
+        "severity": "info"
+      },
+      {
+        "name": "traceability.brain_task_id",
+        "status": "PASS",
+        "message": "brain_task_id = 365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+        "severity": "info"
+      },
+      {
+        "name": "traceability.automation_job_id",
+        "status": "PASS",
+        "message": "automation_job_id = job_1790482166009_sp5ry7t",
+        "severity": "info"
+      },
+      {
+        "name": "traceability.strategy_id",
+        "status": "PASS",
+        "message": "strategy_id = fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+        "severity": "info"
+      },
+      {
+        "name": "traceability.opportunity_id",
+        "status": "PASS",
+        "message": "opportunity_id = c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+        "severity": "info"
+      },
+      {
+        "name": "title",
+        "status": "PASS",
+        "message": "Title is 58 chars",
+        "severity": "info"
+      },
+      {
+        "name": "slug",
+        "status": "PASS",
+        "message": "Slug is \"notion-alternatives-for-creators-2026-breakdown-analysis-ldnslh\"",
+        "severity": "info"
+      },
+      {
+        "name": "content.body",
+        "status": "PASS",
+        "message": "844 words",
+        "severity": "info"
+      },
+      {
+        "name": "content.structure",
+        "status": "PASS",
+        "message": "13 headings",
+        "severity": "info"
+      },
+      {
+        "name": "content.excerpt",
+        "status": "PASS",
+        "message": "Excerpt is 150 chars",
+        "severity": "info"
+      },
+      {
+        "name": "seo.meta_title",
+        "status": "PASS",
+        "message": "metaTitle present",
+        "severity": "info"
+      },
+      {
+        "name": "seo.meta_description",
+        "status": "PASS",
+        "message": "metaDescription present",
+        "severity": "info"
+      },
+      {
+        "name": "affiliate.link",
+        "status": "PASS",
+        "message": "affiliate_url = https://www.digistore24.com/redir/137597/1727525",
+        "severity": "info"
+      },
+      {
+        "name": "publication.state",
+        "status": "PASS",
+        "message": "published at Sun Sep 27 2026 09:10:45 GMT+0500 (Pakistan Standard Time)",
+        "severity": "info"
+      },
+      {
+        "name": "media.cover_image",
+        "status": "PASS",
+        "message": "cover image present",
+        "severity": "info"
+      }
+    ],
+    "failure_reason": null,
+    "recommended_fix": null,
+    "created_at": "2026-09-27T04:10:56.982Z",
+    "provenance": "REAL",
+    "article_id": "eb7cbbcc-916b-4780-8154-127233d6dc4a",
+    "brain_task_id": "365ad20f-7ae8-4ecc-8fa9-eae7685a391b",
+    "automation_job_id": "job_1790482166009_sp5ry7t",
+    "strategy_id": "fc3bfcd6-4c15-48c2-971e-1f5e14a697bb",
+    "opportunity_id": "c5292004-ecd6-4e69-8fa5-fdf01073f6b9",
+    "correlation_id": "brain-1790442652763-f54bldd",
+    "score": 100,
+    "warnings": [],
+    "failures": [],
+    "published": true,
+    "publication_blocked_reason": null
+  }
+]

@@ -1,0 +1,146 @@
+﻿import { StepResult, AutomationContext, TrendingProduct } from "./types";
+import { logger } from "../../../lib/logger";
+import { Digistore24Provider } from "../../../providers/affiliate/Digistore24Provider";
+
+export class TrendingDiscoveryStep {
+  private rateLimitDelay = 1000;
+
+  public async execute(context: AutomationContext): Promise<StepResult> {
+    const result: StepResult = {
+      status: "success",
+      data: { trendingProducts: [], sourcesUsed: [], totalFound: 0 },
+      errors: [],
+      warnings: [],
+      dryRun: context.dryRun,
+    };
+
+    logger.info("Starting trending discovery", { workflowId: context.workflowId, dryRun: context.dryRun });
+
+    if (context.dryRun) {
+      result.data.trendingProducts = this.getMockTrendingProducts();
+      result.data.totalFound = result.data.trendingProducts.length;
+      result.data.sourcesUsed = ["dry-run-mock"];
+      logger.info("Trending discovery dry-run completed", { workflowId: context.workflowId });
+      return result;
+    }
+
+    const credentials = context.credentials || {};
+    const trendingProducts: TrendingProduct[] = [];
+
+    const serpapiKey = process.env.SERPAPI_API_KEY;
+    if (serpapiKey) {
+      try {
+        const serpResults = await this.searchSerpAPI("trending products 2026", serpapiKey);
+        for (const item of serpResults.slice(0, 10)) {
+          trendingProducts.push({
+            id: `serp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+            name: item.title || "Unknown Product",
+            // SerpAPI exposes no search-volume metric for arbitrary
+            // product names. Marking this UNKNOWN prevents fabricated
+            // business metrics from reaching production output.
+            searchVolume: null,
+            searchVolumeEstimate: null,
+            trendDirection: null,
+            estimatedCommission: null,
+            estimatedCommissionEstimate: null,
+            partnerAvailability: [],
+            categoryMatch: null,
+            confidence: 0.5,
+            dataQuality: "unknown",
+            evidence: { source: "serpapi", raw: item.link },
+          });
+        }
+        result.data.sourcesUsed.push("serpapi");
+      } catch (err) {
+        result.warnings.push(`SerpAPI search failed: ${(err as Error).message}`);
+      }
+    }
+
+    const serperKey = process.env.SERPER_API_KEY;
+    if (serperKey && trendingProducts.length < 5) {
+      try {
+        const serperResults = await this.searchSerper("trending products 2026", serperKey);
+        for (const item of serperResults.slice(0, 10)) {
+          if (trendingProducts.length >= 15) break;
+          trendingProducts.push({
+            id: `serper-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+            name: item.title || "Unknown Product",
+            searchVolume: null,
+            searchVolumeEstimate: null,
+            trendDirection: null,
+            estimatedCommission: null,
+            estimatedCommissionEstimate: null,
+            partnerAvailability: [],
+            categoryMatch: null,
+            confidence: 0.5,
+            dataQuality: "unknown",
+            evidence: { source: "serper", raw: item.link },
+          });
+        }
+        result.data.sourcesUsed.push("serper");
+      } catch (err) {
+        result.warnings.push(`Serper search failed: ${(err as Error).message}`);
+      }
+    }
+
+    const digistoreConfig = credentials["digistore24"];
+    if (digistoreConfig?.apiKey && !digistoreConfig.disabled) {
+      try {
+        const provider = new Digistore24Provider(digistoreConfig.apiKey);
+        const digiProducts = await provider.discoverProducts("trending", 20);
+
+        for (const product of digiProducts) {
+          trendingProducts.push({
+            id: product.id || `digi-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+            name: product.name,
+            searchVolume: null,
+            searchVolumeEstimate: null,
+            trendDirection: null,
+            // The provider returns the real commission; we never
+            // invent one when the field is absent.
+            estimatedCommission: product.commission != null ? parseFloat(String(product.commission)) : null,
+            estimatedCommissionEstimate: null,
+            partnerAvailability: ["digistore24"],
+            categoryMatch: null,
+            confidence: 0.8,
+            dataQuality: product.commission != null ? "provider" : "partial",
+            evidence: { source: "digistore24", productId: product.id },
+          });
+        }
+        result.data.sourcesUsed.push("digistore24");
+      } catch (err) {
+        result.warnings.push(`Digistore24 discovery failed: ${(err as Error).message}`);
+      }
+    }
+
+    for (const product of trendingProducts) {
+      if (!product.categoryMatch) {
+        product.categoryMatch = await this.matchCategory(product.name);
+      }
+    }
+
+    // Sort is stable only when the metric is real. With UNKNOWN metrics
+    // every row carries null, so we sort deterministically by name and
+    // never fabricate an ordering.
+    trendingProducts.sort((a, b) => {
+      const av = a.searchVolume as number | null;
+      const bv = b.searchVolume as number | null;
+      if (av === null && bv === null) return a.name.localeCompare(b.name);
+      if (av === null) return 1;
+      if (bv === null) return -1;
+      return bv - av;
+    });
+    result.data.trendingProducts = trendingProducts;
+    result.data.totalFound = trendingProducts.length;
+
+    logger.info("Trending discovery completed", {
+      workflowId: context.workflowId,
+      totalFound: result.data.totalFound,
+      sources: result.data.sourcesUsed,
+    });
+
+    return result;
+  }
+
+  private async searchSerpAPI(query: string, apiKey: string): Promise<{ title: string; link: string }[]> {
+    const url = `https://serpapi.com/search?engine=google&q=${encodeURIComponent(query)}&api_key=${apiKey}&num=10`;
