@@ -59,7 +59,7 @@ const PROVIDER = 'digistore24'
  *
  * Both produce an SHA-512 hex digest (case-insensitive comparison).
  */
-const EXCLUDED_SIGN_KEYS = new Set(['sha_sign', 'shasign', 'password'])
+const EXCLUDED_SIGN_KEYS = new Set(['sha_sign', 'shasign'])
 
 function getSignatureKeys(params: Record<string, string>): string[] {
   return Object.keys(params)
@@ -183,6 +183,8 @@ export async function POST(request: Request) {
   const providedSignature = params.sha_sign || params.shasign || params.SHASIGN
   const providedPassword = params.password
 
+  const isConnectionTest = (params.event || '').toLowerCase() === 'connection_test' || (params.order_type || '').toLowerCase() === 'connection_test'
+
   if (providedSignature) {
     if (!verifySignature(params, passphrase)) {
       console.warn('Digistore24 IPN rejected: invalid SHA signature')
@@ -195,9 +197,14 @@ export async function POST(request: Request) {
       console.warn('Digistore24 IPN rejected: invalid IPN password')
       return NextResponse.json({ error: 'Invalid IPN password' }, { status: 401 })
     }
-  } else {
+  } else if (!isConnectionTest) {
     console.warn('Digistore24 IPN rejected: neither signature nor password provided')
     return NextResponse.json({ error: 'Missing authentication' }, { status: 401 })
+  }
+
+  // --- Handle connection_test ---
+  if (isConnectionTest) {
+    return okResponse({ success: true, message: 'Connection test successful' })
   }
 
   try {

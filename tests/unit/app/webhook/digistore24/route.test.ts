@@ -24,7 +24,7 @@ import { POST } from '@/app/api/webhook/digistore24/route'
 
 const PASSPHRASE = 'test-sha-passphrase'
 
-const EXCLUDED_KEYS = new Set(['sha_sign', 'shasign', 'password'])
+const EXCLUDED_KEYS = new Set(['sha_sign', 'shasign'])
 
 /**
  * Mirror of the route's signature algorithm — Variant A (passphrase once at end).
@@ -136,10 +136,42 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(mockPool.query).not.toHaveBeenCalled()
   })
 
-  it('returns 401 when neither signature nor password is provided', async () => {
+  it('returns 401 when neither signature nor password is provided for non-test events', async () => {
     const response = await POST(makeUnauthenticatedRequest(SALE_PARAMS))
     expect(response.status).toBe(401)
     expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('accepts connection_test event without authentication', async () => {
+    const testParams = { event: 'connection_test' }
+    const response = await POST(makeUnauthenticatedRequest(testParams))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toContain('OK')
+    expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('accepts valid connection_test event with signature', async () => {
+    const testParams = { event: 'connection_test' }
+    const response = await POST(makeRequest(testParams))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toContain('OK')
+    expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('rejects connection_test event if signature is provided but invalid', async () => {
+    const testParams = { event: 'connection_test' }
+    const response = await POST(makeRequest(testParams, 'wrong-passphrase'))
+    expect(response.status).toBe(401)
+    expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('includes password in signature computation but not sha_sign', async () => {
+    // Digistore24 sends password if configured, and computes signature INCLUDING it
+    const paramsWithPassword = { ...SALE_PARAMS, password: 'my-ipn-password' }
+    const response = await POST(makeRequest(paramsWithPassword))
+    expect(response.status).toBe(200)
   })
 
   it('returns 401 for an invalid IPN password', async () => {
