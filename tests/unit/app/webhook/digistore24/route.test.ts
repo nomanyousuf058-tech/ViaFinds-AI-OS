@@ -24,10 +24,25 @@ import { POST } from '@/app/api/webhook/digistore24/route'
 
 const PASSPHRASE = 'test-sha-passphrase'
 
-/** Mirror of the route's signature algorithm (Digistore24 IPN guide). */
+const EXCLUDED_KEYS = new Set(['sha_sign', 'shasign', 'password'])
+
+/**
+ * Mirror of the route's signature algorithm — Variant A (passphrase once at end).
+ */
 function signParams(params: Record<string, string>, passphrase: string): string {
   const keys = Object.keys(params)
-    .filter((k) => k.toLowerCase() !== 'sha_sign')
+    .filter((k) => !EXCLUDED_KEYS.has(k.toLowerCase()))
+    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+  const raw = keys.map((k) => `${k}=${params[k]}`).join('') + passphrase
+  return createHash('sha512').update(raw, 'utf8').digest('hex').toUpperCase()
+}
+
+/**
+ * Mirror of the route's signature algorithm — Variant B (passphrase after each pair).
+ */
+function signParamsVariantB(params: Record<string, string>, passphrase: string): string {
+  const keys = Object.keys(params)
+    .filter((k) => !EXCLUDED_KEYS.has(k.toLowerCase()))
     .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
   const raw = keys.map((k) => `${k}=${params[k]}${passphrase}`).join('')
   return createHash('sha512').update(raw, 'utf8').digest('hex').toUpperCase()
@@ -35,6 +50,30 @@ function signParams(params: Record<string, string>, passphrase: string): string 
 
 function makeRequest(params: Record<string, string>, passphrase = PASSPHRASE): Request {
   const body = new URLSearchParams({ ...params, sha_sign: signParams(params, passphrase) }).toString()
+  return {
+    text: async () => body,
+    headers: { get: jest.fn(() => null) },
+  } as unknown as Request
+}
+
+function makeRequestVariantB(params: Record<string, string>, passphrase = PASSPHRASE): Request {
+  const body = new URLSearchParams({ ...params, sha_sign: signParamsVariantB(params, passphrase) }).toString()
+  return {
+    text: async () => body,
+    headers: { get: jest.fn(() => null) },
+  } as unknown as Request
+}
+
+function makePasswordRequest(params: Record<string, string>, password: string): Request {
+  const body = new URLSearchParams({ ...params, password }).toString()
+  return {
+    text: async () => body,
+    headers: { get: jest.fn(() => null) },
+  } as unknown as Request
+}
+
+function makeUnauthenticatedRequest(params: Record<string, string>): Request {
+  const body = new URLSearchParams(params).toString()
   return {
     text: async () => body,
     headers: { get: jest.fn(() => null) },
@@ -50,13 +89,20 @@ const SALE_PARAMS: Record<string, string> = {
   product_name: 'Test Product',
   affiliate_id: '999',
   sub_id_1: 'vf_testshort123',
-  order_type: 'SALE',
+  event: 'on_payment',
   commission: '25.50',
   currency: 'USD',
   transaction_date: '2026-10-05',
   transaction_time: '12:00:00',
   country: 'US',
 }
+
+/** Params using legacy order_type instead of event (backward compat). */
+const LEGACY_SALE_PARAMS: Record<string, string> = {
+  ...SALE_PARAMS,
+  order_type: 'SALE',
+}
+delete (LEGACY_SALE_PARAMS as any).event
 
 describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
   const originalEnv = process.env.DIGISTORE24_SHA_PASSPHRASE
@@ -75,6 +121,8 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     }
   })
 
+  // --- Authentication tests ---
+
   it('returns 503 when passphrase is not configured (fail closed)', async () => {
     delete process.env.DIGISTORE24_SHA_PASSPHRASE
     const response = await POST(makeRequest(SALE_PARAMS))
@@ -82,11 +130,47 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(mockPool.query).not.toHaveBeenCalled()
   })
 
-  it('returns 401 for an invalid signature', async () => {
+  it('returns 401 for an invalid SHA signature', async () => {
     const response = await POST(makeRequest(SALE_PARAMS, 'wrong-passphrase'))
     expect(response.status).toBe(401)
     expect(mockPool.query).not.toHaveBeenCalled()
   })
+
+  it('returns 401 when neither signature nor password is provided', async () => {
+    const response = await POST(makeUnauthenticatedRequest(SALE_PARAMS))
+    expect(response.status).toBe(401)
+    expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('returns 401 for an invalid IPN password', async () => {
+    const response = await POST(makePasswordRequest(SALE_PARAMS, 'wrong-password'))
+    expect(response.status).toBe(401)
+    expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('accepts a valid IPN password when no sha_sign is present', async () => {
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const response = await POST(makePasswordRequest(SALE_PARAMS, PASSPHRASE))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toContain('OK')
+  })
+
+  it('accepts Variant B signature (passphrase after each pair)', async () => {
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const response = await POST(makeRequestVariantB(SALE_PARAMS))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toContain('OK')
+  })
+
+  // --- Validation tests ---
 
   it('returns 400 when no transaction identifier is present', async () => {
     const { transaction_id, order_id, ...rest } = SALE_PARAMS
@@ -94,7 +178,9 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(response.status).toBe(400)
   })
 
-  it('records a new, attributable sale conversion', async () => {
+  // --- Sale processing tests ---
+
+  it('records a new, attributable sale conversion (event=on_payment)', async () => {
     // 1. findConversionByProviderTransaction → none
     mockPool.query.mockResolvedValueOnce({ rows: [] })
     // 2. findLinkBySubId1 → link
@@ -110,11 +196,14 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
 
     const response = await POST(makeRequest(SALE_PARAMS))
     expect(response.status).toBe(200)
-    const body = await response.json()
-    expect(body.recorded).toBe(true)
-    expect(body.orderId).toBe('TXN-100')
-    expect(body.status).toBe('approved')
-    expect(body.articleId).toBe('article-1')
+    const body = await response.text()
+    expect(body).toContain('OK')
+    const jsonPart = body.split('\n')[1]
+    const parsed = JSON.parse(jsonPart)
+    expect(parsed.recorded).toBe(true)
+    expect(parsed.orderId).toBe('TXN-100')
+    expect(parsed.status).toBe('approved')
+    expect(parsed.articleId).toBe('article-1')
 
     const insertCall = mockPool.query.mock.calls.find((c) =>
       String(c[0]).includes('INSERT INTO affiliate_conversions')
@@ -129,6 +218,27 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(values).toContain('approved')
   })
 
+  it('records a sale using legacy order_type fallback', async () => {
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({
+      rows: [{ id: 'link-1', article_id: 'article-1', product_id: 'prod-1', network: 'digistore24' }],
+    })
+    mockPool.query.mockResolvedValueOnce({
+      rows: [{ id: 'conv-2', provider_transaction_id: 'TXN-100', status: 'approved' }],
+    })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const response = await POST(makeRequest(LEGACY_SALE_PARAMS))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toContain('OK')
+    const parsed = JSON.parse(body.split('\n')[1])
+    expect(parsed.recorded).toBe(true)
+    expect(parsed.status).toBe('approved')
+  })
+
+  // --- Idempotency tests ---
+
   it('treats a replayed sale event as a duplicate (no second record)', async () => {
     // findConversionByProviderTransaction → existing approved row
     mockPool.query.mockResolvedValueOnce({
@@ -137,14 +247,18 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
 
     const response = await POST(makeRequest(SALE_PARAMS))
     expect(response.status).toBe(200)
-    const body = await response.json()
-    expect(body.duplicate).toBe(true)
+    const body = await response.text()
+    expect(body).toContain('OK')
+    const parsed = JSON.parse(body.split('\n')[1])
+    expect(parsed.duplicate).toBe(true)
     // Only the existence check ran — no INSERT, no UPDATE
     expect(mockPool.query).toHaveBeenCalledTimes(1)
   })
 
-  it('updates the existing conversion on a refund event', async () => {
-    const refundParams = { ...SALE_PARAMS, order_type: 'REFUND', commission: '0.00' }
+  // --- Refund / chargeback / cancellation tests ---
+
+  it('updates the existing conversion on a refund event (event=on_refund)', async () => {
+    const refundParams = { ...SALE_PARAMS, event: 'on_refund', commission: '0.00' }
     // 1. existing approved conversion
     mockPool.query.mockResolvedValueOnce({
       rows: [{ id: 'conv-1', status: 'approved', provider_transaction_id: 'TXN-100' }],
@@ -156,9 +270,11 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
 
     const response = await POST(makeRequest(refundParams))
     expect(response.status).toBe(200)
-    const body = await response.json()
-    expect(body.updated).toBe(true)
-    expect(body.status).toBe('refunded')
+    const body = await response.text()
+    expect(body).toContain('OK')
+    const parsed = JSON.parse(body.split('\n')[1])
+    expect(parsed.updated).toBe(true)
+    expect(parsed.status).toBe('refunded')
 
     const updateCall = mockPool.query.mock.calls.find((c) =>
       String(c[0]).includes('UPDATE affiliate_conversions SET')
@@ -167,18 +283,65 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(updateCall![1]).toContain('refunded')
   })
 
+  it('handles chargeback event (event=on_chargeback)', async () => {
+    const chargebackParams = { ...SALE_PARAMS, event: 'on_chargeback' }
+    mockPool.query.mockResolvedValueOnce({
+      rows: [{ id: 'conv-1', status: 'approved', provider_transaction_id: 'TXN-100' }],
+    })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const response = await POST(makeRequest(chargebackParams))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    const parsed = JSON.parse(body.split('\n')[1])
+    expect(parsed.updated).toBe(true)
+    expect(parsed.status).toBe('chargeback')
+  })
+
   it('ignores a repeated refund (already reversed)', async () => {
-    const refundParams = { ...SALE_PARAMS, order_type: 'REFUND' }
+    const refundParams = { ...SALE_PARAMS, event: 'on_refund' }
     mockPool.query.mockResolvedValueOnce({
       rows: [{ id: 'conv-1', status: 'refunded', provider_transaction_id: 'TXN-100' }],
     })
 
     const response = await POST(makeRequest(refundParams))
     expect(response.status).toBe(200)
-    const body = await response.json()
-    expect(body.duplicate).toBe(true)
+    const body = await response.text()
+    expect(body).toContain('OK')
+    const parsed = JSON.parse(body.split('\n')[1])
+    expect(parsed.duplicate).toBe(true)
     expect(mockPool.query).toHaveBeenCalledTimes(1)
   })
+
+  it('handles on_rebill_cancelled as a refund event', async () => {
+    const cancelParams = { ...SALE_PARAMS, event: 'on_rebill_cancelled' }
+    mockPool.query.mockResolvedValueOnce({
+      rows: [{ id: 'conv-1', status: 'approved', provider_transaction_id: 'TXN-100' }],
+    })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const response = await POST(makeRequest(cancelParams))
+    const parsed = JSON.parse((await response.text()).split('\n')[1])
+    expect(parsed.updated).toBe(true)
+    expect(parsed.status).toBe('refunded')
+  })
+
+  it('handles on_payment_missed as a pending event (no status change)', async () => {
+    const missedParams = { ...SALE_PARAMS, event: 'on_payment_missed' }
+    mockPool.query.mockResolvedValueOnce({
+      rows: [{ id: 'conv-1', status: 'approved', provider_transaction_id: 'TXN-100' }],
+    })
+
+    const response = await POST(makeRequest(missedParams))
+    expect(response.status).toBe(200)
+    const parsed = JSON.parse((await response.text()).split('\n')[1])
+    // payment_missed is "pending" — not a financial reversal, so no update
+    expect(parsed.duplicate).toBe(true)
+  })
+
+  // --- Attribution / audit tests ---
 
   it('preserves unattributable events in the audit log without storing a conversion', async () => {
     const unknownSub = { ...SALE_PARAMS, sub_id_1: 'vf_unknown999' }
@@ -191,8 +354,10 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
 
     const response = await POST(makeRequest(unknownSub))
     expect(response.status).toBe(200)
-    const body = await response.json()
-    expect(body.attributed).toBe(false)
+    const body = await response.text()
+    expect(body).toContain('OK')
+    const parsed = JSON.parse(body.split('\n')[1])
+    expect(parsed.attributed).toBe(false)
 
     const auditCall = mockPool.query.mock.calls.find((c) =>
       String(c[0]).includes('INSERT INTO audit_logs')
@@ -203,5 +368,19 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
       String(c[0]).includes('INSERT INTO affiliate_conversions')
     )
     expect(conversionInsert).toBeUndefined()
+  })
+
+  // --- Response format tests ---
+
+  it('returns OK response with Content-Type text/plain', async () => {
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const unknownSub = { ...SALE_PARAMS, sub_id_1: 'vf_no_link' }
+    const response = await POST(makeRequest(unknownSub))
+    expect(response.headers.get('content-type')).toContain('text/plain')
+    const text = await response.text()
+    expect(text.startsWith('OK')).toBe(true)
   })
 })
