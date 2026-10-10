@@ -66,7 +66,7 @@ export class BrainCycle {
     const run = await brainRepository.createRun({
       runType: 'cycle',
       trigger,
-      initializationId: init ? (init.id as string) : null,
+      initializationId: init ? (init.initialization_id as string) : null,
     });
 
     if (!run) {
@@ -273,7 +273,7 @@ export class BrainCycle {
     const run = await brainRepository.createRun({
       runType: 'cycle',
       trigger: `${trigger}:${phaseName}`,
-      initializationId: init ? (init.id as string) : null,
+      initializationId: init ? (init.initialization_id as string) : null,
     });
 
     if (!run) {

@@ -1,11 +1,20 @@
 import { NextResponse } from 'next/server'
 import { adminOnly } from '@/lib/auth'
+import { GA4Service } from '@/lib/search-intelligence/GA4Service'
+import { SearchConsoleService } from '@/lib/search-intelligence/SearchConsoleService'
 
 export async function GET() {
   try {
     await adminOnly()
-    
-    // Return mock or calculated status for the search intelligence module
+
+    const ga4 = new GA4Service()
+    const gsc = new SearchConsoleService()
+
+    const [ga4Status, gscStatus] = await Promise.all([
+      ga4.checkAccess().catch(err => ({ status: 'error' as const, error: String(err?.message || err), propertyId: process.env.GA4_PROPERTY_ID || '' })),
+      gsc.checkAccess().catch(err => ({ status: 'error' as const, error: String(err?.message || err), sitesCount: 0 })),
+    ])
+
     const statusData = {
       searchProviders: {
         primary: {
@@ -22,16 +31,16 @@ export async function GET() {
         }
       },
       searchConsole: {
-        status: 'connected',
-        statusLabel: 'CONNECTED_AND_WORKING',
-        error: null,
-        sitesCount: 1
+        status: gscStatus.status,
+        statusLabel: gscStatus.status === 'connected' ? 'CONNECTED_AND_WORKING' : (gscStatus.status === 'configured_access_required' ? 'ACCESS_REQUIRED' : 'CONFIGURED_WITH_ERROR'),
+        error: gscStatus.error || null,
+        sitesCount: gscStatus.sitesCount || 0
       },
       ga4: {
-        status: 'connected',
-        statusLabel: 'CONNECTED_AND_WORKING',
-        error: null,
-        propertyId: '123456789'
+        status: ga4Status.status,
+        statusLabel: ga4Status.status === 'connected' ? 'CONNECTED_AND_WORKING' : (ga4Status.status === 'api_disabled' ? 'API_DISABLED_IN_GCP' : 'CONFIGURED_WITH_ERROR'),
+        error: ga4Status.error || null,
+        propertyId: ga4Status.propertyId || process.env.GA4_PROPERTY_ID || ''
       },
       latestResearch: null
     }
@@ -41,3 +50,4 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 }
+

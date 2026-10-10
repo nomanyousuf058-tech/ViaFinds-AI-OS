@@ -4,15 +4,17 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AdminGuard from '@/components/AdminGuard'
+import BrainChatWidget from '@/components/dashboard/BrainChatWidget'
 
 const navItems = [
-  { href: '/dashboard', label: 'Today', icon: 'home' },
-  { href: '/dashboard/attention', label: 'Attention', icon: 'notifications_active' },
-  { href: '/dashboard/calendar', label: 'Calendar', icon: 'calendar_month' },
-  { href: '/dashboard/brain', label: 'Brain', icon: 'psychology' },
-  { href: '/dashboard/articles', label: 'Content', icon: 'edit_note' },
-  { href: '/dashboard/revenue', label: 'Growth', icon: 'trending_up' },
-  { href: '/dashboard/services', label: 'System', icon: 'settings' },
+  { href: '/dashboard', label: 'Home / Today', icon: 'home' },
+  { href: '/dashboard/articles', label: 'Articles', icon: 'article' },
+  { href: '/dashboard/revenue', label: 'Revenue', icon: 'payments' },
+  { href: '/dashboard/analytics', label: 'Analytics', icon: 'bar_chart' },
+  { href: '/dashboard/brain', label: 'AI Brain', icon: 'psychology' },
+  { href: '/dashboard/calendar', label: 'Schedule', icon: 'calendar_month' },
+  { href: '/dashboard/actions', label: 'My Actions', icon: 'checklist' },
+  { href: '/dashboard/services', label: 'System / Settings', icon: 'settings' },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -57,6 +59,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {children}
           </main>
         </div>
+        <BrainChatWidget />
       </div>
     </AdminGuard>
   )

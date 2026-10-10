@@ -185,97 +185,103 @@ export default function ServicesPage() {
   const automationConnectedCount = services.filter(s => s.usedBy.some(u => u.toLowerCase().includes('automation') || u.toLowerCase().includes('ai provider') || u.toLowerCase().includes('research') || u.toLowerCase().includes('affiliate') || u.toLowerCase().includes('monitoring'))).length
 
   return (
-          <div className="max-w-6xl">
-        <div className="flex items-center justify-between mb-2">
+        <div className="max-w-7xl mx-auto space-y-8 pb-12">
+        <header className="mb-8">
           <div>
             <h1 className="font-headline-xl text-headline-xl text-on-background mb-2">Service Connections</h1>
-            <p className="font-ui-body text-ui-body text-on-surface-variant">
+            <p className="font-ui-body text-ui-body text-on-surface-variant text-lg mt-1">
               Manage and monitor all service integrations. {connectedCount} connected, {automationConnectedCount} connected to automation.
             </p>
           </div>
-        </div>
+        </header>
 
         {searchStatus && (
-          <div className="bg-obsidian-deep border border-slate-border rounded p-4 mb-8">
-            <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">Search Intelligence</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="bg-obsidian border border-slate-border rounded p-3">
-                <div className="text-xs font-mono-data text-on-surface-variant mb-1">PRIMARY SEARCH PROVIDER</div>
-                <div className="text-sm font-ui-body text-on-background mb-1">{searchStatus.searchProviders.primary.name}</div>
-                <div className="text-xs font-mono-data text-on-surface-variant mb-2">Role: {searchStatus.searchProviders.primary.role}</div>
-                <div className={`text-xs font-mono-data ${searchStatus.searchProviders.primary.health.status === 'connected' ? 'text-green-400' : 'text-red-400'}`}>
+          <div className="bg-surface-container border border-slate-border rounded-2xl p-6 mb-8">
+            <div className="flex items-center gap-3 mb-6 border-b border-slate-border pb-4">
+              <span className="material-symbols-outlined text-primary text-2xl">search</span>
+              <h2 className="font-headline-lg text-xl font-bold text-on-background">Search Intelligence</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-surface-container-high border border-slate-border rounded-xl p-4">
+                <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Primary Search Provider</div>
+                <div className="text-sm font-bold text-on-background mb-1">{searchStatus.searchProviders.primary.name}</div>
+                <div className="text-xs text-on-surface-variant mb-2">Role: {searchStatus.searchProviders.primary.role}</div>
+                <div className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full inline-block border ${searchStatus.searchProviders.primary.health.status === 'connected' ? 'bg-brand-green/20 text-brand-green border-brand-green/30' : 'bg-error/20 text-error border-error/30'}`}>
                   {searchStatus.searchProviders.primary.status}
                 </div>
                 {searchStatus.searchProviders.primary.health.error && (
-                  <div className="text-xs font-mono-data text-red-400 mt-1">{searchStatus.searchProviders.primary.health.error}</div>
+                  <div className="text-xs text-error mt-2">{searchStatus.searchProviders.primary.health.error}</div>
                 )}
               </div>
 
-              <div className="bg-obsidian border border-slate-border rounded p-3">
-                <div className="text-xs font-mono-data text-on-surface-variant mb-1">SECONDARY SEARCH PROVIDER</div>
-                <div className="text-sm font-ui-body text-on-background mb-1">{searchStatus.searchProviders.secondary.name}</div>
-                <div className="text-xs font-mono-data text-on-surface-variant mb-2">Role: {searchStatus.searchProviders.secondary.role}</div>
-                <div className={`text-xs font-mono-data ${searchStatus.searchProviders.secondary.health.status === 'connected' ? 'text-green-400' : 'text-red-400'}`}>
+              <div className="bg-surface-container-high border border-slate-border rounded-xl p-4">
+                <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Secondary Search Provider</div>
+                <div className="text-sm font-bold text-on-background mb-1">{searchStatus.searchProviders.secondary.name}</div>
+                <div className="text-xs text-on-surface-variant mb-2">Role: {searchStatus.searchProviders.secondary.role}</div>
+                <div className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full inline-block border ${searchStatus.searchProviders.secondary.health.status === 'connected' ? 'bg-brand-green/20 text-brand-green border-brand-green/30' : 'bg-error/20 text-error border-error/30'}`}>
                   {searchStatus.searchProviders.secondary.status}
                 </div>
                 {searchStatus.searchProviders.secondary.health.error && (
-                  <div className="text-xs font-mono-data text-red-400 mt-1">{searchStatus.searchProviders.secondary.health.error}</div>
+                  <div className="text-xs text-error mt-2">{searchStatus.searchProviders.secondary.health.error}</div>
                 )}
               </div>
 
-              <div className="bg-obsidian border border-slate-border rounded p-3">
-                <div className="text-xs font-mono-data text-on-surface-variant mb-1">SEARCH CONSOLE</div>
-                <div className={`text-xs font-mono-data ${searchStatus.searchConsole.statusLabel.includes('CONNECTED') ? 'text-green-400' : 'text-red-400'}`}>
+              <div className="bg-surface-container-high border border-slate-border rounded-xl p-4">
+                <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Search Console</div>
+                <div className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full inline-block border ${searchStatus.searchConsole.statusLabel.includes('CONNECTED') ? 'bg-brand-green/20 text-brand-green border-brand-green/30' : 'bg-error/20 text-error border-error/30'}`}>
                   {searchStatus.searchConsole.statusLabel}
                 </div>
                 {searchStatus.searchConsole.error && (
-                  <div className="text-xs font-mono-data text-on-surface-variant mt-1">{searchStatus.searchConsole.error}</div>
+                  <div className="text-xs text-on-surface-variant mt-2">{searchStatus.searchConsole.error}</div>
                 )}
               </div>
 
-              <div className="bg-obsidian border border-slate-border rounded p-3">
-                <div className="text-xs font-mono-data text-on-surface-variant mb-1">GA4</div>
-                <div className={`text-xs font-mono-data ${searchStatus.ga4.statusLabel.includes('CONNECTED') ? 'text-green-400' : 'text-red-400'}`}>
+              <div className="bg-surface-container-high border border-slate-border rounded-xl p-4">
+                <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">GA4</div>
+                <div className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full inline-block border ${searchStatus.ga4.statusLabel.includes('CONNECTED') ? 'bg-brand-green/20 text-brand-green border-brand-green/30' : 'bg-error/20 text-error border-error/30'}`}>
                   {searchStatus.ga4.statusLabel}
                 </div>
                 {searchStatus.ga4.error && (
-                  <div className="text-xs font-mono-data text-on-surface-variant mt-1">{searchStatus.ga4.error}</div>
+                  <div className="text-xs text-on-surface-variant mt-2">{searchStatus.ga4.error}</div>
                 )}
               </div>
 
               {searchStatus.latestResearch ? (
                 <>
-                  <div className="bg-obsidian border border-slate-border rounded p-3">
-                    <div className="text-xs font-mono-data text-on-surface-variant mb-1">LATEST RESEARCH</div>
-                    <div className="text-xs font-mono-data text-on-background mb-1">Query: {searchStatus.latestResearch.query}</div>
-                    <div className="text-xs font-mono-data text-on-surface-variant mb-1">Providers: {searchStatus.latestResearch.providersUsed.join(' + ') || 'None'}</div>
-                    <div className="text-xs font-mono-data text-on-surface-variant mb-1">Confidence: {searchStatus.latestResearch.researchConfidence}</div>
-                    <div className="text-xs font-mono-data text-on-surface-variant">Latency: {searchStatus.latestResearch.totalLatencyMs}ms</div>
+                  <div className="bg-surface-container-high border border-slate-border rounded-xl p-4">
+                    <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Latest Research</div>
+                    <div className="text-xs text-on-background mb-1"><span className="text-on-surface-variant">Query:</span> {searchStatus.latestResearch.query}</div>
+                    <div className="text-xs text-on-background mb-1"><span className="text-on-surface-variant">Providers:</span> {searchStatus.latestResearch.providersUsed.join(' + ') || 'None'}</div>
+                    <div className="text-xs text-on-background mb-1"><span className="text-on-surface-variant">Confidence:</span> {searchStatus.latestResearch.researchConfidence}</div>
+                    <div className="text-xs text-on-background"><span className="text-on-surface-variant">Latency:</span> {searchStatus.latestResearch.totalLatencyMs}ms</div>
                   </div>
 
-                  <div className="bg-obsidian border border-slate-border rounded p-3">
-                    <div className="text-xs font-mono-data text-on-surface-variant mb-1">RESULTS</div>
-                    <div className="text-xs font-mono-data text-on-background mb-1">Unique: {searchStatus.latestResearch.uniqueResultsCount}</div>
-                    <div className="text-xs font-mono-data text-on-surface-variant mb-1">Duplicates removed: {searchStatus.latestResearch.duplicatesRemoved}</div>
-                    <div className="text-xs font-mono-data text-on-surface-variant mb-1">Authoritative: {searchStatus.latestResearch.authoritativeSourcesFound}</div>
-                    <div className="text-xs font-mono-data text-on-surface-variant">
-                      Fallback: {searchStatus.latestResearch.fallbackTriggered ? 'Yes' : 'No'}
+                  <div className="bg-surface-container-high border border-slate-border rounded-xl p-4">
+                    <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Results</div>
+                    <div className="text-xs text-on-background mb-1"><span className="text-on-surface-variant">Unique:</span> {searchStatus.latestResearch.uniqueResultsCount}</div>
+                    <div className="text-xs text-on-background mb-1"><span className="text-on-surface-variant">Duplicates removed:</span> {searchStatus.latestResearch.duplicatesRemoved}</div>
+                    <div className="text-xs text-on-background mb-1"><span className="text-on-surface-variant">Authoritative:</span> {searchStatus.latestResearch.authoritativeSourcesFound}</div>
+                    <div className="text-xs text-on-background">
+                      <span className="text-on-surface-variant">Fallback:</span> {searchStatus.latestResearch.fallbackTriggered ? 'Yes' : 'No'}
                       {searchStatus.latestResearch.fallbackReason && ` - ${searchStatus.latestResearch.fallbackReason}`}
                     </div>
                   </div>
                 </>
               ) : (
-                <div className="bg-obsidian border border-slate-border rounded p-3">
-                  <div className="text-xs font-mono-data text-on-surface-variant">NO REAL DATA AVAILABLE</div>
+                <div className="bg-surface-container-high border border-slate-border rounded-xl p-4 flex items-center justify-center">
+                  <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">No real data available</div>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        <div className="bg-obsidian-deep border border-slate-border rounded p-4 mb-8">
-          <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">Automation Integration Status</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="bg-surface-container border border-slate-border rounded-2xl p-6 mb-8">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-border pb-4">
+            <span className="material-symbols-outlined text-primary text-2xl">cable</span>
+            <h2 className="font-headline-lg text-xl font-bold text-on-background">Automation Integration Status</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {AUTOMATION_INTEGRATIONS.map((integration) => {
               const isConnected = services.some(s => {
                 const usageLower = s.usedBy.map(u => u.toLowerCase())
@@ -288,14 +294,14 @@ export default function ServicesPage() {
                 return false
               })
               return (
-                <div key={integration.id} className="bg-obsidian border border-slate-border rounded p-3">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-ui-body text-ui-body text-on-background">{integration.label}</span>
-                    <span className={`font-mono-data text-mono-data text-xs ${isConnected ? 'text-green-400' : 'text-slate-400'}`}>
-                      {isConnected ? 'CONNECTED' : 'NOT CONNECTED'}
+                <div key={integration.id} className="bg-surface-container-high border border-slate-border rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-bold text-on-background">{integration.label}</span>
+                    <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border ${isConnected ? 'bg-brand-green/20 text-brand-green border-brand-green/30' : 'bg-surface-variant text-on-surface border-slate-border'}`}>
+                      {isConnected ? 'Connected' : 'Not Connected'}
                     </span>
                   </div>
-                  <p className="font-mono-data text-mono-data text-xs text-on-surface-variant">{integration.description}</p>
+                  <p className="text-xs text-on-surface-variant">{integration.description}</p>
                 </div>
               )
             })}
@@ -303,76 +309,58 @@ export default function ServicesPage() {
         </div>
 
         {loading ? (
-          <div className="text-on-surface-variant">Loading services...</div>
+          <div className="text-on-surface-variant text-center py-12">Loading services...</div>
         ) : (
           <div className="space-y-8">
             {categories.map((category) => (
-              <div key={category}>
-                <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">{category}</h2>
-                <div className="bg-obsidian-deep border border-slate-border rounded overflow-hidden">
+              <div key={category} className="bg-surface-container border border-slate-border rounded-2xl p-6">
+                <h2 className="font-headline-lg text-xl font-bold text-on-background mb-4 capitalize">{category}</h2>
+                <div className="overflow-x-auto rounded-xl border border-slate-border">
                   <table className="w-full text-left">
                     <thead>
-                      <tr className="border-b border-slate-border">
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Service</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Purpose</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Status</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Health</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Latency</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Automation Stage</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Fallback</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Enabled</th>
-                        <th className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant uppercase">Actions</th>
+                      <tr className="border-b border-slate-border bg-surface-container-high">
+                        <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Service</th>
+                        <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Purpose</th>
+                        <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Status</th>
+                        <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Enabled</th>
+                        <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {services.filter((s) => s.category === category).map((service) => (
-                        <tr key={service.id} className="border-b border-slate-border last:border-b-0">
-                          <td className="px-4 py-3">
-                            <div className="font-ui-body text-ui-body text-on-background">{service.name}</div>
-                            <div className="font-mono-data text-mono-data text-xs text-on-surface-variant">{service.id}</div>
+                        <tr key={service.id} className="border-b border-slate-border/50 last:border-b-0 hover:bg-surface-container-high/50 transition-colors">
+                          <td className="px-4 py-4">
+                            <div className="font-bold text-on-background">{service.name}</div>
+                            <div className="text-xs text-on-surface-variant mt-1 font-mono-data">{service.id}</div>
                           </td>
-                          <td className="px-4 py-3">
-                            <span className="font-mono-data text-mono-data text-xs text-on-surface-variant">{service.purpose}</span>
+                          <td className="px-4 py-4 text-sm text-on-surface-variant">
+                            {service.purpose}
                           </td>
-                          <td className="px-4 py-3">
-                            <span className={`font-mono-data text-mono-data text-xs ${STATUS_COLORS[service.status]}`}>
+                          <td className="px-4 py-4">
+                            <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full inline-block ${STATUS_COLORS[service.status]}`}>
                               {service.status.replace(/_/g, ' ').toUpperCase()}
                             </span>
                             {service.lastHealthCheckError && service.status !== 'CONNECTED_AND_WORKING' && (
-                              <div className="font-mono-data text-mono-data text-xs text-red-400 mt-1" title={service.lastHealthCheckError}>
+                              <div className="text-xs text-error mt-1" title={service.lastHealthCheckError}>
                                 {service.lastHealthCheckError.length > 40 ? service.lastHealthCheckError.substring(0, 40) + '...' : service.lastHealthCheckError}
                               </div>
                             )}
                           </td>
-                          <td className="px-4 py-3">
-                            <span className={`font-mono-data text-mono-data text-xs ${STATUS_COLORS[service.healthStatus]}`}>
-                              {service.healthStatus.replace(/_/g, ' ').toUpperCase()}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant">
-                            {service.latency !== null && service.latency !== undefined ? `${service.latency}ms` : 'N/A'}
-                          </td>
-                          <td className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant">
-                            {service.automationStage}
-                          </td>
-                          <td className="px-4 py-3 font-mono-data text-mono-data text-xs text-on-surface-variant">
-                            {service.fallback}
-                          </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-4 text-center">
                             <button
                               onClick={() => handleToggle(service.id, service.enabled)}
-                              className={`px-3 py-1 rounded text-xs font-ui-body transition-colors ${
-                                service.enabled ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-slate-700 text-slate-400 border border-slate-600'
+                              className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors border ${
+                                service.enabled ? 'bg-brand-green/20 text-brand-green border-brand-green/30 hover:bg-brand-green/30' : 'bg-surface-variant text-on-surface border-slate-border hover:bg-surface-container-high'
                               }`}
                             >
                               {service.enabled ? 'Enabled' : 'Disabled'}
                             </button>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-4 text-right">
                             <button
                               onClick={() => handleTest(service.id)}
                               disabled={testing === service.id}
-                              className="px-3 py-1 rounded text-xs font-ui-body bg-primary text-deep-navy hover:bg-primary/90 disabled:opacity-50 transition-colors"
+                              className="px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-primary text-deep-navy hover:bg-primary/90 disabled:opacity-50 transition-colors"
                             >
                               {testing === service.id ? 'Testing...' : 'Test'}
                             </button>
@@ -387,5 +375,6 @@ export default function ServicesPage() {
           </div>
         )}
       </div>
+
       )
 }

@@ -1,11 +1,30 @@
 import { NextResponse } from 'next/server'
-import { adminOnly } from '@/lib/auth'
+import { verifyAdminToken } from '@/lib/auth'
 
-export async function POST(request: Request) {
-  try {
-    await adminOnly()
-    return NextResponse.json({ ok: true, synced: 0, skipped: 0, errors: ['Cron sync is being retuned for article-first workflow'] })
-  } catch (err) {
+async function checkAuth(request: Request): Promise<boolean> {
+  const authHeader = request.headers.get('Authorization')
+  const cronSecret = process.env.CRON_SECRET
+  if (cronSecret && authHeader === `Bearer ${cronSecret}`) {
+    return true
+  }
+  const admin = await verifyAdminToken()
+  return !!admin
+}
+
+export async function GET(request: Request) {
+  const authorized = await checkAuth(request)
+  if (!authorized) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+  return NextResponse.json({
+    ok: true,
+    synced: 0,
+    skipped: 0,
+    message: 'Cron sync acknowledged: article-first workflow active',
+  })
 }
+
+export async function POST(request: Request) {
+  return GET(request)
+}
+
