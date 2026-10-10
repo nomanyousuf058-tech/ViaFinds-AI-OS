@@ -46,34 +46,53 @@ import { affiliateRepository } from '@/lib/db/repositories/affiliate'
 const PROVIDER = 'digistore24'
 
 /**
- * Compute the SHA-512 signature per the official Digistore24 specification.
+ * Compute the SHA-512 signature per the Digistore24 specification.
  *
- * Official algorithm:
- *   1. Exclude `sha_sign` / `shasign` parameters.
- *   2. Sort remaining parameters by key (case-insensitive).
- *   3. Concatenate: "key1=value1key2=value2..." (no separators between pairs).
- *   4. Append the passphrase ONCE at the end of the entire string.
- *   5. SHA-512 hash → uppercase hex.
+ * Parameters excluded from the hash: sha_sign, shasign, password.
+ * Remaining parameters are sorted by key (case-insensitive).
+ *
+ * Digistore24 documentation describes two concatenation variants:
+ *   Variant A ("passphrase once at end"):
+ *     "key1=value1key2=value2..." + passphrase
+ *   Variant B ("passphrase after each pair"):
+ *     "key1=value1<passphrase>key2=value2<passphrase>..."
+ *
+ * Both produce an SHA-512 hex digest (case-insensitive comparison).
  */
-function computeShaSign(params: Record<string, string>, passphrase: string): string {
-  const keys = Object.keys(params)
-    .filter((k) => {
-      const lower = k.toLowerCase()
-      return lower !== 'sha_sign' && lower !== 'shasign'
-    })
+const EXCLUDED_SIGN_KEYS = new Set(['sha_sign', 'shasign', 'password'])
+
+function getSignatureKeys(params: Record<string, string>): string[] {
+  return Object.keys(params)
+    .filter((k) => !EXCLUDED_SIGN_KEYS.has(k.toLowerCase()))
     .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+}
+
+function computeShaSignVariantA(params: Record<string, string>, passphrase: string, keys: string[]): string {
   const raw = keys.map((k) => `${k}=${params[k]}`).join('') + passphrase
+  return createHash('sha512').update(raw, 'utf8').digest('hex').toUpperCase()
+}
+
+function computeShaSignVariantB(params: Record<string, string>, passphrase: string, keys: string[]): string {
+  const raw = keys.map((k) => `${k}=${params[k]}${passphrase}`).join('')
   return createHash('sha512').update(raw, 'utf8').digest('hex').toUpperCase()
 }
 
 function verifySignature(params: Record<string, string>, passphrase: string): boolean {
   const provided = params.sha_sign || params.shasign || params.SHASIGN
   if (!provided) return false
-  const expected = computeShaSign(params, passphrase)
-  const a = Buffer.from(expected, 'hex')
-  const b = Buffer.from(provided.toUpperCase(), 'hex')
-  if (a.length !== b.length || b.length === 0) return false
-  return timingSafeEqual(a, b)
+  const providedUpper = provided.toUpperCase()
+  const b = Buffer.from(providedUpper, 'hex')
+  if (b.length === 0) return false
+
+  const keys = getSignatureKeys(params)
+
+  // Try both known Digistore24 signature concatenation variants
+  for (const compute of [computeShaSignVariantA, computeShaSignVariantB]) {
+    const expected = compute(params, passphrase, keys)
+    const a = Buffer.from(expected, 'hex')
+    if (a.length === b.length && timingSafeEqual(a, b)) return true
+  }
+  return false
 }
 
 /**
@@ -160,10 +179,23 @@ export async function POST(request: Request) {
     )
   }
 
-  // --- Signature verification (mandatory) ---
-  if (!verifySignature(params, passphrase)) {
-    console.warn('Digistore24 IPN rejected: invalid signature')
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
+  // --- Authentication verification (mandatory) ---
+  const providedSignature = params.sha_sign || params.shasign || params.SHASIGN
+  const providedPassword = params.password
+
+  if (providedSignature) {
+    if (!verifySignature(params, passphrase)) {
+      console.warn('Digistore24 IPN rejected: invalid SHA signature')
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
+    }
+  } else if (providedPassword) {
+    if (providedPassword !== passphrase) {
+      console.warn('Digistore24 IPN rejected: invalid IPN password')
+      return NextResponse.json({ error: 'Invalid IPN password' }, { status: 401 })
+    }
+  } else {
+    console.warn('Digistore24 IPN rejected: neither signature nor password provided')
+    return NextResponse.json({ error: 'Missing authentication' }, { status: 401 })
   }
 
   try {

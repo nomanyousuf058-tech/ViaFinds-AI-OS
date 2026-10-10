@@ -24,26 +24,56 @@ import { POST } from '@/app/api/webhook/digistore24/route'
 
 const PASSPHRASE = 'test-sha-passphrase'
 
+const EXCLUDED_KEYS = new Set(['sha_sign', 'shasign', 'password'])
+
 /**
- * Mirror of the route's signature algorithm (Digistore24 official spec).
- *
- * Official algorithm:
- *   1. Exclude sha_sign / shasign.
- *   2. Sort remaining keys case-insensitively.
- *   3. Concatenate: "key1=value1key2=value2..." (no separators).
- *   4. Append passphrase ONCE at the end.
- *   5. SHA-512 → uppercase hex.
+ * Mirror of the route's signature algorithm — Variant A (passphrase once at end).
  */
 function signParams(params: Record<string, string>, passphrase: string): string {
   const keys = Object.keys(params)
-    .filter((k) => k.toLowerCase() !== 'sha_sign' && k.toLowerCase() !== 'shasign')
+    .filter((k) => !EXCLUDED_KEYS.has(k.toLowerCase()))
     .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
   const raw = keys.map((k) => `${k}=${params[k]}`).join('') + passphrase
   return createHash('sha512').update(raw, 'utf8').digest('hex').toUpperCase()
 }
 
+/**
+ * Mirror of the route's signature algorithm — Variant B (passphrase after each pair).
+ */
+function signParamsVariantB(params: Record<string, string>, passphrase: string): string {
+  const keys = Object.keys(params)
+    .filter((k) => !EXCLUDED_KEYS.has(k.toLowerCase()))
+    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+  const raw = keys.map((k) => `${k}=${params[k]}${passphrase}`).join('')
+  return createHash('sha512').update(raw, 'utf8').digest('hex').toUpperCase()
+}
+
 function makeRequest(params: Record<string, string>, passphrase = PASSPHRASE): Request {
   const body = new URLSearchParams({ ...params, sha_sign: signParams(params, passphrase) }).toString()
+  return {
+    text: async () => body,
+    headers: { get: jest.fn(() => null) },
+  } as unknown as Request
+}
+
+function makeRequestVariantB(params: Record<string, string>, passphrase = PASSPHRASE): Request {
+  const body = new URLSearchParams({ ...params, sha_sign: signParamsVariantB(params, passphrase) }).toString()
+  return {
+    text: async () => body,
+    headers: { get: jest.fn(() => null) },
+  } as unknown as Request
+}
+
+function makePasswordRequest(params: Record<string, string>, password: string): Request {
+  const body = new URLSearchParams({ ...params, password }).toString()
+  return {
+    text: async () => body,
+    headers: { get: jest.fn(() => null) },
+  } as unknown as Request
+}
+
+function makeUnauthenticatedRequest(params: Record<string, string>): Request {
+  const body = new URLSearchParams(params).toString()
   return {
     text: async () => body,
     headers: { get: jest.fn(() => null) },
@@ -91,6 +121,8 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     }
   })
 
+  // --- Authentication tests ---
+
   it('returns 503 when passphrase is not configured (fail closed)', async () => {
     delete process.env.DIGISTORE24_SHA_PASSPHRASE
     const response = await POST(makeRequest(SALE_PARAMS))
@@ -98,17 +130,55 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(mockPool.query).not.toHaveBeenCalled()
   })
 
-  it('returns 401 for an invalid signature', async () => {
+  it('returns 401 for an invalid SHA signature', async () => {
     const response = await POST(makeRequest(SALE_PARAMS, 'wrong-passphrase'))
     expect(response.status).toBe(401)
     expect(mockPool.query).not.toHaveBeenCalled()
   })
+
+  it('returns 401 when neither signature nor password is provided', async () => {
+    const response = await POST(makeUnauthenticatedRequest(SALE_PARAMS))
+    expect(response.status).toBe(401)
+    expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('returns 401 for an invalid IPN password', async () => {
+    const response = await POST(makePasswordRequest(SALE_PARAMS, 'wrong-password'))
+    expect(response.status).toBe(401)
+    expect(mockPool.query).not.toHaveBeenCalled()
+  })
+
+  it('accepts a valid IPN password when no sha_sign is present', async () => {
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const response = await POST(makePasswordRequest(SALE_PARAMS, PASSPHRASE))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toContain('OK')
+  })
+
+  it('accepts Variant B signature (passphrase after each pair)', async () => {
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+    mockPool.query.mockResolvedValueOnce({ rows: [] })
+
+    const response = await POST(makeRequestVariantB(SALE_PARAMS))
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toContain('OK')
+  })
+
+  // --- Validation tests ---
 
   it('returns 400 when no transaction identifier is present', async () => {
     const { transaction_id, order_id, ...rest } = SALE_PARAMS
     const response = await POST(makeRequest(rest))
     expect(response.status).toBe(400)
   })
+
+  // --- Sale processing tests ---
 
   it('records a new, attributable sale conversion (event=on_payment)', async () => {
     // 1. findConversionByProviderTransaction → none
@@ -167,6 +237,8 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(parsed.status).toBe('approved')
   })
 
+  // --- Idempotency tests ---
+
   it('treats a replayed sale event as a duplicate (no second record)', async () => {
     // findConversionByProviderTransaction → existing approved row
     mockPool.query.mockResolvedValueOnce({
@@ -182,6 +254,8 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     // Only the existence check ran — no INSERT, no UPDATE
     expect(mockPool.query).toHaveBeenCalledTimes(1)
   })
+
+  // --- Refund / chargeback / cancellation tests ---
 
   it('updates the existing conversion on a refund event (event=on_refund)', async () => {
     const refundParams = { ...SALE_PARAMS, event: 'on_refund', commission: '0.00' }
@@ -267,6 +341,8 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(parsed.duplicate).toBe(true)
   })
 
+  // --- Attribution / audit tests ---
+
   it('preserves unattributable events in the audit log without storing a conversion', async () => {
     const unknownSub = { ...SALE_PARAMS, sub_id_1: 'vf_unknown999' }
     // 1. no existing conversion
@@ -293,6 +369,8 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     )
     expect(conversionInsert).toBeUndefined()
   })
+
+  // --- Response format tests ---
 
   it('returns OK response with Content-Type text/plain', async () => {
     mockPool.query.mockResolvedValueOnce({ rows: [] })
