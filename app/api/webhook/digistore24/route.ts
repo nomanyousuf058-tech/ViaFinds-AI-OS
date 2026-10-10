@@ -182,12 +182,19 @@ export async function POST(request: Request) {
   // --- Authentication verification (mandatory) ---
   const providedSignature = params.sha_sign || params.shasign || params.SHASIGN
   const providedPassword = params.password
-
   const isConnectionTest = (params.event || '').toLowerCase() === 'connection_test' || (params.order_type || '').toLowerCase() === 'connection_test'
 
   if (providedSignature) {
     if (!verifySignature(params, passphrase)) {
-      console.warn('Digistore24 IPN rejected: invalid SHA signature')
+      // Log diagnostic info (no secrets) to help debug signature mismatches
+      const keys = getSignatureKeys(params)
+      console.warn('Digistore24 IPN rejected: invalid SHA signature', {
+        event: params.event || params.order_type,
+        keyCount: keys.length,
+        keys: keys.join(','),
+        providedPrefix: providedSignature.substring(0, 8).toUpperCase(),
+        passphraseLength: passphrase.length,
+      })
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
     }
   } else if (providedPassword) {
@@ -197,12 +204,12 @@ export async function POST(request: Request) {
       console.warn('Digistore24 IPN rejected: invalid IPN password')
       return NextResponse.json({ error: 'Invalid IPN password' }, { status: 401 })
     }
-  } else if (!isConnectionTest) {
+  } else {
     console.warn('Digistore24 IPN rejected: neither signature nor password provided')
     return NextResponse.json({ error: 'Missing authentication' }, { status: 401 })
   }
 
-  // --- Handle connection_test ---
+  // --- Handle connection_test (after successful auth) ---
   if (isConnectionTest) {
     return okResponse({ success: true, message: 'Connection test successful' })
   }

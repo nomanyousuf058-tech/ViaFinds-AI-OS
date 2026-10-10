@@ -136,18 +136,16 @@ describe('Digistore24 IPN webhook (/api/webhook/digistore24)', () => {
     expect(mockPool.query).not.toHaveBeenCalled()
   })
 
-  it('returns 401 when neither signature nor password is provided for non-test events', async () => {
+  it('returns 401 when neither signature nor password is provided', async () => {
     const response = await POST(makeUnauthenticatedRequest(SALE_PARAMS))
     expect(response.status).toBe(401)
     expect(mockPool.query).not.toHaveBeenCalled()
   })
 
-  it('accepts connection_test event without authentication', async () => {
+  it('rejects connection_test without authentication', async () => {
     const testParams = { event: 'connection_test' }
     const response = await POST(makeUnauthenticatedRequest(testParams))
-    expect(response.status).toBe(200)
-    const body = await response.text()
-    expect(body).toContain('OK')
+    expect(response.status).toBe(401)
     expect(mockPool.query).not.toHaveBeenCalled()
   })
 
