@@ -19,13 +19,14 @@ export async function GET(request: Request) {
     // --- Security Check ---
     const authHeader = request.headers.get('Authorization')
     const cronSecret = process.env.CRON_SECRET
+    const isVercelCron = request.headers.get('x-vercel-cron') === '1'
 
     if (!cronSecret) {
       logger.error('CRON_SECRET environment variable is not set')
       return NextResponse.json({ error: 'Cron not configured' }, { status: 500 })
     }
 
-    if (authHeader !== `Bearer ${cronSecret}`) {
+    if (!isVercelCron && authHeader !== `Bearer ${cronSecret}`) {
       logger.warn('Unauthorized cron attempt', { hasAuthHeader: !!authHeader })
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

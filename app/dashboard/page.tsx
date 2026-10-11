@@ -87,6 +87,24 @@ export default function TodayPage() {
   const [data, setData] = useState<TodayData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [pktTime, setPktTime] = useState<string>('')
+
+  useEffect(() => {
+    const updateTime = () => {
+      setPktTime(
+        new Date().toLocaleTimeString('en-US', {
+          timeZone: 'Asia/Karachi',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        })
+      )
+    }
+    updateTime()
+    const timer = setInterval(updateTime, 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   const fetchData = useCallback(async () => {
     try {
@@ -104,7 +122,6 @@ export default function TodayPage() {
       let recommendations: TodayData['recommendations'] = []
 
       if (brainJson.success) {
-        const status = brainJson.status
         const opportunitiesRes = await fetch('/api/brain/activity?type=opportunities&limit=10')
         const approvalsRes = await fetch('/api/brain/activity?type=approvals&limit=10')
         const [oppJson, apprJson] = await Promise.all([opportunitiesRes.json(), approvalsRes.json()])
@@ -175,15 +192,104 @@ export default function TodayPage() {
 
   const s = data?.brainStatus
 
+  // Determine Next Best Action in clear business language
+  let nextBestAction = {
+    title: 'All Subsystems Nominal',
+    description: 'Brain is actively monitoring search rankings and affiliate commissions. Ready to research new high-ticket products.',
+    badge: 'Optimal',
+    badgeColor: 'bg-emerald-950 text-emerald-400 border-emerald-800',
+    actionText: 'Launch Pipeline',
+    actionHref: '/dashboard/automation',
+  }
+
+  if (data?.approvals && data.approvals.length > 0) {
+    nextBestAction = {
+      title: 'Action Required: Editorial Approval Pending',
+      description: data.approvals[0].proposedAction || data.approvals[0].requestedPermission || '1 item requires your sign-off before publishing.',
+      badge: 'Immediate Action',
+      badgeColor: 'bg-amber-950 text-amber-300 border-amber-800',
+      actionText: 'Review Sign-off',
+      actionHref: '/dashboard/attention',
+    }
+  } else if (data?.jobs && data.jobs.failed > 0) {
+    nextBestAction = {
+      title: 'Attention: Failed Automation Job',
+      description: `${data.jobs.failed} background task encountered an issue and requires inspection.`,
+      badge: 'Needs Review',
+      badgeColor: 'bg-red-950 text-red-300 border-red-800',
+      actionText: 'View Job Queue',
+      actionHref: '/dashboard/jobs',
+    }
+  } else if (data?.opportunities && data.opportunities.length > 0) {
+    nextBestAction = {
+      title: 'High-Impact Growth Opportunity Detected',
+      description: `${data.opportunities[0].title} (${data.opportunities[0].confidence} confidence)`,
+      badge: 'Growth Signal',
+      badgeColor: 'bg-blue-950 text-blue-300 border-blue-800',
+      actionText: 'Inspect Opportunity',
+      actionHref: '/dashboard/brain',
+    }
+  }
+
   return (
     <div className="max-w-6xl">
-      <div className="flex items-center justify-between mb-2">
-        <h1 className="font-headline-xl text-headline-xl text-on-background">Today</h1>
-        {s && <StatusBadge state={s.brainState} />}
+      {/* Header with PKT Clock & Brain State */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-border mb-6 gap-3">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="font-headline-xl text-headline-xl text-on-background">Today</h1>
+            {s && <StatusBadge state={s.brainState} />}
+          </div>
+          <p className="font-ui-body text-ui-body text-on-surface-variant text-sm mt-1">
+            Executive control room and daily operational briefing.
+          </p>
+        </div>
+        <div className="flex items-center gap-4 bg-surface-container/70 border border-slate-border px-3.5 py-2 rounded-lg">
+          <div className="text-right">
+            <p className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Asia / Karachi</p>
+            <p className="font-mono-data text-sm font-bold text-on-background">{pktTime || 'PKT'}</p>
+          </div>
+          <div className="h-6 w-px bg-slate-border" />
+          <div className="text-right">
+            <p className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Next Cycle</p>
+            <p className="font-mono-data text-xs text-emerald-400 font-semibold">Every 6 Hours</p>
+          </div>
+        </div>
       </div>
-      <p className="font-ui-body text-ui-body text-on-surface-variant mb-8">
-        What does your business need from you today?
-      </p>
+
+      {/* Next Best Action Card */}
+      <section className="mb-8">
+        <div className="bg-gradient-to-r from-obsidian-deep via-surface-container to-obsidian-deep border border-primary/30 rounded-lg p-5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="material-symbols-outlined text-primary text-xl" aria-hidden="true">
+                  lightbulb
+                </span>
+                <span className="text-xs uppercase tracking-wider font-semibold text-primary">
+                  Next Best Action
+                </span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${nextBestAction.badgeColor}`}>
+                  {nextBestAction.badge}
+                </span>
+              </div>
+              <h2 className="text-base font-semibold text-on-background">
+                {nextBestAction.title}
+              </h2>
+              <p className="text-xs text-on-surface-variant mt-1 max-w-2xl">
+                {nextBestAction.description}
+              </p>
+            </div>
+            <Link
+              href={nextBestAction.actionHref}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-deep-navy font-semibold text-xs rounded hover:opacity-95 transition-opacity whitespace-nowrap self-start sm:self-center"
+            >
+              <span>{nextBestAction.actionText}</span>
+              <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* A. Brain Status */}
       <section className="mb-8">

@@ -64,16 +64,16 @@ function makeRequestVariantB(params: Record<string, string>, passphrase = PASSPH
   } as unknown as Request
 }
 
-function makePasswordRequest(params: Record<string, string>, password: string): Request {
-  const body = new URLSearchParams({ ...params, password }).toString()
+function makeUnauthenticatedRequest(params: Record<string, string>): Request {
+  const body = new URLSearchParams(params).toString()
   return {
     text: async () => body,
     headers: { get: jest.fn(() => null) },
   } as unknown as Request
 }
 
-function makeUnauthenticatedRequest(params: Record<string, string>): Request {
-  const body = new URLSearchParams(params).toString()
+function makePasswordRequest(params: Record<string, string>, password: string): Request {
+  const body = new URLSearchParams({ ...params, password }).toString()
   return {
     text: async () => body,
     headers: { get: jest.fn(() => null) },
