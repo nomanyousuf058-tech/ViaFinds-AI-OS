@@ -49,7 +49,7 @@ function resolveConfig(): DbConfig {
       user: url.username,
       password: url.password,
       ssl: process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false }),
-      connectionTimeoutMillis: 10000,
+      connectionTimeoutMillis: 30000,
       idleTimeoutMillis: 30000,
       max: resolveMaxClients(),
     }
@@ -63,7 +63,7 @@ function resolveConfig(): DbConfig {
   const isLocal = host === 'localhost' || host === '127.0.0.1'
   const ssl = process.env.DATABASE_SSL === 'false' ? false : (isLocal ? false : { rejectUnauthorized: false })
 
-  return { host, port, database, user, password, ssl, connectionTimeoutMillis: 10000, idleTimeoutMillis: 30000, max: resolveMaxClients() }
+  return { host, port, database, user, password, ssl, connectionTimeoutMillis: 30000, idleTimeoutMillis: 30000, max: resolveMaxClients() }
 }
 
 export function getPool(): Pool {
