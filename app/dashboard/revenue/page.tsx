@@ -14,15 +14,15 @@ export default async function RevenueDashboardPage() {
   }
 
   const getTierColor = (tier: string) => {
-    if (tier === 'winner') return 'bg-green-100 text-green-800'
-    if (tier === 'loser') return 'bg-red-100 text-red-800'
-    return 'bg-slate-100 text-slate-800'
+    if (tier === 'winner') return 'bg-emerald-950 text-emerald-400 border-emerald-800'
+    if (tier === 'loser') return 'bg-red-950 text-red-400 border-red-800'
+    return 'bg-surface-container-high text-on-surface-variant border-slate-border'
   }
 
   const getPriorityColor = (priority: string) => {
-    if (priority === 'high') return 'bg-red-100 text-red-800'
-    if (priority === 'medium') return 'bg-amber-100 text-amber-800'
-    return 'bg-slate-100 text-slate-800'
+    if (priority === 'high') return 'bg-red-950 text-red-400 border-red-800'
+    if (priority === 'medium') return 'bg-amber-950 text-amber-400 border-amber-800'
+    return 'bg-surface-container-high text-on-surface-variant border-slate-border'
   }
 
   return (

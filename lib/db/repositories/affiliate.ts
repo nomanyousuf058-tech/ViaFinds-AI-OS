@@ -356,6 +356,26 @@ export class AffiliateRepository {
   }
 
   /**
+   * Find a conversion by order_id for refund/chargeback attribution.
+   * Digistore24 refunds use a distinct transaction_id but share the
+   * original order_id, so this is the fallback for financial reversals.
+   */
+  async findConversionByOrderId(orderId: string, provider: string): Promise<AffiliateConversionRow | null> {
+    try {
+      const pool = await this.getPool()
+      const result = await pool.query<AffiliateConversionRow>(
+        `SELECT * FROM affiliate_conversions
+         WHERE order_id = $1 AND provider = $2
+         ORDER BY recorded_at DESC LIMIT 1`,
+        [orderId, provider]
+      )
+      return result.rows[0] || null
+    } catch {
+      return null
+    }
+  }
+
+  /**
    * Update the financial state of an existing conversion (refund, chargeback,
    * payment confirmation). Never creates a new row — financial attribution
    * stays on the original record.

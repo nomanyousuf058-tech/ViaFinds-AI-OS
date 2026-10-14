@@ -4,6 +4,29 @@ import { articleRepository } from '@/lib/db/repositories'
 import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
 import type { ArticleRow } from '@/lib/db/types'
 
+const VALID_STATUSES = new Set(['draft', 'published', 'archived'])
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+async function ensureUniqueSlug(baseSlug: string): Promise<string> {
+  const slug = baseSlug || `article-${Date.now()}`
+  let attempt = 0
+  while (attempt < 10) {
+    const candidate = attempt === 0 ? slug : `${slug}-${attempt + 1}`
+    const existing = await articleRepository.findBySlug(candidate)
+    if (!existing) return candidate
+    attempt++
+  }
+  return `${slug}-${Date.now()}`
+}
+
 export async function GET(request: Request) {
   try {
     await adminOnly()
@@ -54,19 +77,23 @@ export async function POST(request: Request) {
       }
     }
 
+    const status = VALID_STATUSES.has(body.status) ? body.status : 'draft'
+    const baseSlug = slugify(body.slug || body.title || '')
+    const slug = await ensureUniqueSlug(baseSlug)
+
     const article = await articleRepository.create({
       title: body.title,
-      slug: body.slug,
+      slug,
       excerpt: body.excerpt || null,
       content: content,
-      status: body.status || 'draft',
+      status,
       cover_image_url: body.cover_image_url || null,
       author_id: null,
       category_id: null,
       seo: body.seo || {},
       geo: body.geo || {},
       aeo: body.aeo || {},
-      published_at: body.status === 'published' ? new Date().toISOString() : null,
+      published_at: status === 'published' ? new Date().toISOString() : null,
       featured: body.featured || false,
       trending: body.trending || false,
       reading_time: body.reading_time || null,

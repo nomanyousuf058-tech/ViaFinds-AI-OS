@@ -1,7 +1,10 @@
 import crypto from 'crypto'
 
-export const ENCRYPTION_KEY = () => {
-  const secret = process.env.ENCRYPTION_KEY || process.env.NEXTAUTH_SECRET || 'viafinds-fallback-local-key-32b'
+export const ENCRYPTION_KEY = (): Buffer => {
+  const secret = process.env.ENCRYPTION_KEY || process.env.NEXTAUTH_SECRET
+  if (!secret) {
+    throw new Error('ENCRYPTION_KEY or NEXTAUTH_SECRET environment variable is required for credential encryption')
+  }
   return crypto.scryptSync(secret, 'salt', 32)
 }
 

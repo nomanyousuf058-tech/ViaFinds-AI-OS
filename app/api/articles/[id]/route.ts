@@ -3,6 +3,8 @@ import { adminOnly } from '@/lib/auth'
 import { articleRepository } from '@/lib/db/repositories'
 import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
 
+const VALID_STATUSES = new Set(['draft', 'published', 'archived'])
+
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     await adminOnly()
@@ -37,7 +39,15 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (body.article_type !== undefined) updates.article_type = body.article_type
     if (body.excerpt !== undefined) updates.excerpt = body.excerpt
     if (body.content !== undefined) updates.content = body.content
-    if (body.status !== undefined) updates.status = body.status
+    if (body.status !== undefined) {
+      if (!VALID_STATUSES.has(body.status)) {
+        return NextResponse.json(
+          { error: `Invalid status. Must be one of: ${[...VALID_STATUSES].join(', ')}` },
+          { status: 400 }
+        )
+      }
+      updates.status = body.status
+    }
     if (body.cover_image_url !== undefined) updates.cover_image_url = body.cover_image_url
     if (body.reading_time !== undefined) updates.reading_time = body.reading_time
     if (body.seo !== undefined) updates.seo = body.seo
@@ -45,7 +55,18 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (body.aeo !== undefined) updates.aeo = body.aeo
     if (body.featured !== undefined) updates.featured = body.featured
     if (body.trending !== undefined) updates.trending = body.trending
-    if (body.published_at !== undefined) updates.published_at = body.published_at
+
+    // Auto-manage published_at when status transitions to/from published.
+    // Only set it when the client did not explicitly provide it.
+    if (updates.status !== undefined && body.published_at === undefined) {
+      if (updates.status === 'published' && !existingArticle.published_at) {
+        updates.published_at = new Date().toISOString()
+      } else if (updates.status !== 'published') {
+        updates.published_at = null
+      }
+    } else if (body.published_at !== undefined) {
+      updates.published_at = body.published_at
+    }
 
     if (Array.isArray(updates.content) && updates.content.length > 0) {
       const productId = body.product_id || existingArticle.product_id

@@ -238,12 +238,7 @@ export class RevenueIntelligenceService {
       const [clickCount, conversions, links] = await Promise.all([
         affiliateRepository.countClicksByArticleId(article.id),
         affiliateRepository.sumConversionsByArticleId(article.id),
-        article.product_id
-          ? Promise.all([
-              affiliateRepository.sumConversionsByProductId(article.product_id),
-              affiliateRepository.countClicksByProductId(article.product_id),
-            ])
-          : [null, null],
+        affiliateRepository.findLinksByArticle(article.id),
       ]);
 
       const totalRevenue = conversions.totalCommission;
@@ -251,7 +246,6 @@ export class RevenueIntelligenceService {
       const totalClicks = clickCount;
       const conversionRate = totalClicks > 0 ? (conversionCount / totalClicks) * 100 : 0;
       const revenuePerClick = totalClicks > 0 ? totalRevenue / totalClicks : 0;
-      const ctr = totalClicks > 0 ? totalClicks : 0;
 
       const clickAvail = DataAvailabilityChecker.clickAvailability();
       const conversionAvail = DataAvailabilityChecker.conversionAvailability(conversionCount);
@@ -269,7 +263,7 @@ export class RevenueIntelligenceService {
         articleId: article.id,
         articleTitle: article.title,
         productId: article.product_id || null,
-        linkCount: links ? 1 : 0,
+        linkCount: links.length,
         clickCount: totalClicks,
         clickAvailability: clickAvail.availability,
         clickReason: clickAvail.reason,
@@ -282,7 +276,7 @@ export class RevenueIntelligenceService {
         conversionRate,
         revenuePerClick,
         performanceTier,
-        ctr,
+        ctr: conversionRate,
       });
     }
 
@@ -297,7 +291,7 @@ export class RevenueIntelligenceService {
     rpc: number
   ): 'winner' | 'moderate' | 'loser' {
     if (clicks < MIN_CLICKS_FOR_TIER) {
-      return revenue > 0 ? 'moderate' : 'moderate';
+      return revenue > 0 ? 'moderate' : 'loser';
     }
 
     if (revenue >= REVENUE_PER_CLICK_THRESHOLD * clicks && conversionRate >= CONVERSION_THRESHOLD * 100) {
@@ -744,7 +738,7 @@ export class RevenueIntelligenceService {
       conversionRate,
       revenuePerClick,
       performanceTier,
-      ctr: totalClicks,
+      ctr: conversionRate,
     };
   }
 }

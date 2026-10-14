@@ -57,6 +57,7 @@ describe('BrainCycle', () => {
 
     (brainRepository.getInitialization as jest.Mock).mockResolvedValue({
       id: 'init-1',
+      initialization_id: 'init-1',
       status: 'initialized',
     });
     (brainRepository.createRun as jest.Mock).mockResolvedValue({

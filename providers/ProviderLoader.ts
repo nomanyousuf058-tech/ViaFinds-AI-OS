@@ -100,6 +100,18 @@ export class ProviderLoader {
    * Initializes all registered providers and prints a startup status table.
    */
   public static async loadProviders(): Promise<void> {
+    // Validate required environment variables before any provider init.
+    // This reports missing variable NAMES only — never values.
+    try {
+      const { checkProductionEnv, formatEnvMessage } = await import('@/lib/env')
+      const result = checkProductionEnv()
+      if (!result.ok) {
+        console.error(formatEnvMessage(result))
+      }
+    } catch {
+      // Non-fatal: env validation is a best-effort startup diagnostic.
+    }
+
     const statusMap: Record<string, string> = {};
 
     // Register all providers if registry is empty
@@ -112,7 +124,10 @@ export class ProviderLoader {
           const credPath = path.join(process.cwd(), 'data', 'credentials.json');
           
           const getEncryptionKey = () => {
-            const secret = process.env.ENCRYPTION_KEY || process.env.NEXTAUTH_SECRET || 'viafinds-fallback-local-key-32b';
+            const secret = process.env.ENCRYPTION_KEY || process.env.NEXTAUTH_SECRET;
+            if (!secret) {
+              throw new Error('ENCRYPTION_KEY or NEXTAUTH_SECRET is required to decrypt stored credentials');
+            }
             return crypto.scryptSync(secret, 'salt', 32);
           };
 

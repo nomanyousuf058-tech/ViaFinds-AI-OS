@@ -1,16 +1,17 @@
 import { NextResponse } from 'next/server'
 import { brainCycle } from '@/lib/brain/brainCycle'
 import { brainRepository } from '@/lib/db/repositories/brain'
+import { logger } from '@/lib/logger'
 
 /**
  * Vercel Cron Route: Brain Continuous Operating Cycle
  *
  * This is what makes the Brain operate continuously after ONE human Wake Up:
  * the external scheduler (Vercel Cron) periodically asks "is anything due?"
- * and the Brain runs its operating loop when a schedule is due.
+ * and the Brain runs the specific operating phases when a schedule is due.
  *
- * Security: Vercel injects CRON_SECRET as the Authorization bearer token.
- * We verify it here to prevent unauthorized triggering.
+ * Security: Accepts Vercel cron header (x-vercel-cron: 1), Bearer CRON_SECRET,
+ * or admin session to prevent unauthorized triggering.
  *
  * Safety properties:
  * - Idempotent: repeated calls with nothing due are no-ops.
@@ -33,20 +34,37 @@ const FREQUENCY_INTERVAL_MS: Record<string, number> = {
   monthly: 30 * 24 * 60 * 60 * 1000,
 }
 
+const HANDLER_TO_PHASE: Record<string, string> = {
+  'brain_cycle:health': 'health',
+  'brain_cycle:revenue': 'revenue',
+  'brain_cycle:opportunities': 'opportunities',
+  'brain_cycle:partners': 'partners',
+  'brain_cycle:research': 'research',
+  'brain_cycle:strategy_review': 'strategy_review',
+  'brain_cycle:learning': 'learning',
+  'brain_cycle:schedules': 'schedules',
+}
+
 export async function GET(request: Request) {
   // --- Security Check ---
   const authHeader = request.headers.get('Authorization')
   const cronSecret = process.env.CRON_SECRET
   const isVercelCron = request.headers.get('x-vercel-cron') === '1'
 
-  if (!cronSecret) {
-    console.error('CRON_SECRET environment variable is not set')
-    return NextResponse.json({ error: 'Cron not configured' }, { status: 500 })
-  }
-
-  if (!isVercelCron && authHeader !== `Bearer ${cronSecret}`) {
-    console.warn('Unauthorized brain cron attempt')
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // Vercel cron header takes precedence
+  if (isVercelCron) {
+    // Valid Vercel cron - proceed
+  } else if (cronSecret && authHeader === `Bearer ${cronSecret}`) {
+    // Valid Bearer token - proceed
+  } else {
+    // Fall back to admin session check
+    try {
+      const { adminOnly } = await import('@/lib/auth')
+      await adminOnly()
+    } catch {
+      logger.warn('Unauthorized brain cron attempt')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
   }
 
   try {
@@ -81,43 +99,63 @@ export async function GET(request: Request) {
       })
     }
 
-    // --- Run the full operating cycle ---
-    const result = await brainCycle.run('cron')
+    // --- Run phases for each due schedule ---
+    const executed: string[] = []
+    const allObservations: string[] = []
+    const allFailures: string[] = []
+    const allResults: Record<string, unknown> = {}
+    let overallStatus: 'completed' | 'partial' | 'failed' = 'completed'
 
-    // If no run record was created (DB failure or a race lost to the
-    // singleton index), leave schedules untouched so the next tick retries.
-    if (!result.runId) {
-      return NextResponse.json({
-        success: false,
-        executed: 0,
-        reason: 'cycle run record could not be created; schedules left for next tick',
-        failures: result.failures,
-      })
+    // Group by handler to avoid running the same phase multiple times
+    const handlersToRun = new Set<string>()
+    for (const s of auto) {
+      const handler = s.handler as string
+      const phase = HANDLER_TO_PHASE[handler]
+      if (phase) {
+        handlersToRun.add(phase)
+      }
     }
 
-    // --- Record schedule execution and compute next runs ---
-    const executed: string[] = []
-    for (const s of auto) {
-      const frequency = s.frequency as string
-      const interval = FREQUENCY_INTERVAL_MS[frequency] ?? FREQUENCY_INTERVAL_MS.daily
-      const nextRun = frequency === 'on_demand' ? null : new Date(now + interval)
-      const ok = await brainRepository.updateScheduleRun(s.id as string, {
-        status: result.status === 'failed' ? 'failed' : 'completed',
-        lastRun: true,
-        nextRun,
-      })
-      if (ok) executed.push(s.key as string)
+    for (const phase of handlersToRun) {
+      const result = await brainCycle.runPhaseByName(phase, 'cron')
+
+      // Track overall status
+      if (result.status === 'failed') {
+        overallStatus = 'failed'
+      } else if (result.status === 'partial' && overallStatus !== 'failed') {
+        overallStatus = 'partial'
+      }
+
+      allObservations.push(...result.observations)
+      allFailures.push(...result.failures)
+      allResults[phase] = result.results[phase]
+
+      // Update all schedules that use this handler
+      for (const s of auto) {
+        if (HANDLER_TO_PHASE[s.handler as string] === phase) {
+          const frequency = s.frequency as string
+          const interval = FREQUENCY_INTERVAL_MS[frequency] ?? FREQUENCY_INTERVAL_MS.daily
+          const nextRun = frequency === 'on_demand' ? null : new Date(now + interval)
+          const ok = await brainRepository.updateScheduleRun(s.id as string, {
+            status: result.status === 'failed' ? 'failed' : 'completed',
+            lastRun: true,
+            nextRun,
+          })
+          if (ok) executed.push(s.key as string)
+        }
+      }
     }
 
     return NextResponse.json({
-      success: result.status !== 'failed',
+      success: overallStatus !== 'failed',
       executed: executed.length,
       schedules: executed,
       awaitingApproval: awaitingApproval.map((s) => s.key as string),
       cycle: {
-        runId: result.runId,
-        status: result.status,
-        failures: result.failures,
+        runId: allObservations.length > 0 ? 'multi-phase' : '',
+        status: overallStatus,
+        failures: allFailures,
+        results: allResults,
       },
     })
   } catch (error) {

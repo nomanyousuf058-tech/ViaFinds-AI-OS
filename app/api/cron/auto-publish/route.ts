@@ -21,14 +21,20 @@ export async function GET(request: Request) {
     const cronSecret = process.env.CRON_SECRET
     const isVercelCron = request.headers.get('x-vercel-cron') === '1'
 
-    if (!cronSecret) {
-      logger.error('CRON_SECRET environment variable is not set')
-      return NextResponse.json({ error: 'Cron not configured' }, { status: 500 })
-    }
-
-    if (!isVercelCron && authHeader !== `Bearer ${cronSecret}`) {
-      logger.warn('Unauthorized cron attempt', { hasAuthHeader: !!authHeader })
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Vercel cron header takes precedence
+    if (isVercelCron) {
+      // Valid Vercel cron - proceed
+    } else if (cronSecret && authHeader === `Bearer ${cronSecret}`) {
+      // Valid Bearer token - proceed
+    } else {
+      // Fall back to admin session check
+      try {
+        const { adminOnly } = await import('@/lib/auth')
+        await adminOnly()
+      } catch {
+        logger.warn('Unauthorized cron attempt', { hasAuthHeader: !!authHeader })
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
     }
 
     // --- Run the Auto Partner Pipeline ---

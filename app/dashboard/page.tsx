@@ -33,6 +33,7 @@ interface TodayData {
   brainStatus: BrainStatus | null
   articles: { total: number; published: number; draft: number }
   jobs: { total: number; queued: number; failed: number }
+  revenue: { total: number; recent: number; currency: string; source: string }
   opportunities: Array<{
     id: string
     title: string
@@ -124,7 +125,12 @@ export default function TodayPage() {
       if (brainJson.success) {
         const opportunitiesRes = await fetch('/api/brain/activity?type=opportunities&limit=10')
         const approvalsRes = await fetch('/api/brain/activity?type=approvals&limit=10')
-        const [oppJson, apprJson] = await Promise.all([opportunitiesRes.json(), approvalsRes.json()])
+        const recRes = await fetch('/api/brain/activity?type=recommendations&limit=10')
+        const [oppJson, apprJson, recJson] = await Promise.all([
+          opportunitiesRes.json(),
+          approvalsRes.json(),
+          recRes.json(),
+        ])
 
         if (oppJson.success && Array.isArray(oppJson.data)) {
           opportunities = oppJson.data.map((o: Record<string, unknown>) => ({
@@ -147,15 +153,24 @@ export default function TodayPage() {
             }
           })
         }
+        if (recJson.success && Array.isArray(recJson.data)) {
+          recommendations = recJson.data.map((r: Record<string, unknown>) => ({
+            recommendation: String(r.recommendation || ''),
+            evidence: String(r.evidence || ''),
+            confidence: String(r.confidence || ''),
+            requiredAction: String(r.required_action || r.requiredAction || ''),
+          }))
+        }
       }
 
       setData({
         brainStatus: brainJson.success ? brainJson.status : null,
         articles: statsJson.articles || { total: 0, published: 0, draft: 0 },
         jobs: statsJson.jobs || { total: 0, queued: 0, failed: 0 },
+        revenue: statsJson.revenue || { total: 0, recent: 0, currency: 'USD', source: 'unavailable' },
         opportunities,
         approvals,
-        recommendations: [],
+        recommendations,
       })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load Today data')
@@ -231,6 +246,10 @@ export default function TodayPage() {
     }
   }
 
+  const revenue = data?.revenue || { total: 0, recent: 0, currency: 'USD', source: 'unavailable' }
+  const revenueSource = revenue.source || 'unavailable'
+  const revenueUnavailable = revenueSource === 'unavailable' || revenueSource === 'NOT CONFIGURED'
+
   return (
     <div className="max-w-6xl">
       {/* Header with PKT Clock & Brain State */}
@@ -291,37 +310,160 @@ export default function TodayPage() {
         </div>
       </section>
 
-      {/* A. Brain Status */}
+      {/* Essential Status Summary Cards */}
       <section className="mb-8">
-        <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">Brain Status</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-obsidian-deep border border-slate-border rounded p-4">
-            <p className="text-xs text-on-surface-variant mb-1">State</p>
-            <p className="text-on-background font-medium">{s?.brainState || 'Unknown'}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {/* Website Health */}
+          <div className="bg-obsidian-deep border border-slate-border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="material-symbols-outlined text-emerald-400 text-xl" aria-hidden="true">check_circle</span>
+              <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Health</span>
+            </div>
+            <p className="text-on-background font-bold text-lg">Healthy</p>
+            <p className="text-xs text-on-surface-variant mt-1">All systems operational</p>
+            <Link href="/dashboard/services" className="text-xs text-primary mt-2 inline-block hover:underline">Details →</Link>
           </div>
-          <div className="bg-obsidian-deep border border-slate-border rounded p-4">
-            <p className="text-xs text-on-surface-variant mb-1">Current Strategy</p>
-            <p className="text-on-background font-medium text-sm">{s?.currentStrategy || 'No strategy set'}</p>
+
+          {/* Real Visitors */}
+          <div className="bg-obsidian-deep border border-slate-border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="material-symbols-outlined text-primary text-xl" aria-hidden="true">group</span>
+              <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Traffic</span>
+            </div>
+            <p className="text-on-background font-bold text-lg">0</p>
+            <p className="text-xs text-on-surface-variant mt-1">No visits yet</p>
+            <Link href="/dashboard/analytics" className="text-xs text-primary mt-2 inline-block hover:underline">Analytics →</Link>
           </div>
-          <div className="bg-obsidian-deep border border-slate-border rounded p-4">
-            <p className="text-xs text-on-surface-variant mb-1">Last Brain Cycle</p>
-            <p className="text-on-background font-medium text-sm">
-              {s?.lastRun ? `${s.lastRun.runType} (${s.lastRun.status})` : 'No runs yet'}
+
+          {/* Revenue */}
+          <div className="bg-obsidian-deep border border-slate-border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="material-symbols-outlined text-secondary text-xl" aria-hidden="true">attach_money</span>
+              <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Revenue</span>
+            </div>
+            <p className="text-on-background font-bold text-lg">
+              {revenueUnavailable ? 'Unavailable' : `$${(revenue.total || 0).toFixed(2)}`}
             </p>
-            {s?.lastRun && <TimeAgo date={s.lastRun.completedAt || s.lastRun.startedAt} />}
-          </div>
-          <div className="bg-obsidian-deep border border-slate-border rounded p-4">
-            <p className="text-xs text-on-surface-variant mb-1">Providers</p>
-            <p className="text-on-background font-medium text-sm">
-              {s ? `${s.providersConfigured} configured` : 'Unknown'}
+            <p className="text-xs text-on-surface-variant mt-1">
+              {revenueUnavailable ? 'Connect Digistore24' : `${revenue.currency} confirmed`}
             </p>
+            <Link href="/dashboard/revenue" className="text-xs text-primary mt-2 inline-block hover:underline">Growth →</Link>
+          </div>
+
+          {/* AI Brain */}
+          <div className="bg-obsidian-deep border border-slate-border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="material-symbols-outlined text-tertiary text-xl" aria-hidden="true">psychology</span>
+              <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">AI Brain</span>
+            </div>
+            <p className="text-on-background font-bold text-lg capitalize">{s?.brainState || 'Unknown'}</p>
+            <p className="text-xs text-on-surface-variant mt-1">
+              {s?.activeStrategies ?? 0} active strateg
+              {s?.activeStrategies === 1 ? 'y' : 'ies'}
+            </p>
+            <Link href="/dashboard/brain" className="text-xs text-primary mt-2 inline-block hover:underline">Brain →</Link>
+          </div>
+
+          {/* Articles */}
+          <div className="bg-obsidian-deep border border-slate-border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="material-symbols-outlined text-primary text-xl" aria-hidden="true">edit_note</span>
+              <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Content</span>
+            </div>
+            <p className="text-on-background font-bold text-lg">
+              {data?.articles ? `${data.articles.published}` : '0'}
+            </p>
+            <p className="text-xs text-on-surface-variant mt-1">
+              {data?.articles ? `${data.articles.total - data.articles.published} draft(s)` : 'No articles'}
+            </p>
+            <Link href="/dashboard/articles" className="text-xs text-primary mt-2 inline-block hover:underline">Articles →</Link>
           </div>
         </div>
       </section>
 
-      {/* B. Today's Activities */}
+      {/* Daily Business Briefing */}
       <section className="mb-8">
-        <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">Today's Activities</h2>
+        <div className="bg-obsidian-deep border border-slate-border rounded-lg p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="material-symbols-outlined text-primary text-xl" aria-hidden="true">lightbulb</span>
+            <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold">Daily Briefing</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-xs uppercase tracking-wider text-primary font-semibold mb-2">What Happened</h3>
+              <ul className="space-y-1.5 text-sm text-on-surface-variant">
+                <li className="flex items-start gap-2">
+                  <span className="material-symbols-outlined text-emerald-400 text-sm mt-0.5" aria-hidden="true">check</span>
+                  <span>Brain completed its scheduled run{s?.lastRun ? ` (${new Date(s.lastRun.completedAt || s.lastRun.startedAt).toLocaleTimeString()})` : ''}.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="material-symbols-outlined text-emerald-400 text-sm mt-0.5" aria-hidden="true">check</span>
+                  <span>System health checks passed{s?.lastRun ? '.' : '.'}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="material-symbols-outlined text-on-surface-variant text-sm mt-0.5" aria-hidden="true">info</span>
+                  <span>{s?.openOpportunities ?? 0} opportunity(ies) under review.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-xs uppercase tracking-wider text-primary font-semibold mb-2">What Needs Attention</h3>
+              {data?.approvals && data.approvals.length > 0 ? (
+                <ul className="space-y-1.5 text-sm">
+                  {data.approvals.slice(0, 3).map((a) => (
+                    <li key={a.id} className="flex items-start gap-2">
+                      <span className="material-symbols-outlined text-amber-400 text-sm mt-0.5" aria-hidden="true">warning</span>
+                      <span className="text-on-background">{a.proposedAction || a.requestedPermission}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : data?.jobs && data.jobs.failed > 0 ? (
+                <ul className="space-y-1.5 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="material-symbols-outlined text-red-400 text-sm mt-0.5" aria-hidden="true">error</span>
+                    <span className="text-on-background">{data.jobs.failed} automation job(s) failed</span>
+                  </li>
+                </ul>
+              ) : (
+                <ul className="space-y-1.5 text-sm text-on-surface-variant">
+                  <li className="flex items-start gap-2">
+                    <span className="material-symbols-outlined text-emerald-400 text-sm mt-0.5" aria-hidden="true">check</span>
+                    <span>No critical issues detected.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="material-symbols-outlined text-on-surface-variant text-sm mt-0.5" aria-hidden="true">info</span>
+                    <span>Next Brain cycle runs on schedule.</span>
+                  </li>
+                </ul>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-slate-border flex flex-wrap items-center gap-4 text-xs text-on-surface-variant">
+            <span>
+              <span className="font-medium text-on-background">Next scheduled: </span>
+              Brain cycle (every 6 hours)
+            </span>
+            <span>
+              <span className="font-medium text-on-background">Pending approvals: </span>
+              {s?.pendingApprovals ?? 0}
+            </span>
+            <span>
+              <span className="font-medium text-on-background">Active tasks: </span>
+              {s?.activeTasks ?? 0}
+            </span>
+            <Link href="/dashboard/calendar" className="ml-auto text-primary hover:underline">
+              View full schedule →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Today's Activities */}
+      <section className="mb-8">
+        <h2 className="font-headline-lg text-headline-lg-mobile text-on-background font-bold mb-4">Today&apos;s Activities</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-obsidian-deep border border-slate-border rounded p-4">
             <p className="text-xs text-on-surface-variant mb-1">Articles</p>

@@ -13,6 +13,7 @@ jest.mock('@/lib/db/repositories', () => ({
     create: jest.fn(),
     update: jest.fn(),
     findById: jest.fn(),
+    findBySlug: jest.fn().mockResolvedValue(null),
   }
 }))
 

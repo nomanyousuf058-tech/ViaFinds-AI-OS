@@ -1,7 +1,26 @@
 import { NextResponse } from 'next/server';
-import { verifyAdminToken } from '@/lib/auth';
 import { affiliateRepository } from '@/lib/db/repositories/affiliate';
 import { brainRepository } from '@/lib/db/repositories/brain';
+
+async function checkAuth(request: Request): Promise<boolean> {
+  const authHeader = request.headers.get('Authorization')
+  const cronSecret = process.env.CRON_SECRET
+  const isVercelCron = request.headers.get('x-vercel-cron') === '1'
+
+  if (isVercelCron) {
+    return true
+  } else if (cronSecret && authHeader === `Bearer ${cronSecret}`) {
+    return true
+  } else {
+    try {
+      const { adminOnly } = await import('@/lib/auth')
+      await adminOnly()
+      return true
+    } catch {
+      return false
+    }
+  }
+}
 
 function isValidUrl(url: string): boolean {
   try {
@@ -13,7 +32,7 @@ function isValidUrl(url: string): boolean {
 }
 
 export async function POST(req: Request) {
-  if (!(await verifyAdminToken())) {
+  if (!(await checkAuth(req))) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -111,8 +130,8 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
-  if (!(await verifyAdminToken())) {
+export async function GET(req: Request) {
+  if (!(await checkAuth(req))) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 

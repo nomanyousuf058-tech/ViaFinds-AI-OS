@@ -1883,8 +1883,8 @@ Return the refined HTML directly.`
    * and bridges them to the existing `JobManager` (JSON) and actual business actions.
    */
   async processStrategyExecutions(): Promise<void> {
-    const { getPool } = require('../db/client')
-    const { automationJobsRepository } = require('../db/repositories/automation-jobs')
+    const { getPool } = await import('../db/client')
+    const { automationJobsRepository } = await import('../db/repositories/automation-jobs')
     const pool = getPool()
     
     try {

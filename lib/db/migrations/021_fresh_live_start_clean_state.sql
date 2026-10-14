@@ -21,8 +21,7 @@ BEGIN;
 -- For now, archive ALL articles since they're all test content
 -- Real articles would have provenance = 'REAL' and actual SEO/traffic value
 UPDATE articles 
-SET status = 'archived', 
-    updated_at = NOW() 
+SET status = 'archived' 
 WHERE status IN ('draft', 'published');
 
 -- ============================================================
@@ -32,8 +31,7 @@ WHERE status IN ('draft', 'published');
 -- Archive test clicks/conversions, mark as TEST
 
 UPDATE affiliate_links 
-SET destination_url = 'archived:' || destination_url,
-    updated_at = NOW()
+SET destination_url = 'archived:' || destination_url
 WHERE destination_url LIKE '%example.com%';
 
 UPDATE affiliate_clicks 
@@ -53,8 +51,7 @@ WHERE provider_transaction_id LIKE 'test-%' OR provider_transaction_id LIKE 'dem
 
 UPDATE brain_initialization 
 SET status = 'archived',
-    data = jsonb_set(COALESCE(data, '{}'::jsonb), '{archived_at}', to_jsonb(NOW())),
-    updated_at = NOW()
+    data = jsonb_set(COALESCE(data, '{}'::jsonb), '{archived_at}', to_jsonb(NOW()))
 WHERE status = 'initialized';
 
 -- ============================================================
@@ -62,8 +59,7 @@ WHERE status = 'initialized';
 -- ============================================================
 UPDATE brain_runs 
 SET status = 'archived',
-    results = jsonb_set(COALESCE(results, '{}'::jsonb), '{archived}', 'true'::jsonb),
-    updated_at = NOW()
+    results = jsonb_set(COALESCE(results, '{}'::jsonb), '{archived}', 'true'::jsonb)
 WHERE run_type IN ('wake_up', 'cycle') AND trigger LIKE '%test%' OR trigger LIKE '%manual%' OR trigger LIKE '%cron%';
 
 -- ============================================================
@@ -71,9 +67,8 @@ WHERE run_type IN ('wake_up', 'cycle') AND trigger LIKE '%test%' OR trigger LIKE
 -- ============================================================
 UPDATE brain_schedules 
 SET enabled = false,
-    status = 'archived',
-    metadata = jsonb_set(COALESCE(metadata, '{}'::jsonb), '{archived_at}', to_jsonb(NOW())),
-    updated_at = NOW()
+    status = 'disabled',
+    metadata = jsonb_set(COALESCE(metadata, '{}'::jsonb), '{archived_at}', to_jsonb(NOW()))
 WHERE key IN ('daily_health', 'weekly_research', 'daily_opportunity_scan', 'monthly_strategy_review');
 
 -- ============================================================
@@ -81,16 +76,14 @@ WHERE key IN ('daily_health', 'weekly_research', 'daily_opportunity_scan', 'mont
 -- ============================================================
 -- Keep only the intended baseline strategy
 UPDATE brain_strategies 
-SET status = 'archived',
-    updated_at = NOW()
+SET status = 'archived'
 WHERE provenance IN ('TEST', 'test') OR title ILIKE '%test%' OR title ILIKE '%demo%' OR title ILIKE '%experiment%';
 
 -- ============================================================
 -- 7. BRAIN OPPORTUNITIES - ARCHIVE TEST
 -- ============================================================
 UPDATE brain_opportunities 
-SET status = 'archived',
-    updated_at = NOW()
+SET status = 'archived'
 WHERE provenance IN ('TEST', 'test', 'FIXTURE') OR title ILIKE '%test%' OR title ILIKE '%demo%';
 
 -- ============================================================
@@ -98,24 +91,21 @@ WHERE provenance IN ('TEST', 'test', 'FIXTURE') OR title ILIKE '%test%' OR title
 -- ============================================================
 UPDATE brain_tasks 
 SET status = 'archived',
-    evidence = jsonb_set(COALESCE(evidence, '{}'::jsonb), '{archived}', 'true'::jsonb),
-    updated_at = NOW()
+    evidence = jsonb_set(COALESCE(evidence, '{}'::jsonb), '{archived}', 'true'::jsonb)
 WHERE provenance IN ('TEST', 'test') OR title ILIKE '%test%' OR title ILIKE '%demo%' OR title ILIKE '%phase 3%';
 
 -- ============================================================
 -- 9. BRAIN APPROVALS - ARCHIVE TEST APPROVALS
 -- ============================================================
 UPDATE brain_approvals 
-SET status = 'archived',
-    updated_at = NOW()
+SET status = 'archived'
 WHERE provenance IN ('TEST', 'test') OR (evidence->>'correlationId') LIKE '%test%';
 
 -- ============================================================
 -- 10. BRAIN DECISIONS - ARCHIVE TEST DECISIONS
 -- ============================================================
 UPDATE brain_decisions 
-SET status = 'archived',
-    updated_at = NOW()
+SET status = 'archived'
 WHERE provenance IN ('TEST', 'test', 'TEST_PROVENANCE') OR title ILIKE '%test%' OR title ILIKE '%audit%';
 
 -- ============================================================
@@ -123,8 +113,7 @@ WHERE provenance IN ('TEST', 'test', 'TEST_PROVENANCE') OR title ILIKE '%test%' 
 -- ============================================================
 UPDATE automation_jobs 
 SET status = 'archived',
-    result = jsonb_set(COALESCE(result, '{}'::jsonb), '{archived}', 'true'::jsonb),
-    updated_at = NOW()
+    result = jsonb_set(COALESCE(result, '{}'::jsonb), '{archived}', 'true'::jsonb)
 WHERE idempotency_key LIKE '%test%' OR idempotency_key LIKE '%demo%' OR input->>'topic' ILIKE '%test%';
 
 -- ============================================================
@@ -153,12 +142,12 @@ WHERE provenance = 'REAL';
 -- 13. CREATE FRESH PRODUCTION SCHEDULES
 -- ============================================================
 -- Insert the correct production schedules for live operation
-INSERT INTO brain_schedules (key, purpose, frequency, cron_expression, enabled, status, metadata, next_run)
+INSERT INTO brain_schedules (key, purpose, frequency, enabled, status, handler, metadata, next_run)
 VALUES 
-  ('daily_opportunity_scan', 'Daily opportunity discovery and validation', 'daily', '0 6 * * *', true, 'scheduled', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '6 hours'),
-  ('daily_health', 'Daily system health assessment', 'daily', '0 2 * * *', true, 'scheduled', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '2 hours'),
-  ('weekly_research', 'Weekly deep research cycle', 'weekly', '0 3 * * 1', true, 'scheduled', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '1 week'),
-  ('monthly_strategy_review', 'Monthly strategy evaluation and adjustment', 'monthly', '0 4 1 * *', true, 'scheduled', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '1 month')
+  ('daily_opportunity_scan', 'Daily opportunity discovery and validation', 'daily', true, 'scheduled', 'brain_cycle:opportunities', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '6 hours'),
+  ('daily_health', 'Daily system health assessment', 'daily', true, 'scheduled', 'brain_cycle:health', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '2 hours'),
+  ('weekly_research', 'Weekly deep research cycle', 'weekly', true, 'scheduled', 'brain_cycle:research', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '1 week'),
+  ('monthly_strategy_review', 'Monthly strategy evaluation and adjustment', 'monthly', true, 'scheduled', 'brain_cycle:strategy_review', '{"created_for": "fresh_live_start"}', NOW() + INTERVAL '1 month')
 ON CONFLICT (key) DO UPDATE SET
   enabled = EXCLUDED.enabled,
   status = EXCLUDED.status,

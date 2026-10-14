@@ -346,7 +346,7 @@ export class BrainRepository {
     try {
       const pool = await this.getDb()
       const result = await pool.query(
-        `INSERT INTO brain_memories (context_type, context_id, data, importance) VALUES ($1, $2, $3, $4) RETURNING *`,
+        `INSERT INTO brain_memory (context_type, context_id, data, importance) VALUES ($1, $2, $3, $4) RETURNING *`,
         [context_type, context_id, JSON.stringify(data), importance]
       )
       return result.rows[0] || null
@@ -889,6 +889,62 @@ export class BrainRepository {
       const result = await pool.query(`SELECT * FROM brain_product_discoveries WHERE opportunity_id=$1 ORDER BY created_at DESC LIMIT 1`, [opportunityId])
       return result.rows[0] || null
     } catch { return null }
+  }
+
+  async getProductDiscoveryById(id: string): Promise<Record<string, unknown> | null> {
+    try {
+      const pool = await this.getDb()
+      const result = await pool.query(`SELECT * FROM brain_product_discoveries WHERE id=$1`, [id])
+      return result.rows[0] || null
+    } catch { return null }
+  }
+
+  async updateProductDiscovery(id: string, data: {
+    existingProducts?: any[];
+    partnerAvailability?: any[];
+    alternativeNetworks?: string[];
+    manualFallbackNeeded?: boolean;
+    evaluation?: any;
+  }): Promise<boolean> {
+    try {
+      const pool = await this.getDb()
+      const updates: string[] = []
+      const params: any[] = [id]
+      let paramIdx = 2
+
+      if (data.existingProducts !== undefined) {
+        updates.push(`existing_products = $${paramIdx++}`)
+        params.push(JSON.stringify(data.existingProducts))
+      }
+      if (data.partnerAvailability !== undefined) {
+        updates.push(`partner_availability = $${paramIdx++}`)
+        params.push(JSON.stringify(data.partnerAvailability))
+      }
+      if (data.alternativeNetworks !== undefined) {
+        updates.push(`alternative_networks = $${paramIdx++}`)
+        params.push(JSON.stringify(data.alternativeNetworks))
+      }
+      if (data.manualFallbackNeeded !== undefined) {
+        updates.push(`manual_fallback_needed = $${paramIdx++}`)
+        params.push(data.manualFallbackNeeded)
+      }
+      if (data.evaluation !== undefined) {
+        updates.push(`evaluation = $${paramIdx++}`)
+        params.push(JSON.stringify(data.evaluation))
+      }
+
+      if (updates.length === 0) return true
+
+      updates.push(`updated_at = NOW()`)
+      const result = await pool.query(
+        `UPDATE brain_product_discoveries SET ${updates.join(', ')} WHERE id = $1`,
+        params
+      )
+      return (result.rowCount ?? 0) > 0
+    } catch (e) {
+      console.error('BrainRepository.updateProductDiscovery:', e)
+      return false
+    }
   }
 
   // ───── Phase 4: brain_content_strategies ─────

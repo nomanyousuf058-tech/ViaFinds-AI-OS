@@ -74,6 +74,36 @@ CREATE INDEX idx_categories_active ON categories(active);
 CREATE INDEX idx_categories_featured ON categories(featured);
 
 -- ============================================================
+-- PRODUCTS (Editorial References Only - NOT Ecommerce Catalog)
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS products (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title VARCHAR(500) NOT NULL,
+  slug VARCHAR(500) UNIQUE NOT NULL,
+  description TEXT,
+  brand VARCHAR(255),
+  category VARCHAR(255),
+  price DECIMAL(10,2),
+  rating DECIMAL(2,1),
+  image_url TEXT,
+  gallery JSONB DEFAULT '[]',
+  specifications JSONB DEFAULT '[]',
+  affiliate_url TEXT,
+  affiliate_network VARCHAR(255),
+  affiliate_links JSONB DEFAULT '[]',
+  availability VARCHAR(50),
+  status VARCHAR(50) DEFAULT 'draft',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_products_slug ON products(slug);
+CREATE INDEX idx_products_status ON products(status);
+CREATE INDEX idx_products_brand ON products(brand);
+CREATE INDEX idx_products_category ON products(category);
+
+-- ============================================================
 -- ARTICLES
 -- ============================================================
 
@@ -95,6 +125,7 @@ CREATE TABLE IF NOT EXISTS articles (
   author_id UUID REFERENCES authors(id) ON DELETE SET NULL,
   category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
   product_id UUID REFERENCES products(id) ON DELETE SET NULL,
+  affiliate_link_id UUID,
   seo JSONB DEFAULT '{}',
   geo JSONB DEFAULT '{}',
   aeo JSONB DEFAULT '{}'
@@ -106,6 +137,7 @@ CREATE INDEX idx_articles_published_at ON articles(published_at);
 CREATE INDEX idx_articles_author ON articles(author_id);
 CREATE INDEX idx_articles_category ON articles(category_id);
 CREATE INDEX idx_articles_product ON articles(product_id);
+CREATE INDEX idx_articles_affiliate_link ON articles(affiliate_link_id);
 CREATE INDEX idx_articles_featured ON articles(featured);
 CREATE INDEX idx_articles_trending ON articles(trending);
 
@@ -149,36 +181,6 @@ CREATE INDEX idx_reviews_author ON reviews(author_id);
 CREATE INDEX idx_reviews_product ON reviews(product_id);
 
 -- ============================================================
--- PRODUCTS (Editorial References Only - NOT Ecommerce Catalog)
--- ============================================================
-
-CREATE TABLE IF NOT EXISTS products (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  title VARCHAR(500) NOT NULL,
-  slug VARCHAR(500) UNIQUE NOT NULL,
-  description TEXT,
-  brand VARCHAR(255),
-  category VARCHAR(255),
-  price DECIMAL(10,2),
-  rating DECIMAL(2,1),
-  image_url TEXT,
-  gallery JSONB DEFAULT '[]',
-  specifications JSONB DEFAULT '[]',
-  affiliate_url TEXT,
-  affiliate_network VARCHAR(255),
-  affiliate_links JSONB DEFAULT '[]',
-  availability VARCHAR(50),
-  status VARCHAR(50) DEFAULT 'draft',
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE INDEX idx_products_slug ON products(slug);
-CREATE INDEX idx_products_status ON products(status);
-CREATE INDEX idx_products_brand ON products(brand);
-CREATE INDEX idx_products_category ON products(category);
-
--- ============================================================
 -- ARTICLE-REVIEW RELATIONSHIPS
 -- ============================================================
 
@@ -218,59 +220,6 @@ CREATE TABLE IF NOT EXISTS affiliate_references (
 );
 
 CREATE INDEX idx_affiliate_content ON affiliate_references(content_type, content_id);
-
-  sub_id_5 TEXT,
-  short_code VARCHAR(255) UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_affiliate_links_short_code ON affiliate_links(short_code);
-
-CREATE OR REPLACE FUNCTION generate_short_code()
-RETURNS TEXT AS $$
-DECLARE
-  chars TEXT[] := ARRAY[
-    'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-    '0','1','2','3','4','5','6','7','8','9'
-  ];
-  code TEXT := '';
-  attempts INTEGER := 0;
-  max_attempts INTEGER := 10;
-BEGIN
-  WHILE attempts < max_attempts LOOP
-    code := '';
-    FOR i IN 1..6 LOOP
-      code := code || chars[1 + floor(random() * 62)];
-    END LOOP;
-
-    IF NOT EXISTS (SELECT 1 FROM affiliate_links WHERE short_code = code) THEN
-      RETURN code;
-    END IF;
-
-    attempts := attempts + 1;
-  END LOOP;
-
-  RAISE EXCEPTION 'Failed to generate a unique short code after % attempts', max_attempts;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION auto_generate_short_code()
-RETURNS TRIGGER AS $$
-BEGIN
-  IF NEW.short_code IS NULL OR NEW.short_code = '' THEN
-    NEW.short_code := generate_short_code();
-  END IF;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS auto_generate_short_code_trigger ON affiliate_links;
-CREATE TRIGGER auto_generate_short_code_trigger
-  BEFORE INSERT ON affiliate_links
-  FOR EACH ROW
-  EXECUTE FUNCTION auto_generate_short_code();
 
 CREATE TABLE IF NOT EXISTS research_jobs (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -525,7 +474,7 @@ CREATE POLICY "Public read active authors" ON authors FOR SELECT USING (active =
 CREATE TABLE IF NOT EXISTS affiliate_links (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   product_id UUID REFERENCES products(id) ON DELETE CASCADE,
-  article_id UUID REFERENCES articles(id) ON DELETE CASCADE,
+  article_id UUID,
   network VARCHAR(100) NOT NULL,
   destination_url TEXT NOT NULL,
   sub_id_1 TEXT,
@@ -534,6 +483,10 @@ CREATE TABLE IF NOT EXISTS affiliate_links (
   sub_id_4 TEXT,
   sub_id_5 TEXT,
   short_code VARCHAR(255) UNIQUE NOT NULL,
+  verification_status VARCHAR(50) NOT NULL DEFAULT 'PENDING'
+    CHECK (verification_status IN ('VERIFIED', 'INVALID', 'MANUAL_REQUIRED', 'PENDING')),
+  verification_evidence JSONB DEFAULT '{}',
+  verification_checked_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -577,6 +530,7 @@ CREATE TABLE IF NOT EXISTS affiliate_conversions (
   conversion_type VARCHAR(50),
   converted_at TIMESTAMPTZ,
   recorded_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   raw_data JSONB DEFAULT '{}',
   provider_transaction_id TEXT,
   provider VARCHAR(100) NOT NULL DEFAULT 'digistore24',
@@ -595,6 +549,82 @@ CREATE OR REPLACE TRIGGER update_affiliate_links_updated_at
   BEFORE UPDATE ON affiliate_links
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
+
+CREATE OR REPLACE TRIGGER update_affiliate_conversions_updated_at
+  BEFORE UPDATE ON affiliate_conversions
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+CREATE OR REPLACE FUNCTION generate_short_code()
+RETURNS TEXT AS $$
+DECLARE
+  chars TEXT[] := ARRAY[
+    'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+    '0','1','2','3','4','5','6','7','8','9'
+  ];
+  code TEXT := '';
+  attempts INTEGER := 0;
+  max_attempts INTEGER := 10;
+BEGIN
+  WHILE attempts < max_attempts LOOP
+    code := '';
+    FOR i IN 1..6 LOOP
+      code := code || chars[1 + floor(random() * 62)];
+    END LOOP;
+
+    IF NOT EXISTS (SELECT 1 FROM affiliate_links WHERE short_code = code) THEN
+      RETURN code;
+    END IF;
+
+    attempts := attempts + 1;
+  END LOOP;
+
+  RAISE EXCEPTION 'Failed to generate a unique short code after % attempts', max_attempts;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION auto_generate_short_code()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.short_code IS NULL OR NEW.short_code = '' THEN
+    NEW.short_code := generate_short_code();
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS auto_generate_short_code_trigger ON affiliate_links;
+CREATE TRIGGER auto_generate_short_code_trigger
+  BEFORE INSERT ON affiliate_links
+  FOR EACH ROW
+  EXECUTE FUNCTION auto_generate_short_code();
+
+-- Publication trigger: prevent publishing articles with unverified affiliate links
+CREATE OR REPLACE FUNCTION check_affiliate_verification_on_publish()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.status = 'published' AND NEW.affiliate_link_id IS NOT NULL THEN
+    IF EXISTS (
+      SELECT 1 FROM affiliate_links
+      WHERE id = NEW.affiliate_link_id
+      AND verification_status NOT IN ('VERIFIED')
+    ) THEN
+      RAISE EXCEPTION 'Cannot publish article: affiliate link % is not VERIFIED (current: %)',
+        NEW.affiliate_link_id,
+        (SELECT verification_status FROM affiliate_links WHERE id = NEW.affiliate_link_id)
+      USING ERRCODE = 'P0001';
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS check_affiliate_verification_on_publish ON articles;
+CREATE TRIGGER check_affiliate_verification_on_publish
+  BEFORE UPDATE OF status ON articles
+  FOR EACH ROW
+  EXECUTE FUNCTION check_affiliate_verification_on_publish();
 
 -- ============================================================
 -- AI BRAIN (PHASE 1)
@@ -1093,16 +1123,6 @@ CREATE TABLE IF NOT EXISTS brain_experiment_events (
   variant_id VARCHAR(100) NOT NULL,
   metadata JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS brain_experiment_results (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  experiment_id UUID REFERENCES brain_experiments(id) ON DELETE CASCADE,
-  uplift DECIMAL(10,4),
-  significance DECIMAL(5,4),
-  conclusive BOOLEAN DEFAULT false,
-  recommendation TEXT NOT NULL,
-created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS brain_memory_v2 (

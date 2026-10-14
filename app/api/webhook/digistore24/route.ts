@@ -119,10 +119,10 @@ function classifyEvent(
     switch (eventLower) {
       case 'on_payment':
       case 'on_rebill_resumed':
+      case 'last_paid_day':
         return { status: 'approved', eventType: 'sale' }
       case 'on_refund':
       case 'on_rebill_cancelled':
-      case 'last_paid_day':
         return { status: 'refunded', eventType: 'refund' }
       case 'on_chargeback':
         return { status: 'chargeback', eventType: 'chargeback' }
@@ -231,7 +231,12 @@ export async function POST(request: Request) {
     const subId1 = params.sub_id_1 || undefined
 
     // --- Idempotency: a replayed event must never duplicate the record ---
-    const existing = await affiliateRepository.findConversionByProviderTransaction(PROVIDER, transactionId)
+    let existing = await affiliateRepository.findConversionByProviderTransaction(PROVIDER, transactionId)
+    // Refunds/chargebacks carry a distinct transaction_id but share the
+    // original order_id, so fall back to order_id for financial reversals.
+    if (!existing && (status === 'refunded' || status === 'chargeback') && params.order_id) {
+      existing = await affiliateRepository.findConversionByOrderId(params.order_id, PROVIDER)
+    }
     if (existing) {
       const isFinancialReversal = status === 'refunded' || status === 'chargeback'
       const alreadyReversed = existing.status === 'refunded' || existing.status === 'chargeback'
@@ -359,3 +364,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }
+
+
+
+

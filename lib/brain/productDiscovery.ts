@@ -56,11 +56,64 @@ export class ProductDiscoveryEngine {
     }
   }
   
-  async validateProduct(productId: string): Promise<ProductDiscoveryResult | null> {
-    // The repository doesn't have getProductDiscoveryById or updateProductDiscovery
-    // This would need new repository methods
-    console.warn('validateProduct not fully implemented - missing repository methods');
-    return null;
+async validateProduct(productId: string): Promise<ProductDiscoveryResult | null> {
+    const record = await brainRepository.getProductDiscoveryById(productId)
+    if (!record) return null
+
+    const products = record.existing_products as any[]
+    if (!products || products.length === 0) return null
+
+    const product = products[0]
+    const validation = await this.runValidationChecks({
+      ...product,
+      sourceUrl: product.sourceUrl,
+      affiliateProgram: product.affiliateProgram,
+      commissionRate: product.commissionRate,
+      reviewCount: product.reviewCount,
+      trafficEstimate: product.trafficEstimate,
+      platform: product.platform,
+    })
+
+    const recommendedAction = validation.status === 'validated' ? 'promote' : validation.status === 'needs_review' ? 'review' : 'skip'
+    const evalRecommendedAction = validation.status === 'validated' ? 'partner_integration' : validation.status === 'needs_review' ? 'manual_review' : 'create_content'
+
+    await brainRepository.updateProductDiscovery(productId, {
+      evaluation: {
+        fit: validation.status === 'validated' ? 'High' : validation.status === 'needs_review' ? 'Medium' : 'Low',
+        reasoning: `Validation score: ${validation.evidence.score}`,
+        recommendedAction: evalRecommendedAction,
+      },
+    })
+
+    return {
+      id: productId,
+      opportunityId: record.opportunity_id as string,
+      productName: product.productName,
+      productType: product.productType,
+      sourceUrl: product.sourceUrl,
+      platform: product.platform,
+      price: product.price,
+      commissionRate: product.commissionRate,
+      gravity: product.gravity,
+      rating: product.rating,
+      reviewCount: product.reviewCount,
+      keywords: product.keywords || [],
+      trafficEstimate: product.trafficEstimate,
+      competitionLevel: product.competitionLevel,
+      affiliateProgram: product.affiliateProgram,
+      validationStatus: validation.status as 'validated' | 'needs_review' | 'rejected',
+      validationEvidence: validation.evidence,
+      recommendedAction,
+      existingProducts: products,
+      partnerAvailability: record.partner_availability as any[],
+      alternativeNetworks: record.alternative_networks as string[],
+      manualFallbackNeeded: record.manual_fallback_needed as boolean,
+      evaluation: {
+        fit: validation.status === 'validated' ? 'High' : validation.status === 'needs_review' ? 'Medium' : 'Low',
+        reasoning: `Validation score: ${validation.evidence.score}`,
+        recommendedAction: evalRecommendedAction,
+      },
+    }
   }
   
   private async runValidationChecks(product: ProductDiscoveryResult): Promise<{ status: string; evidence: any }> {

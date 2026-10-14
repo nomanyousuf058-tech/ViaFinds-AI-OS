@@ -2,8 +2,30 @@ import { NextResponse } from 'next/server';
 import { brainCycle } from '@/lib/brain/brainCycle';
 import { verifyAdminToken } from '@/lib/auth';
 
+async function checkAuth(request: Request): Promise<boolean> {
+  const authHeader = request.headers.get('Authorization')
+  const cronSecret = process.env.CRON_SECRET
+  const isVercelCron = request.headers.get('x-vercel-cron') === '1'
+
+  // Vercel cron header takes precedence
+  if (isVercelCron) {
+    return true
+  } else if (cronSecret && authHeader === `Bearer ${cronSecret}`) {
+    return true
+  } else {
+    // Fall back to admin session check
+    try {
+      const { adminOnly } = await import('@/lib/auth')
+      await adminOnly()
+      return true
+    } catch {
+      return false
+    }
+  }
+}
+
 export async function POST(req: Request) {
-  if (!(await verifyAdminToken())) {
+  if (!(await checkAuth(req))) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -31,8 +53,8 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
-  if (!(await verifyAdminToken())) {
+export async function GET(req: Request) {
+  if (!(await checkAuth(req))) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 

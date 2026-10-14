@@ -6,16 +6,14 @@ import { usePathname } from 'next/navigation'
 import AdminGuard from '@/components/AdminGuard'
 
 const navItems = [
-  { href: '/dashboard', label: 'Today', icon: 'home' },
-  { href: '/dashboard/attention', label: 'Attention', icon: 'notifications_active' },
-  { href: '/dashboard/brain', label: 'Brain', icon: 'psychology' },
-  { href: '/dashboard/automation', label: 'Automation', icon: 'smart_toy' },
-  { href: '/dashboard/jobs', label: 'Jobs', icon: 'work_history' },
-  { href: '/dashboard/articles', label: 'Content', icon: 'edit_note' },
-  { href: '/dashboard/calendar', label: 'Calendar', icon: 'calendar_month' },
-  { href: '/dashboard/revenue', label: 'Growth', icon: 'trending_up' },
-  { href: '/dashboard/optimization', label: 'Optimization', icon: 'tune' },
-  { href: '/dashboard/services', label: 'System', icon: 'settings' },
+  { href: '/dashboard', label: 'Today', icon: 'home', short: 'Home' },
+  { href: '/dashboard/articles', label: 'Articles', icon: 'edit_note', short: 'Content' },
+  { href: '/dashboard/revenue', label: 'Revenue', icon: 'trending_up', short: 'Growth' },
+  { href: '/dashboard/analytics', label: 'Analytics', icon: 'analytics', short: 'Analytics' },
+  { href: '/dashboard/brain', label: 'AI Brain', icon: 'psychology', short: 'Brain' },
+  { href: '/dashboard/calendar', label: 'Schedule', icon: 'calendar_month', short: 'Schedule' },
+  { href: '/dashboard/attention', label: 'My Actions', icon: 'task_alt', short: 'Actions' },
+  { href: '/dashboard/services', label: 'System / Settings', icon: 'settings', short: 'System' },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -28,8 +26,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <aside className="w-64 border-r border-slate-border min-h-screen p-4 flex flex-col justify-between">
             <div>
               <div className="mb-6">
-                <Link href="/dashboard" className="font-headline-lg text-headline-lg-mobile font-bold text-on-background">
-                  ViaFinds Admin
+                <Link href="/dashboard" className="font-headline-lg text-headline-lg-mobile font-bold text-on-background flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary text-xl" aria-hidden="true">travel_explore</span>
+                  ViaFinds
                 </Link>
                 <p className="font-mono-data text-mono-data text-on-surface-variant text-xs mt-1">
                   Editorial Control Center

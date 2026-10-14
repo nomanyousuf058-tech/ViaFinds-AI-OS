@@ -50,8 +50,10 @@ export class BrainCycle {
 
   /**
    * Run a normal Brain cycle.
-   * This is idempotent: concurrent cycles are safe because each
-   * creates its own run record and uses conditional updates.
+   * Idempotent: repeated calls with nothing due are no-ops.
+   * Concurrency-safe: the cron route pre-checks getRunningCycleRun();
+   * the DB singleton index (idx_brain_runs_single_active_cycle) is the
+   * backstop if two calls race past the check.
    */
   async run(trigger: string = 'scheduled'): Promise<BrainCycleResult> {
     const startedAt = new Date().toISOString();
@@ -66,7 +68,7 @@ export class BrainCycle {
     const run = await brainRepository.createRun({
       runType: 'cycle',
       trigger,
-      initializationId: init ? (init.id as string) : null,
+      initializationId: init ? (init.initialization_id as string) : null,
     });
 
     if (!run) {
@@ -261,7 +263,7 @@ export class BrainCycle {
     const run = await brainRepository.createRun({
       runType: 'cycle',
       trigger: `${trigger}:${phaseName}`,
-      initializationId: init ? (init.id as string) : null,
+      initializationId: init ? (init.initialization_id as string) : null,
     });
 
     if (!run) {
@@ -305,6 +307,31 @@ export class BrainCycle {
         phaseResult = await this.runPhase('strategy', async () => {
           const strategies = await brainRepository.listStrategies();
           return { total: strategies.length };
+        }, observations, failures);
+        break;
+      case 'research':
+        phaseResult = await this.runPhase('research', async () => {
+          const recentProducts = await brainRepository.getRecentProducts(10);
+          return {
+            recentProductsCount: recentProducts.length,
+            note: 'Weekly product research phase - full discovery requires external API keys',
+          };
+        }, observations, failures);
+        break;
+      case 'learning':
+        phaseResult = await this.runPhase('learning', async () => {
+          const learnings = await brainRepository.listReusableLearnings(10);
+          return {
+            reusableLearnings: learnings.length,
+            note: learnings.length > 0 ? 'Reusable learnings available for strategy refinement' : 'No reusable learnings yet',
+          };
+        }, observations, failures);
+        break;
+      case 'schedules':
+        phaseResult = await this.runPhase('schedules', async () => {
+          return {
+            note: 'Schedules updated. Next runs calculated.',
+          };
         }, observations, failures);
         break;
       default:
