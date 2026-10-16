@@ -511,87 +511,75 @@ Respond with JSON containing:
         bestProduct = this.safeParseJson(response.content)
         logger.info('LLM product discovery succeeded', { productName: bestProduct.productName })
       } catch (discoveryErr) {
-        logger.warn('Auto partner product discovery failed via LLM, applying smart diverse fallback', { error: discoveryErr instanceof Error ? discoveryErr.message : String(discoveryErr) })
-        
-        // Curated list of diverse, high-converting digital products
-        const diverseProducts = [
-          { productName: 'Creator Funnel Builder', category: 'software', desc: 'A drag-and-drop sales funnel builder optimized for course creators and digital product sellers.' },
-          { productName: 'SaaS Analytics Suite', category: 'software', desc: 'Advanced retention and churn tracking metrics dashboard for bootstrapped SaaS founders.' },
-          { productName: 'Automated Email Marketing Pro', category: 'marketing', desc: 'Pre-built automation workflows and high-converting email templates for e-commerce.' },
-          { productName: 'Digital Asset Management Hub', category: 'productivity', desc: 'Cloud-based tagging and organization system for remote design teams.' },
-          { productName: 'AI Content Studio Pro', category: 'software', desc: 'An AI-powered content creation suite for digital marketers.' },
-          { productName: 'Mastering Facebook Ads Course', category: 'course', desc: 'Step-by-step video curriculum to scale ad campaigns profitably.' },
-          { productName: 'Freelance Copywriting Blueprint', category: 'ebook', desc: 'Comprehensive guide to landing high-ticket clients and writing copy that converts.' },
-          { productName: 'Ultimate Notion Productivity Template', category: 'template', desc: 'A fully integrated life and business management workspace built in Notion.' },
-          { productName: 'Membership Site Accelerator', category: 'membership', desc: 'Everything needed to launch and scale a recurring revenue membership community.' },
-          { productName: 'Fitness Coaching App Starter Kit', category: 'health', desc: 'White-label app templates for personal trainers to manage clients online.' }
-        ]
-
-        // Fetch existing titles to prevent duplicate fallback selection
-        const existingArticles = await articleRepository.findAllTitles();
-        const existingTitles = existingArticles.map(a => a.title.toLowerCase());
-
-        // Filter out any products we've already written about
-        const availableProducts = diverseProducts.filter(p => {
-          return !existingTitles.some(title => title.includes(p.productName.toLowerCase()));
-        });
-
-        if (availableProducts.length === 0) {
-           throw new Error('All fallback products have already been published. Please add more diverse products to the fallback list or fix the LLM provider.');
-        }
-
-        // Randomly select one of the available fresh products
-        const selected = availableProducts[Math.floor(Math.random() * availableProducts.length)];
-        
-        bestProduct = {
-          productName: selected.productName,
-          productId: Math.floor(100000 + Math.random() * 900000), // Random ID
-          category: selected.category,
-          commissionRate: 50,
-          description: selected.desc,
-          reasoning: 'Fallback product selected to ensure high quality and prevent duplicate content.',
-          estimatedMonthlySearches: 5000 + Math.floor(Math.random() * 5000),
-          articleType: 'review',
-          articleTypeReasoning: 'Reviews convert best for high-ticket digital products.',
-        }
-        
-        logger.info('Applied smart diverse fallback successfully', { selectedProduct: bestProduct.productName });
+        logger.warn('Auto partner product discovery failed via LLM — no fabricated fallback will be used', { error: discoveryErr instanceof Error ? discoveryErr.message : String(discoveryErr) })
+        throw new Error(`Product discovery failed for ${partner}: no independently verifiable product could be found. Aborting publication.`)
       }
 
-      const productName = bestProduct.productName as string || 'Digital Product'
-      const productId = bestProduct.productId as number || 999999
+      // Require a genuine product name and ID from discovery. Never fabricate IDs.
+      const productName = bestProduct.productName as string | undefined
+      const productId = bestProduct.productId as string | number | undefined
       const articleType = bestProduct.articleType as string || 'review'
+      if (!productName || !productId) {
+        throw new Error('Product discovery returned no usable product name or ID. Aborting publication.')
+      }
 
       // Build the affiliate link — use dedicated env var for affiliate ID
       const apiKey = process.env.Digistore24_API_KEY || ''
       const affiliateId = process.env.DIGISTORE24_AFFILIATE_ID || apiKey.split('-')[0] || 'AFFILIATE'
-      let affiliateUrl = ''
-      if (partner === 'digistore24') {
-        // Validate that the product is actually live before generating a hop-link
-        let validatedProductId = productId
-        try {
-          const { Digistore24Provider } = await import('@/providers/affiliate/Digistore24Provider')
-          const provider = new Digistore24Provider(apiKey)
-          const validated = await provider.validateProduct(productId)
-          if (validated) {
-            validatedProductId = Number(validated.id) || productId
-            logger.info('Digistore24 product validated as live', { productId: validatedProductId, name: validated.name })
-          } else {
-            logger.warn(`Digistore24 product ${productId} could not be validated as live — link may be dead`, { productId })
-            jobManager.addAuditEntry(job.id, {
-              action: 'product_validation_warning',
-              stage: 'discovered',
-              details: `Product ID ${productId} could not be validated as active on Digistore24. The generated link may point to an unavailable product.`,
-            })
-          }
-        } catch (valErr) {
-          logger.warn('Digistore24 product validation skipped due to error', { error: valErr instanceof Error ? valErr.message : String(valErr) })
-        }
-        // Correct Digistore24 hop-link format: https://www.digistore24.com/redir/PRODUCT_ID/AFFILIATE_ID
-        affiliateUrl = `https://www.digistore24.com/redir/${validatedProductId}/${affiliateId}`
-      } else {
-        affiliateUrl = `https://${partner}.com/product/${productId}?aff=${affiliateId}`
+
+      const { Digistore24Provider } = await import('@/providers/affiliate/Digistore24Provider')
+      const provider = new Digistore24Provider(apiKey)
+
+      // Step 2: Validate the product against the live Digistore24 API. FAIL CLOSED:
+      // if validateProduct returns null (inactive / not found / no access) or throws,
+      // abort the job. Never reuse an unverified product ID.
+      let validatedProductId: string | number = productId
+      jobManager.addAuditEntry(job.id, {
+        action: 'product_validation_started',
+        stage: 'discovered',
+        details: `Validating Digistore24 product ${productId} against live API.`,
+      })
+      const validated = await provider.validateProduct(productId)
+      if (!validated) {
+        const msg = `Digistore24 product ${productId} is not active or accessible. Aborting publication.`
+        jobManager.addAuditEntry(job.id, {
+          action: 'product_validation_failed',
+          stage: 'discovered',
+          details: msg,
+        })
+        throw new Error(msg)
       }
+      validatedProductId = Number(validated.id) || productId
+      logger.info('Digistore24 product validated as live', { productId: validatedProductId, name: validated.name })
+      jobManager.addAuditEntry(job.id, {
+        action: 'product_validation_passed',
+        stage: 'discovered',
+        details: `Digistore24 product ${validatedProductId} (${validated.name}) confirmed active.`,
+        provider: 'digistore24',
+      })
+
+      // Step 3: Verify the promo link actually redirects to a live page. FAIL CLOSED:
+      // validateProduct confirms the product exists in the API; verifyPromoLink confirms
+      // the hop-link itself resolves. Both must pass before any link is finalized.
+      jobManager.addAuditEntry(job.id, {
+        action: 'promo_link_verification_started',
+        stage: 'discovered',
+        details: `Verifying Digistore24 promo link for product ${validatedProductId}.`,
+      })
+      const linkCheck = await provider.verifyPromoLink(validatedProductId, affiliateId)
+      if (!linkCheck.valid) {
+        const msg = `Digistore24 promo link verification failed for product ${validatedProductId}: ${linkCheck.error || `HTTP ${linkCheck.status}`}`
+        jobManager.addAuditEntry(job.id, {
+          action: 'promo_link_verification_failed',
+          stage: 'discovered',
+          details: msg,
+        })
+        throw new Error(msg)
+      }
+      logger.info('Digistore24 promo link verified', { productId: validatedProductId, destination: linkCheck.destinationUrl })
+
+      const affiliateUrl = `https://www.digistore24.com/redir/${validatedProductId}/${affiliateId}`
+      logger.info('Digistore24 affiliate link verified', { productId: validatedProductId, url: affiliateUrl })
 
       jobManager.setJobResult(jobId, {
         partnerDiscovery: bestProduct,

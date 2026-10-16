@@ -21,6 +21,19 @@ export async function GET(request: Request) {
     const cronSecret = process.env.CRON_SECRET
     const isVercelCron = request.headers.get('x-vercel-cron') === '1'
 
+    // Safe pause gate: automated publication is disabled by default until
+    // explicitly enabled with ENABLE_AUTO_PUBLISH=true. The public website
+    // and all unrelated services remain fully operational.
+    const autoPublishEnabled = process.env.ENABLE_AUTO_PUBLISH === 'true'
+    if (!autoPublishEnabled) {
+      logger.info('Cron auto-publish skipped: ENABLE_AUTO_PUBLISH is not set to true (safe pause).')
+      return NextResponse.json({ 
+        success: true, 
+        paused: true,
+        reason: 'Automated publication is paused. Set ENABLE_AUTO_PUBLISH=true to enable.' 
+      }, { status: 200 })
+    }
+
     // Vercel cron header takes precedence
     if (isVercelCron) {
       // Valid Vercel cron - proceed

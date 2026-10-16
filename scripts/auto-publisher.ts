@@ -1,6 +1,7 @@
 import { supabaseServer } from '../lib/db/supabaseServer';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { logger } from '../lib/logger';
+import { Digistore24Provider } from '../providers/affiliate/Digistore24Provider';
 
 // Make sure to load environment variables first if running directly
 import * as dotenv from 'dotenv';
@@ -17,12 +18,21 @@ dotenv.config({ path: '.env.local' });
  */
 
 // ============================================================
-// 1. HARDCODED VERIFIED PRODUCT POOL
+// 1. PRODUCT POOL (DB-first; hardcoded pool reserved for future use)
 // ============================================================
-// These are pre-vetted, top-performing, English-only digital software
-// and creator tool products confirmed active on Digistore24.
-// This pool serves as both a primary source AND a fallback if DB
-// products fail validation.
+// The hardcoded VERIFIED_PRODUCT_POOL was previously populated with product IDs
+// (e.g. FunnelCockpit 480270, Designrr 395894) that were never validated against
+// the live Digistore24 API. Live verification confirmed all of them return HTTP 404
+// (not found / no access permission) for this affiliate account, so they have been
+// removed. Publishing with dead IDs would generate broken affiliate links.
+//
+// The pipeline's primary product source is the Supabase `products` table
+// (status = 'active', category in SaaS/Software/Creator Tools/Digital Products,
+// excluding Coaching/Physical Goods). The hardcoded pool is only a fallback and is
+// intentionally empty until products are confirmed active via /getProduct.
+//
+// If both DB products and the pool are empty, the pipeline aborts safely rather
+// than publishing articles with broken CTA links.
 
 interface VerifiedProduct {
   productId: string;
@@ -32,64 +42,7 @@ interface VerifiedProduct {
   slug: string;
 }
 
-const VERIFIED_PRODUCT_POOL: VerifiedProduct[] = [
-  {
-    productId: '480270',
-    productName: 'FunnelCockpit',
-    category: 'SaaS',
-    description: 'All-in-one sales funnel builder with landing pages, email automation, membership areas, and split testing for digital entrepreneurs.',
-    slug: 'funnelcockpit-review',
-  },
-  {
-    productId: '395894',
-    productName: 'Designrr',
-    category: 'Creator Tools',
-    description: 'Turn blog posts, videos, and podcasts into stunning eBooks, flipbooks, and lead magnets in minutes with AI-powered design.',
-    slug: 'designrr-review',
-  },
-  {
-    productId: '457953',
-    productName: 'Jepto',
-    category: 'SaaS',
-    description: 'Automated marketing analytics and forecasting platform that tracks KPIs across Google Ads, Meta, and organic channels.',
-    slug: 'jepto-review',
-  },
-  {
-    productId: '389710',
-    productName: 'Leadpages',
-    category: 'SaaS',
-    description: 'High-converting landing page and website builder for small businesses with built-in analytics and A/B testing.',
-    slug: 'leadpages-review',
-  },
-  {
-    productId: '471815',
-    productName: 'ThriveCart',
-    category: 'Software',
-    description: 'Powerful shopping cart platform for selling digital products with one-click upsells, affiliate management, and subscription billing.',
-    slug: 'thrivecart-review',
-  },
-  {
-    productId: '436498',
-    productName: 'Pictory',
-    category: 'Creator Tools',
-    description: 'AI video creation platform that turns scripts and articles into professional short-form videos with automatic captions.',
-    slug: 'pictory-review',
-  },
-  {
-    productId: '449382',
-    productName: 'Jasper AI',
-    category: 'Software',
-    description: 'AI writing assistant for marketing teams that generates high-quality blog posts, ads, emails, and social media copy.',
-    slug: 'jasper-ai-review',
-  },
-  {
-    productId: '462917',
-    productName: 'ClickMagick',
-    category: 'SaaS',
-    description: 'Advanced link tracking and conversion attribution platform for affiliate marketers and paid media buyers.',
-    slug: 'clickmagick-review',
-  },
-];
+const VERIFIED_PRODUCT_POOL: VerifiedProduct[] = [];
 
 // ============================================================
 // 2. STRICT URL FORMATTING & PARAMETER ORDER
@@ -155,6 +108,43 @@ function validateProductForPublishing(product: VerifiedProduct): string | null {
 
   logger.info(`Validation PASSED for "${product.productName}" → ${hopLink}`);
   return hopLink;
+}
+
+// ============================================================
+// 3.5. LIVE API VALIDATION — confirm products on Digistore24
+// ============================================================
+// validateProductForPublishing checks format only. Before an article is saved,
+// the product ID must also be confirmed active on the live Digistore24 API
+// (/getProduct) and the hop-link must resolve (/redir). Products that fail
+// either check are skipped — no article, no affiliate link.
+
+const DIGISTORE24_API_KEY = process.env.Digistore24_API_KEY || ''
+const DIGISTORE24_AFFILIATE_ID = process.env.DIGISTORE24_AFFILIATE_ID || DIGISTORE24_API_KEY.split('-')[0] || 'AFFILIATE'
+
+/**
+ * Confirm a product is active on Digistore24 and that its hop-link resolves.
+ * Returns the verified affiliate URL or null if the product cannot be verified.
+ * FAIL CLOSED: any validation failure returns null and the product is skipped.
+ */
+async function validateProductAgainstLiveAPI(product: VerifiedProduct): Promise<string | null> {
+  const provider = new Digistore24Provider(DIGISTORE24_API_KEY)
+
+  const validated = await provider.validateProduct(product.productId)
+  if (!validated) {
+    logger.warn(`Skipping "${product.productName}": Digistore24 product ${product.productId} is not active or accessible.`)
+    return null
+  }
+  const validatedProductId = Number(validated.id) || product.productId
+
+  const linkCheck = await provider.verifyPromoLink(validatedProductId, DIGISTORE24_AFFILIATE_ID)
+  if (!linkCheck.valid) {
+    logger.warn(`Skipping "${product.productName}": Digistore24 promo link verification failed for ${validatedProductId} (${linkCheck.error || `HTTP ${linkCheck.status}`}).`)
+    return null
+  }
+
+  const affiliateUrl = `https://www.digistore24.com/redir/${validatedProductId}/${DIGISTORE24_AFFILIATE_ID}`
+  logger.info(`Live validation PASSED for "${product.productName}" → ${affiliateUrl}`)
+  return affiliateUrl
 }
 
 // ============================================================
@@ -302,15 +292,21 @@ export async function runPipeline() {
   for (const product of productsToProcess) {
     try {
       // PRE-PUBLICATION VALIDATION: re-validate and get the exact URL
-      const affiliateUrl = validateProductForPublishing(product);
-      if (!affiliateUrl) {
+      const formatUrl = validateProductForPublishing(product);
+      if (!formatUrl) {
         logger.warn(`Skipping "${product.productName}" — failed pre-publication validation.`);
         continue;
       }
 
       // Double-check regex one final time (belt and suspenders)
-      if (!DIGISTORE24_HOPLINK_REGEX.test(affiliateUrl)) {
-        logger.error(`BLOCKED: "${product.productName}" CTA URL "${affiliateUrl}" failed final regex check. Skipping.`);
+      if (!DIGISTORE24_HOPLINK_REGEX.test(formatUrl)) {
+        logger.error(`BLOCKED: "${product.productName}" CTA URL "${formatUrl}" failed final regex check. Skipping.`);
+        continue;
+      }
+
+      // Live API validation — confirm product is active and hop-link resolves
+      const affiliateUrl = await validateProductAgainstLiveAPI(product)
+      if (!affiliateUrl) {
         continue;
       }
 
