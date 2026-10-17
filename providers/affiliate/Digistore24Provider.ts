@@ -11,6 +11,13 @@ export interface Digistore24Product {
   active: boolean;
 }
 
+export interface PromoLinkVerificationResult {
+  valid: boolean;
+  status: number;
+  destinationUrl?: string;
+  error?: string;
+}
+
 export class Digistore24Provider {
   private apiKey: string;
   private baseUrl = 'https://www.digistore24.com/api/call';
@@ -141,6 +148,72 @@ export class Digistore24Provider {
     } catch (error) {
       console.error(`Failed to validate Digistore24 product ${productId}`, error);
       return null;
+    }
+  }
+
+  /**
+   * Verify that a personal promo link actually redirects to a live product page
+   * and does NOT return HTTP 404, 403, or an error page.
+   */
+  public async verifyPromoLink(
+    productId: string | number,
+    affiliateId: string
+  ): Promise<PromoLinkVerificationResult> {
+    const cleanProductId = typeof productId === 'string' ? productId.trim() : productId;
+    const cleanAffiliateId = typeof affiliateId === 'string' ? affiliateId.trim() : affiliateId;
+
+    if (
+      !cleanProductId ||
+      !cleanAffiliateId ||
+      cleanAffiliateId === 'AFFILIATE' ||
+      cleanAffiliateId === 'YOUR_ID' ||
+      cleanProductId === 'undefined' ||
+      cleanProductId === 'null' ||
+      cleanAffiliateId === 'undefined' ||
+      cleanAffiliateId === 'null' ||
+      (typeof productId === 'number' && (!Number.isFinite(productId) || productId <= 0))
+    ) {
+      return { valid: false, status: 400, error: 'Missing or placeholder affiliate/product ID' };
+    }
+
+    const promoUrl = `https://www.digistore24.com/redir/${cleanProductId}/${cleanAffiliateId}`;
+
+    try {
+      const response = await fetch(promoUrl, {
+        method: 'HEAD',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+        redirect: 'manual',
+        signal: AbortSignal.timeout(8000),
+      });
+
+      const isRedirect = [301, 302, 303, 307, 308].includes(response.status);
+      const isSuccess = response.status === 200;
+
+      if (isRedirect) {
+        const location = response.headers.get('location') || '';
+        if (!location || location.includes('/error') || location.includes('/not_found') || location.includes('status=error')) {
+          return { valid: false, status: response.status, destinationUrl: location || undefined, error: 'Redirected to error page' };
+        }
+        return { valid: true, status: response.status, destinationUrl: location };
+      }
+
+      if (isSuccess) {
+        return { valid: true, status: 200, destinationUrl: promoUrl };
+      }
+
+      return {
+        valid: false,
+        status: response.status,
+        error: `Promo link returned HTTP ${response.status}`,
+      };
+    } catch (err) {
+      return {
+        valid: false,
+        status: 0,
+        error: err instanceof Error ? err.message : String(err),
+      };
     }
   }
 }
