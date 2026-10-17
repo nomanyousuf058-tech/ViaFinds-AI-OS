@@ -8,20 +8,14 @@ import { articleRepository } from '@/lib/db/repositories'
 import { brainRepository } from '@/lib/db/repositories/brain'
 import { SearchIntelligenceAggregator, SearchOpportunity, WebSearchResult } from '@/lib/intelligence/search-intelligence'
 
-// Allowed affiliate partner domains for SSRF protection
-const ALLOWED_AFFILIATE_DOMAINS = [
-  'digistore24.com',
-  'www.digistore24.com',
-]
+import {
+  validateAffiliateUrlFormat,
+  verifyAffiliateUrlRedirect,
+  evaluatePublicationReadiness,
+  affiliateWorkflow,
+  opportunityManager,
+} from '@/lib/affiliate'
 
-function isAllowedAffiliateDomain(url: string): boolean {
-  try {
-    const hostname = new URL(url).hostname.toLowerCase()
-    return ALLOWED_AFFILIATE_DOMAINS.some(domain => hostname === domain || hostname.endsWith('.' + domain))
-  } catch {
-    return false
-  }
-}
 
 export class AutomationPipeline {
   private stopSignal = false
@@ -261,10 +255,36 @@ export class AutomationPipeline {
         details: `Extracting product info from: ${affiliateUrl}`,
       })
 
-      // SSRF protection: validate affiliate URL domain
-      if (!isAllowedAffiliateDomain(affiliateUrl)) {
-        throw new Error(`Affiliate URL domain not allowed: ${affiliateUrl}`)
+      // Multi-stage verification: Format validation, domain allowlist & SSRF check
+      const formatResult = validateAffiliateUrlFormat(affiliateUrl)
+      if (!formatResult.formatValid) {
+        const errorMsg = `Affiliate URL format validation failed: ${formatResult.errors.join('; ')}`
+        jobManager.addAuditEntry(job.id, {
+          action: 'manual_affiliate_rejected',
+          stage: 'discovered',
+          details: errorMsg,
+        })
+        throw new Error(errorMsg)
       }
+
+      const redirectResult = await verifyAffiliateUrlRedirect(affiliateUrl)
+      if (!redirectResult.redirectValid) {
+        const errorMsg = `Affiliate link redirect verification failed: ${redirectResult.errors.join('; ')}`
+        jobManager.addAuditEntry(job.id, {
+          action: 'manual_affiliate_redirect_failed',
+          stage: 'discovered',
+          details: errorMsg,
+        })
+        throw new Error(errorMsg)
+      }
+
+      // Register link in affiliate workflow with opportunity traceability
+      const submitRes = await affiliateWorkflow.submitAffiliateUrl({
+        affiliateUrl,
+        productOpportunityId: traceability?.opportunityId || null,
+        associatedArticleId: jobId,
+      });
+      jobManager.setJobResult(jobId, { linkId: submitRes.link.id });
 
       let productInfo: Record<string, unknown> = {}
       let pageTitle = ''
@@ -798,7 +818,7 @@ Respond with JSON containing:
 
   async runDirect(jobId: string, input: { topic: string; category: string; brainTaskId?: string; strategyId?: string; opportunityId?: string; mode?: string }): Promise<AutomationJob | null> {
     const mode = input.mode || 'full';
-    const job = jobManager.createJob('full_automation', mode as any, input);
+    const job = jobManager.createJob('full_automation', mode, input as unknown as Record<string, unknown>);
     
     return this.run(job.id);
   }
@@ -1742,7 +1762,19 @@ Return the refined HTML directly.`
       throw new Error(errorMsg);
     }
 
+    if (draft.generationDegraded) {
+      const errorMsg = 'Degraded content generation detected. Publishing is restricted server-side.';
+      logger.error(`Publishing blocked for job ${job.id}: ${errorMsg}`);
+      jobManager.addAuditEntry(job.id, {
+        action: 'publishing_blocked',
+        stage: 'publishing',
+        details: errorMsg,
+      });
+      throw new Error(errorMsg);
+    }
+
     const publishedAt = new Date().toISOString()
+
 
     // Convert HTML body to content blocks for the canonical custom article schema
     const generateId = () => Math.random().toString(36).substring(2, 11)
@@ -1796,6 +1828,42 @@ Return the refined HTML directly.`
     try {
       const partnerImage = (job.result?.productInfo as Record<string, unknown>)?.scrapedProductImage as string || undefined;
       const imageUrl = await aiRouter.routeImage(`${draft.title} ${draft.category || 'product'}`, partnerImage);
+
+      // Server-Side Publication Gate (Fix 3)
+      const linkId = (job.result?.linkId as string) || (job.result?.manualAffiliateLink as Record<string, unknown>)?.id as string | undefined;
+      const link = linkId
+        ? affiliateWorkflow.getLink(linkId)
+        : (affiliateDecision.affiliateUrl ? affiliateWorkflow.getLinkByUrl(affiliateDecision.affiliateUrl) : null);
+
+      const oppId = (job.result?.opportunityId as string) || link?.productOpportunityId || undefined;
+      const opp = oppId ? opportunityManager.getById(oppId) : null;
+      const hasVerifiedProduct = Boolean(
+        opp && (opp.digistore24Status === 'VERIFIED' || Boolean(opp.salesPageUrl))
+      );
+
+      const qualityStatus = (job.result?.qualityResult as QualityResult | undefined)?.status || (qualityResult?.status);
+      const ownerApproved = Boolean(link?.ownerApproved && link?.verification?.affiliateConfirmed);
+
+      const readiness = evaluatePublicationReadiness({
+        hasVerifiedProduct,
+        link,
+        coverImageUrl: imageUrl || undefined,
+        qualityStatus: qualityStatus || (draft ? 'PASS' : null),
+        qualityScore: (job.result?.qualityResult as QualityResult | undefined)?.score,
+        ownerApproved,
+        isDegraded: Boolean(draft.generationDegraded),
+      });
+
+      if (!readiness.ready) {
+        const errorMsg = `Publication readiness gate failed: ${readiness.blockers.join('; ')}`;
+        logger.error(`Publishing blocked for job ${job.id}: ${errorMsg}`);
+        jobManager.addAuditEntry(job.id, {
+          action: 'publishing_blocked',
+          stage: 'publishing',
+          details: errorMsg,
+        });
+        throw new Error(errorMsg);
+      }
 
       const article = await articleRepository.create({
         title: draft.title,

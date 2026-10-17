@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server'
 import { adminOnly } from '@/lib/auth'
 import { articleRepository } from '@/lib/db/repositories'
 import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
+import {
+  evaluatePublicationReadiness,
+  opportunityManager,
+  affiliateWorkflow,
+} from '@/lib/affiliate'
 import type { ArticleRow } from '@/lib/db/types'
 
 const VALID_STATUSES = new Set(['draft', 'published', 'archived'])
@@ -78,6 +83,42 @@ export async function POST(request: Request) {
     }
 
     const status = VALID_STATUSES.has(body.status) ? body.status : 'draft'
+
+    if (status === 'published') {
+      const linkId = body.linkId || body.link_id
+      const link = linkId ? affiliateWorkflow.getLink(linkId) : null
+
+      const oppId = body.productOpportunityId || body.product_opportunity_id || link?.productOpportunityId || body.product_id
+      const opp = oppId ? opportunityManager.getById(oppId) : null
+      const hasVerifiedProduct = Boolean(
+        opp && (opp.digistore24Status === 'VERIFIED' || Boolean(opp.salesPageUrl))
+      )
+
+      // Client-supplied flags alone are never trusted as proof
+      const ownerApproved = Boolean(link?.ownerApproved && link?.verification?.affiliateConfirmed)
+
+      const readiness = evaluatePublicationReadiness({
+        hasVerifiedProduct,
+        link,
+        coverImageUrl: body.cover_image_url || null,
+        qualityStatus: body.qualityStatus || body.quality_status || null,
+        qualityScore: typeof body.qualityScore === 'number' ? body.qualityScore : null,
+        ownerApproved,
+        isDegraded: body.isDegraded === true || body.is_degraded === true,
+      })
+
+      if (!readiness.ready) {
+        return NextResponse.json(
+          {
+            error: 'Publication readiness gate blocked: article does not meet publication requirements.',
+            blockers: readiness.blockers,
+            checks: readiness.checks,
+          },
+          { status: 422 }
+        )
+      }
+    }
+
     const baseSlug = slugify(body.slug || body.title || '')
     const slug = await ensureUniqueSlug(baseSlug)
 

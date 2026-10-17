@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server'
 import { adminOnly } from '@/lib/auth'
 import { articleRepository } from '@/lib/db/repositories'
 import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
+import {
+  evaluatePublicationReadiness,
+  opportunityManager,
+  affiliateWorkflow,
+} from '@/lib/affiliate'
 
 const VALID_STATUSES = new Set(['draft', 'published', 'archived'])
 
@@ -48,6 +53,49 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       }
       updates.status = body.status
     }
+
+    if (updates.status === 'published') {
+      const linkId = body.linkId || body.link_id
+      let link = linkId ? affiliateWorkflow.getLink(linkId) : null
+      if (!link) {
+        link = affiliateWorkflow.getLinkByArticleId(id)
+      }
+
+      const oppId = body.productOpportunityId || body.product_opportunity_id || link?.productOpportunityId || existingArticle.product_id
+      const opp = oppId ? opportunityManager.getById(oppId) : null
+      const hasVerifiedProduct = Boolean(
+        opp && (opp.digistore24Status === 'VERIFIED' || Boolean(opp.salesPageUrl))
+      )
+
+      const coverImageUrl = (updates.cover_image_url !== undefined
+        ? updates.cover_image_url
+        : existingArticle.cover_image_url) as string | null
+
+      // Client-supplied flags alone are never trusted as proof
+      const ownerApproved = Boolean(link?.ownerApproved && link?.verification?.affiliateConfirmed)
+
+      const readiness = evaluatePublicationReadiness({
+        hasVerifiedProduct,
+        link,
+        coverImageUrl,
+        qualityStatus: body.qualityStatus || body.quality_status || null,
+        qualityScore: typeof body.qualityScore === 'number' ? body.qualityScore : null,
+        ownerApproved,
+        isDegraded: body.isDegraded === true || body.is_degraded === true,
+      })
+
+      if (!readiness.ready) {
+        return NextResponse.json(
+          {
+            error: 'Publication readiness gate blocked: article does not meet publication requirements.',
+            blockers: readiness.blockers,
+            checks: readiness.checks,
+          },
+          { status: 422 }
+        )
+      }
+    }
+
     if (body.cover_image_url !== undefined) updates.cover_image_url = body.cover_image_url
     if (body.reading_time !== undefined) updates.reading_time = body.reading_time
     if (body.seo !== undefined) updates.seo = body.seo
