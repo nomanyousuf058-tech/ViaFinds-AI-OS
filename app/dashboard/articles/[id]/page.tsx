@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import ArticleEditor from '@/components/ArticleEditor'
+import ArticleAffiliatePanel from '@/components/ArticleAffiliatePanel'
 
 interface ArticleEditorPageProps {
   params: Promise<{ id: string }>
@@ -25,7 +26,6 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
   const [article, setArticle] = useState<Record<string, unknown> | null>(null)
-
   const [form, setForm] = useState({
     title: '',
     slug: '',
@@ -40,6 +40,27 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
     geo_intent: '',
     aeo_answer: '',
   })
+
+  interface AffiliateState {
+    status: 'MISSING' | 'PRESENT'
+    link: {
+      id: string
+      network: string
+      destinationUrl: string
+      shortCode: string
+      status: string
+      verificationStatus?: string
+      createdAt: string
+      clickCount: number
+      conversionCount: number
+      totalCommission: number
+    } | null
+    message?: string
+    clickCount: number
+    conversionCount: number
+    totalCommission: number
+  }
+  const [affiliate, setAffiliate] = useState<AffiliateState | null>(null)
 
   // Detect unsaved changes before leaving
   useEffect(() => {
@@ -82,6 +103,36 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
       })
       if (a.cover_image_url) {
         setCoverImagePreview(a.cover_image_url)
+      }
+      // Load affiliate status separately so a failure here never blocks
+      // the editor from opening.
+      try {
+        const detailRes = await fetch(`/api/articles/${id}/detail`)
+        const detailJson = await detailRes.json()
+        if (detailJson.success && detailJson.affiliate) {
+          const link = detailJson.affiliate
+          setAffiliate({
+            status: link.status === 'MISSING' ? 'MISSING' : 'PRESENT',
+            link: link.status === 'MISSING' ? null : {
+              id: link.id,
+              network: link.network,
+              destinationUrl: link.destinationUrl,
+              shortCode: link.shortCode,
+              status: link.status,
+              verificationStatus: link.verificationStatus,
+              createdAt: link.createdAt,
+              clickCount: link.clickCount ?? 0,
+              conversionCount: link.conversionCount ?? 0,
+              totalCommission: link.totalCommission ?? 0,
+            },
+            message: link.message,
+            clickCount: link.clickCount ?? 0,
+            conversionCount: link.conversionCount ?? 0,
+            totalCommission: link.totalCommission ?? 0,
+          })
+        }
+      } catch {
+        // Non-blocking: the editor still opens without affiliate data.
       }
       setLoading(false)
       setSaveState('saved')
@@ -579,6 +630,16 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
         </div>
       </details>
 
+
+      {/* Affiliate panel — persists manual links to the article */}
+      {affiliate ? (
+        <ArticleAffiliatePanel
+          articleId={id}
+          articleSlug={form.slug}
+          initial={affiliate}
+          onSaved={setAffiliate}
+        />
+      ) : null}
 
     </div>
   )

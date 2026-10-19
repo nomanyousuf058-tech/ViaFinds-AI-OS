@@ -16,6 +16,27 @@ export interface PromoLinkVerificationResult {
   status: number;
   destinationUrl?: string;
   error?: string;
+  reachable?: boolean;
+  attributionConfirmed?: boolean;
+  verificationType?: 'URL_REACHABILITY';
+  warning?: string;
+}
+
+interface RawDigistoreEntry {
+  id?: string | number;
+  name?: string;
+  product_name?: string;
+  description?: string;
+  price?: string;
+  currency?: string;
+  affiliate_commission?: string;
+  promolink?: string;
+  vendor?: string;
+  sales_page?: string;
+  status?: string;
+  active?: boolean;
+  is_active?: boolean;
+  [key: string]: unknown;
 }
 
 export class Digistore24Provider {
@@ -57,7 +78,7 @@ export class Digistore24Provider {
       }
 
       // Map entries and mark active status based on API status field
-      const allProducts = data.data.entries.map((entry: any) => ({
+      const allProducts = data.data.entries.map((entry: RawDigistoreEntry) => ({
         id: entry.id?.toString() || '',
         name: entry.name || entry.product_name || 'Unknown Product',
         description: entry.description || '',
@@ -193,25 +214,80 @@ export class Digistore24Provider {
 
       if (isRedirect) {
         const location = response.headers.get('location') || '';
-        if (!location || location.includes('/error') || location.includes('/not_found') || location.includes('status=error')) {
-          return { valid: false, status: response.status, destinationUrl: location || undefined, error: 'Redirected to error page' };
+        const locLower = location.toLowerCase();
+
+        const isErrorDestination =
+          !location ||
+          locLower.includes('/error') ||
+          locLower.includes('/not_found') ||
+          locLower.includes('status=error') ||
+          locLower.includes('error=') ||
+          locLower.includes('denied') ||
+          locLower.includes('not_available');
+
+        let isGenericFallback = false;
+        try {
+          const parsedLoc = new URL(location);
+          if (parsedLoc.hostname.includes('digistore24.com')) {
+            const p = parsedLoc.pathname.toLowerCase().replace(/\/+$/, '');
+            if (p === '' || p === '/home' || p === '/marketplace' || p === '/en' || p === '/de') {
+              isGenericFallback = true;
+            }
+          }
+        } catch {
+          // not a parseable URL
         }
-        return { valid: true, status: response.status, destinationUrl: location };
+
+        if (isErrorDestination || isGenericFallback) {
+          return {
+            valid: false,
+            status: response.status,
+            destinationUrl: location || undefined,
+            reachable: false,
+            attributionConfirmed: false,
+            verificationType: 'URL_REACHABILITY',
+            error: isGenericFallback ? 'Redirected to generic marketplace/home fallback' : 'Redirected to error page',
+          };
+        }
+
+        return {
+          valid: true,
+          status: response.status,
+          destinationUrl: location,
+          reachable: true,
+          attributionConfirmed: false,
+          verificationType: 'URL_REACHABILITY',
+          warning: 'URL reachability does not guarantee affiliate commission attribution or account authorization',
+        };
       }
 
       if (isSuccess) {
-        return { valid: true, status: 200, destinationUrl: promoUrl };
+        return {
+          valid: true,
+          status: 200,
+          destinationUrl: promoUrl,
+          reachable: true,
+          attributionConfirmed: false,
+          verificationType: 'URL_REACHABILITY',
+          warning: 'URL reachability does not guarantee affiliate commission attribution or account authorization',
+        };
       }
 
       return {
         valid: false,
         status: response.status,
+        reachable: false,
+        attributionConfirmed: false,
+        verificationType: 'URL_REACHABILITY',
         error: `Promo link returned HTTP ${response.status}`,
       };
     } catch (err) {
       return {
         valid: false,
         status: 0,
+        reachable: false,
+        attributionConfirmed: false,
+        verificationType: 'URL_REACHABILITY',
         error: err instanceof Error ? err.message : String(err),
       };
     }

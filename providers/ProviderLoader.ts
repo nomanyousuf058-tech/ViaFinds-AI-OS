@@ -169,6 +169,13 @@ export class ProviderLoader {
           if (type === AIProviderType.DEEPSEEK) apiKey = process.env.DEEPSEEK_API_KEY || apiKey;
           if (type === AIProviderType.MISTRAL) apiKey = process.env.MISTRAL_API_KEY || apiKey;
           if (type === AIProviderType.COHERE) apiKey = process.env.COHERE_API_KEY || apiKey;
+          if (type === AIProviderType.FAL) apiKey = process.env.FAL_KEY || process.env.FAL_API_KEY || apiKey;
+          if (type === AIProviderType.BFL) apiKey = process.env.BFL_API_KEY || apiKey;
+          if (type === AIProviderType.IDEOGRAM) apiKey = process.env.IDEOGRAM_API_KEY || apiKey;
+          if (type === AIProviderType.LEONARDO) apiKey = process.env.LEONARDO_API_KEY || apiKey;
+          if (type === AIProviderType.REPLICATE) apiKey = process.env.REPLICATE_API_TOKEN || apiKey;
+          if (type === AIProviderType.STABILITY_AI) apiKey = process.env.STABILITY_API_KEY || apiKey;
+          if (type === AIProviderType.GOOGLE_IMAGEN) apiKey = process.env.GOOGLE_IMAGEN_API_KEY || apiKey;
           return { ...base, apiKey, ...customConfigs[type] };
         };
 

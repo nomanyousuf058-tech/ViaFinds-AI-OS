@@ -215,6 +215,48 @@ describe('Digistore24Provider — verifyPromoLink', () => {
       expect(res.status).toBe(500);
       expect(res.error).toBe('Promo link returned HTTP 500');
     });
+
+    it('fails closed when redirecting to generic Digistore24 homepage fallback (false positive prevention)', async () => {
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          status: 302,
+          headers: new Headers({ location: 'https://www.digistore24.com/' }),
+        } as unknown as Response)
+      ) as unknown as typeof fetch;
+
+      const res = await provider.verifyPromoLink('999999', 'my_affiliate');
+      expect(res.valid).toBe(false);
+      expect(res.status).toBe(302);
+      expect(res.error).toContain('generic marketplace/home fallback');
+    });
+
+    it('fails closed when redirecting to Digistore24 marketplace fallback (false positive prevention)', async () => {
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          status: 302,
+          headers: new Headers({ location: 'https://www.digistore24.com/marketplace' }),
+        } as unknown as Response)
+      ) as unknown as typeof fetch;
+
+      const res = await provider.verifyPromoLink('999999', 'my_affiliate');
+      expect(res.valid).toBe(false);
+      expect(res.status).toBe(302);
+      expect(res.error).toContain('generic marketplace/home fallback');
+    });
+
+    it('fails closed when redirecting to error query parameters like denied or not_available', async () => {
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          status: 302,
+          headers: new Headers({ location: 'https://www.vendorproduct.com/landing?error=access_denied' }),
+        } as unknown as Response)
+      ) as unknown as typeof fetch;
+
+      const res = await provider.verifyPromoLink('999999', 'my_affiliate');
+      expect(res.valid).toBe(false);
+      expect(res.status).toBe(302);
+      expect(res.error).toContain('Redirected to error page');
+    });
   });
 
   describe('unavailable / network error handling (fails closed)', () => {
@@ -238,6 +280,25 @@ describe('Digistore24Provider — verifyPromoLink', () => {
       expect(res.valid).toBe(false);
       expect(res.status).toBe(0);
       expect(res.error).toContain('ENOTFOUND');
+    });
+  });
+
+  describe('semantic distinction: reachability vs attribution confirmation', () => {
+    it('sets reachable: true but attributionConfirmed: false on valid redirect', async () => {
+      const mockDestination = 'https://www.vendorproduct.com/sales';
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          status: 302,
+          headers: new Headers({ location: mockDestination }),
+        } as unknown as Response)
+      ) as unknown as typeof fetch;
+
+      const res = await provider.verifyPromoLink('480270', 'my_affiliate');
+      expect(res.valid).toBe(true);
+      expect(res.reachable).toBe(true);
+      expect(res.attributionConfirmed).toBe(false);
+      expect(res.verificationType).toBe('URL_REACHABILITY');
+      expect(res.warning).toContain('reachability does not guarantee affiliate commission attribution');
     });
   });
 });

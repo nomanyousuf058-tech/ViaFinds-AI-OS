@@ -1,5 +1,15 @@
 import pg from 'pg';
+import { validateStagingDatabase } from '../lib/db/guard.ts';
 const { Client } = pg;
+
+// Preflight database isolation check (Fail-closed)
+try {
+  const preflight = validateStagingDatabase(process.env, { allowLocalDev: true });
+  console.log(`✓ Clean-db target verified: ${preflight.sanitizedIdentifier}`);
+} catch (err) {
+  console.error(`✗ Clean-db aborted by database guard: ${err.message}`);
+  process.exit(1);
+}
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {

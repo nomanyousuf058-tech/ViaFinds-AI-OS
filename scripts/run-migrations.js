@@ -1,18 +1,23 @@
-import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import pg from 'pg';
+import { validateStagingDatabase } from '../lib/db/guard.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) {
-  console.error('DATABASE_URL not set');
+// Preflight database isolation check (Fail-closed)
+let preflight;
+try {
+  preflight = validateStagingDatabase(process.env);
+  console.log(`✓ Staging database isolation verified (Target: ${preflight.sanitizedIdentifier})`);
+} catch (err) {
+  console.error(`✗ Migration aborted by database guard: ${err.message}`);
   process.exit(1);
 }
 
-import pg from 'pg';
+const DATABASE_URL = process.env.DATABASE_URL;
 const { Client } = pg;
 
 const client = new Client({

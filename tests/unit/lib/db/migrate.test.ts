@@ -13,11 +13,21 @@ jest.mock('@/lib/db/client', () => {
 
 describe('Migration logic', () => {
   let mockQuery: jest.Mock
+  const originalEnv = { ...process.env }
 
   beforeEach(() => {
     jest.clearAllMocks()
-    const pool = getPool() as any
+    process.env = {
+      ...originalEnv,
+      DATABASE_URL: 'postgresql://postgres.staging-test-ref:mock_pass@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres',
+      EXPECTED_STAGING_PROJECT_REF: 'staging-test-ref',
+    }
+    const pool = getPool() as unknown as { query: jest.Mock }
     mockQuery = pool.query
+  })
+
+  afterEach(() => {
+    process.env = { ...originalEnv }
   })
 
 it('should detect when all required tables exist and skip migration', async () => {
@@ -54,12 +64,15 @@ it('should detect when all required tables exist and skip migration', async () =
         { table_name: 'brain_experiment_results' },
         { table_name: 'brain_strategy_evolution' },
         { table_name: 'brain_memory_v2' },
-        { table_name: 'brain_technology_radar' },
+{ table_name: 'brain_technology_radar' },
         { table_name: 'brain_cost_events' },
+        // Migration 024: article archive log. Verified by runMigrations so a
+        // missing table is surfaced rather than silently skipped.
+        { table_name: 'article_archive_log' },
       ]
     })
 
-const result = await runMigrations()
+    const result = await runMigrations()
 
     expect(result.success).toBe(true)
     expect(result.applied).toEqual(['reconciliation'])
@@ -82,5 +95,16 @@ const result = await runMigrations()
     expect(result.success).toBe(true)
     expect(result.applied?.length).toBeGreaterThan(0)
     expect(mockQuery).toHaveBeenCalledTimes(3) // Check + reconciliation + execution
+  })
+
+  it('should fail closed and execute zero SQL queries when database guard rejects production identity', async () => {
+    process.env.DATABASE_URL = 'postgresql://postgres.epljeldqqpwencthcpfj:mock_pass@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres'
+    process.env.EXPECTED_STAGING_PROJECT_REF = 'staging-test-ref'
+
+    const result = await runMigrations()
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('[DATABASE GUARD BLOCKED]')
+    expect(mockQuery).not.toHaveBeenCalled()
   })
 })

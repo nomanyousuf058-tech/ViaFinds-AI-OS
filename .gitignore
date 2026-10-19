@@ -87,6 +87,12 @@ qa-*.mjs
 test-automation-api.mjs
 query-article.ts
 migrate-article-type.ts
+test-env*.js
+test-digistore-api.mjs
+verify-*.mjs
+scripts/verify-digistore24-products.ts
+local_keys.txt
+supabase/.temp/
 
 # Uploads directory contents
 public/uploads/*

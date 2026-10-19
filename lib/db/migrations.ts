@@ -1261,4 +1261,35 @@ BEGIN
       );
   END IF;
 END $$;
+
+-- ============================================================
+-- Migration 024: Safe article archive state + delete safety
+-- Additive only. No drops, no rewrites, no destructive changes.
+--
+-- The dashboard's "Delete" action archives an article rather than removing
+-- it, so analytics, revenue attribution, and related-article relationships
+-- survive. This migration records every archive action so the owner can
+-- see what was archived and when, without consulting the article row
+-- directly. The allowed status set is enforced in the API layer
+-- (app/api/articles/[id]/route.ts VALID_STATUSES) rather than via a new
+-- CHECK constraint, because existing production rows may carry legacy
+-- status values that a constraint would reject.
+--
+-- Included in BOTH provisioning paths:
+--   1. scripts/run-migrations.js (file-based, ordered by version)
+--   2. lib/db/migrate.ts RECONCILIATION_SQL (idempotent, runs even when
+--      all required tables already exist) so the table is created on the
+--      in-process provisioning path as well.
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS article_archive_log (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  article_id UUID NOT NULL REFERENCES articles(id) ON DELETE SET NULL,
+  archived_by TEXT,
+  previous_status TEXT,
+  reason TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_article_archive_log_article ON article_archive_log(article_id);
 `;

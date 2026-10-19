@@ -1,5 +1,6 @@
 import { getPool } from './client'
 import { MIGRATION_SQL, RECONCILIATION_SQL } from './migrations'
+import { validateStagingDatabase } from './guard'
 
 const ALL_REQUIRED_TABLES = [
   'articles', 'reviews', 'categories', 'authors', 'products',
@@ -11,11 +12,15 @@ const ALL_REQUIRED_TABLES = [
   'brain_content_strategies', 'brain_cost_decisions',
   'brain_business_snapshots', 'brain_decisions', 'brain_experiments',
   'brain_experiment_events', 'brain_experiment_results',
-  'brain_strategy_evolution', 'brain_memory_v2', 'brain_technology_radar', 'brain_cost_events'
+  'brain_strategy_evolution', 'brain_memory_v2', 'brain_technology_radar', 'brain_cost_events',
+  // Migration 024: article archive log. Verified by verifyMigration so a
+  // missing table is surfaced rather than silently skipped.
+  'article_archive_log',
 ]
 
 export async function runMigrations(): Promise<{ success: boolean; applied?: string[]; error?: string }> {
   try {
+    validateStagingDatabase(process.env, { allowLocalDev: true })
     const pool = getPool()
     const placeholders = ALL_REQUIRED_TABLES.map((_, i) => `$${i + 1}`).join(', ')
     const result = await pool.query(

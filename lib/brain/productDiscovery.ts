@@ -120,9 +120,12 @@ async validateProduct(productId: string): Promise<ProductDiscoveryResult | null>
     const evidence: any = {};
     let score = 0;
     
-    if (product.sourceUrl) {
+    if (product.sourceUrl && product.validationEvidence?.sourceVerified === true) {
       evidence.sourceAccessible = true;
-      score += 20;
+      score += 25;
+    } else if (product.sourceUrl) {
+      evidence.sourceAccessible = false;
+      evidence.unverifiedSource = true;
     }
     
     if (product.affiliateProgram) {
@@ -151,7 +154,8 @@ async validateProduct(productId: string): Promise<ProductDiscoveryResult | null>
       score += 15;
     }
     
-    const status = score >= 70 ? 'validated' : score >= 40 ? 'needs_review' : 'rejected';
+    const isSourceVerified = evidence.sourceAccessible === true;
+    const status = (score >= 70 && isSourceVerified) ? 'validated' : score >= 40 ? 'needs_review' : 'rejected';
     evidence.score = score;
     
     return { status, evidence };

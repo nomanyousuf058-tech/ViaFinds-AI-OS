@@ -19,7 +19,7 @@ const TASK_TYPES = [
   'Strategy Review',
 ]
 
-type Tab = 'overview' | 'tasks' | 'strategies' | 'opportunities' | 'research' | 'executions' | 'quality' | 'approvals' | 'decisions' | 'requests' | 'memory' | 'activity'
+type Tab = 'overview' | 'tasks' | 'strategies' | 'opportunities' | 'supporting' | 'research' | 'executions' | 'quality' | 'approvals' | 'decisions' | 'requests' | 'memory' | 'activity'
 
 export default function BrainPage() {
   const [tab, setTab] = useState<Tab>('overview')
@@ -43,6 +43,8 @@ export default function BrainPage() {
   const [activity, setActivity] = useState<any[]>([])
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [decisions, setDecisions] = useState<any[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [supporting, setSupporting] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
   const [waking, setWaking] = useState(false)
@@ -61,7 +63,7 @@ export default function BrainPage() {
 
   const fetchAll = useCallback(async () => {
     try {
-      const [statusRes, reportsRes, tasksRes, strategiesRes, oppsRes, irRes, execsRes, memRes, actRes, decRes, strategiesV2Res] = await Promise.all([
+      const [statusRes, reportsRes, tasksRes, strategiesRes, oppsRes, irRes, execsRes, memRes, actRes, decRes, strategiesV2Res, supRes] = await Promise.all([
         fetch('/api/brain/status'),
         fetch('/api/brain/reports'),
         fetch('/api/brain/tasks'),
@@ -73,9 +75,10 @@ export default function BrainPage() {
         fetch('/api/brain/activity'),
         fetch('/api/brain/decisions'),
         fetch('/api/brain/strategies?v2=true'),
+        fetch('/api/brain/supporting-articles'),
       ])
-      const [statusJ, reportsJ, tasksJ, strategiesJ, oppsJ, irJ, execsJ, memJ, actJ, decJ, strategiesV2J] = await Promise.all([
-        statusRes.json(), reportsRes.json(), tasksRes.json(), strategiesRes.json(), oppsRes.json(), irRes.json(), execsRes.json(), memRes.json(), actRes.json(), decRes.json(), strategiesV2Res.json(),
+      const [statusJ, reportsJ, tasksJ, strategiesJ, oppsJ, irJ, execsJ, memJ, actJ, decJ, strategiesV2J, supJ] = await Promise.all([
+        statusRes.json(), reportsRes.json(), tasksRes.json(), strategiesRes.json(), oppsRes.json(), irRes.json(), execsRes.json(), memRes.json(), actRes.json(), decRes.json(), strategiesV2Res.json(), supRes.json(),
       ])
       if (statusJ.success) setStatus(statusJ.status)
       if (reportsJ.success) setReports(reportsJ.reports)
@@ -88,6 +91,7 @@ export default function BrainPage() {
       if (memJ.success) setMemory(memJ.memory)
       if (actJ.success) setActivity(actJ.activity)
       if (decJ.success) setDecisions(decJ.decisions || [])
+      if (supJ.success) setSupporting(supJ.opportunities || [])
     } catch { /* ignore */ } finally { setLoading(false) }
   }, [])
 
@@ -165,6 +169,7 @@ export default function BrainPage() {
     { id: 'tasks' as Tab, label: 'Tasks', icon: 'task_alt' },
     { id: 'strategies' as Tab, label: 'Strategies', icon: 'strategy' },
     { id: 'opportunities' as Tab, label: 'Opportunities', icon: 'tips_and_updates' },
+    { id: 'supporting' as Tab, label: 'Supporting', icon: 'article' },
     { id: 'research' as Tab, label: 'Research', icon: 'search' },
     { id: 'executions' as Tab, label: 'Executions', icon: 'play_arrow' },
     { id: 'quality' as Tab, label: 'Quality', icon: 'verified' },
@@ -888,6 +893,70 @@ export default function BrainPage() {
                   </div>
                 )
               })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ═══════════ SUPPORTING-ARTICLE TAB ═══════════ */}
+      {tab === 'supporting' && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-headline-lg text-xl text-on-background font-bold">Supporting Articles</h2>
+              <p className="text-xs text-on-surface-variant mt-1">
+                Genuine content gaps named by your own published articles — question and "how to" headings that deserve an article of their own.
+              </p>
+            </div>
+            <button
+              onClick={async () => { try { await fetch('/api/brain/supporting-articles', { method: 'POST' }); fetchAll() } catch {} }}
+              className="px-4 py-2 bg-primary text-on-dark font-bold text-xs uppercase rounded hover:bg-primary/90 transition-colors"
+            >
+              Refresh
+            </button>
+          </div>
+          {supporting.length === 0 ? (
+            <div className="flex flex-col items-center justify-center p-12 bg-obsidian-deep border border-dashed border-slate-border rounded-lg">
+              <span className="material-symbols-outlined text-slate-600 text-5xl mb-4">article</span>
+              <p className="text-on-surface-variant">No supporting-article opportunities detected yet. Run a Brain cycle to scan the article inventory.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {supporting.map((s: any, i: number) => (
+                <div key={i} className="bg-obsidian-deep border border-slate-border rounded-lg p-5">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h3 className="font-ui-body text-on-background font-medium">{s.candidateTopic}</h3>
+                      <p className="text-xs text-on-surface-variant mt-1">From: {s.sourceArticleTitle}</p>
+                    </div>
+                    <span className={`px-2 py-0.5 text-[10px] uppercase font-bold rounded ${
+                      s.confidence === 'High' ? 'bg-emerald-900/30 text-emerald-400' : s.confidence === 'Medium' ? 'bg-amber-900/30 text-amber-400' : 'bg-slate-800 text-slate-400'
+                    }`}>{s.confidence}</span>
+                  </div>
+                  <p className="text-xs text-on-surface-variant mb-2">{s.reason}</p>
+                  <div className="grid grid-cols-1 gap-2 text-[10px] mb-2">
+                    <div>
+                      <span className="text-on-surface-variant uppercase font-bold">Evidence: </span>
+                      <span className="text-on-background">{(s.evidence || []).join(' | ')}</span>
+                    </div>
+                    <div>
+                      <span className="text-on-surface-variant uppercase font-bold">Expected benefit: </span>
+                      <span className="text-on-background">{s.expectedBenefit}</span>
+                    </div>
+                  </div>
+                  {s.unknowns && s.unknowns.length > 0 && (
+                    <div className="mb-2">
+                      <p className="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Unknowns</p>
+                      <ul className="text-[10px] text-gray-400 space-y-1">
+                        {s.unknowns.map((u: string, j: number) => <li key={j}>• {u}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  <p className="text-[10px] text-on-surface-variant italic">
+                    No search volume, traffic, or audience data is measured for this candidate. It is derived only from real article text.
+                  </p>
+                </div>
+              ))}
             </div>
           )}
         </div>

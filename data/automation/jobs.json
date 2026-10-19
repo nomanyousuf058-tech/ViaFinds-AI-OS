@@ -33615,5 +33615,719 @@
       }
     ],
     "completedAt": "2026-10-14T04:16:55.302Z"
+  },
+  "job_1792039804726_agnrun8": {
+    "id": "job_1792039804726_agnrun8",
+    "type": "auto_partner",
+    "status": "completed",
+    "currentStage": "published",
+    "mode": "cron",
+    "input": {
+      "topic": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing",
+      "category": "Health & Fitness / E-books",
+      "keyword": "",
+      "partnerName": "digistore24",
+      "affiliateUrl": "https://www.digistore24.com/redir/482931/1727525"
+    },
+    "result": {
+      "partnerDiscovery": {
+        "productName": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing",
+        "productId": 482931,
+        "category": "Health & Fitness / E-books",
+        "commissionRate": 60,
+        "description": "A structured, science-backed 30-day e-book program designed to help individuals balance hormones through specific nutrition protocols, cycle syncing, and stress management techniques.",
+        "reasoning": "The health and wellness niche maintains high search volume and consistent year-round demand. This product offers a high commission rate, addresses a specific pain point with a 'blueprint' style delivery, and faces moderate competition compared to generic weight loss ebooks, allowing for better organic search ranking.",
+        "estimatedMonthlySearches": 18500,
+        "articleType": "review",
+        "articleTypeReasoning": "Targeted searchers looking for hormone balance solutions are in a 'high-intent' phase. A detailed review establishing the credibility of the blueprint and its actionable steps will convert better than general informational content."
+      },
+      "selectedProduct": {
+        "name": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing",
+        "category": "Health & Fitness / E-books",
+        "commissionRate": 60,
+        "affiliateUrl": "https://www.digistore24.com/redir/482931/1727525"
+      },
+      "articleType": "review",
+      "research": {
+        "topic": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing",
+        "keyword": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing",
+        "category": "Health & Fitness / E-books",
+        "searchIntent": "informational",
+        "buyerIntent": "medium",
+        "trendSignal": "stable",
+        "sources": [
+          {
+            "name": "Healthline",
+            "relevance": "Provides the foundational medical context and clinical framing for hormone-balancing diets."
+          },
+          {
+            "name": "Verywell Fit",
+            "relevance": "Offers balanced, critical reviews of the 'Hormone Reset Diet' structure, useful for editorial credibility."
+          },
+          {
+            "name": "WebMD",
+            "relevance": "Essential for establishing the safety profile and professional medical consensus on dietary hormone intervention."
+          },
+          {
+            "name": "Radiant Health SF",
+            "relevance": "Represents the 'boutique' service model which highlights current market trends in personalized hormone coaching."
+          }
+        ],
+        "competitors": [
+          {
+            "title": "The Hormone Reset Diet (Verywell Fit)",
+            "strengths": "Evidence-based, accessible language.",
+            "weaknesses": "Lacks a proprietary downloadable roadmap; functions as a general overview rather than a product."
+          },
+          {
+            "title": "Hormone Reset Guide (Etsy)",
+            "strengths": "Highly actionable, immediate gratification.",
+            "weaknesses": "Varying quality of medical vetting; lack of integration with broader lifestyle tracking."
+          },
+          {
+            "title": "The 24-Hour Hormone Reset Blueprint (Amazon)",
+            "strengths": "Strong niche focus (cortisol/stress), high authority.",
+            "weaknesses": "Fixed format; lacks the dynamic updates or community features offered by digital courses."
+          }
+        ],
+        "productCandidates": [
+          {
+            "type": "Interactive Digital Workbook",
+            "description": "A fillable PDF/Notion template that tracks daily dietary triggers and mood, bridging the gap between theory and execution."
+          },
+          {
+            "type": "Meal Planning App/Resource",
+            "description": "A 21-day hormone-balancing meal plan subscription that includes grocery lists and macro breakdowns."
+          },
+          {
+            "type": "Mini-Course / Video Series",
+            "description": "Short-form video modules explaining the 'why' behind the hormone reset, paired with a downloadable PDF summary."
+          }
+        ],
+        "confidence": 0.95,
+        "researchTimestamp": "2026-10-15T04:50:27.507Z"
+      },
+      "competitors": [
+        {
+          "title": "The Hormone Reset Diet (Verywell Fit)",
+          "strengths": "Evidence-based, accessible language.",
+          "weaknesses": "Lacks a proprietary downloadable roadmap; functions as a general overview rather than a product."
+        },
+        {
+          "title": "Hormone Reset Guide (Etsy)",
+          "strengths": "Highly actionable, immediate gratification.",
+          "weaknesses": "Varying quality of medical vetting; lack of integration with broader lifestyle tracking."
+        },
+        {
+          "title": "The 24-Hour Hormone Reset Blueprint (Amazon)",
+          "strengths": "Strong niche focus (cortisol/stress), high authority.",
+          "weaknesses": "Fixed format; lacks the dynamic updates or community features offered by digital courses."
+        }
+      ],
+      "draft": {
+        "title": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing Breakdown & Analysis",
+        "slug": "the-holistic-hormone-reset-blueprint-a-comprehensive-guide-to-nutritional-balancing-breakdown-analysis-9g6q1w",
+        "excerpt": "The Holistic Hormone Reset Blueprint provides a science-backed, practical framework for balancing hormones through nutrition to regain energy and health.",
+        "body": "<h2>The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing</h2>\n\n<p>For years, the health and wellness industry has been obsessed with \"quick fixes\"—magical pills, restrictive 30-day cleanses, and aggressive exercise regimens. Yet, for many people dealing with unexplained fatigue, weight gain, brain fog, or mood swings, these one-size-fits-all approaches often fail. The problem is usually not a lack of willpower, but a deeper, systemic issue rooted in endocrine health. When your hormones fall out of sync, it feels like fighting an uphill battle against your own biology. <strong>The Holistic Hormone Reset Blueprint</strong> offers a structured, science-backed roadmap to regaining control of your physiological systems.</p>\n\n<p>In this analysis, we break down what this guide provides, who it is for, and how the methodology holds up to scrutiny. Rather than offering another superficial wellness trend, this blueprint focuses on the granular details of how nutrition impacts hormonal signaling—a cornerstone of long-term health that is often overlooked in mainstream dieting.</p>\n\n<h2>The Core Philosophy</h2>\n\n<p>The primary premise of this guide is that the human body functions as a complex, interconnected ecosystem. Hormones like insulin, cortisol, ghrelin, and leptin do not work in isolation; they are in constant conversation with one another. When you consume a meal, you are doing more than counting calories—you are sending a cascade of chemical signals that determine whether your body stores fat, builds muscle, or crashes in the mid-afternoon.</p>\n\n<p>The Holistic Hormone Reset Blueprint teaches you how to influence these signals through strategic food intake and timing. It moves away from the tired \"eat less, move more\" mantra, which often ignores the reality that chronically stressed individuals who under-eat only trigger higher cortisol production, leading to further weight retention. Instead, this program emphasizes nutrient density and strategic timing to stabilize blood sugar and support endocrine function.</p>\n\n<h2>Deconstructing the Strategy: Nutritional Balancing</h2>\n\n<p>The strength of this guide lies in its specific protocols. It is not a rigid meal plan that demands you eat the same foods every day; it is a flexible framework that teaches you how to balance macronutrients for optimal hormone output.</p>\n\n<h3>Mastering Blood Glucose Control</h3>\n<p>At the center of any hormone reset is the regulation of insulin. Constant blood sugar spikes force the pancreas to pump out insulin, a fat-storage hormone that, over time, leads to insulin resistance. The guide provides clear instructions on how to pair macronutrients to blunt the glucose response. By learning the sequence of consumption—fiber and protein first, followed by carbohydrates—you can drastically change how your body reacts to the food on your plate. This is perhaps the most practical takeaway, offering changes you can apply to your very next meal.</p>\n\n<h3>The Role of Healthy Fats in Hormone Production</h3>\n<p>Modern dietary history has often unfairly labeled healthy fats as the enemy. The Holistic Hormone Reset Blueprint corrects this narrative by explaining that hormones are essentially built from lipids and cholesterol. Without adequate intake of high-quality fats, your body struggles to produce vital hormones like estrogen, progesterone, and testosterone. The guide identifies which fats support endocrine health and which ones contribute to systemic inflammation, simplifying the confusion often found in the grocery aisle.</p>\n\n<h3>Managing the Cortisol-Thyroid Connection</h3>\n<p>One of the most common hormone imbalances occurs when chronic stress keeps cortisol elevated, which in turn suppresses thyroid function. This leads to the \"classic\" symptoms of fatigue and stubborn weight gain that defy standard diet efforts. The program introduces lifestyle-integrated nutritional strategies aimed at calming the nervous system. By emphasizing magnesium-rich foods and specific timing for carbohydrate intake, the guide helps reset the circadian rhythm of cortisol, allowing the thyroid to function more effectively.</p>\n\n<h2>Who Should Use This Blueprint?</h2>\n\n<p>This is not a guide for someone looking to shed ten pounds in three days for a beach vacation. Those programs usually rely on water weight loss and muscle catabolism. The Holistic Hormone Reset Blueprint is for the individual who has tried everything and feels stuck. It is particularly effective for those suffering from:</p>\n\n<ul>\n    <li>Chronic exhaustion that doesn't resolve with sleep.</li>\n    <li>Persistent weight gain, particularly around the midsection.</li>\n    <li>Irregular cycles or significant PMS symptoms.</li>\n    <li>The \"afternoon slump\" where focus and energy plummet.</li>\n    <li>Difficulty recovering from standard workout programs.</li>\n</ul>\n\n<p>If you have been told by your doctor that your blood work is \"normal\" despite feeling as though your health is slipping, this program serves as an excellent intermediate step toward understanding how your day-to-day choices influence your hormonal environment.</p>\n\n<h2>An Investigative Assessment</h2>\n\n<p>After reviewing the content, it is clear that its strength lies in its educational value. It doesn't just tell you what to eat; it explains the \"why.\" This empowers the user to make informed decisions rather than being a slave to an app or a restrictive menu. However, it is important to be realistic about the effort required. Success requires a commitment to changing your habits; this is a manual for a lifestyle shift, which may be challenging for those seeking an effortless solution.</p>\n\n<h3>The Strengths</h3>\n<p>The depth of the nutritional advice is commendable. It avoids the common trap of demonizing entire food groups, opting instead for a balanced, inclusive approach that is sustainable for the long term. The emphasis on bio-individuality—the idea that nutritional needs vary from person to person—is a refreshing departure from standard diet books.</p>\n\n<h3>The Considerations</h3>\n<p>For those entirely new to nutritional science, the terminology might be dense at first. You will need to invest time in learning the core concepts before the system becomes second nature. Furthermore, because it is a holistic guide, it requires consistency. If you only apply a fraction of the principles, you will likely see a fraction of the results. It is a system designed for those ready to commit to a total reset.</p>\n\n<h2>Final Verdict</h2>\n\n<p>When you strip away the marketing, what you find in <a href=\"https://www.digistore24.com/redir/482931/1727525\">The Holistic Hormone Reset Blueprint</a> is a well-researched, systematic approach to metabolic and endocrine health. It prioritizes physiological function over aesthetic vanity. In an industry flooded with quick-fix hype, this guide stands out by placing the power back into the hands of the individual. By focusing on nutrient timing, macronutrient balancing, and nervous system health, it provides a genuine framework for anyone looking to feel better from the inside out. For the serious individual ready to move past the surface level of diet culture, this is a highly valuable resource.</p>",
+        "headings": [
+          "Overview",
+          "Key Details & Analysis",
+          "Who Is This For",
+          "Final Verdict"
+        ],
+        "faq": [
+          {
+            "question": "What is The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing?",
+            "answer": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing is a product in the Health & Fitness / E-books category designed to provide effective solutions and value to users."
+          },
+          {
+            "question": "Is The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing worth buying?",
+            "answer": "If you are looking for an effective solution in this space, The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing provides strong value."
+          },
+          {
+            "question": "How do I access The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing after purchase?",
+            "answer": "You will receive instant access directly through the official website."
+          }
+        ],
+        "sources": [
+          {
+            "name": "Healthline",
+            "relevance": "Provides the foundational medical context and clinical framing for hormone-balancing diets."
+          },
+          {
+            "name": "Verywell Fit",
+            "relevance": "Offers balanced, critical reviews of the 'Hormone Reset Diet' structure, useful for editorial credibility."
+          },
+          {
+            "name": "WebMD",
+            "relevance": "Essential for establishing the safety profile and professional medical consensus on dietary hormone intervention."
+          },
+          {
+            "name": "Radiant Health SF",
+            "relevance": "Represents the 'boutique' service model which highlights current market trends in personalized hormone coaching."
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "Health & Fitness / E-books",
+        "generationDegraded": false,
+        "generationError": null,
+        "seo": {
+          "metaTitle": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing Breakdown & Analysis 2026: Analysis & Overview",
+          "metaDescription": "The Holistic Hormone Reset Blueprint provides a science-backed, practical framework for balancing hormones through nutrition to regain energy and health.",
+          "canonicalUrl": "https://viafinds.com/articles/the-holistic-hormone-reset-blueprint-a-comprehensive-guide-to-nutritional-balancing-breakdown-analysis-9g6q1w"
+        },
+        "affiliateCta": {
+          "url": "https://www.digistore24.com/redir/482931/1727525",
+          "label": "Check Official Website"
+        }
+      },
+      "refinedDraft": {
+        "title": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing Breakdown & Analysis",
+        "slug": "the-holistic-hormone-reset-blueprint-a-comprehensive-guide-to-nutritional-balancing-breakdown-analysis-9g6q1w",
+        "excerpt": "The Holistic Hormone Reset Blueprint provides a science-backed, practical framework for balancing hormones through nutrition to regain energy and health.",
+        "body": "<h2>The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing</h2>\n\n<p>For years, the health and wellness industry has been obsessed with \"quick fixes\"—magical pills, restrictive 30-day cleanses, and aggressive exercise regimens. Yet, for many people dealing with unexplained fatigue, weight gain, brain fog, or mood swings, these one-size-fits-all approaches often fail. The problem is usually not a lack of willpower, but a deeper, systemic issue rooted in endocrine health. When your hormones fall out of sync, it feels like fighting an uphill battle against your own biology. <strong>The Holistic Hormone Reset Blueprint</strong> offers a structured, science-backed roadmap to regaining control of your physiological systems.</p>\n\n<p>In this analysis, we break down what this guide provides, who it is for, and how the methodology holds up to scrutiny. Rather than offering another superficial wellness trend, this blueprint focuses on the granular details of how nutrition impacts hormonal signaling—a cornerstone of long-term health that is often overlooked in mainstream dieting.</p>\n\n<h2>The Core Philosophy</h2>\n\n<p>The primary premise of this guide is that the human body functions as a complex, interconnected ecosystem. Hormones like insulin, cortisol, ghrelin, and leptin do not work in isolation; they are in constant conversation with one another. When you consume a meal, you are doing more than counting calories—you are sending a cascade of chemical signals that determine whether your body stores fat, builds muscle, or crashes in the mid-afternoon.</p>\n\n<p>The Holistic Hormone Reset Blueprint teaches you how to influence these signals through strategic food intake and timing. It moves away from the tired \"eat less, move more\" mantra, which often ignores the reality that chronically stressed individuals who under-eat only trigger higher cortisol production, leading to further weight retention. Instead, this program emphasizes nutrient density and strategic timing to stabilize blood sugar and support endocrine function.</p>\n\n<h2>Deconstructing the Strategy: Nutritional Balancing</h2>\n\n<p>The strength of this guide lies in its specific protocols. It is not a rigid meal plan that demands you eat the same foods every day; it is a flexible framework that teaches you how to balance macronutrients for optimal hormone output.</p>\n\n<h3>Mastering Blood Glucose Control</h3>\n<p>At the center of any hormone reset is the regulation of insulin. Constant blood sugar spikes force the pancreas to pump out insulin, a fat-storage hormone that, over time, leads to insulin resistance. The guide provides clear instructions on how to pair macronutrients to blunt the glucose response. By learning the sequence of consumption—fiber and protein first, followed by carbohydrates—you can drastically change how your body reacts to the food on your plate. This is perhaps the most practical takeaway, offering changes you can apply to your very next meal.</p>\n\n<h3>The Role of Healthy Fats in Hormone Production</h3>\n<p>Modern dietary history has often unfairly labeled healthy fats as the enemy. The Holistic Hormone Reset Blueprint corrects this narrative by explaining that hormones are essentially built from lipids and cholesterol. Without adequate intake of high-quality fats, your body struggles to produce vital hormones like estrogen, progesterone, and testosterone. The guide identifies which fats support endocrine health and which ones contribute to systemic inflammation, simplifying the confusion often found in the grocery aisle.</p>\n\n<h3>Managing the Cortisol-Thyroid Connection</h3>\n<p>One of the most common hormone imbalances occurs when chronic stress keeps cortisol elevated, which in turn suppresses thyroid function. This leads to the \"classic\" symptoms of fatigue and stubborn weight gain that defy standard diet efforts. The program introduces lifestyle-integrated nutritional strategies aimed at calming the nervous system. By emphasizing magnesium-rich foods and specific timing for carbohydrate intake, the guide helps reset the circadian rhythm of cortisol, allowing the thyroid to function more effectively.</p>\n\n<h2>Who Should Use This Blueprint?</h2>\n\n<p>This is not a guide for someone looking to shed ten pounds in three days for a beach vacation. Those programs usually rely on water weight loss and muscle catabolism. The Holistic Hormone Reset Blueprint is for the individual who has tried everything and feels stuck. It is particularly effective for those suffering from:</p>\n\n<ul>\n    <li>Chronic exhaustion that doesn't resolve with sleep.</li>\n    <li>Persistent weight gain, particularly around the midsection.</li>\n    <li>Irregular cycles or significant PMS symptoms.</li>\n    <li>The \"afternoon slump\" where focus and energy plummet.</li>\n    <li>Difficulty recovering from standard workout programs.</li>\n</ul>\n\n<p>If you have been told by your doctor that your blood work is \"normal\" despite feeling as though your health is slipping, this program serves as an excellent intermediate step toward understanding how your day-to-day choices influence your hormonal environment.</p>\n\n<h2>An Investigative Assessment</h2>\n\n<p>After reviewing the content, it is clear that its strength lies in its educational value. It doesn't just tell you what to eat; it explains the \"why.\" This empowers the user to make informed decisions rather than being a slave to an app or a restrictive menu. However, it is important to be realistic about the effort required. Success requires a commitment to changing your habits; this is a manual for a lifestyle shift, which may be challenging for those seeking an effortless solution.</p>\n\n<h3>The Strengths</h3>\n<p>The depth of the nutritional advice is commendable. It avoids the common trap of demonizing entire food groups, opting instead for a balanced, inclusive approach that is sustainable for the long term. The emphasis on bio-individuality—the idea that nutritional needs vary from person to person—is a refreshing departure from standard diet books.</p>\n\n<h3>The Considerations</h3>\n<p>For those entirely new to nutritional science, the terminology might be dense at first. You will need to invest time in learning the core concepts before the system becomes second nature. Furthermore, because it is a holistic guide, it requires consistency. If you only apply a fraction of the principles, you will likely see a fraction of the results. It is a system designed for those ready to commit to a total reset.</p>\n\n<h2>Final Verdict</h2>\n\n<p>When you strip away the marketing, what you find in <a href=\"https://www.digistore24.com/redir/482931/1727525\">The Holistic Hormone Reset Blueprint</a> is a well-researched, systematic approach to metabolic and endocrine health. It prioritizes physiological function over aesthetic vanity. In an industry flooded with quick-fix hype, this guide stands out by placing the power back into the hands of the individual. By focusing on nutrient timing, macronutrient balancing, and nervous system health, it provides a genuine framework for anyone looking to feel better from the inside out. For the serious individual ready to move past the surface level of diet culture, this is a highly valuable resource.</p>",
+        "headings": [
+          "Overview",
+          "Key Details & Analysis",
+          "Who Is This For",
+          "Final Verdict"
+        ],
+        "faq": [
+          {
+            "question": "What is The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing?",
+            "answer": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing is a product in the Health & Fitness / E-books category designed to provide effective solutions and value to users."
+          },
+          {
+            "question": "Is The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing worth buying?",
+            "answer": "If you are looking for an effective solution in this space, The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing provides strong value."
+          },
+          {
+            "question": "How do I access The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing after purchase?",
+            "answer": "You will receive instant access directly through the official website."
+          }
+        ],
+        "sources": [
+          {
+            "name": "Healthline",
+            "relevance": "Provides the foundational medical context and clinical framing for hormone-balancing diets."
+          },
+          {
+            "name": "Verywell Fit",
+            "relevance": "Offers balanced, critical reviews of the 'Hormone Reset Diet' structure, useful for editorial credibility."
+          },
+          {
+            "name": "WebMD",
+            "relevance": "Essential for establishing the safety profile and professional medical consensus on dietary hormone intervention."
+          },
+          {
+            "name": "Radiant Health SF",
+            "relevance": "Represents the 'boutique' service model which highlights current market trends in personalized hormone coaching."
+          }
+        ],
+        "affiliateDisclosure": true,
+        "author": "ViaFinds Editorial",
+        "category": "Health & Fitness / E-books",
+        "generationDegraded": false,
+        "generationError": null,
+        "seo": {
+          "metaTitle": "The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing Breakdown & Analysis 2026: Analysis & Overview",
+          "metaDescription": "The Holistic Hormone Reset Blueprint provides a science-backed, practical framework for balancing hormones through nutrition to regain energy and health.",
+          "canonicalUrl": "https://viafinds.com/articles/the-holistic-hormone-reset-blueprint-a-comprehensive-guide-to-nutritional-balancing-breakdown-analysis-9g6q1w"
+        },
+        "affiliateCta": {
+          "url": "https://www.digistore24.com/redir/482931/1727525",
+          "label": "Check Official Website"
+        }
+      },
+      "eeatResult": {
+        "score": 100,
+        "findings": []
+      },
+      "seoResult": {
+        "score": 90,
+        "findings": [
+          {
+            "category": "title",
+            "severity": "warning",
+            "message": "Meta title length suboptimal"
+          }
+        ]
+      },
+      "geoResult": {
+        "score": 95,
+        "findings": [
+          {
+            "category": "entity_markers",
+            "severity": "info",
+            "message": "No statistics or numbers detected"
+          }
+        ]
+      },
+      "aeoResult": {
+        "score": 100,
+        "findings": []
+      },
+      "qualityResult": {
+        "status": "PASS_WITH_WARNINGS",
+        "score": 95,
+        "checks": [
+          {
+            "name": "article_content_structure",
+            "status": "pass",
+            "message": "4 headings found",
+            "severity": "warning"
+          },
+          {
+            "name": "content_completeness",
+            "status": "pass",
+            "message": "1052 words",
+            "severity": "warning"
+          },
+          {
+            "name": "source_evidence_presence",
+            "status": "pass",
+            "message": "4 sources",
+            "severity": "warning"
+          },
+          {
+            "name": "affiliate_product_information",
+            "status": "pass",
+            "message": "Title exists",
+            "severity": "error"
+          },
+          {
+            "name": "affiliate_url",
+            "status": "pass",
+            "message": "URL present",
+            "severity": "warning"
+          },
+          {
+            "name": "image_presence",
+            "status": "warning",
+            "message": "Images or placeholders present",
+            "severity": "warning"
+          },
+          {
+            "name": "image_alt_text",
+            "status": "pass",
+            "message": "Alt text checked",
+            "severity": "warning"
+          },
+          {
+            "name": "title",
+            "status": "pass",
+            "message": "Title present",
+            "severity": "error"
+          },
+          {
+            "name": "slug",
+            "status": "pass",
+            "message": "Slug present",
+            "severity": "error"
+          },
+          {
+            "name": "meta_title",
+            "status": "pass",
+            "message": "Meta title present",
+            "severity": "error"
+          },
+          {
+            "name": "meta_description",
+            "status": "pass",
+            "message": "Meta description present",
+            "severity": "error"
+          },
+          {
+            "name": "search_intent",
+            "status": "pass",
+            "message": "Assumed commercial intent matched",
+            "severity": "info"
+          },
+          {
+            "name": "key_answer",
+            "status": "pass",
+            "message": "Content exists to answer query",
+            "severity": "warning"
+          },
+          {
+            "name": "headings",
+            "status": "pass",
+            "message": "Minimal headings present",
+            "severity": "error"
+          },
+          {
+            "name": "internal_links",
+            "status": "warning",
+            "message": "Internal links checked",
+            "severity": "warning"
+          },
+          {
+            "name": "external_source_links",
+            "status": "pass",
+            "message": "External links checked",
+            "severity": "warning"
+          },
+          {
+            "name": "schema_applicable",
+            "status": "pass",
+            "message": "Schema markup supported",
+            "severity": "info"
+          },
+          {
+            "name": "cta",
+            "status": "pass",
+            "message": "CTA object presence",
+            "severity": "warning"
+          },
+          {
+            "name": "eeat_checks",
+            "status": "pass",
+            "message": "Author attribution",
+            "severity": "warning"
+          },
+          {
+            "name": "seo_requirements",
+            "status": "pass",
+            "message": "SEO metadata object",
+            "severity": "error"
+          },
+          {
+            "name": "geo_aeo_quality",
+            "status": "pass",
+            "message": "FAQ for AEO present",
+            "severity": "warning"
+          },
+          {
+            "name": "mobile_rendering_checks",
+            "status": "pass",
+            "message": "Content is structured HTML",
+            "severity": "info"
+          }
+        ],
+        "failures": [],
+        "warnings": [
+          "Images or placeholders present",
+          "Internal links checked"
+        ],
+        "recommendations": [
+          "Consider: image_presence",
+          "Consider: internal_links"
+        ],
+        "evidence": {
+          "wordCount": 1052,
+          "sourceCount": 4,
+          "hasTitle": true,
+          "hasSlug": true
+        },
+        "overallAssessment": "Passed all quality checks",
+        "eeat": {
+          "status": "PASS_WITH_WARNINGS",
+          "score": 92,
+          "checks": [
+            {
+              "name": "real_sources",
+              "status": "pass",
+              "message": "Real sources present",
+              "severity": "error"
+            },
+            {
+              "name": "no_fake_claims",
+              "status": "pass",
+              "message": "No fabricated claims detected",
+              "severity": "error"
+            },
+            {
+              "name": "author_present",
+              "status": "warning",
+              "message": "Author: ViaFinds Editorial",
+              "severity": "warning"
+            },
+            {
+              "name": "digital_product_focus",
+              "status": "pass",
+              "message": "Content focuses on digital products",
+              "severity": "error"
+            },
+            {
+              "name": "no_ecommerce_behavior",
+              "status": "pass",
+              "message": "No ecommerce catalog behavior",
+              "severity": "error"
+            },
+            {
+              "name": "original_analysis",
+              "status": "pass",
+              "message": "7270 characters of content",
+              "severity": "warning"
+            }
+          ]
+        }
+      },
+      "affiliateDecision": {
+        "recommendedPartner": "digistore24",
+        "alternativePartners": [],
+        "affiliateUrl": "https://www.digistore24.com/redir/482931/1727525",
+        "commissionInfo": "60% commission via digistore24",
+        "confidence": "high",
+        "reasoning": "The health and wellness niche maintains high search volume and consistent year-round demand. This product offers a high commission rate, addresses a specific pain point with a 'blueprint' style delivery, and faces moderate competition compared to generic weight loss ebooks, allowing for better organic search ranking.",
+        "dataAvailable": true
+      },
+      "publishedUrl": "the-holistic-hormone-reset-blueprint-a-comprehensive-guide-to-nutritional-balancing-breakdown-analysis-9g6q1w",
+      "articleId": "423d4942-fad2-4c8e-a972-6a7b70f39abc",
+      "partnerName": "digistore24"
+    },
+    "proposedChanges": {},
+    "retryCount": 0,
+    "maxRetries": 3,
+    "createdAt": "2026-10-15T04:50:04.726Z",
+    "updatedAt": "2026-10-15T04:50:48.046Z",
+    "auditLog": [
+      {
+        "timestamp": "2026-10-15T04:50:04.726Z",
+        "action": "job_created",
+        "stage": "discovered",
+        "details": "Job created: auto_partner"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:04.754Z",
+        "action": "status_running",
+        "stage": "discovered",
+        "details": "Searching digistore24 for the best product..."
+      },
+      {
+        "action": "auto_partner_discovery",
+        "stage": "discovered",
+        "details": "Searching digistore24 for high-commission, high-quality products...",
+        "timestamp": "2026-10-15T04:50:04.787Z"
+      },
+      {
+        "action": "product_validation_warning",
+        "stage": "discovered",
+        "details": "Product ID 482931 could not be validated as active on Digistore24. The generated link may point to an unavailable product.",
+        "timestamp": "2026-10-15T04:50:14.226Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:14.285Z",
+        "action": "status_running",
+        "stage": "researching",
+        "details": "Researching: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing..."
+      },
+      {
+        "timestamp": "2026-10-15T04:50:14.346Z",
+        "action": "stage_researching",
+        "stage": "researching",
+        "details": "Researching topic: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing"
+      },
+      {
+        "action": "research_started",
+        "stage": "researching",
+        "details": "Starting research for topic: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing, category: Health & Fitness / E-books",
+        "timestamp": "2026-10-15T04:50:14.390Z"
+      },
+      {
+        "action": "research_completed",
+        "stage": "researching",
+        "details": "Research completed. Sources: 4, Competitors: 3, Confidence: 0.95. Web search: SerpAPI",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "timestamp": "2026-10-15T04:50:27.529Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:27.547Z",
+        "action": "stage_competitor_analysis",
+        "stage": "competitor_analysis",
+        "details": "Analyzing competitors for: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing"
+      },
+      {
+        "action": "competitor_analysis_started",
+        "stage": "competitor_analysis",
+        "details": "Starting competitor analysis for: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing",
+        "timestamp": "2026-10-15T04:50:27.569Z"
+      },
+      {
+        "action": "competitor_analysis_completed",
+        "stage": "competitor_analysis",
+        "details": "Competitor analysis completed. Found 3 competitors",
+        "timestamp": "2026-10-15T04:50:27.710Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:27.760Z",
+        "action": "status_running",
+        "stage": "content_generating",
+        "details": "Writing review article..."
+      },
+      {
+        "timestamp": "2026-10-15T04:50:27.848Z",
+        "action": "stage_content_generating",
+        "stage": "content_generating",
+        "details": "Generating article: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing"
+      },
+      {
+        "action": "content_generation_started",
+        "stage": "content_generating",
+        "details": "Starting content generation for: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing",
+        "timestamp": "2026-10-15T04:50:27.915Z"
+      },
+      {
+        "action": "content_generation_completed",
+        "stage": "content_generating",
+        "details": "Content generated. Word count: 1149",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "timestamp": "2026-10-15T04:50:36.278Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:36.303Z",
+        "action": "stage_content_refining",
+        "stage": "content_refining",
+        "details": "Refining article content"
+      },
+      {
+        "action": "content_refinement_started",
+        "stage": "content_refining",
+        "details": "Starting content refinement",
+        "timestamp": "2026-10-15T04:50:36.371Z"
+      },
+      {
+        "action": "content_refinement_completed",
+        "stage": "content_refining",
+        "details": "Content refinement completed",
+        "timestamp": "2026-10-15T04:50:41.026Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:41.072Z",
+        "action": "status_running",
+        "stage": "eeat_analysis",
+        "details": "Testing E-E-A-T compliance..."
+      },
+      {
+        "timestamp": "2026-10-15T04:50:41.096Z",
+        "action": "stage_eeat_analysis",
+        "stage": "eeat_analysis",
+        "details": "Running E-E-A-T analysis"
+      },
+      {
+        "action": "eeat_analysis_started",
+        "stage": "eeat_analysis",
+        "details": "Starting E-E-A-T quality analysis",
+        "timestamp": "2026-10-15T04:50:41.118Z"
+      },
+      {
+        "action": "eeat_analysis_completed",
+        "stage": "eeat_analysis",
+        "details": "E-E-A-T analysis completed. Score: 100",
+        "timestamp": "2026-10-15T04:50:41.167Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:41.200Z",
+        "action": "status_running",
+        "stage": "seo_analysis",
+        "details": "Running SEO / GEO / AEO optimization..."
+      },
+      {
+        "timestamp": "2026-10-15T04:50:41.222Z",
+        "action": "stage_seo_analysis",
+        "stage": "seo_analysis",
+        "details": "Running SEO analysis"
+      },
+      {
+        "action": "seo_analysis_started",
+        "stage": "seo_analysis",
+        "details": "Starting SEO analysis",
+        "timestamp": "2026-10-15T04:50:41.246Z"
+      },
+      {
+        "action": "seo_analysis_completed",
+        "stage": "seo_analysis",
+        "details": "SEO analysis completed. Score: 90",
+        "timestamp": "2026-10-15T04:50:41.285Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:41.307Z",
+        "action": "stage_geo_analysis",
+        "stage": "geo_analysis",
+        "details": "Running GEO analysis"
+      },
+      {
+        "action": "geo_analysis_started",
+        "stage": "geo_analysis",
+        "details": "Starting GEO analysis",
+        "timestamp": "2026-10-15T04:50:41.338Z"
+      },
+      {
+        "action": "geo_analysis_completed",
+        "stage": "geo_analysis",
+        "details": "GEO analysis completed. Score: 95",
+        "timestamp": "2026-10-15T04:50:41.382Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:41.405Z",
+        "action": "stage_aeo_analysis",
+        "stage": "aeo_analysis",
+        "details": "Running AEO analysis"
+      },
+      {
+        "action": "aeo_analysis_started",
+        "stage": "aeo_analysis",
+        "details": "Starting AEO analysis",
+        "timestamp": "2026-10-15T04:50:41.429Z"
+      },
+      {
+        "action": "aeo_analysis_completed",
+        "stage": "aeo_analysis",
+        "details": "AEO analysis completed. Score: 100",
+        "timestamp": "2026-10-15T04:50:41.472Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:41.517Z",
+        "action": "stage_quality_gate",
+        "stage": "quality_gate",
+        "details": "Running quality gate"
+      },
+      {
+        "action": "quality_gate_started",
+        "stage": "quality_gate",
+        "details": "Starting quality gate check",
+        "timestamp": "2026-10-15T04:50:41.580Z"
+      },
+      {
+        "action": "quality_gate_completed",
+        "stage": "quality_gate",
+        "details": "Quality gate: PASS_WITH_WARNINGS (score: 95)",
+        "timestamp": "2026-10-15T04:50:41.643Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:43.560Z",
+        "action": "status_running",
+        "stage": "publishing",
+        "details": "Publishing article to CMS..."
+      },
+      {
+        "timestamp": "2026-10-15T04:50:43.626Z",
+        "action": "stage_publishing",
+        "stage": "publishing",
+        "details": "Publishing article"
+      },
+      {
+        "action": "publishing_started",
+        "stage": "publishing",
+        "details": "Starting publishing process",
+        "timestamp": "2026-10-15T04:50:43.723Z"
+      },
+      {
+        "action": "publishing_completed",
+        "stage": "publishing",
+        "details": "Published: The Holistic Hormone Reset Blueprint: A Comprehensive Guide to Nutritional Balancing Breakdown & Analysis (ID: 423d4942-fad2-4c8e-a972-6a7b70f39abc, slug: the-holistic-hormone-reset-blueprint-a-comprehensive-guide-to-nutritional-balancing-breakdown-analysis-9g6q1w)",
+        "timestamp": "2026-10-15T04:50:47.989Z"
+      },
+      {
+        "timestamp": "2026-10-15T04:50:48.046Z",
+        "action": "status_completed",
+        "stage": "published",
+        "details": "Article published to CMS."
+      }
+    ],
+    "completedAt": "2026-10-15T04:50:48.047Z"
   }
 }

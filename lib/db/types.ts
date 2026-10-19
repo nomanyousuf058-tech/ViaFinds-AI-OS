@@ -187,6 +187,14 @@ export type AffiliateLinkRow = {
   sub_id_4: string | null
   sub_id_5: string | null
   short_code: string
+  // Migration 023: verification columns. The affiliate_links table has no
+  // generic `status` column — the persisted state is `verification_status`
+  // (CHECK: VERIFIED | INVALID | MANUAL_REQUIRED | PENDING). Callers that
+  // need a status must read `verification_status`; the API layer maps it
+  // into a `status` field on the response shape, not on the row type.
+  verification_status: string
+  verification_evidence: unknown
+  verification_checked_at: string | null
   created_at: string
   updated_at: string
 }

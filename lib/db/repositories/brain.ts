@@ -1155,7 +1155,7 @@ export class BrainRepository {
 
   // ───── Phase 4.2: TRACEABLE OPPORTUNITY ─────
 
-  async createTraceableOpportunity(data: {
+async createTraceableOpportunity(data: {
     title: string
     type: string
     category: string
@@ -1177,15 +1177,27 @@ export class BrainRepository {
     correlationId: string
     status?: string
     provenance?: string
+    // Migration 010: deterministic deduplication key. When supplied, the
+    // repository will not insert a duplicate row for the same key — it
+    // returns the existing row instead. The column is not UNIQUE, so the
+    // guard is explicit here rather than relying on a DB constraint.
+    deduplicationKey?: string | null
   }): Promise<{ id: string } | null> {
     try {
       const pool = await this.getDb()
+      if (data.deduplicationKey) {
+        const existing = await pool.query(
+          `SELECT id FROM brain_opportunities WHERE deduplication_key = $1 LIMIT 1`,
+          [data.deduplicationKey]
+        )
+        if (existing.rows[0]?.id) return existing.rows[0]
+      }
       const result = await pool.query(
         `INSERT INTO brain_opportunities
            (title, type, category, description, evidence, source, confidence, potential_impact, effort, risk,
             recommended_action, brain_reasoning, structured_observation, evaluation, evidence_classification,
-            assumptions, research_id, source_ids, correlation_id, status, provenance)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
+            assumptions, research_id, source_ids, correlation_id, status, provenance, deduplication_key)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22)
          RETURNING id`,
         [
           data.title,
@@ -1203,12 +1215,13 @@ export class BrainRepository {
           JSON.stringify(data.structuredObservation),
           JSON.stringify(data.evaluation),
           JSON.stringify(data.evidenceClassification),
-          JSON.stringify(data.assumptions || []),
+          data.assumptions || [],
           data.researchId || null,
           JSON.stringify(data.sourceIds),
           data.correlationId,
           data.status || 'detected',
           data.provenance || 'REAL',
+          data.deduplicationKey || null,
         ]
       )
       return result.rows[0] || null
@@ -2588,6 +2601,109 @@ export class BrainRepository {
       return true
     } catch (e) {
       console.error('BrainRepository.updateScheduleMetadata:', e)
+      return false
+    }
+  }
+
+  /**
+   * Recalculate next_run from the schedule's own frequency.
+   *
+   * The DB CHECK on brain_schedules.frequency only allows daily/weekly/
+   * monthly/on_demand, but the helper is defensive: an unknown or missing
+   * frequency falls back to the daily interval instead of producing a null
+   * next_run (which would leave the schedule permanently "not scheduled")
+   * or a runaway timestamp. on_demand schedules have no recurring next_run.
+   */
+  private computeNextRun(frequency: string, now: Date): Date | null {
+    const intervals: Record<string, number> = {
+      daily: 24 * 60 * 60 * 1000,
+      weekly: 7 * 24 * 60 * 60 * 1000,
+      monthly: 30 * 24 * 60 * 60 * 1000,
+    }
+    if (frequency === 'on_demand') return null
+    const ms = intervals[frequency]
+    if (!ms) return new Date(now.getTime() + intervals.daily)
+    return new Date(now.getTime() + ms)
+  }
+
+  /**
+   * Atomically claim a schedule for manual execution.
+   *
+   * Returns the claimed row only when the schedule was enabled and not
+   * already running. A second concurrent claim sees status='running' and
+   * receives null, so Run Now can never launch two executions of the same
+   * schedule at once.
+   */
+  async claimScheduleForRun(key: string): Promise<Record<string, unknown> | null> {
+    try {
+      const pool = await this.getDb()
+      const result = await pool.query(
+        `UPDATE brain_schedules
+          SET status = 'running', updated_at = NOW()
+          WHERE key = $1 AND enabled = true AND status != 'running'
+          RETURNING *`,
+        [key]
+      )
+      return result.rows[0] || null
+    } catch (e) {
+      console.error('BrainRepository.claimScheduleForRun:', e)
+      return null
+    }
+  }
+
+  /**
+   * Record the outcome of a manual Run Now execution.
+   *
+   * Sets last_run to now and recalculates next_run from the schedule's own
+   * frequency so the displayed countdown reflects the real next execution,
+   * not a hardcoded interval.
+*/
+  async recordScheduleRun(key: string, outcome: 'completed' | 'failed' | 'partial'): Promise<boolean> {
+    try {
+      const pool = await this.getDb()
+      const schedule = await pool.query('SELECT * FROM brain_schedules WHERE key=$1', [key])
+      const row = schedule.rows[0]
+      if (!row) return false
+
+      // Recalculate next_run from the schedule's own frequency. The DB CHECK
+      // constraint on brain_schedules.frequency only allows daily/weekly/
+      // monthly/on_demand, but the row may carry a legacy or unknown value,
+      // so unknown frequencies fall back to the daily interval rather than
+      // producing a null or a runaway timestamp.
+      const frequency = String(row.frequency || 'daily')
+      const nextRun = this.computeNextRun(frequency, new Date())
+
+      await pool.query(
+        `UPDATE brain_schedules
+           SET status = $1, last_run = NOW(), next_run = $2, updated_at = NOW()
+           WHERE key = $3`,
+        [outcome === 'failed' ? 'failed' : 'completed', nextRun, key]
+      )
+      return true
+    } catch (e) {
+      console.error('BrainRepository.recordScheduleRun:', e)
+      return false
+    }
+  }
+
+  /**
+   * Release a claimed schedule back to its previous state when manual
+   * execution could not start (e.g. the schedule was disabled mid-flight).
+   */
+  async releaseScheduleClaim(key: string): Promise<boolean> {
+    try {
+      const pool = await this.getDb()
+      const schedule = await pool.query('SELECT * FROM brain_schedules WHERE key=$1', [key])
+      const row = schedule.rows[0]
+      if (!row) return false
+      const nextRun = row.next_run || new Date().toISOString()
+      await pool.query(
+        `UPDATE brain_schedules SET status = $1, updated_at = NOW() WHERE key = $2`,
+        [row.enabled ? 'idle' : 'disabled', key]
+      )
+      return true
+    } catch (e) {
+      console.error('BrainRepository.releaseScheduleClaim:', e)
       return false
     }
   }

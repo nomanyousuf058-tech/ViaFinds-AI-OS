@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { formatJsonField } from '@/lib/utils/format'
+import { getScheduleLabel, SCHEDULE_STATE_COLORS, type ScheduleLabel } from '@/lib/utils/scheduleDisplay'
 
 interface BrainStatus {
   isOn: boolean
@@ -29,6 +30,16 @@ interface BrainStatus {
   limitations: string[]
 }
 
+interface UpcomingSchedule {
+  key: string
+  purpose: string
+  nextRun: string | null
+  lastRun: string | null
+  status: string
+  enabled: boolean
+  frequency: string
+}
+
 interface TodayData {
   brainStatus: BrainStatus | null
   articles: { total: number; published: number; draft: number }
@@ -41,6 +52,10 @@ interface TodayData {
     status: string
     confidence: string
     potentialImpact: string
+    provenance?: string
+    source?: { url?: string; title?: string; type?: string }
+    assumptions?: string[]
+    unavailableData?: string[]
   }>
   approvals: Array<{
     id: string
@@ -54,7 +69,12 @@ interface TodayData {
     evidence: string
     confidence: string
     requiredAction: string
+    priority?: string
+    expectedBenefit?: string
+    ownerAction?: string
   }>
+  upcomingSchedules: UpcomingSchedule[]
+  scheduleFetchOk: boolean
 }
 
 function StatusBadge({ state }: { state: string }) {
@@ -108,76 +128,106 @@ export default function TodayPage() {
   }, [])
 
   const fetchData = useCallback(async () => {
+    // One parallel batch. The three activity streams used to be fetched
+    // sequentially inside an `if (brainJson.success)` branch, which made the
+    // page wait on the slowest of four round trips. Optional integrations
+    // (revenue, analytics) are now isolated so a single failure cannot take
+    // the whole briefing down.
     try {
       setLoading(true)
-      const [brainRes, statsRes] = await Promise.all([
+      const [brainRes, statsRes, schedulesRes] = await Promise.all([
         fetch('/api/brain/status'),
         fetch('/api/dashboard/stats'),
+        fetch('/api/brain/schedules'),
       ])
 
-      const brainJson = await brainRes.json()
-      const statsJson = await statsRes.json()
+    const brainJson = await brainRes.json().catch(() => ({ success: false }))
+    const statsJson = await statsRes.json().catch(() => ({}))
+    const schedulesJson = await schedulesRes.json().catch(() => ({ success: false, data: [] }))
 
-      let opportunities: TodayData['opportunities'] = []
-      let approvals: TodayData['approvals'] = []
-      let recommendations: TodayData['recommendations'] = []
+    let opportunities: TodayData['opportunities'] = []
+    let approvals: TodayData['approvals'] = []
+    let recommendations: TodayData['recommendations'] = []
 
-      if (brainJson.success) {
-        const opportunitiesRes = await fetch('/api/brain/activity?type=opportunities&limit=10')
-        const approvalsRes = await fetch('/api/brain/activity?type=approvals&limit=10')
-        const recRes = await fetch('/api/brain/activity?type=recommendations&limit=10')
-        const [oppJson, apprJson, recJson] = await Promise.all([
-          opportunitiesRes.json(),
-          approvalsRes.json(),
-          recRes.json(),
-        ])
+    if (brainJson.success) {
+      // One batch for the three activity streams instead of three sequential
+      // awaits chained behind a success check.
+      const [opportunitiesRes, approvalsRes, recRes] = await Promise.all([
+        fetch('/api/brain/activity?type=opportunities&limit=10'),
+        fetch('/api/brain/activity?type=approvals&limit=10'),
+        fetch('/api/brain/activity?type=recommendations&limit=10'),
+      ])
+      const [oppJson, apprJson, recJson] = await Promise.all([
+        opportunitiesRes.json().catch(() => ({ success: false })),
+        approvalsRes.json().catch(() => ({ success: false })),
+        recRes.json().catch(() => ({ success: false })),
+      ])
 
-        if (oppJson.success && Array.isArray(oppJson.data)) {
-          opportunities = oppJson.data.map((o: Record<string, unknown>) => ({
-            id: String(o.id || ''),
-            title: String(o.title || ''),
-            category: String(o.category || o.type || ''),
-            status: String(o.status || ''),
-            confidence: String(o.confidence || 'Medium'),
-            potentialImpact: String(o.potential_impact || o.potentialImpact || 'Medium'),
-          }))
-        }
-        if (apprJson.success && Array.isArray(apprJson.data)) {
-          approvals = apprJson.data.map((a: Record<string, unknown>) => {
-            return {
-              id: String(a.id || ''),
-              proposedAction: formatJsonField(a.proposed_action || a.proposedAction),
-              requestedPermission: formatJsonField(a.requested_permission || a.requestedPermission),
-              status: String(a.status || 'pending'),
-              createdAt: String(a.created_at || a.createdAt || ''),
-            }
-          })
-        }
-        if (recJson.success && Array.isArray(recJson.data)) {
-          recommendations = recJson.data.map((r: Record<string, unknown>) => ({
-            recommendation: String(r.recommendation || ''),
-            evidence: String(r.evidence || ''),
-            confidence: String(r.confidence || ''),
-            requiredAction: String(r.required_action || r.requiredAction || ''),
-          }))
-        }
+      if (oppJson.success && Array.isArray(oppJson.data)) {
+        opportunities = oppJson.data.map((o: Record<string, unknown>) => ({
+          id: String(o.id || ''),
+          title: String(o.title || ''),
+          category: String(o.category || o.type || ''),
+          status: String(o.status || ''),
+          confidence: String(o.confidence || 'Medium'),
+          potentialImpact: String(o.potential_impact || o.potentialImpact || 'Medium'),
+          provenance: String((o.provenance as string) || ''),
+          source: (o.source as Record<string, unknown>) || undefined,
+          assumptions: Array.isArray(o.assumptions) ? (o.assumptions as string[]) : undefined,
+          unavailableData: Array.isArray(o.unavailable_data) ? (o.unavailable_data as string[]) : undefined,
+        }))
       }
-
-      setData({
-        brainStatus: brainJson.success ? brainJson.status : null,
-        articles: statsJson.articles || { total: 0, published: 0, draft: 0 },
-        jobs: statsJson.jobs || { total: 0, queued: 0, failed: 0 },
-        revenue: statsJson.revenue || { total: 0, recent: 0, currency: 'USD', source: 'unavailable' },
-        opportunities,
-        approvals,
-        recommendations,
-      })
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to load Today data')
-    } finally {
-      setLoading(false)
+      if (apprJson.success && Array.isArray(apprJson.data)) {
+        approvals = apprJson.data.map((a: Record<string, unknown>) => ({
+          id: String(a.id || ''),
+          proposedAction: formatJsonField(a.proposed_action || a.proposedAction),
+          requestedPermission: formatJsonField(a.requested_permission || a.requestedPermission),
+          status: String(a.status || 'pending'),
+          createdAt: String(a.created_at || a.createdAt || ''),
+        }))
+      }
+      if (recJson.success && Array.isArray(recJson.data)) {
+        recommendations = recJson.data.map((r: Record<string, unknown>) => ({
+          recommendation: String(r.recommendation || ''),
+          evidence: String(r.evidence || ''),
+          confidence: String(r.confidence || ''),
+          requiredAction: String(r.required_action || r.requiredAction || ''),
+          priority: String(r.priority || ''),
+          expectedBenefit: String(r.expected_benefit || r.expectedBenefit || ''),
+          ownerAction: String(r.owner_action || r.ownerAction || ''),
+        }))
+      }
     }
-  }, [])
+
+    const upcomingSchedules: UpcomingSchedule[] = Array.isArray(schedulesJson.data)
+      ? schedulesJson.data.map((s: Record<string, unknown>) => ({
+          key: String(s.key || ''),
+          purpose: String(s.purpose || ''),
+          nextRun: (s.next_run as string) || null,
+          lastRun: (s.last_run as string) || null,
+          status: String(s.status || ''),
+          enabled: s.enabled !== false,
+          frequency: String(s.frequency || ''),
+        }))
+      : []
+
+    setData({
+      brainStatus: brainJson.success ? brainJson.status : null,
+      articles: statsJson.articles || { total: 0, published: 0, draft: 0 },
+      jobs: statsJson.jobs || { total: 0, queued: 0, failed: 0 },
+      revenue: statsJson.revenue || { total: 0, recent: 0, currency: 'USD', source: 'unavailable' },
+      opportunities,
+      approvals,
+      recommendations,
+      upcomingSchedules,
+      scheduleFetchOk: schedulesJson.success === true,
+    })
+  } catch (e) {
+    setError(e instanceof Error ? e.message : 'Failed to load Today data')
+  } finally {
+    setLoading(false)
+  }
+}, [])
 
   useEffect(() => { fetchData() }, [fetchData])
 
@@ -206,6 +256,24 @@ export default function TodayPage() {
   }
 
   const s = data?.brainStatus
+
+  const revenue = data?.revenue || { total: 0, recent: 0, currency: 'USD', source: 'unavailable' }
+  const revenueSource = revenue.source || 'unavailable'
+  const revenueUnavailable = revenueSource === 'unavailable' || revenueSource === 'NOT CONFIGURED'
+
+  // The next scheduled run is derived from the persisted brain_schedules
+  // next_run column, not from a hardcoded interval. If the schedule table
+  // could not be read, the label says so instead of pretending.
+  const nextSchedule = data?.upcomingSchedules?.[0] || null
+  const nextScheduleLabel: ScheduleLabel | null = nextSchedule
+    ? getScheduleLabel(
+        nextSchedule.nextRun,
+        nextSchedule.enabled,
+        nextSchedule.status === 'failed' ? 'failed' : nextSchedule.status === 'running' ? 'running' : null,
+        new Date(),
+        'Asia/Karachi'
+      )
+    : null
 
   // Determine Next Best Action in clear business language
   let nextBestAction = {
@@ -246,10 +314,6 @@ export default function TodayPage() {
     }
   }
 
-  const revenue = data?.revenue || { total: 0, recent: 0, currency: 'USD', source: 'unavailable' }
-  const revenueSource = revenue.source || 'unavailable'
-  const revenueUnavailable = revenueSource === 'unavailable' || revenueSource === 'NOT CONFIGURED'
-
   return (
     <div className="max-w-6xl">
       {/* Header with PKT Clock & Brain State */}
@@ -270,8 +334,14 @@ export default function TodayPage() {
           </div>
           <div className="h-6 w-px bg-slate-border" />
           <div className="text-right">
-            <p className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Next Cycle</p>
-            <p className="font-mono-data text-xs text-emerald-400 font-semibold">Every 6 Hours</p>
+            <p className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Next Scheduled Run</p>
+            <p
+              className={`font-mono-data text-xs font-semibold ${
+                nextScheduleLabel ? SCHEDULE_STATE_COLORS[nextScheduleLabel.state].split(' ')[2] : ''
+              }`}
+            >
+              {nextScheduleLabel?.label || 'No upcoming schedule'}
+            </p>
           </div>
         </div>
       </div>
@@ -444,7 +514,19 @@ export default function TodayPage() {
           <div className="mt-4 pt-4 border-t border-slate-border flex flex-wrap items-center gap-4 text-xs text-on-surface-variant">
             <span>
               <span className="font-medium text-on-background">Next scheduled: </span>
-              Brain cycle (every 6 hours)
+              {nextSchedule ? (
+                nextScheduleLabel ? (
+                  <span className={SCHEDULE_STATE_COLORS[nextScheduleLabel.state]}>
+                    {nextSchedule.key} · {nextScheduleLabel.label}
+                  </span>
+                ) : (
+                  'Schedule unavailable'
+                )
+              ) : data?.scheduleFetchOk ? (
+                'No schedules configured'
+              ) : (
+                'Schedule data unavailable'
+              )}
             </span>
             <span>
               <span className="font-medium text-on-background">Pending approvals: </span>
@@ -521,18 +603,46 @@ export default function TodayPage() {
         </h2>
         {data?.opportunities.length ? (
           <div className="space-y-2">
-            {data.opportunities.slice(0, 5).map((o) => (
-              <div key={o.id} className="bg-obsidian-deep border border-slate-border rounded p-3">
-                <div className="flex items-center justify-between">
-                  <p className="text-on-background text-sm font-medium">{o.title}</p>
-                  <span className="text-xs text-on-surface-variant">{o.confidence} confidence</span>
+            {data.opportunities.slice(0, 5).map((o) => {
+              const provenance = (o.provenance || '').toUpperCase()
+              const sourceUrl = o.source?.url
+              const isUnknown = provenance === 'UNKNOWN'
+              return (
+                <div
+                  key={o.id}
+                  className={`bg-obsidian-deep border rounded p-3 ${isUnknown ? 'border-red-900/50' : 'border-slate-border'}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="text-on-background text-sm font-medium">{o.title}</p>
+                    <span className="text-xs text-on-surface-variant">{o.confidence} confidence</span>
+                  </div>
+                  <p className="text-xs text-on-surface-variant mt-1">
+                    {o.category} · {o.status}
+                    {provenance ? ` · provenance ${provenance}` : ''}
+                  </p>
+                  {sourceUrl && (
+                    <p className="text-xs text-primary mt-1 truncate">
+                      Source: {o.source?.title || sourceUrl}
+                    </p>
+                  )}
+                  {isUnknown && (
+                    <p className="text-[10px] text-red-400 mt-1">
+                      Not actionable: provenance is UNKNOWN, so this record cannot drive a recommendation.
+                    </p>
+                  )}
+                  {o.unavailableData && o.unavailableData.length > 0 && (
+                    <p className="text-[10px] text-amber-400/80 mt-1">
+                      Unknown: {o.unavailableData.slice(0, 2).join(', ')}
+                    </p>
+                  )}
                 </div>
-                <p className="text-xs text-on-surface-variant mt-1">{o.category} · {o.status}</p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         ) : (
-          <p className="text-on-surface-variant text-sm">No verified opportunities detected yet.</p>
+          <p className="text-on-surface-variant text-sm">
+            No verified opportunities detected yet. Run a Brain cycle to generate recommendations.
+          </p>
         )}
       </section>
 

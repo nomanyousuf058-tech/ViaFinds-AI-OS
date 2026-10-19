@@ -1,5 +1,10 @@
 import { brainRepository } from '@/lib/db/repositories/brain';
 import { generateCorrelationId } from './types';
+import {
+  findSupportingArticleOpportunities,
+  persistSupportingArticleOpportunity,
+  type SupportingArticleOpportunity,
+} from './supportingArticleIntelligence';
 
 export interface BrainCycleResult {
   runId: string;
@@ -205,7 +210,32 @@ export class BrainCycle {
     phases.push(learningPhase);
     if (learningPhase.result) results.learning = learningPhase.result;
 
-    // Phase 7: Schedule Update
+    // Phase 7: Supporting-article scan
+    // A read-only inspection of the published article inventory that names
+    // genuine content gaps (question / "how to" headings that the article
+    // itself raises but does not fully answer). Every candidate is derived
+    // from real article text — no search volume or traffic is ever invented.
+    const supportingPhase = await this.runPhase('supporting_articles', async () => {
+      const candidates = await findSupportingArticleOpportunities(5);
+      let persisted = 0;
+      for (const candidate of candidates) {
+        const created = await persistSupportingArticleOpportunity(candidate);
+        if (created) persisted += 1;
+      }
+      return {
+        candidatesFound: candidates.length,
+        persisted,
+        candidates: candidates.map((c: SupportingArticleOpportunity) => ({
+          sourceArticleId: c.sourceArticleId,
+          candidateTopic: c.candidateTopic,
+          confidence: c.confidence,
+        })),
+      };
+    }, observations, failures);
+    phases.push(supportingPhase);
+    if (supportingPhase.result) results.supportingArticles = supportingPhase.result;
+
+    // Phase 8: Schedule Update
     const schedulePhase = await this.runPhase('schedules', async () => {
       return {
         note: 'Schedules updated. Next runs calculated.',
@@ -331,6 +361,25 @@ export class BrainCycle {
         phaseResult = await this.runPhase('schedules', async () => {
           return {
             note: 'Schedules updated. Next runs calculated.',
+          };
+        }, observations, failures);
+        break;
+      case 'supporting_articles':
+        phaseResult = await this.runPhase('supporting_articles', async () => {
+          const candidates = await findSupportingArticleOpportunities(5);
+          let persisted = 0;
+          for (const candidate of candidates) {
+            const created = await persistSupportingArticleOpportunity(candidate);
+            if (created) persisted += 1;
+          }
+          return {
+            candidatesFound: candidates.length,
+            persisted,
+            candidates: candidates.map((c: SupportingArticleOpportunity) => ({
+              sourceArticleId: c.sourceArticleId,
+              candidateTopic: c.candidateTopic,
+              confidence: c.confidence,
+            })),
           };
         }, observations, failures);
         break;
