@@ -128,7 +128,7 @@ export default function AutomationPage() {
     setOppsError(null)
     setAuthError(false)
     try {
-      const res = await fetch('/api/affiliate/opportunities')
+      const res = await fetch('/api/affiliate/opportunities', { credentials: 'include' })
       if (res.status === 401) {
         setAuthError(true)
         setOppsError('Admin authorization required. Please log in as an administrator.')
@@ -156,7 +156,7 @@ export default function AutomationPage() {
 
   const fetchJob = async (id: string) => {
     try {
-      const res = await fetch('/api/automation/jobs')
+      const res = await fetch('/api/automation/jobs', { credentials: 'include' })
       const json = await res.json()
       if (json.success) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -197,6 +197,7 @@ export default function AutomationPage() {
     try {
       const verifyRes = await fetch('/api/affiliate/verify-link', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           affiliateUrl: affiliateUrl.trim(),
@@ -207,7 +208,11 @@ export default function AutomationPage() {
       })
 
       if (verifyRes.status === 401) {
-        setVerifyError('Unauthorized. Admin credentials required to verify affiliate links.')
+        setVerifyError('Please sign in as an administrator to verify affiliate links.')
+        return
+      }
+      if (verifyRes.status === 403) {
+        setVerifyError('Your account does not have permission to verify affiliate links.')
         return
       }
 
@@ -225,6 +230,7 @@ export default function AutomationPage() {
       // Next evaluate publication readiness gate
       const checkRes = await fetch('/api/affiliate/publish-check', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           linkId: linkData.id,
@@ -254,6 +260,7 @@ export default function AutomationPage() {
     try {
       const res = await fetch('/api/automation/run', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'manual_affiliate',
@@ -279,6 +286,7 @@ export default function AutomationPage() {
     try {
       const res = await fetch('/api/automation/run', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'auto_partner', mode: 'auto', partnerName: selectedPartner }),
       })

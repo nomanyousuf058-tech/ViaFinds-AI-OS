@@ -9,6 +9,7 @@ const navItems = [
   { href: '/dashboard', label: 'Today', icon: 'home', short: 'Home' },
   { href: '/dashboard/articles', label: 'Articles', icon: 'edit_note', short: 'Content' },
   { href: '/dashboard/revenue', label: 'Revenue', icon: 'trending_up', short: 'Growth' },
+  { href: '/dashboard/automation', label: 'Affiliate Automation', icon: 'auto_awesome', short: 'Automation' },
   { href: '/dashboard/analytics', label: 'Analytics', icon: 'analytics', short: 'Analytics' },
   { href: '/dashboard/brain', label: 'AI Brain', icon: 'psychology', short: 'Brain' },
   { href: '/dashboard/calendar', label: 'Schedule', icon: 'calendar_month', short: 'Schedule' },
