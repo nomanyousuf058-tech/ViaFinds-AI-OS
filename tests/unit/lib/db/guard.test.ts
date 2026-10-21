@@ -3,6 +3,8 @@ import {
   validateStagingDatabase,
   validateSupabaseClientUrl,
   extractProjectRef,
+  resolveDatabaseIdentityFromUrl,
+  isSameDatabaseIdentity,
   DatabaseGuardError,
   KNOWN_PRODUCTION_PROJECT_REF,
 } from '@/lib/db/guard'
@@ -282,6 +284,172 @@ describe('Database Guard — Staging Isolation & Fail-Closed Safeguards', () => 
     it('rejects missing or malformed client URL', () => {
       expect(() => validateSupabaseClientUrl('')).toThrow('missing or empty')
       expect(() => validateSupabaseClientUrl('not-a-valid-url')).toThrow('malformed')
+    })
+  })
+
+  describe('Primary/Staging Collision Detection (independent of expected-identity)', () => {
+    it('rejects identical primary and staging URLs even when expected identity is configured', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        'DATABASE_staging-URL': STAGING_URL,
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      expect(() => validateStagingDatabase(env)).toThrow(DatabaseGuardError)
+      expect(() => validateStagingDatabase(env)).toThrow('same database as the primary database')
+    })
+
+    it('rejects identical primary and staging URLs even when expected identity is NOT configured', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        'DATABASE_staging-URL': STAGING_URL,
+      }
+      // Collision detection runs before the expected-identity check, so the
+      // collision is reported rather than the missing-identity message.
+      expect(() => validateStagingDatabase(env)).toThrow(DatabaseGuardError)
+      expect(() => validateStagingDatabase(env)).toThrow('same database as the primary database')
+    })
+
+    it('rejects same Supabase project ref reached via different URL formatting', () => {
+      const sameRefDifferentFormat = `postgresql://postgres.${STAGING_REF}:${SECRET_PASS}@db.${STAGING_REF}.supabase.co:5432/postgres`
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        'DATABASE_staging-URL': sameRefDifferentFormat,
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      expect(() => validateStagingDatabase(env)).toThrow(DatabaseGuardError)
+      expect(() => validateStagingDatabase(env)).toThrow('same database as the primary database')
+    })
+
+    it('accepts different verified project identities when all existing checks pass', () => {
+      const otherRef = 'staging-vfinds-9933'
+      const otherUrl = `postgresql://postgres.${otherRef}:${SECRET_PASS}@db.${otherRef}.supabase.co:5432/postgres`
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        'DATABASE_staging-URL': otherUrl,
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      const result = validateStagingDatabase(env)
+      expect(result.ok).toBe(true)
+      expect(result.sanitizedProjectRef).toBe(STAGING_REF)
+    })
+
+    it('accepts when only the primary URL is configured (no staging URL to compare)', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      const result = validateStagingDatabase(env)
+      expect(result.ok).toBe(true)
+    })
+
+    it('fails closed on a malformed staging URL rather than treating it as isolated', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        'DATABASE_staging-URL': 'this_is_not_a_valid_url',
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      expect(() => validateStagingDatabase(env)).toThrow(DatabaseGuardError)
+      expect(() => validateStagingDatabase(env)).toThrow('could not be parsed for collision comparison')
+    })
+
+    it('fails closed on a malformed primary URL rather than treating it as isolated', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: 'this_is_not_a_valid_url',
+        'DATABASE_staging-URL': STAGING_URL,
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      expect(() => validateStagingDatabase(env)).toThrow(DatabaseGuardError)
+      expect(() => validateStagingDatabase(env)).toThrow('malformed')
+    })
+
+    it('treats different database names on the same host as distinct', () => {
+      const primary = resolveDatabaseIdentityFromUrl(
+        `postgresql://postgres.${STAGING_REF}:${SECRET_PASS}@db.${STAGING_REF}.supabase.co:5432/postgres`
+      )
+      const otherDb = resolveDatabaseIdentityFromUrl(
+        `postgresql://postgres.${STAGING_REF}:${SECRET_PASS}@db.${STAGING_REF}.supabase.co:5432/otherdb`
+      )
+      expect(isSameDatabaseIdentity(primary, otherDb)).toBe(false)
+    })
+
+    it('treats an identity with no detectable project ref as not identical to one that has one', () => {
+      const regional = resolveDatabaseIdentityFromUrl(
+        `postgresql://postgres:${SECRET_PASS}@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres`
+      )
+      const withRef = resolveDatabaseIdentityFromUrl(
+        `postgresql://postgres.${STAGING_REF}:${SECRET_PASS}@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres`
+      )
+      expect(isSameDatabaseIdentity(regional, withRef)).toBe(false)
+    })
+  })
+
+  describe('Local development behavior remains correct', () => {
+    it('accepts localhost with allowLocalDev and expected local identity', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: 'postgresql://postgres:pass@localhost:5432/viafinds',
+        EXPECTED_STAGING_DB_HOST: 'localhost',
+      }
+      const result = validateStagingDatabase(env, { allowLocalDev: true })
+      expect(result.ok).toBe(true)
+      expect(result.sanitizedProjectRef).toBe('local')
+    })
+
+    it('rejects localhost without allowLocalDev even with expected identity', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: 'postgresql://postgres:pass@localhost:5432/viafinds',
+        EXPECTED_STAGING_DB_HOST: 'localhost',
+      }
+      expect(() => validateStagingDatabase(env)).toThrow(DatabaseGuardError)
+      expect(() => validateStagingDatabase(env)).toThrow('not permitted for staging operations')
+    })
+
+    it('does not report a collision between a remote primary and a local staging URL', () => {
+      // The active target is the primary URL; the collision check compares it
+      // against the staging URL and finds different hosts, so it passes. The
+      // subsequent expected-identity check then applies to the active target.
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        'DATABASE_staging-URL': 'postgresql://postgres:pass@localhost:5432/viafinds',
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      // Collision check passes (different hosts); expected-identity check
+      // passes against the active remote target.
+      const result = validateStagingDatabase(env)
+      expect(result.ok).toBe(true)
+    })
+
+    it('does not block a local primary/local staging pair through the collision rule', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: 'postgresql://postgres:pass@localhost:5432/viafinds',
+        'DATABASE_staging-URL': 'postgresql://postgres:pass@localhost:5432/viafinds',
+        EXPECTED_STAGING_DB_HOST: 'localhost',
+      }
+      // Local targets are exempt from the collision rule; the existing
+      // local-development allowance is the authoritative check.
+      const result = validateStagingDatabase(env, { allowLocalDev: true })
+      expect(result.ok).toBe(true)
+      expect(result.sanitizedProjectRef).toBe('local')
+    })
+  })
+
+  describe('Collision error messages never expose credentials', () => {
+    it('does not reveal the password or full URL in the collision message', () => {
+      const env: NodeJS.ProcessEnv = {
+        DATABASE_URL: STAGING_URL,
+        'DATABASE_staging-URL': STAGING_URL,
+        EXPECTED_STAGING_PROJECT_REF: STAGING_REF,
+      }
+      try {
+        validateStagingDatabase(env)
+        throw new Error('Should have thrown DatabaseGuardError')
+      } catch (err) {
+        expect(err).toBeInstanceOf(DatabaseGuardError)
+        const guardError = err as DatabaseGuardError
+        expect(guardError.message).not.toContain(SECRET_PASS)
+        expect(guardError.message).not.toContain('postgresql://')
+        expect(guardError.message).not.toContain(`postgres.${STAGING_REF}`)
+        expect(guardError.message).toContain('same database as the primary database')
+      }
     })
   })
 })

@@ -18,6 +18,7 @@ import {
 import {
   confirmAffiliateAttribution,
   evaluatePublicationReadiness,
+  isProductVerified,
   validateAffiliateUrlFormat,
   verifyAffiliateUrlRedirect,
   verifyProductAssociation,
@@ -256,6 +257,14 @@ export class ManualAffiliateWorkflow {
 
   /**
    * Final publication readiness check.
+   *
+   * Product verification is decided by the authoritative rule in
+   * `isProductVerified`: a product counts as verified only when backed by
+   * independently verifiable evidence (Digistore24 live API confirmation, or a
+   * non-Digistore24 provider verification recorded with explicit evidence
+   * text and a timestamp). A non-empty salesPageUrl, vendorWebsite, or
+   * affiliate URL is useful vendor evidence but must NOT by itself satisfy
+   * the product-verification gate.
    */
   public checkPublication(params: {
     productOpportunity: ProductOpportunity | null;
@@ -266,11 +275,8 @@ export class ManualAffiliateWorkflow {
     ownerApproved?: boolean;
     isDegraded?: boolean;
   }): PublicationReadiness {
-    const hasVerifiedProduct = Boolean(
-      params.productOpportunity &&
-        (params.productOpportunity.digistore24Status === 'VERIFIED' ||
-          Boolean(params.productOpportunity.salesPageUrl))
-    );
+    const opp = params.productOpportunity ?? null;
+    const hasVerifiedProduct = isProductVerified(opp);
 
     return evaluatePublicationReadiness({
       hasVerifiedProduct,

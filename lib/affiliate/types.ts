@@ -54,6 +54,9 @@ export interface ProductOpportunity {
   lastVerifiedAt: string                        // ISO timestamp
   digistore24Status: Digistore24ListingStatus
   digistore24ProductId: string | null
+  providerVerified: boolean                      // true only when a non-Digistore24 provider has been independently verified
+  providerVerificationEvidence?: string | null   // the specific evidence that supports providerVerified (never auto-inferred)
+  providerVerificationCheckedAt?: string | null  // ISO timestamp when providerVerified was established
   affiliateInstructions: string | null          // how to apply / promote
   price: string | null                          // only when backed by evidence
   commission: string | null                     // only when backed by evidence

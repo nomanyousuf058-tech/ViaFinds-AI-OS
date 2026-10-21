@@ -20,6 +20,12 @@ jest.mock('@/lib/search-intelligence/GA4Service', () => {
   return {
     GA4Service: jest.fn().mockImplementation(() => ({
       checkAccess: jest.fn().mockResolvedValue({ status: 'connected', propertyId: 'properties/12345' }),
+      getSummary: jest.fn().mockResolvedValue({
+        totalUsers: 5,
+        totalSessions: 7,
+        totalPageViews: 12,
+        topPages: [],
+      }),
     })),
   }
 })
@@ -129,6 +135,7 @@ describe('Cron Sync Route (/api/cron/sync)', () => {
   it('handles database query errors gracefully without failing the sync response', async () => {
     ;(query as jest.Mock)
       .mockRejectedValueOnce(new Error('DB Connection Timeout'))
+      .mockRejectedValueOnce(new Error('Jobs query error'))
       .mockRejectedValueOnce(new Error('Audit log error'))
 
     const req = makeRequest({ authorization: 'Bearer test-cron-secret' })
@@ -140,5 +147,9 @@ describe('Cron Sync Route (/api/cron/sync)', () => {
     expect(json.services.database.status).toBe('error')
     expect(json.services.database.publishedArticles).toBe(0)
     expect(json.services.database.queuedJobs).toBe(0)
+    // P0: Analytics is isolated from DB failures. A successful GA4 read
+    // reports real traffic even when the database is down.
+    expect(json.analytics.ok).toBe(true)
+    expect(json.analytics.totalVisitors).toBe(5)
   })
 })

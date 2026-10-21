@@ -76,6 +76,13 @@ export async function POST(request: Request) {
       lastVerifiedAt: now,
       digistore24Status: body.digistore24ProductId ? 'NEEDS_MANUAL_CHECK' : 'NOT_FOUND',
       digistore24ProductId: body.digistore24ProductId || null,
+      providerVerified: body.providerVerified === true,
+      providerVerificationEvidence: body.providerVerified === true
+        ? (typeof body.providerVerificationEvidence === 'string' && body.providerVerificationEvidence.trim().length > 0
+            ? body.providerVerificationEvidence.trim()
+            : 'Manual admin submission: provider presence recorded without independently verifiable evidence. Treat as unverified until evidence is supplied.')
+        : null,
+      providerVerificationCheckedAt: body.providerVerified === true ? (new Date().toISOString()) : null,
       affiliateInstructions: body.affiliateInstructions || null,
       price: body.price || null,
       commission: body.commission || null,

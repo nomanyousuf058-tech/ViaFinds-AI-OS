@@ -122,6 +122,11 @@ export default function AutomationPage() {
   // Auto mode state
   const [selectedPartner, setSelectedPartner] = useState('digistore24')
 
+  // Owner approval state — explicit, separate from attribution confirmation.
+  // The owner must review the evidence and click this button to grant
+  // publication approval. It is never inferred from attribution alone.
+  const [ownerApprovesPublication, setOwnerApprovesPublication] = useState(false)
+
   // Fetch opportunities from API
   const fetchOpportunities = async () => {
     setOppsLoading(true)
@@ -183,6 +188,7 @@ export default function AutomationPage() {
     setCtaPreview(null)
     setReadinessResult(null)
     setVerifyError(null)
+    setOwnerApprovesPublication(false)
   }
 
   // Verify pasted affiliate URL
@@ -193,6 +199,7 @@ export default function AutomationPage() {
     setVerificationResult(null)
     setCtaPreview(null)
     setReadinessResult(null)
+    setOwnerApprovesPublication(false)
 
     try {
       const verifyRes = await fetch('/api/affiliate/verify-link', {
@@ -227,7 +234,11 @@ export default function AutomationPage() {
       setVerificationResult(linkData.verification)
       setCtaPreview(verifyData.data.preview)
 
-      // Next evaluate publication readiness gate
+      // Next evaluate publication readiness gate.
+      // ownerApproved is sent from the explicit ownerApprovesPublication
+      // checkbox, NOT from linkData.ownerApproved. The link's own
+      // ownerApproved flag records attribution confirmation; the checkbox
+      // records the separate, explicit publication approval.
       const checkRes = await fetch('/api/affiliate/publish-check', {
         method: 'POST',
         credentials: 'include',
@@ -237,7 +248,7 @@ export default function AutomationPage() {
           productOpportunityId: selectedOpportunity?.id || null,
           coverImageUrl: 'https://placehold.co/1200x630/2c3e50/ffffff.png?text=Product+Cover',
           qualityStatus: 'PASS',
-          ownerApproved: linkData.ownerApproved,
+          ownerApproved: ownerApprovesPublication,
         }),
       })
 
@@ -309,6 +320,7 @@ export default function AutomationPage() {
     setCtaPreview(null)
     setReadinessResult(null)
     setVerifiedLinkId(null)
+    setOwnerApprovesPublication(false)
   }
 
   const stages = mode === 'manual' ? MANUAL_STAGES : AUTO_STAGES
@@ -674,7 +686,7 @@ export default function AutomationPage() {
                           {/* Unresolved info alert for NEEDS_MANUAL_CHECK */}
                           {isManualCheck && (
                             <div className="p-3 bg-amber-950/20 border border-amber-500/20 rounded mb-4 text-xs text-amber-200/90 leading-relaxed">
-                              <strong>Marketplace Note:</strong> No active Digistore24 product ID is currently configured for this product. Having a public vendor site does <em>not</em> imply it is listed on your Digistore24 affiliate account. Obtain a genuine promo link from the vendor portal or Digistore24 marketplace.
+                              <strong>Marketplace Note:</strong> No active Digistore24 product ID is currently configured for this product. Having a public vendor site does <em>not</em> imply it is listed on your Digistore24 affiliate account. To verify this product for publication, obtain a genuine promo link from the vendor portal or Digistore24 marketplace, then paste it into the Link Verification form below. The system will validate the redirect destination against this product&rsquo;s verified sales page.
                             </div>
                           )}
 
@@ -855,7 +867,7 @@ export default function AutomationPage() {
                       )}
                     </button>
 
-                    {verificationResult?.level === 'AFFILIATE_CONFIRMED' && readinessResult?.ready && (
+                    {verificationResult?.level === 'AFFILIATE_CONFIRMED' && readinessResult?.ready && ownerApprovesPublication && (
                       <button
                         onClick={handleRunManual}
                         disabled={loading}
@@ -987,6 +999,67 @@ export default function AutomationPage() {
                     </div>
                   )}
 
+                  {/* Attribution Confirmation — explicit owner action */}
+                  {verificationResult.level !== 'UNVERIFIED' && (
+                    <div className={`p-4 rounded-lg border text-xs ${
+                      verificationResult.affiliateConfirmed
+                        ? 'bg-emerald-950/20 border-emerald-500/30 text-emerald-200'
+                        : 'bg-amber-950/20 border-amber-500/30 text-amber-200'
+                    }`}>
+                      <div className="flex items-start gap-3">
+                        <span className={`material-symbols-outlined mt-0.5 ${verificationResult.affiliateConfirmed ? 'text-emerald-400' : 'text-amber-400'}`}>
+                          {verificationResult.affiliateConfirmed ? 'check_circle' : 'how_to_reg'}
+                        </span>
+                        <div className="flex-1">
+                          <strong className="block mb-1">
+                            {verificationResult.affiliateConfirmed ? 'Attribution Confirmed' : 'Attribution Not Yet Confirmed'}
+                          </strong>
+                          <p className="leading-relaxed mb-2">
+                            {verificationResult.affiliateConfirmed
+                              ? 'The affiliate ID embedded in this promo link matches your owner affiliate ID. Attribution is confirmed.'
+                              : 'To confirm attribution, enter your verified owner affiliate ID in the field above. The system compares it against the affiliate ID embedded in the promo link URL. A match is required — a redirect that resolves does NOT prove attribution.'}
+                          </p>
+                          {verificationResult.affiliateConfirmed && ownerAffiliateId && (
+                            <p className="font-mono-data text-[11px] text-emerald-300/80">
+                              Confirmed owner affiliate ID: <strong>{ownerAffiliateId}</strong>
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Owner Publication Approval — explicit, separate action */}
+                  <div className={`p-4 rounded-lg border text-xs ${
+                    ownerApprovesPublication
+                      ? 'bg-emerald-950/20 border-emerald-500/30 text-emerald-200'
+                      : 'bg-surface-container/40 border-slate-border text-on-surface-variant'
+                  }`}>
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={ownerApprovesPublication}
+                        onChange={(e) => setOwnerApprovesPublication(e.target.checked)}
+                        disabled={isVerifyingLink || loading}
+                        className="mt-0.5 w-4 h-4 accent-primary"
+                      />
+                      <span className="flex-1">
+                        <span className="flex items-center gap-1.5 font-bold">
+                          <span className="material-symbols-outlined text-sm">
+                            {ownerApprovesPublication ? 'check_circle' : 'radio_button_unchecked'}
+                          </span>
+                          Explicit Owner Publication Approval
+                        </span>
+                        <p className="leading-relaxed mt-1 text-slate-300">
+                          I have reviewed the verified product evidence, the destination URL, the affiliate attribution confirmation, and the customer-facing CTA preview. I explicitly grant approval to publish this article with this affiliate link.
+                        </p>
+                        <p className="leading-relaxed mt-1 text-slate-400 text-[11px]">
+                          This is a separate action from attribution confirmation. Attribution confirms the link is yours; this checkbox grants publication approval. Neither is inferred from the other. The publication gate will remain fail-closed until both are satisfied.
+                        </p>
+                      </span>
+                    </label>
+                  </div>
+
                   {/* Errors and Warnings List */}
                   {verificationResult.errors.length > 0 && (
                     <div className="p-3 bg-red-950/20 border border-red-500/30 rounded text-xs text-red-300">
@@ -1097,8 +1170,12 @@ export default function AutomationPage() {
                               <li key={idx}>{b}</li>
                             ))}
                           </ul>
-                          <div className="pt-2 border-t border-red-500/20 text-slate-300 font-mono-data text-[11px]">
-                            <strong>Next Action Needed:</strong> Ensure the link is confirmed with your owner affiliate ID and editorial Quality Gate passes before publishing to live CMS.
+                          <div className="pt-2 border-t border-red-500/20 text-slate-300 font-mono-data text-[11px] space-y-1">
+                            <div><strong>Next Action Needed:</strong></div>
+                            <div>1. Confirm attribution by entering your verified owner affiliate ID and re-running verification.</div>
+                            <div>2. Check the &ldquo;Explicit Owner Publication Approval&rdquo; checkbox after reviewing the CTA preview and evidence.</div>
+                            <div>3. Ensure the editorial Quality Gate passes before publishing to live CMS.</div>
+                            <div className="pt-1 text-slate-400">The publication gate remains fail-closed until every check passes. No check is auto-approved.</div>
                           </div>
                         </div>
                       )}

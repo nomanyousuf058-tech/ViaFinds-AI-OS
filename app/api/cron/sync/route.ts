@@ -32,9 +32,15 @@ async function runSync() {
   const scService = new SearchConsoleService()
   const ga4Service = new GA4Service()
 
-  const [scStatus, ga4Status] = await Promise.all([
+  const [scStatus, ga4Status, ga4Summary] = await Promise.all([
     scService.checkAccess().catch((err) => ({ status: 'error', error: err.message, sitesCount: 0 })),
     ga4Service.checkAccess().catch((err) => ({ status: 'error', error: err.message, propertyId: '' })),
+    // GA4 summary is the authoritative traffic source. It is fetched in
+    // isolation so a GA4 outage cannot take the whole sync down.
+    ga4Service.getSummary(30).catch((err) => {
+      logger.error('GA4 summary fetch failed', undefined, { error: String(err) })
+      return null
+    }),
   ])
 
   // Query database health & counts
@@ -74,6 +80,15 @@ async function runSync() {
       searchConsole: scStatus,
       googleAnalytics4: ga4Status,
       database: { status: dbStatus, publishedArticles: articlesCount, queuedJobs: jobsCount },
+    },
+    // P0: Traffic must come from a real analytics read, never from a hardcoded
+    // value. `ok` is false when the summary could not be fetched, so the
+    // dashboard can distinguish "zero visits" from "data unavailable".
+    analytics: {
+      ok: ga4Summary !== null,
+      totalVisitors: ga4Summary ? ga4Summary.totalUsers : null,
+      totalPageviews: ga4Summary ? ga4Summary.totalPageViews : null,
+      error: ga4Summary === null && ga4Status.status === 'error' ? ga4Status.error : null,
     },
   }
 }

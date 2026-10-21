@@ -14,6 +14,7 @@ import {
   ALLOWED_AFFILIATE_DOMAINS,
   LinkVerificationResult,
   ManualAffiliateLink,
+  ProductOpportunity,
   PublicationReadiness,
 } from './types';
 
@@ -424,6 +425,39 @@ export function confirmAffiliateAttribution(
     },
     updatedAt: new Date().toISOString(),
   };
+}
+
+/**
+ * Authoritative product-verification rule.
+ *
+ * A product counts as verified for publication ONLY when backed by
+ * independently verifiable evidence:
+ *   - Digistore24: the marketplace listing has been confirmed live via the
+ *     Digistore24 API (digistore24Status === 'VERIFIED').
+ *   - Any other supported partner: the provider has been independently
+ *     verified and that verification is recorded with explicit evidence
+ *     text and a timestamp (providerVerified === true AND
+ *     providerVerificationEvidence is a non-empty string).
+ *
+ * A non-empty salesPageUrl, vendorWebsite, or affiliate URL is useful vendor
+ * evidence but must NEVER by itself satisfy the product-verification gate.
+ * A bare providerVerified: true flag with no supporting evidence string is
+ * also rejected — the flag alone cannot prove anything.
+ */
+export function isProductVerified(opp: ProductOpportunity | null | undefined): boolean {
+  if (!opp) return false;
+
+  if (opp.digistore24Status === 'VERIFIED') return true;
+
+  if (
+    opp.providerVerified === true &&
+    typeof opp.providerVerificationEvidence === 'string' &&
+    opp.providerVerificationEvidence.trim().length > 0
+  ) {
+    return true;
+  }
+
+  return false;
 }
 
 /**

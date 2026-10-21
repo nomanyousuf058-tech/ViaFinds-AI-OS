@@ -31,7 +31,11 @@ export type WorkerOutcome = {
   automationJobId?: string;
   articleId?: string;
   qualityResultId?: string;
-  publicUrl?: string;
+  // P0: Ordinary Brain generation persists a DRAFT. The owner-controlled
+  // PATCH /api/articles/[id] flow is the only path to a public article, so
+  // there is no public URL at this stage. `draftUrl` is an internal editor
+  // link, never a public address.
+  draftUrl?: string;
 };
 
 /**
@@ -429,13 +433,19 @@ export class BrainTaskWorker {
     }
 
     const articleId = publishedJob.result.articleId as string;
-    // runPublishDraft records the slug as `publishedUrl`; older job shapes use
-    // `slug`. Read both so a real URL is always available for verification.
+    // runPublishDraft persists a draft by default. The slug is recorded as
+    // `publishedUrl`; older job shapes use `slug`. Read both so a real URL is
+    // always available for verification.
     const slug = String(publishedJob.result.publishedUrl || publishedJob.result.slug || '');
-    const publicUrl = slug
+    // P0: Ordinary Brain generation produces a DRAFT. The article is not public
+    // until the owner invokes the explicitly authorized PATCH
+    // /api/articles/[id] flow (status='published'). There is no public URL at
+    // this stage; report the draft slug for owner navigation instead of a
+    // fabricated public URL.
+    const draftUrl = slug
       ? slug.startsWith('http')
         ? slug
-        : `https://viafinds.com/articles/${slug}`
+        : `/articles/${slug}`
       : undefined;
 
     // ── Step 8: verify the article really exists with the right lineage ──
@@ -446,6 +456,22 @@ export class BrainTaskWorker {
         claimToken,
         `Article ${articleId} was reported by the pipeline but is not in the database`
       );
+    }
+
+    // P0: A Brain-generated article must never be public yet. If the pipeline
+    // persisted it as 'published', the draft-only contract was violated and the
+    // task must fail loudly rather than silently report success.
+    if (article.status === 'published') {
+      const reason = `Pipeline persisted article ${articleId} as status='published' without owner-controlled publication`;
+      await this.recordEvidence(taskId, claimToken, {
+        approvalId: decision.approvalId,
+        automationJobId: jobId,
+        articleId,
+        blockedAt: 'publishing',
+        violation: reason,
+      });
+      await brainRepository.setExecutionPlanState(planId, 'failed', { completedAt: new Date().toISOString() });
+      return this.failTask(taskId, claimToken, reason);
     }
 
     const lineageProblems: string[] = [];
@@ -510,7 +536,7 @@ export class BrainTaskWorker {
       approvalDecidedAt: decision.decidedAt,
       automationJobId: jobId,
       articleId,
-      publicUrl,
+      draftUrl,
       slug,
       prePublicationQualityResultId: preQuality?.id ?? null,
       qualityResultId: postQuality?.id ?? null,
@@ -523,7 +549,7 @@ export class BrainTaskWorker {
 
     await brainRepository.updateClaimedTask(taskId, claimToken, {
       status: 'completed',
-      recommendation: `Published article ${articleId} from automation job ${jobId} under approval ${decision.approvalId}`,
+      recommendation: `Saved draft article ${articleId} from automation job ${jobId} under approval ${decision.approvalId}. Awaiting owner review and explicit publication.`,
       completedAt: true,
     });
 
@@ -537,7 +563,7 @@ export class BrainTaskWorker {
       automationJobId: jobId,
       articleId,
       qualityResultId: postQuality?.id ?? undefined,
-      publicUrl,
+      draftUrl,
     };
   }
 

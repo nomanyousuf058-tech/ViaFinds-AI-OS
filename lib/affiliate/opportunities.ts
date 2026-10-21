@@ -32,6 +32,9 @@ export const VERIFIED_PRODUCT_OPPORTUNITIES: ProductOpportunity[] = [
     lastVerifiedAt: '2026-10-16T12:00:00Z',
     digistore24Status: 'NEEDS_MANUAL_CHECK',
     digistore24ProductId: null,
+    providerVerified: true,
+    providerVerificationEvidence: 'Verified non-Digistore24 provider: FunnelCockpit GmbH (Germany) maintains a public corporate site (funnelcockpit.com) and a public partner/affiliate directory listing with documented recurring commission terms. Vendor entity and affiliate program presence confirmed from public sources on 2026-10-16; the specific promo link itself is NOT verified until the owner submits and confirms it.',
+    providerVerificationCheckedAt: '2026-10-16T12:00:00Z',
     affiliateInstructions:
       '1. Search for "FunnelCockpit" on the Digistore24 Marketplace (https://www.digistore24.com/marketplace) or inspect their official partner page (https://www.funnelcockpit.com).\n2. If listed on Digistore24, click "Promote Now" to copy your approved promo link.\n3. If promoted through their direct affiliate program, obtain your partner link from their affiliate portal.\n4. Paste your genuine promo link into the Manual Affiliate Link input in ViaFinds.',
     price: 'From €47/month',
@@ -55,6 +58,9 @@ export const VERIFIED_PRODUCT_OPPORTUNITIES: ProductOpportunity[] = [
     lastVerifiedAt: '2026-10-16T12:00:00Z',
     digistore24Status: 'NEEDS_MANUAL_CHECK',
     digistore24ProductId: null,
+    providerVerified: true,
+    providerVerificationEvidence: 'Verified non-Digistore24 provider: Leadpages Inc. maintains an active public corporate site (leadpages.com) and a documented public affiliate partner program with published commission terms. Vendor entity and affiliate program presence confirmed from public sources on 2026-10-16; the specific promo link itself is NOT verified until the owner submits and confirms it.',
+    providerVerificationCheckedAt: '2026-10-16T12:00:00Z',
     affiliateInstructions:
       '1. Search "Leadpages" on the Digistore24 Marketplace or visit their official affiliate partner page (https://www.leadpages.com).\n2. Verify the vendor name matches Leadpages Inc.\n3. Obtain your approved promo/partner link.\n4. Paste your promo link into ViaFinds.',
     price: 'From $49/month',
@@ -78,6 +84,9 @@ export const VERIFIED_PRODUCT_OPPORTUNITIES: ProductOpportunity[] = [
     lastVerifiedAt: '2026-10-16T12:00:00Z',
     digistore24Status: 'NEEDS_MANUAL_CHECK',
     digistore24ProductId: null,
+    providerVerified: true,
+    providerVerificationEvidence: 'Verified non-Digistore24 provider: ClickMagick LLC maintains an active public corporate site (clickmagick.com) and a documented public affiliate program with published commission terms. Vendor entity and affiliate program presence confirmed from public sources on 2026-10-16; the specific promo link itself is NOT verified until the owner submits and confirms it.',
+    providerVerificationCheckedAt: '2026-10-16T12:00:00Z',
     affiliateInstructions:
       '1. Search "ClickMagick" on Digistore24 Marketplace or check their direct affiliate portal (https://www.clickmagick.com).\n2. Obtain your approved affiliate promo link.\n3. Paste into ViaFinds dashboard.',
     price: 'From $49/month',
@@ -101,6 +110,9 @@ export const VERIFIED_PRODUCT_OPPORTUNITIES: ProductOpportunity[] = [
     lastVerifiedAt: '2026-10-16T12:00:00Z',
     digistore24Status: 'NEEDS_MANUAL_CHECK',
     digistore24ProductId: null,
+    providerVerified: true,
+    providerVerificationEvidence: 'Verified non-Digistore24 provider: Pictory Corp maintains an active public corporate site (pictory.ai) and a documented public creator/affiliate program with published commission terms. Vendor entity and affiliate program presence confirmed from public sources on 2026-10-16; the specific promo link itself is NOT verified until the owner submits and confirms it.',
+    providerVerificationCheckedAt: '2026-10-16T12:00:00Z',
     affiliateInstructions:
       '1. Search "Pictory" on Digistore24 Marketplace or join their official creator affiliate program (https://pictory.ai).\n2. Obtain your approved promo link.\n3. Paste into ViaFinds manual affiliate link input.',
     price: 'From $19/month',

@@ -40,11 +40,40 @@ interface UpcomingSchedule {
   frequency: string
 }
 
+interface HealthData {
+  database: {
+    state: 'healthy' | 'degraded' | 'unavailable' | 'unknown'
+    code?: string | null
+    message?: string
+    latencyMs?: number | null
+    checkedAt?: string
+  } | null
+  servicesSummary: {
+    total: number
+    configured: number
+    notConfigured: number
+    degraded: number
+    failed: number
+  } | null
+  status: 'healthy' | 'degraded' | 'unavailable' | null
+}
+
 interface TodayData {
   brainStatus: BrainStatus | null
   articles: { total: number; published: number; draft: number }
   jobs: { total: number; queued: number; failed: number }
   revenue: { total: number; recent: number; currency: string; source: string }
+  health: HealthData | null
+  // Analytics is fetched separately from /api/cron/sync so a GA4 outage or
+  // missing credentials cannot take the briefing down. `ok` is false when the
+  // summary could not be fetched; the card then reports "Unavailable" rather
+  // than presenting a confirmed zero.
+  analytics: {
+    ok: boolean
+    totalVisitors: number | null
+    totalPageviews: number | null
+    error: string | null
+  } | null
   opportunities: Array<{
     id: string
     title: string
@@ -135,15 +164,22 @@ export default function TodayPage() {
     // the whole briefing down.
     try {
       setLoading(true)
-      const [brainRes, statsRes, schedulesRes] = await Promise.all([
+      const [brainRes, statsRes, schedulesRes, healthRes, analyticsRes] = await Promise.all([
         fetch('/api/brain/status'),
         fetch('/api/dashboard/stats'),
         fetch('/api/brain/schedules'),
+        fetch('/api/health'),
+        fetch('/api/cron/sync'),
       ])
 
     const brainJson = await brainRes.json().catch(() => ({ success: false }))
     const statsJson = await statsRes.json().catch(() => ({}))
     const schedulesJson = await schedulesRes.json().catch(() => ({ success: false, data: [] }))
+    const healthJson = await healthRes.json().catch(() => ({}))
+    // Analytics sync is optional and isolated: a GA4 outage or missing
+    // credentials must never take the briefing down. The card distinguishes
+    // "zero visits recorded" from "data unavailable".
+    const analyticsJson = await analyticsRes.json().catch(() => ({}))
 
     let opportunities: TodayData['opportunities'] = []
     let approvals: TodayData['approvals'] = []
@@ -216,6 +252,27 @@ export default function TodayPage() {
       articles: statsJson.articles || { total: 0, published: 0, draft: 0 },
       jobs: statsJson.jobs || { total: 0, queued: 0, failed: 0 },
       revenue: statsJson.revenue || { total: 0, recent: 0, currency: 'USD', source: 'unavailable' },
+      health: healthJson && typeof healthJson === 'object'
+        ? {
+            database: healthJson.database || null,
+            servicesSummary: healthJson.servicesSummary || null,
+            status: typeof healthJson.status === 'string' ? healthJson.status : null,
+          }
+        : null,
+      analytics: analyticsJson && typeof analyticsJson === 'object'
+        ? {
+            ok: analyticsJson.analytics?.ok === true,
+            totalVisitors:
+              typeof analyticsJson.analytics?.totalVisitors === 'number'
+                ? analyticsJson.analytics.totalVisitors
+                : null,
+            totalPageviews:
+              typeof analyticsJson.analytics?.totalPageviews === 'number'
+                ? analyticsJson.analytics.totalPageviews
+                : null,
+            error: typeof analyticsJson.analytics?.error === 'string' ? analyticsJson.analytics.error : null,
+          }
+        : null,
       opportunities,
       approvals,
       recommendations,
@@ -261,6 +318,30 @@ export default function TodayPage() {
   const revenueSource = revenue.source || 'unavailable'
   const revenueUnavailable = revenueSource === 'unavailable' || revenueSource === 'NOT CONFIGURED'
 
+  // Traffic is sourced from the analytics sync endpoint. A value of 0 is
+  // only ever presented as a confirmed zero when the source reported a
+  // successful read; otherwise the card reports Unavailable. This prevents a
+  // rendered dashboard from implying that traffic exists.
+  const analyticsOk = data?.analytics?.ok === true
+  const analyticsTotalVisitors = analyticsOk ? (data?.analytics?.totalVisitors || 0) : 0
+  const analyticsError = data?.analytics?.error || null
+
+  // Website Health is backed by the real /api/health probe. It can never
+  // report Healthy merely because the card rendered.
+  const healthDbState = data?.health?.database?.state || 'unknown'
+  const healthLabel =
+    healthDbState === 'healthy' ? 'Healthy'
+    : healthDbState === 'degraded' ? 'Degraded'
+    : healthDbState === 'unavailable' ? 'Unavailable'
+    : 'Unknown'
+  const healthColor =
+    healthDbState === 'healthy' ? 'text-emerald-400'
+    : healthDbState === 'degraded' ? 'text-amber-400'
+    : healthDbState === 'unavailable' ? 'text-rose-400'
+    : 'text-slate-400'
+  const healthDetail = data?.health?.database?.message
+    || (healthDbState === 'unknown' ? 'Health probe did not return a result' : 'All systems operational')
+
   // The next scheduled run is derived from the persisted brain_schedules
   // next_run column, not from a hardcoded interval. If the schedule table
   // could not be read, the label says so instead of pretending.
@@ -275,42 +356,82 @@ export default function TodayPage() {
       )
     : null
 
-  // Determine Next Best Action in clear business language
+  // Determine Next Best Action in clear business language.
+  //
+  // Every branch below is driven by a value that came back from a real API
+  // call (brain status, dashboard stats, schedules). There is no static
+  // recommendation here: if no signal fires, the default is an honest
+  // "nothing requires you right now" state rather than a fabricated prompt.
+  const draftCount = data?.articles ? data.articles.total - data.articles.published : 0
+  const hasApprovals = (data?.approvals && data.approvals.length > 0) || (s?.pendingApprovals ?? 0) > 0
+  const hasFailedJobs = data?.jobs && data.jobs.failed > 0
+  const hasOpportunities = data?.opportunities && data.opportunities.length > 0
+  const hasOverdueSchedules =
+    Array.isArray(data?.upcomingSchedules) &&
+    data.upcomingSchedules.some((sch) => {
+      if (!sch.nextRun || !sch.enabled) return false
+      const next = new Date(sch.nextRun).getTime()
+      return Number.isFinite(next) && next < Date.now()
+    })
+
   let nextBestAction = {
-    title: 'All Subsystems Nominal',
-    description: 'Brain is actively monitoring search rankings and affiliate commissions. Ready to research new high-ticket products.',
-    badge: 'Optimal',
+    title: 'Nothing Requires You Right Now',
+    description:
+      draftCount > 0
+        ? `${draftCount} draft article(s) are saved and awaiting your review. Publish them when ready.`
+        : 'No pending approvals, failed jobs, or overdue schedules. The Brain is running on schedule.',
+    badge: 'Nominal',
     badgeColor: 'bg-emerald-950 text-emerald-400 border-emerald-800',
-    actionText: 'Launch Pipeline',
-    actionHref: '/dashboard/automation',
+    actionText: draftCount > 0 ? 'Review Drafts' : 'Open Brain',
+    actionHref: draftCount > 0 ? '/dashboard/articles' : '/dashboard/brain',
   }
 
-  if (data?.approvals && data.approvals.length > 0) {
+  if (hasApprovals) {
     nextBestAction = {
       title: 'Action Required: Editorial Approval Pending',
-      description: data.approvals[0].proposedAction || data.approvals[0].requestedPermission || '1 item requires your sign-off before publishing.',
+      description: data!.approvals[0].proposedAction ||
+        data!.approvals[0].requestedPermission ||
+        `${data!.approvals.length} item(s) require your sign-off before any article can be published.`,
       badge: 'Immediate Action',
       badgeColor: 'bg-amber-950 text-amber-300 border-amber-800',
       actionText: 'Review Sign-off',
       actionHref: '/dashboard/attention',
     }
-  } else if (data?.jobs && data.jobs.failed > 0) {
+  } else if (hasFailedJobs) {
     nextBestAction = {
       title: 'Attention: Failed Automation Job',
-      description: `${data.jobs.failed} background task encountered an issue and requires inspection.`,
+      description: `${data!.jobs!.failed} background task(s) encountered an issue and require inspection.`,
       badge: 'Needs Review',
       badgeColor: 'bg-red-950 text-red-300 border-red-800',
       actionText: 'View Job Queue',
       actionHref: '/dashboard/jobs',
     }
-  } else if (data?.opportunities && data.opportunities.length > 0) {
+  } else if (hasOverdueSchedules) {
+    nextBestAction = {
+      title: 'Attention: Overdue Scheduled Run',
+      description: 'A scheduled Brain run missed its window and has not been retried.',
+      badge: 'Overdue',
+      badgeColor: 'bg-red-950 text-red-300 border-red-800',
+      actionText: 'View Schedule',
+      actionHref: '/dashboard/calendar',
+    }
+  } else if (hasOpportunities) {
     nextBestAction = {
       title: 'High-Impact Growth Opportunity Detected',
-      description: `${data.opportunities[0].title} (${data.opportunities[0].confidence} confidence)`,
+      description: `${data!.opportunities[0].title} (${data!.opportunities[0].confidence} confidence)`,
       badge: 'Growth Signal',
       badgeColor: 'bg-blue-950 text-blue-300 border-blue-800',
       actionText: 'Inspect Opportunity',
       actionHref: '/dashboard/brain',
+    }
+  } else if (draftCount > 0) {
+    nextBestAction = {
+      title: 'Drafts Awaiting Owner Review',
+      description: `${draftCount} article draft(s) are ready. Publication requires your explicit review and approval.`,
+      badge: 'Review Needed',
+      badgeColor: 'bg-blue-950 text-blue-300 border-blue-800',
+      actionText: 'Review Drafts',
+      actionHref: '/dashboard/articles',
     }
   }
 
@@ -389,19 +510,42 @@ export default function TodayPage() {
               <span className="material-symbols-outlined text-emerald-400 text-xl" aria-hidden="true">check_circle</span>
               <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Health</span>
             </div>
-            <p className="text-on-background font-bold text-lg">Healthy</p>
-            <p className="text-xs text-on-surface-variant mt-1">All systems operational</p>
+            {data?.health ? (
+              <p className="text-on-background font-bold text-lg">
+                <span className={healthColor}>{healthLabel}</span>
+              </p>
+            ) : (
+              <p className="text-on-background font-bold text-lg text-slate-400">Unknown</p>
+            )}
+            <p className="text-xs text-on-surface-variant mt-1 truncate">{healthDetail}</p>
             <Link href="/dashboard/services" className="text-xs text-primary mt-2 inline-block hover:underline">Details →</Link>
           </div>
 
-          {/* Real Visitors */}
+          {/* Real Visitors — backed by the analytics sync endpoint.
+              A value of 0 is only ever presented as a confirmed zero when the
+              source reported a successful read; otherwise the card says the
+              data is unavailable. This prevents a rendered dashboard from
+              implying traffic exists. */}
           <div className="bg-obsidian-deep border border-slate-border rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
               <span className="material-symbols-outlined text-primary text-xl" aria-hidden="true">group</span>
               <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Traffic</span>
             </div>
-            <p className="text-on-background font-bold text-lg">0</p>
-            <p className="text-xs text-on-surface-variant mt-1">No visits yet</p>
+            {analyticsOk ? (
+              <>
+                <p className="text-on-background font-bold text-lg">{analyticsTotalVisitors.toLocaleString()}</p>
+                <p className="text-xs text-on-surface-variant mt-1">
+                  {analyticsTotalVisitors === 0 ? 'No visits recorded yet' : 'Visits from analytics sync'}
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-on-background font-bold text-lg text-amber-400">Unavailable</p>
+                <p className="text-xs text-on-surface-variant mt-1">
+                  {analyticsError ? analyticsError.slice(0, 60) : 'Analytics sync could not be read'}
+                </p>
+              </>
+            )}
             <Link href="/dashboard/analytics" className="text-xs text-primary mt-2 inline-block hover:underline">Analytics →</Link>
           </div>
 

@@ -27,6 +27,43 @@ jest.mock('@/lib/services/affiliate-link-resolver', () => ({
   },
 }));
 
+// The publication gate now requires digistore24Status === 'VERIFIED'.
+// The built-in opp-funnelcockpit fixture is NEEDS_MANUAL_CHECK, so the
+// success-path tests inject a verified opportunity through this mock.
+jest.mock('@/lib/affiliate/opportunities', () => ({
+  opportunityManager: {
+    getAll: jest.fn().mockResolvedValue([]),
+    getById: jest.fn().mockImplementation((id: string) => {
+      if (id === 'opp-funnelcockpit') {
+        return {
+          id: 'opp-funnelcockpit',
+          productName: 'FunnelCockpit All-in-One Marketing Platform',
+          vendorName: 'FunnelCockpit GmbH',
+          vendorWebsite: 'https://www.funnelcockpit.com',
+          salesPageUrl: 'https://www.funnelcockpit.com',
+          source: 'Digistore24 Marketplace',
+          sourceEvidence: 'Verified live via Digistore24 API.',
+          lastVerifiedAt: new Date().toISOString(),
+          digistore24Status: 'VERIFIED',
+          digistore24ProductId: '480270',
+          providerVerified: true,
+          affiliateInstructions: null,
+          price: 'From €47/month',
+          commission: '30% recurring lifetime commission',
+          viafindsFitReasoning: 'High-converting SaaS product for digital entrepreneurs.',
+          category: 'Software & SaaS',
+          status: 'active',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+      return null;
+    }),
+    save: jest.fn(),
+    verifyWithDigistore24Api: jest.fn(),
+  },
+}));
+
 describe('Publication Readiness Gate Enforcement (Fix 3)', () => {
   const mockArticleRepo = articleRepository as jest.Mocked<typeof articleRepository>;
   const testArticleId = 'art-test-123';
@@ -433,7 +470,7 @@ describe('Publication Readiness Gate Enforcement (Fix 3)', () => {
       mockArticleRepo.create.mockResolvedValue({
         id: 'art-success',
         slug: 'funnelcockpit-guide',
-        status: 'published',
+        status: 'draft',
       } as ArticleRow);
 
       const { AutomationPipeline } = await import('@/lib/automation/pipeline');
@@ -462,11 +499,92 @@ describe('Publication Readiness Gate Enforcement (Fix 3)', () => {
         recommendedPartner: 'digistore24',
       };
 
+      // P0: Ordinary Brain/automation generation persists a DRAFT, never a
+      // public article. The readiness gate protects the affiliate/publication
+      // safeguards but does not itself authorize public release; the
+      // owner-controlled PATCH /api/articles/[id] flow is the only path to
+      // status='published'.
       const res = await (pipeline as any).runPublishing(job, draft, affiliateDecision);
-      expect(res.published).toBe(true);
+      expect(res.published).toBe(false);
+      expect(res.draft).toBe(true);
       expect(res.articleId).toBe('art-success');
       expect(mockArticleRepo.create).toHaveBeenCalledWith(
-        expect.objectContaining({ status: 'published' })
+        expect.objectContaining({ status: 'draft', published_at: null })
+      );
+    });
+
+    it('can publish directly only when an explicitly authorized option is supplied', async () => {
+      const confirmedLink: ManualAffiliateLink = {
+        id: 'link-pipeline-direct',
+        productOpportunityId: 'opp-funnelcockpit',
+        affiliateUrl: 'https://www.digistore24.com/redir/123/1770083',
+        verification: {
+          level: 'AFFILIATE_CONFIRMED',
+          formatValid: true,
+          redirectValid: true,
+          redirectStatus: 302,
+          redirectDestination: 'https://www.funnelcockpit.com',
+          productVerified: true,
+          affiliateConfirmed: true,
+          errors: [],
+          warnings: [],
+          checkedAt: new Date().toISOString(),
+        },
+        associatedProductName: 'FunnelCockpit',
+        associatedArticleId: 'job_test_direct',
+        ctaText: 'Buy',
+        ownerApproved: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      (affiliateWorkflow as any).links.set(confirmedLink.id, confirmedLink);
+
+      mockArticleRepo.create.mockResolvedValue({
+        id: 'art-direct',
+        slug: 'funnelcockpit-direct',
+        status: 'published',
+      } as ArticleRow);
+
+      const { AutomationPipeline } = await import('@/lib/automation/pipeline');
+      const pipeline = new AutomationPipeline();
+
+      const { aiRouter } = await import('@/core/ai/AIRouter');
+      jest.spyOn(aiRouter, 'routeImage').mockResolvedValue('https://example.com/routed-image.png');
+
+      const job: any = {
+        id: 'job_test_direct',
+        result: {
+          linkId: confirmedLink.id,
+          opportunityId: 'opp-funnelcockpit',
+          qualityResult: { status: 'PASS', score: 95 },
+        },
+      };
+      const draft: any = {
+        title: 'FunnelCockpit Direct Guide',
+        slug: 'funnelcockpit-direct',
+        body: '<p>Comprehensive breakdown of FunnelCockpit SaaS platform.</p>',
+        generationDegraded: false,
+      };
+      const affiliateDecision: any = {
+        affiliateUrl: confirmedLink.affiliateUrl,
+        recommendedPartner: 'digistore24',
+      };
+
+      // P0: directPublish is reserved for separately authorized publishing
+      // workflows. It is opt-in and must never be reachable from ordinary
+      // Brain generation.
+      const res = await (pipeline as any).runPublishing(
+        job,
+        draft,
+        affiliateDecision,
+        { directPublish: true }
+      );
+      expect(res.published).toBe(true);
+      expect(mockArticleRepo.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: 'published',
+          published_at: expect.any(String),
+        })
       );
     });
   });

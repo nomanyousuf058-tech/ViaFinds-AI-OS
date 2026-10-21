@@ -8,7 +8,7 @@ import { affiliateRepository } from '@/lib/db/repositories/affiliate'
 export async function GET() {
   try {
     await adminOnly()
-    
+
     const [
       totalArticles,
       publishedArticles,
@@ -18,6 +18,7 @@ export async function GET() {
       recentRuns,
       schedules,
       conversions,
+      publishedArticlesList,
     ] = await Promise.all([
       articleRepository.countAll(),
       articleRepository.countByStatus('published'),
@@ -27,14 +28,20 @@ export async function GET() {
       brainRepository.listRuns(5),
       brainRepository.listSchedules(true),
       affiliateRepository.listConversions(50),
+      // P0: Ordinary Brain generation persists a draft, not a public article.
+      // The only path to status='published' is the owner-controlled PATCH
+      // /api/articles/[id] flow, so the "last publish" metric must be derived
+      // from the article table rather than an automation job stage that no
+      // longer signals publication.
+      articleRepository.findPublished(1, 0),
     ])
 
     const queuedJobs = allJobs.filter(j => j.status === 'queued' || j.status === 'running' || j.status === 'retrying').length
     const totalJobs = allJobs.length
     const failedJobsCount = failedJobs.length
-    
+
     const lastRun = recentRuns[0] || null
-    const lastPublish = allJobs.find(j => j.status === 'completed' && j.stage === 'published') || null
+    const lastPublish = publishedArticlesList[0] || null
 
     // Revenue from conversions
     const totalRevenue = conversions.reduce((sum, c) => sum + (Number(c.commission) || 0), 0)
@@ -81,12 +88,17 @@ export async function GET() {
         } : null,
         lastPublish: lastPublish ? {
           id: String(lastPublish.id),
-          completedAt: String(lastPublish.completed_at),
+          slug: String(lastPublish.slug),
+          title: String(lastPublish.title),
+          publishedAt: lastPublish.published_at,
         } : null,
       },
     }
     return NextResponse.json(stats, { status: 200 })
-  } catch (error: any) {
-    return NextResponse.json({ error: 'Failed to fetch stats' }, { status: error?.status || 500 })
+  } catch (error: unknown) {
+    const status = (error && typeof error === 'object' && 'status' in error && typeof (error as { status: unknown }).status === 'number')
+      ? (error as { status: number }).status
+      : 500
+    return NextResponse.json({ error: 'Failed to fetch stats' }, { status })
   }
 }

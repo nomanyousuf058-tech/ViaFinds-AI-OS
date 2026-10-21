@@ -150,6 +150,97 @@ export function resolveDatabaseTarget(env: NodeJS.ProcessEnv = process.env): Res
 }
 
 /**
+ * Normalizes a database identity into the comparable components used by the
+ * guard. Two targets are considered the same database when every component
+ * that is present on both sides agrees.
+ *
+ * Identity components:
+ *   - projectRef: the Supabase project reference, extracted from the pooler
+ *     username (`postgres.<ref>`) or the hostname (`db.<ref>.supabase.co`,
+ *     `<ref>.supabase.co`, `<ref>.pooler.supabase.com`). Regional poolers
+ *     (`aws-0-...`, `gcp-0-...`) do not carry a project ref and yield null.
+ *   - host: the lowercased hostname.
+ *   - database: the path component of the connection URL.
+ *
+ * A missing component is represented as null and is treated as "unknown",
+ * never as proof of isolation.
+ */
+export type DatabaseIdentity = {
+  projectRef: string | null
+  host: string
+  database: string
+  isLocal: boolean
+}
+
+/**
+ * Parses a single connection URL into a comparable database identity.
+ * Used for collision detection between the primary and staging targets.
+ * Never throws: a malformed URL yields a sentinel identity that can never
+ * match a valid one, so callers fail closed rather than guessing.
+ */
+export function resolveDatabaseIdentityFromUrl(
+  url: string
+): DatabaseIdentity {
+  try {
+    const parsed = new URL(url.trim())
+    const host = parsed.hostname.toLowerCase()
+    const database = parsed.pathname.replace(/^\//, '')
+    const isLocal = host === 'localhost' || host === '127.0.0.1'
+    const projectRef = extractProjectRef(host, parsed.username)
+    return { projectRef, host, database, isLocal }
+  } catch {
+    // Sentinel: an unparseable identity can never match a valid one.
+    return { projectRef: null, host: '', database: '', isLocal: false }
+  }
+}
+
+/**
+ * Returns true when the two resolved identities describe the same database.
+ *
+ * Identity is established in two independent ways, and either is sufficient:
+ *
+ *   1. Project reference — both identities detect the same Supabase project
+ *      ref, regardless of hostname formatting (pooler host vs
+ *      db.<ref>.supabase.co vs <ref>.supabase.co). The database name must
+ *      still agree when both sides declare one.
+ *
+ *   2. Host + database fallback — used only when neither identity exposes a
+ *      detectable project reference (e.g. two regional pooler URLs). A host
+ *      alone does not identify a Supabase project, so this branch is only
+ *      reached when no project ref is available on either side.
+ *
+ * A component that is unknown (null) on either side is never treated as
+ * confirmation. In particular, an identity with no detectable project ref is
+ * never considered identical to one that has one, because the regional pooler
+ * serves many projects and the hostname alone cannot distinguish them.
+ */
+export function isSameDatabaseIdentity(
+  a: DatabaseIdentity,
+  b: DatabaseIdentity
+): boolean {
+  const aHasRef = Boolean(a.projectRef)
+  const bHasRef = Boolean(b.projectRef)
+
+  if (aHasRef && bHasRef) {
+    if (a.projectRef !== b.projectRef) return false
+    // Same project ref, so compare database names when both are declared.
+    if (a.database && b.database && a.database !== b.database) return false
+    return true
+  }
+
+  if (aHasRef !== bHasRef) {
+    // Exactly one side exposes a project ref. The regional pooler serves
+    // many projects, so the hostname alone cannot confirm identity.
+    return false
+  }
+
+  // Neither side exposes a project ref: fall back to host + database.
+  if (a.host !== b.host) return false
+  if (a.database && b.database && a.database !== b.database) return false
+  return true
+}
+
+/**
  * Validates that the active database configuration resolves to an authentic,
  * verified staging database and strictly NOT production.
  */
@@ -168,6 +259,38 @@ export function validateStagingDatabase(
     throw new DatabaseGuardError(
       '[DATABASE GUARD BLOCKED] Target database matches known production project reference. Refusing to execute in staging/test context.'
     );
+  }
+
+  // 2b. Primary/Staging Collision Detection (independent of expected-identity).
+  // If the staging target resolves to the same database as the primary target,
+  // staging writes would silently land on production. This check runs before
+  // the expected-identity check so it cannot be bypassed by leaving the
+  // expected identity unconfigured.
+  const primaryUrl = env.DATABASE_URL;
+  const stagingUrl = env['DATABASE_staging-URL'] || env.DATABASE_STAGING_URL;
+  if (primaryUrl && stagingUrl) {
+    const primary = resolveDatabaseIdentityFromUrl(primaryUrl);
+    const staging = resolveDatabaseIdentityFromUrl(stagingUrl);
+    // A malformed staging URL yields a sentinel identity with an empty host,
+    // which can never match a valid primary identity. Reject explicitly so a
+    // parse failure is reported as a guard failure rather than silently
+    // treated as proof of isolation.
+    if (!staging.host) {
+      throw new DatabaseGuardError(
+        '[DATABASE GUARD BLOCKED] Staging database URL could not be parsed for collision comparison.'
+      );
+    }
+    // Local development is exempt from the collision rule: a developer's local
+    // primary and local staging are legitimately the same instance, and the
+    // existing local-development allowance (allowLocalDev + expected identity)
+    // is the authoritative check for that case. Remote targets are never
+    // exempt, because a remote collision means staging writes would land on
+    // production.
+    if (!primary.isLocal && !staging.isLocal && isSameDatabaseIdentity(primary, staging)) {
+      throw new DatabaseGuardError(
+        '[DATABASE GUARD BLOCKED] Staging database resolves to the same database as the primary database. Staging and production targets must differ.'
+      );
+    }
   }
 
   // 3. Expected Staging Identity Resolution

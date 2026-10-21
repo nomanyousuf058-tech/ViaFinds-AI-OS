@@ -13,6 +13,7 @@ export interface CreateAffiliateLinkInput {
   subId4?: string
   subId5?: string
   shortCode?: string
+  verificationStatus?: string
 }
 
 export interface CreateAffiliateClickInput {
@@ -65,8 +66,8 @@ export class AffiliateRepository {
     try {
       const pool = await this.getPool()
       const result = await pool.query<AffiliateLinkRow>(
-        `INSERT INTO affiliate_links (product_id, article_id, network, destination_url, sub_id_1, sub_id_2, sub_id_3, sub_id_4, sub_id_5, short_code)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        `INSERT INTO affiliate_links (product_id, article_id, network, destination_url, sub_id_1, sub_id_2, sub_id_3, sub_id_4, sub_id_5, short_code, verification_status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
          RETURNING *`,
         [
           data.productId ?? null,
@@ -79,6 +80,7 @@ export class AffiliateRepository {
           data.subId4 ?? null,
           data.subId5 ?? null,
           data.shortCode ?? null,
+          data.verificationStatus ?? 'PENDING',
         ]
       )
       return result.rows[0] || null

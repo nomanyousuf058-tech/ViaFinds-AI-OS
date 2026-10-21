@@ -12,6 +12,7 @@ import {
   validateAffiliateUrlFormat,
   verifyAffiliateUrlRedirect,
   evaluatePublicationReadiness,
+  isProductVerified,
   affiliateWorkflow,
   opportunityManager,
 } from '@/lib/affiliate'
@@ -215,13 +216,17 @@ export class AutomationPipeline {
       }
 
       if (customDraftParams?.draftOnly) {
-        jobManager.updateJobStatus(jobId, 'completed', 'published', 'Draft saved.')
+        jobManager.updateJobStatus(jobId, 'completed', 'draft_saved', 'Draft saved to CMS for owner review.')
         return jobManager.getJob(jobId)
       }
 
       const res = await this.runPublishing(job, draft, affiliateDecision)
       jobManager.setJobResult(jobId, { publishedUrl: res.slug, articleId: res.articleId })
-      jobManager.updateJobStatus(jobId, 'completed', 'published', 'Article published successfully.')
+      // P0: runPublishing now persists a draft, not a public article. The
+      // owner-controlled PATCH /api/articles/[id] flow is the only path that
+      // can raise status to 'published' (see evaluatePublicationReadiness in
+      // app/api/articles/[id]/route.ts:59-97). Report the stage honestly.
+      jobManager.updateJobStatus(jobId, 'completed', 'draft_saved', 'Article saved as draft for owner review.')
       return jobManager.getJob(jobId)
     } catch (error) {
       jobManager.setJobError(jobId, error instanceof Error ? error.message : String(error))
@@ -463,7 +468,9 @@ Format as JSON with keys: productName, category, description, platform, articleT
         articleId: publishResult.articleId,
         articleType,
       })
-      jobManager.updateJobStatus(jobId, 'completed', 'published', 'Article published to CMS.')
+      // P0: runPublishing persists a draft by default. Public publication
+      // requires the owner-controlled PATCH /api/articles/[id] flow.
+      jobManager.updateJobStatus(jobId, 'completed', 'draft_saved', 'Article saved as draft for owner review.')
       return jobManager.getJob(jobId)
 
     } catch (error) {
@@ -678,7 +685,9 @@ Respond with JSON containing:
         articleType,
         partnerName: partner,
       })
-      jobManager.updateJobStatus(jobId, 'completed', 'published', 'Article published to CMS.')
+      // P0: runPublishing persists a draft by default. Public publication
+      // requires the owner-controlled PATCH /api/articles/[id] flow.
+      jobManager.updateJobStatus(jobId, 'completed', 'draft_saved', 'Article saved as draft for owner review.')
       return jobManager.getJob(jobId)
 
     } catch (error) {
@@ -1742,7 +1751,7 @@ Return the refined HTML directly.`
     return decision
   }
 
-  private async runPublishing(job: AutomationJob, draft: ArticleDraft, affiliateDecision: AffiliateDecision): Promise<Record<string, unknown>> {
+  private async runPublishing(job: AutomationJob, draft: ArticleDraft, affiliateDecision: AffiliateDecision, options: { directPublish?: boolean } = {}): Promise<Record<string, unknown>> {
     jobManager.updateJobStage(job.id, 'publishing', 'Publishing article')
     jobManager.addAuditEntry(job.id, {
       action: 'publishing_started',
@@ -1772,9 +1781,6 @@ Return the refined HTML directly.`
       });
       throw new Error(errorMsg);
     }
-
-    const publishedAt = new Date().toISOString()
-
 
     // Convert HTML body to content blocks for the canonical custom article schema
     const generateId = () => Math.random().toString(36).substring(2, 11)
@@ -1837,9 +1843,10 @@ Return the refined HTML directly.`
 
       const oppId = (job.result?.opportunityId as string) || link?.productOpportunityId || undefined;
       const opp = oppId ? opportunityManager.getById(oppId) : null;
-      const hasVerifiedProduct = Boolean(
-        opp && (opp.digistore24Status === 'VERIFIED' || Boolean(opp.salesPageUrl))
-      );
+      // Authoritative product-verification rule. A non-empty salesPageUrl or
+      // vendorWebsite is useful vendor evidence but must NOT by itself satisfy
+      // the gate — see isProductVerified in lib/affiliate/validator.ts.
+      const hasVerifiedProduct = isProductVerified(opp);
 
       const qualityStatus = (job.result?.qualityResult as QualityResult | undefined)?.status || (qualityResult?.status);
       const ownerApproved = Boolean(link?.ownerApproved && link?.verification?.affiliateConfirmed);
@@ -1865,20 +1872,34 @@ Return the refined HTML directly.`
         throw new Error(errorMsg);
       }
 
+      // P0: Ordinary Brain generation must NOT publish. The readiness gate
+      // above protects the *affiliate/publication* safeguards (verified link,
+      // owner approval, image, quality), but it does not itself mean the owner
+      // has reviewed and authorized public release. Persist as a draft so the
+      // existing owner-controlled CMS publication flow (PATCH /api/articles/[id]
+      // with status='published') remains the only path to a public article.
+      // Public visibility is governed by the RLS policy
+      // "Public read published articles" (status = 'published' AND
+      // published_at IS NOT NULL), so a draft is invisible to the public site.
+      //
+      // options.directPublish is reserved for explicitly authorized, separately
+      // guarded publishing workflows. It must never be reachable from ordinary
+      // Brain generation; the default is a draft.
+      const directPublish = options.directPublish === true
       const article = await articleRepository.create({
         title: draft.title,
         slug: draft.slug,
         article_type: (job.result?.articleType as string) || 'Standard',
         excerpt: draft.excerpt || null,
         content: contentBlocks,
-        status: 'published',
+        status: directPublish ? 'published' : 'draft',
         cover_image_url: imageUrl,
         author_id: null,
         category_id: null,
         seo: draft.seo || {},
         geo: {},
         aeo: {},
-        published_at: publishedAt,
+        published_at: directPublish ? new Date().toISOString() : null,
         featured: false,
         trending: false,
         reading_time: readingTime,
@@ -1898,8 +1919,9 @@ Return the refined HTML directly.`
       }
 
       const result = {
-        published: true,
-        publishedAt,
+        published: directPublish,
+        draft: !directPublish,
+        publishedAt: directPublish ? new Date().toISOString() : null,
         slug: draft.slug,
         title: draft.title,
         articleId: article.id,
@@ -1912,7 +1934,9 @@ Return the refined HTML directly.`
       jobManager.addAuditEntry(job.id, {
         action: 'publishing_completed',
         stage: 'publishing',
-        details: `Published: ${draft.title} (ID: ${article.id}, slug: ${draft.slug})`,
+        details: directPublish
+          ? `Published: ${draft.title} (ID: ${article.id}, slug: ${draft.slug})`
+          : `Draft saved: ${draft.title} (ID: ${article.id}, slug: ${draft.slug}). Awaiting owner review before public publication.`,
       })
 
       return result

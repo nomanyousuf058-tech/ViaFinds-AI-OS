@@ -30,8 +30,9 @@ export interface PersistManualAffiliateLinkResult {
   linkId?: string
   articleId?: string | null
   verificationLevel?: string
+  verificationStatus?: string | null
   error?: string
-  code?: 'SAVED' | 'UNVERIFIED' | 'NOT_FOUND' | 'INTERNAL'
+  code?: 'SAVED' | 'SAVED_UNVERIFIED' | 'UNVERIFIED' | 'NOT_FOUND' | 'INTERNAL'
 }
 
 function normalizeArticleId(value: unknown): string | null {
@@ -46,6 +47,15 @@ function normalizeArticleId(value: unknown): string | null {
  * repository has no unique constraint on (destination_url, article_id), so
  * we de-duplicate by looking up an existing link for that destination +
  * article before inserting.
+ *
+ * A syntactically acceptable, manually obtained URL can be saved even when
+ * automatic redirect or product verification is incomplete. The persisted
+ * verification_status is always truthful: PENDING when nothing has been
+ * checked, MANUAL_REQUIRED when format is valid but redirect/product
+ * verification failed, VERIFIED only when the full chain passed.
+ *
+ * Saving a link NEVER implies verification, attribution, or publication
+ * approval. The publication gate remains fail-closed.
  */
 export async function persistManualAffiliateLink(
   input: PersistManualAffiliateLinkInput
@@ -57,9 +67,10 @@ export async function persistManualAffiliateLink(
 
   const articleId = normalizeArticleId(input.associatedArticleId)
 
-  // 1. Verify the link through the existing workflow (format + redirect +
-  //    product association + owner attribution). This is the same gate the
-  //    automation page already uses.
+  // 1. Run the existing workflow (format + redirect + product association +
+  //    owner attribution). This is the same gate the automation page uses.
+  //    We never fabricate a verification result: if the workflow cannot
+  //    complete a stage, the status reflects that honestly.
   let verified: ManualAffiliateLink
   try {
     const result = await affiliateWorkflow.submitAffiliateUrl({
@@ -78,21 +89,26 @@ export async function persistManualAffiliateLink(
     }
   }
 
-  // 2. The link must pass at least format + redirect validation before we
-  //    persist it. "Saved" does NOT mean "verified" — the caller must show
-  //    the real verification level separately.
-  if (!verified.verification.formatValid || !verified.verification.redirectValid) {
+  // 2. A syntactically acceptable URL (format-valid, SSRF-safe, allowed
+  //    domain) can be saved as an article-draft association even when
+  //    automatic redirect or product verification is incomplete. We do NOT
+  //    interpret verification failure as proof the URL is unsafe — we simply
+  //    record the truthful status.
+  if (!verified.verification.formatValid) {
     return {
       success: false,
-      error: 'Affiliate link failed format or redirect verification and was not saved.',
+      error: 'Affiliate URL failed format validation and was not saved.',
       verificationLevel: verified.verification.level,
+      verificationStatus: 'MANUAL_REQUIRED',
       code: 'UNVERIFIED',
     }
   }
 
-  // 3. If an article is supplied, it must exist and be owned by the caller's
-  //    admin session (articleRepository enforces its own reads; here we just
-  //    confirm the row exists so we never create a dangling FK).
+  const redirectOk = verified.verification.redirectValid === true
+  const verificationStatus = redirectOk ? 'PENDING' : 'MANUAL_REQUIRED'
+
+  // 3. If an article is supplied, it must exist so we never create a
+  //    dangling FK.
   if (articleId) {
     const article = await articleRepository.findById(articleId)
     if (!article) {
@@ -122,10 +138,10 @@ export async function persistManualAffiliateLink(
     const network = product?.vendorWebsite ? 'digistore24' : 'manual'
     linkRow = await affiliateRepository.createLink({
       articleId: articleId ?? undefined,
-      productId: product?.productName ? undefined : undefined,
       network,
       destinationUrl: url,
       shortCode: undefined,
+      verificationStatus,
     })
   }
 
@@ -138,13 +154,14 @@ export async function persistManualAffiliateLink(
   }
 
   // 5. Return the persisted row. The in-memory workflow keeps its own
-  //    verification record for the automation page; the database row is the
-  //    authoritative source for article-level affiliate state.
+  //    verification record; the database row is the authoritative source for
+  //    article-level affiliate state. "Saved" does NOT mean "verified".
   return {
     success: true,
     linkId: linkRow.id,
     articleId: linkRow.article_id ?? articleId ?? null,
     verificationLevel: verified.verification.level,
-    code: 'SAVED',
+    verificationStatus,
+    code: redirectOk ? 'SAVED' : 'SAVED_UNVERIFIED',
   }
 }

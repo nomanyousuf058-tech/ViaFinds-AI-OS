@@ -17,6 +17,7 @@ export type PipelineStage =
   | 'awaiting_approval'
   | 'publishing'
   | 'published'
+  | 'draft_saved'
   | 'monitoring'
   | 'failed'
 

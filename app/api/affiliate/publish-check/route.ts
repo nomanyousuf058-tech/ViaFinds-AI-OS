@@ -19,13 +19,23 @@ export async function POST(request: Request) {
 
     const link = body.linkId ? affiliateWorkflow.getLink(body.linkId) : null;
 
+    // Client-supplied ownerApproved is advisory only. The authoritative
+    // signal is the persisted link state: the owner must have both
+    // confirmed attribution AND granted publication approval on the link
+    // itself. A client flag alone can never grant approval.
+    const ownerApproved = Boolean(
+      body.ownerApproved === true &&
+      link?.ownerApproved === true &&
+      link?.verification?.affiliateConfirmed === true
+    );
+
     const readiness = affiliateWorkflow.checkPublication({
       productOpportunity,
       link,
       coverImageUrl: body.coverImageUrl || null,
       qualityStatus: body.qualityStatus || null,
       qualityScore: body.qualityScore || null,
-      ownerApproved: body.ownerApproved === true,
+      ownerApproved,
       isDegraded: body.isDegraded === true,
     });
 

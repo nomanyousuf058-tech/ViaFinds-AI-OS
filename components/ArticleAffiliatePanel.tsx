@@ -40,7 +40,7 @@ interface Props {
  * "no link" state, and a form to persist a manual link. The save result is
  * reconciled against the server row so the UI cannot drift from the DB.
  */
-export default function ArticleAffiliatePanel({ articleId, articleSlug, initial, onSaved }: Props) {
+export default function ArticleAffiliatePanel({ articleId, initial, onSaved }: Props) {
   const [state, setState] = useState<AffiliateState>(initial)
   const [url, setUrl] = useState('')
   const [cta, setCta] = useState('')
@@ -66,12 +66,19 @@ export default function ArticleAffiliatePanel({ articleId, articleSlug, initial,
         if (json.code === 'NOT_FOUND') {
           setError('The destination URL could not be verified. The article is unchanged.')
         } else if (json.code === 'UNVERIFIED') {
-          setNotice('Link saved but not verified. Verification status is shown separately from the saved status.')
-          await refresh()
+          setError(json.error || 'Affiliate link failed format validation and was not saved.')
         } else {
           setError(json.error || 'Could not save the affiliate link.')
         }
         return
+      }
+      // SAVED_UNVERIFIED: the link was persisted but automatic redirect or
+      // product verification is incomplete. Show the truthful status rather
+      // than pretending the link is verified.
+      if (json.code === 'SAVED_UNVERIFIED') {
+        setNotice('Link saved but not yet verified. Verification status: ' +
+          (json.verificationStatus || 'MANUAL_REQUIRED').replace(/_/g, ' ').toLowerCase() +
+          '. The article remains a draft until you review and verify the link.')
       }
       await refresh()
       setUrl('')
@@ -149,6 +156,11 @@ export default function ArticleAffiliatePanel({ articleId, articleSlug, initial,
                   ? state.link!.verificationStatus.replace(/_/g, ' ').toLowerCase()
                   : 'unknown'}
               </p>
+              {state.link!.verificationStatus && state.link!.verificationStatus !== 'VERIFIED' && (
+                <p className="text-[10px] text-amber-400 mt-1">
+                  Not verified — review and confirm before publishing.
+                </p>
+              )}
             </div>
           </div>
           <div>

@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AdminGuard from '@/components/AdminGuard'
+import DbHealthWidget from '@/components/DbHealthWidget'
 
 const navItems = [
   { href: '/dashboard', label: 'Today', icon: 'home', short: 'Home' },
@@ -58,24 +59,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </nav>
             </div>
 
-            {/* Storage & Engine Status Widget */}
+            {/* Storage & Engine Status Widget — backed by a real DB probe.
+                See components/DbHealthWidget.tsx and lib/db/health.ts. */}
             <div className="mt-6 pt-4 border-t border-slate-border">
-              <div className="bg-surface-container/60 border border-slate-border/50 rounded p-3 text-xs">
-                <div className="flex items-center justify-between text-on-surface-variant mb-1.5">
-                  <span className="flex items-center gap-1.5 font-medium text-on-background">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    DB Health
-                  </span>
-                  <span className="font-mono-data text-[11px] text-emerald-400 font-semibold">17 MB</span>
-                </div>
-                <div className="w-full bg-surface-container rounded-full h-1.5 mb-2 overflow-hidden">
-                  <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '3.4%' }} />
-                </div>
-                <div className="flex items-center justify-between text-[11px] text-on-surface-variant">
-                  <span>Supabase Postgres</span>
-                  <span className="font-mono-data">PKT (UTC+5)</span>
-                </div>
-              </div>
+              <DbHealthWidget />
             </div>
           </aside>
           <main className="flex-1 p-8">

@@ -4,6 +4,7 @@ import { articleRepository } from '@/lib/db/repositories'
 import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
 import {
   evaluatePublicationReadiness,
+  isProductVerified,
   opportunityManager,
   affiliateWorkflow,
 } from '@/lib/affiliate'
@@ -90,9 +91,7 @@ export async function POST(request: Request) {
 
       const oppId = body.productOpportunityId || body.product_opportunity_id || link?.productOpportunityId || body.product_id
       const opp = oppId ? opportunityManager.getById(oppId) : null
-      const hasVerifiedProduct = Boolean(
-        opp && (opp.digistore24Status === 'VERIFIED' || Boolean(opp.salesPageUrl))
-      )
+      const hasVerifiedProduct = isProductVerified(opp)
 
       // Client-supplied flags alone are never trusted as proof
       const ownerApproved = Boolean(link?.ownerApproved && link?.verification?.affiliateConfirmed)

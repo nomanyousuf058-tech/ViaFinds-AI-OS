@@ -145,6 +145,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
           error: result.error,
           code: result.code,
           verificationLevel: result.verificationLevel,
+          verificationStatus: result.verificationStatus ?? null,
         },
         { status: result.code === 'NOT_FOUND' ? 404 : result.code === 'UNVERIFIED' ? 422 : 500 }
       )
@@ -152,11 +153,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
     return NextResponse.json({
       success: true,
-      code: 'SAVED',
+      code: result.code,
       linkId: result.linkId,
       articleId: result.articleId,
       verificationLevel: result.verificationLevel,
-      message: 'Affiliate link saved. Verification level is shown separately from the saved status.',
+      verificationStatus: result.verificationStatus ?? null,
+      message: result.code === 'SAVED_UNVERIFIED'
+        ? 'Affiliate link saved but not verified. Verification status is shown separately from the saved status.'
+        : 'Affiliate link saved. Verification level is shown separately from the saved status.',
     })
   } catch (error) {
     console.error('Affiliate link save failed:', error)
