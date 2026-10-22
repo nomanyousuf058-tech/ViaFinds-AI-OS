@@ -105,6 +105,7 @@ describe('Publication Readiness Gate Enforcement (Fix 3)', () => {
         body: JSON.stringify({
           title: 'Direct Published Article Without Link',
           status: 'published',
+          publishAction: true,
           cover_image_url: 'https://example.com/cover.png',
         }),
       });
@@ -153,6 +154,7 @@ describe('Publication Readiness Gate Enforcement (Fix 3)', () => {
         body: JSON.stringify({
           title: 'Attempted Bypass',
           status: 'published',
+          publishAction: true,
           linkId: unconfirmedLink.id,
           productOpportunityId: 'opp-funnelcockpit',
           cover_image_url: 'https://example.com/cover.png',
@@ -201,6 +203,7 @@ describe('Publication Readiness Gate Enforcement (Fix 3)', () => {
         body: JSON.stringify({
           title: 'Article Missing Cover Image',
           status: 'published',
+          publishAction: true,
           linkId: confirmedLink.id,
           productOpportunityId: 'opp-funnelcockpit',
           cover_image_url: null, // Missing image!
@@ -254,6 +257,7 @@ describe('Publication Readiness Gate Enforcement (Fix 3)', () => {
         body: JSON.stringify({
           title: 'Verified Published Article',
           status: 'published',
+          publishAction: true,
           linkId: confirmedLink.id,
           productOpportunityId: 'opp-funnelcockpit',
           cover_image_url: 'https://example.com/cover.png',

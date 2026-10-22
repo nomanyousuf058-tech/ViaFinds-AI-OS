@@ -12,6 +12,7 @@
 
 import {
   ALLOWED_AFFILIATE_DOMAINS,
+  LinkVerificationLevel,
   LinkVerificationResult,
   ManualAffiliateLink,
   ProductOpportunity,
@@ -412,13 +413,29 @@ export function confirmAffiliateAttribution(
     }
   }
 
+  // Attribution confirms ownership of the affiliate ID embedded in the link.
+  // However, attribution MUST NEVER be treated as proof of product identity.
+  // If the link has failed product verification (productVerified === false),
+  // the link cannot be elevated to AFFILIATE_CONFIRMED (which requires a
+  // verified product) and cannot be marked ownerApproved for publication.
+  const hasProductMismatch = link.verification.productVerified === false;
+  if (hasProductMismatch) {
+    warnings.push(
+      'Affiliate ID matches owner ID, but destination URL failed product verification (product mismatch).'
+    );
+  }
+
+  const level: LinkVerificationLevel = hasProductMismatch
+    ? (link.verification.level === 'UNVERIFIED' ? 'UNVERIFIED' : 'REDIRECT_VALID')
+    : 'AFFILIATE_CONFIRMED';
+
   return {
     ...link,
-    ownerApproved: true,
+    ownerApproved: !hasProductMismatch,
     verification: {
       ...link.verification,
       affiliateConfirmed: true,
-      level: 'AFFILIATE_CONFIRMED',
+      level,
       errors,
       warnings,
       checkedAt: new Date().toISOString(),
@@ -476,9 +493,24 @@ export function evaluatePublicationReadiness(params: {
 }): PublicationReadiness {
   const blockers: string[] = [];
 
-  // Check 1: Verified product backed by evidence
+  const linkHasProductMismatch = params.link?.verification?.productVerified === false;
+  const linkProductVerified = params.link
+    ? params.link.verification?.productVerified === true
+    : true;
+
+  // Check 1: Verified product backed by evidence AND matching affiliate link destination.
+  // A publication cannot be marked as having a verified product if the attached
+  // affiliate link destination mismatches the product.
+  const hasVerifiedProduct = Boolean(
+    params.hasVerifiedProduct && !linkHasProductMismatch && linkProductVerified
+  );
+
   if (!params.hasVerifiedProduct) {
     blockers.push('Product is not verified in Digistore24 or reliable public source.');
+  } else if (linkHasProductMismatch) {
+    blockers.push('Affiliate link destination does not match the expected product (product mismatch).');
+  } else if (!linkProductVerified) {
+    blockers.push('Affiliate link destination has not been verified to match the expected product.');
   }
 
   // Check 2: Affiliate link exists
@@ -489,8 +521,14 @@ export function evaluatePublicationReadiness(params: {
 
   // Check 3: Link verification level
   const verificationLevel = params.link?.verification?.level || 'UNVERIFIED';
-  if (verificationLevel !== 'AFFILIATE_CONFIRMED' && verificationLevel !== 'PRODUCT_VERIFIED') {
+  if (
+    verificationLevel !== 'AFFILIATE_CONFIRMED' &&
+    verificationLevel !== 'PRODUCT_VERIFIED'
+  ) {
     blockers.push(`Affiliate link is not verified (current level: ${verificationLevel}).`);
+  }
+  if (linkHasProductMismatch) {
+    blockers.push('Affiliate link has an unresolved product mismatch and cannot be verified for publication.');
   }
 
   // Check 4: Link is confirmed affiliate attribution
@@ -515,9 +553,17 @@ export function evaluatePublicationReadiness(params: {
   }
 
   // Check 7: Explicit owner approval
-  const ownerApproved = params.ownerApproved === true || params.link?.ownerApproved === true;
+  // Owner approval cannot authorize publication when an explicit product mismatch exists.
+  const ownerApproved = Boolean(
+    (params.ownerApproved === true || params.link?.ownerApproved === true) &&
+    !linkHasProductMismatch
+  );
   if (!ownerApproved) {
-    blockers.push('Explicit owner approval has not been granted for publication.');
+    if (linkHasProductMismatch) {
+      blockers.push('Explicit owner approval is void because the link destination does not match the product.');
+    } else {
+      blockers.push('Explicit owner approval has not been granted for publication.');
+    }
   }
 
   // Check 8: No degraded content
@@ -526,13 +572,19 @@ export function evaluatePublicationReadiness(params: {
     blockers.push('Article content was generated in a degraded state and cannot be published.');
   }
 
+  // Check 9: No fake or deceptive claims
+  const noFakeClaims = !linkHasProductMismatch;
+  if (!noFakeClaims) {
+    blockers.push('Publication blocked: affiliate link has an unresolved product mismatch, creating false or misleading claims.');
+  }
+
   const ready = blockers.length === 0;
 
   return {
     ready,
     blockers,
     checks: {
-      hasVerifiedProduct: params.hasVerifiedProduct,
+      hasVerifiedProduct,
       hasAffiliateLink,
       linkVerificationLevel: verificationLevel,
       linkIsAffiliateConfirmed,
@@ -540,7 +592,7 @@ export function evaluatePublicationReadiness(params: {
       articlePassedQualityGate: qualityPassed,
       ownerApproved,
       noDegradedContent,
-      noFakeClaims: true,
+      noFakeClaims,
     },
   };
 }

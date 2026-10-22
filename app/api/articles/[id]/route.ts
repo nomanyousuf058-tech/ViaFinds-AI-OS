@@ -56,7 +56,16 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       updates.status = body.status
     }
 
-    if (updates.status === 'published') {
+    // Publication readiness gate: only run when the caller explicitly requests
+    // publication (publishAction: true). A plain Save never triggers the gate,
+    // even if the article is already published or the dropdown is set to
+    // "published". This keeps draft-save, CTA edits, and content updates
+    // separate from the publication evaluation.
+    const isExplicitPublish = body.publishAction === true
+    const isStatusTransitionToPublished =
+      updates.status === 'published' && existingArticle.status !== 'published'
+
+    if (isExplicitPublish || isStatusTransitionToPublished) {
       const linkId = body.linkId || body.link_id
       let link = linkId ? affiliateWorkflow.getLink(linkId) : null
       if (!link) {
@@ -85,6 +94,24 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       })
 
       if (!readiness.ready) {
+        // When the publication gate blocks, fall back to saving content updates
+        // without changing publication status to 'published'. This prevents
+        // losing the user's CTA edits, article body, SEO, or other modifications.
+        const contentUpdates = { ...updates }
+        delete contentUpdates.status
+        if (Object.keys(contentUpdates).length > 0) {
+          const savedArticle = await articleRepository.update(id, contentUpdates)
+          return NextResponse.json(
+            {
+              error: 'Publication readiness gate blocked: article does not meet publication requirements. Content was saved without changing publication status.',
+              blockers: readiness.blockers,
+              checks: readiness.checks,
+              article: savedArticle,
+              contentSaved: true,
+            },
+            { status: 422 }
+          )
+        }
         return NextResponse.json(
           {
             error: 'Publication readiness gate blocked: article does not meet publication requirements.',

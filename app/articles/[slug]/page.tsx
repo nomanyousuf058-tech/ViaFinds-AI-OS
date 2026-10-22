@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { articleRepository } from '@/lib/db/repositories'
 import { affiliateLinkResolver } from '@/lib/services/affiliate-link-resolver'
+import { verifyAdminToken } from '@/lib/auth'
 import type { ArticleRow } from '@/lib/db/types'
 import ShareButtons from '@/components/ShareButtons'
 
@@ -231,8 +232,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params
   const article = await articleRepository.findBySlug(slug).catch(() => null)
 
-  if (!article || article.status !== 'published') {
+  if (!article) {
     notFound()
+  }
+
+  // Allow authenticated admin preview for unpublished/draft articles without dynamic bailout for published SSG
+  if (article.status !== 'published') {
+    const adminUser = await verifyAdminToken().catch(() => null)
+    if (!adminUser) {
+      notFound()
+    }
   }
 
   const content = Array.isArray(article.content) ? article.content as ContentBlock[] : []
@@ -327,6 +336,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           }),
         }}
       />
+
+      {/* Admin Preview Mode Banner */}
+      {article.status !== 'published' && (
+        <div className="w-full bg-amber-500/15 border-b border-amber-500/30 text-amber-300 px-4 py-2.5 text-center font-mono-data text-xs flex items-center justify-center gap-2">
+          <span className="material-symbols-outlined text-sm">visibility</span>
+          <span>
+            <strong>PREVIEW MODE</strong> &bull; This article has persisted status <strong>{article.status.toUpperCase()}</strong> and is not publicly visible.
+          </span>
+        </div>
+      )}
 
       {/* Hero */}
       <section className="border-b border-slate-border">

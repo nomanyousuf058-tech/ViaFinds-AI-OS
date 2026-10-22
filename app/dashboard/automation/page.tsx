@@ -867,7 +867,7 @@ export default function AutomationPage() {
                       )}
                     </button>
 
-                    {verificationResult?.level === 'AFFILIATE_CONFIRMED' && readinessResult?.ready && ownerApprovesPublication && (
+                    {verificationResult?.level === 'AFFILIATE_CONFIRMED' && verificationResult?.productVerified === true && readinessResult?.ready && ownerApprovesPublication && (
                       <button
                         onClick={handleRunManual}
                         disabled={loading}
@@ -1060,6 +1060,21 @@ export default function AutomationPage() {
                     </label>
                   </div>
 
+                  {/* Product Mismatch Advisory Notice */}
+                  {verificationResult.productVerified === false && (
+                    <div className="p-4 bg-amber-950/30 border border-amber-500/40 rounded-lg text-amber-200 text-xs flex items-start gap-3">
+                      <span className="material-symbols-outlined text-amber-400 mt-0.5">warning</span>
+                      <div>
+                        <strong className="block mb-1 text-amber-300">Product Mismatch: Destination Does Not Match Selected Product</strong>
+                        <p className="leading-relaxed">
+                          The destination URL failed product match verification for &ldquo;{selectedOpportunity?.productName || 'the selected product'}&rdquo;.
+                          Customer CTA preview is suppressed and the publication gate is blocked to prevent deceptive or mismatched product claims.
+                          Confirming attribution cannot substitute for a verified product match.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Errors and Warnings List */}
                   {verificationResult.errors.length > 0 && (
                     <div className="p-3 bg-red-950/20 border border-red-500/30 rounded text-xs text-red-300">
@@ -1093,9 +1108,11 @@ export default function AutomationPage() {
 
                       {/* Rendered Preview Card */}
                       <div className="p-6 bg-surface-container-high border border-slate-border rounded-lg text-center max-w-xl mx-auto shadow-xl">
-                        <p className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-1">
-                          {ctaPreview.vendorName} &bull; Official Partner
-                        </p>
+                        {ctaPreview.vendorName && (
+                          <p className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-1">
+                            {ctaPreview.vendorName}
+                          </p>
+                        )}
                         <h4 className="text-lg font-bold text-white mb-2">{ctaPreview.productName}</h4>
                         {ctaPreview.priceInfo && (
                           <p className="text-sm font-semibold text-emerald-400 mb-4">{ctaPreview.priceInfo}</p>

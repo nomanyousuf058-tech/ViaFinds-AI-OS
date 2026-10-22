@@ -14,6 +14,7 @@ export default function NewArticlePage() {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [blockers, setBlockers] = useState<string[]>([])
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null)
   const coverInputRef = useRef<HTMLInputElement>(null)
 
@@ -84,8 +85,10 @@ export default function NewArticlePage() {
     }
     setSaving(true)
     setError(null)
+    setBlockers([])
 
     const payloadStatus = statusOverride || form.status
+    const isPublishAction = statusOverride === 'published'
     
     let parsedContent = []
     try {
@@ -102,6 +105,7 @@ export default function NewArticlePage() {
           ...form,
           content: parsedContent,
           status: payloadStatus,
+          publishAction: isPublishAction,
           reading_time: form.reading_time ? Number(form.reading_time) : null,
           seo: {
             metaTitle: form.seo_title,
@@ -116,12 +120,15 @@ export default function NewArticlePage() {
         }),
       })
 
+      const data = await res.json()
+
       if (!res.ok) {
-        const data = await res.json()
+        if (Array.isArray(data.blockers) && data.blockers.length > 0) {
+          setBlockers(data.blockers)
+        }
         throw new Error(data.error || 'Failed to create article')
       }
 
-      const data = await res.json()
       router.push(`/dashboard/articles/${data.id}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -233,8 +240,23 @@ export default function NewArticlePage() {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded text-red-400 font-ui-body text-sm">
-          {error}
+        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded text-red-300 font-ui-body text-sm space-y-2">
+          <div className="flex items-center gap-2 font-bold text-red-200">
+            <span className="material-symbols-outlined text-base">error</span>
+            <span>{error}</span>
+          </div>
+          {blockers.length > 0 && (
+            <div className="mt-2 pl-6 border-t border-red-500/20 pt-2">
+              <p className="text-xs text-red-300/80 mb-1 font-semibold uppercase tracking-wider">
+                Publication gate blockers (must resolve to publish):
+              </p>
+              <ul className="list-disc space-y-1 text-xs text-red-200/90">
+                {blockers.map((b, i) => (
+                  <li key={i}>{b}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 

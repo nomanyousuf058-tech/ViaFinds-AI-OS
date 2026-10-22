@@ -21,6 +21,7 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
   const [saving, setSaving] = useState(false)
   const [saveState, setSaveState] = useState<'saved' | 'unsaved' | 'saving'>('saved')
   const [error, setError] = useState<string | null>(null)
+  const [blockers, setBlockers] = useState<string[]>([])
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null)
   const coverInputRef = useRef<HTMLInputElement>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -195,8 +196,13 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
     setSaving(true)
     setSaveState('saving')
     setError(null)
+    setBlockers([])
 
     const payloadStatus = statusOverride || form.status
+    // Only signal publishAction when the user explicitly clicks the Publish
+    // button (statusOverride === 'published'). A plain Save never triggers
+    // the publication readiness gate, even if the dropdown says "published".
+    const isPublishAction = statusOverride === 'published'
     
     // Auto-generate some JSON if content string is empty (failsafe)
     let parsedContent = []
@@ -214,6 +220,7 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
           ...form,
           content: parsedContent,
           status: payloadStatus,
+          publishAction: isPublishAction,
           reading_time: form.reading_time ? Number(form.reading_time) : null,
           seo: {
             metaTitle: form.seo_title,
@@ -228,13 +235,28 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
         }),
       })
 
+      const data = await res.json()
+
       if (!res.ok) {
-        const data = await res.json()
+        if (Array.isArray(data.blockers) && data.blockers.length > 0) {
+          setBlockers(data.blockers)
+        }
+        // If the server saved content but blocked publication, acknowledge
+        // the partial success — the user's work is not lost.
+        if (data.contentSaved && data.article) {
+          setArticle(prev => prev ? { ...prev, ...data.article } : null)
+          setSaveState('saved')
+          setError(data.error || 'Publication blocked, but your content was saved.')
+          return
+        }
         throw new Error(data.error || 'Failed to save article')
       }
 
+      setArticle(prev => prev ? { ...prev, ...data.article || {}, status: payloadStatus } : null)
       setForm(prev => ({ ...prev, status: payloadStatus }))
       setSaveState('saved')
+      setError(null)
+      setBlockers([])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setSaveState('unsaved')
@@ -335,8 +357,30 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
       {/* Sticky Top Bar — Publishing Controls */}
       <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-slate-border -mx-4 px-4 py-3">
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          {/* Save state */}
-          <div className="flex items-center gap-3">
+          {/* Save & Publication State */}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            {/* Real Persisted Database Status */}
+            {article?.status === 'published' ? (
+              <span
+                className="inline-flex items-center gap-1 font-mono-data text-xs font-bold px-2.5 py-1 rounded-full bg-green-600/20 text-green-400 border border-green-500/30"
+                title="Persisted database status: Published"
+              >
+                <span className="material-symbols-outlined text-xs">public</span>
+                Published (Live)
+              </span>
+            ) : (
+              <span
+                className="inline-flex items-center gap-1 font-mono-data text-xs font-bold px-2.5 py-1 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30"
+                title={`Persisted database status: ${article?.status || 'draft'}`}
+              >
+                <span className="material-symbols-outlined text-xs">edit_note</span>
+                {typeof article?.status === 'string'
+                  ? article.status.charAt(0).toUpperCase() + article.status.slice(1).replace('_', ' ')
+                  : 'Draft'}
+              </span>
+            )}
+
+            {/* Save state badge */}
             <span className={`inline-flex items-center gap-1.5 font-mono-data text-xs font-bold px-2.5 py-1 rounded-full ${
               saveState === 'saved' ? 'bg-green-500/15 text-green-400' : 
               saveState === 'unsaved' ? 'bg-amber-500/15 text-amber-400' : 
@@ -347,10 +391,12 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
               }`} />
               {saveState === 'saved' ? 'Saved' : saveState === 'unsaved' ? 'Unsaved' : 'Saving...'}
             </span>
-            {form.status === 'published' && (
-              <span className="inline-flex items-center gap-1 font-mono-data text-xs font-bold px-2.5 py-1 rounded-full bg-green-600/20 text-green-400">
-                <span className="material-symbols-outlined text-xs">public</span>
-                Published
+
+            {/* Unsaved Status Selection Notice */}
+            {form.status !== article?.status && (
+              <span className="inline-flex items-center gap-1 font-mono-data text-[11px] text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                <span className="material-symbols-outlined text-[12px]">sync_alt</span>
+                Status pending: {String(article?.status || 'draft')} &rarr; {form.status}
               </span>
             )}
           </div>
@@ -361,6 +407,7 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
               value={form.status}
               onChange={(e) => update('status', e.target.value)}
               className="h-full bg-surface-container-low border border-slate-border rounded px-2 font-ui-body text-xs text-on-background focus:outline-none focus:border-primary"
+              title="Select workflow status for article"
             >
               <option value="draft">Draft</option>
               <option value="in_review">In Review</option>
@@ -375,6 +422,7 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
               onClick={() => saveArticle()}
               disabled={saving}
               className="h-full inline-flex items-center justify-center bg-surface-container-high text-on-background border border-slate-border font-ui-body text-xs font-bold px-4 rounded hover:bg-surface-container-highest transition-colors disabled:opacity-50"
+              title="Save current article content and status selection"
             >
               {saving ? 'Saving...' : 'Save'}
             </button>
@@ -384,6 +432,7 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="h-full inline-flex items-center justify-center bg-surface-container-high text-on-background border border-slate-border font-ui-body text-xs font-bold px-4 rounded hover:bg-surface-container-highest transition-colors"
+              title={article?.status === 'published' ? 'View live published article' : 'Preview draft article'}
             >
               Preview
             </a>
@@ -391,22 +440,49 @@ export default function ArticleEditorPage({ params }: ArticleEditorPageProps) {
             <button
               type="button"
               onClick={() => saveArticle('published')}
-              disabled={saving || form.status === 'published'}
+              disabled={saving || (article?.status === 'published' && form.status === 'published' && saveState === 'saved')}
               className={`h-full inline-flex items-center justify-center font-ui-body text-xs font-bold px-4 rounded transition-colors ${
-                form.status === 'published' 
+                article?.status === 'published' && form.status === 'published' && saveState === 'saved'
                   ? 'bg-green-600/30 text-green-300/60 cursor-not-allowed' 
                   : 'bg-primary text-deep-navy hover:bg-gold-accent'
               }`}
+              title={article?.status === 'published' ? 'Article is currently published' : 'Evaluate publication gate and publish article'}
             >
-              {form.status === 'published' ? 'Published' : 'Publish'}
+              {article?.status === 'published' && form.status === 'published' && saveState === 'saved'
+                ? 'Published'
+                : article?.status === 'published'
+                  ? 'Update Live'
+                  : 'Publish'}
             </button>
           </div>
         </div>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded text-red-400 font-ui-body text-sm">
-          {error}
+        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded text-red-300 font-ui-body text-sm space-y-2">
+          <div className="flex items-start gap-2 font-bold text-red-200">
+            <span className="material-symbols-outlined text-base mt-0.5">error</span>
+            <div>
+              <span>{error}</span>
+              {article?.status === 'published' && (
+                <p className="text-xs font-normal text-red-300/80 mt-0.5">
+                  The article is currently marked as published in the database, but updates cannot be saved with status &ldquo;published&rdquo; while publication gate requirements remain unmet.
+                </p>
+              )}
+            </div>
+          </div>
+          {blockers.length > 0 && (
+            <div className="mt-2.5 pl-6 border-t border-red-500/20 pt-2.5">
+              <p className="text-xs text-red-300/90 font-semibold uppercase tracking-wider mb-1.5">
+                Specific blockers preventing publication (must resolve to publish):
+              </p>
+              <ul className="list-disc space-y-1 text-xs text-red-200/90">
+                {blockers.map((b, i) => (
+                  <li key={i}>{b}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 

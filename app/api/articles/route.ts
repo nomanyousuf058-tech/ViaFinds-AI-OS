@@ -85,7 +85,11 @@ export async function POST(request: Request) {
 
     const status = VALID_STATUSES.has(body.status) ? body.status : 'draft'
 
-    if (status === 'published') {
+    // Publication readiness gate: only fires on explicit publish action or
+    // new articles created directly with status 'published'.
+    const isExplicitPublish = body.publishAction === true
+
+    if (status === 'published' && isExplicitPublish) {
       const linkId = body.linkId || body.link_id
       const link = linkId ? affiliateWorkflow.getLink(linkId) : null
 

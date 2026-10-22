@@ -99,7 +99,11 @@ export class ManualAffiliateWorkflow {
 
     this.links.set(id, manualLink);
 
-    const preview = this.generateCustomerCtaPreview(manualLink, product);
+    // Suppress customer-facing preview when product verification failed to avoid
+    // displaying misleading product, vendor, and price claims for a mismatched destination.
+    const preview = manualLink.verification.productVerified === false
+      ? null
+      : this.generateCustomerCtaPreview(manualLink, product);
 
     return { link: manualLink, preview };
   }
@@ -174,6 +178,15 @@ export class ManualAffiliateWorkflow {
       };
     }
 
+    if (link.verification.productVerified === false) {
+      missing.push('product_match');
+      return {
+        status: 'AWAITING_VERIFICATION',
+        missingItems: missing,
+        message: 'Affiliate link destination does not match the expected product.',
+      };
+    }
+
     if (!hasImages) {
       missing.push('cover_image');
       return {
@@ -214,19 +227,26 @@ export class ManualAffiliateWorkflow {
   public generateCustomerCtaPreview(
     link: ManualAffiliateLink,
     product: ProductOpportunity | null
-  ): CustomerCtaPreview {
+  ): CustomerCtaPreview | null {
+    if (link.verification.productVerified === false) {
+      return null;
+    }
+
     const ctaText = link.ctaText || 'Check Official Price';
     const targetUrl = link.affiliateUrl;
-    const isVerified = link.verification.affiliateConfirmed;
+    const isVerified = Boolean(
+      link.verification.productVerified === true &&
+      link.verification.affiliateConfirmed === true
+    );
     const productName = product?.productName || link.associatedProductName || 'Featured Product';
-    const vendorName = product?.vendorName || 'Official Vendor';
+    const vendorName = product?.vendorName || null;
     const priceInfo = product?.price || null;
     const affiliateDisclosure =
       'Disclosure: ViaFinds may receive a commission for purchases made through this link at no additional cost to you.';
 
     const previewHtml = `
 <div class="viafinds-cta-preview-card p-6 bg-slate-900 border border-slate-700 rounded-lg my-6 text-center">
-  <p class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">${vendorName} &bull; Official Partner</p>
+  ${vendorName ? `<p class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">${vendorName}</p>` : ''}
   <h3 class="text-xl font-bold text-white mb-2">${productName}</h3>
   ${priceInfo ? `<p class="text-sm font-semibold text-emerald-400 mb-4">${priceInfo}</p>` : ''}
   <a
@@ -248,7 +268,7 @@ export class ManualAffiliateWorkflow {
       target: '_blank',
       isVerified,
       productName,
-      vendorName,
+      vendorName: vendorName || 'Official Vendor',
       priceInfo,
       affiliateDisclosure,
       previewHtml,
